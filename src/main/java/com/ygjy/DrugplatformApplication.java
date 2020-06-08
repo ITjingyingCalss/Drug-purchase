@@ -1,4 +1,3 @@
-
 package com.ygjy;
 
 import org.springframework.boot.SpringApplication;
