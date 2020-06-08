@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.dao.HospitalTransactionReturnDAO">
+  <resultMap id="BaseResultMap" type="com.ygjy.pojo.HospitalTransactionReturn">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="return_order_number" jdbcType="VARCHAR" property="returnOrderNumber" />
+    <result column="return_order_name" jdbcType="VARCHAR" property="returnOrderName" />
+    <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="creat_receipts_person" jdbcType="VARCHAR" property="creatReceiptsPerson" />
+    <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
+    <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="return_state_id" jdbcType="INTEGER" property="returnStateId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, return_order_number, return_order_name, hospital_id, contacts, phone, creat_receipts_person, 
+    create_receipts_time, submission_time, remark, return_state_id
+  </sql>
+  <select id="selectByExample" parameterType="com.ygjy.pojo.HospitalTransactionReturnExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from hospital_transaction_return
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hospital_transaction_return
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hospital_transaction_return
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ygjy.pojo.HospitalTransactionReturnExample">
+    delete from hospital_transaction_return
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ygjy.pojo.HospitalTransactionReturn">
+    insert into hospital_transaction_return (id, return_order_number, return_order_name, 
+      hospital_id, contacts, phone, 
+      creat_receipts_person, create_receipts_time, 
+      submission_time, remark, return_state_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{returnOrderNumber,jdbcType=VARCHAR}, #{returnOrderName,jdbcType=VARCHAR}, 
+      #{hospitalId,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{creatReceiptsPerson,jdbcType=VARCHAR}, #{createReceiptsTime,jdbcType=TIMESTAMP}, 
+      #{submissionTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{returnStateId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ygjy.pojo.HospitalTransactionReturn">
+    insert into hospital_transaction_return
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="returnOrderNumber != null">
+        return_order_number,
+      </if>
+      <if test="returnOrderName != null">
+        return_order_name,
+      </if>
+      <if test="hospitalId != null">
+        hospital_id,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="creatReceiptsPerson != null">
+        creat_receipts_person,
+      </if>
+      <if test="createReceiptsTime != null">
+        create_receipts_time,
+      </if>
+      <if test="submissionTime != null">
+        submission_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="returnStateId != null">
+        return_state_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="returnOrderNumber != null">
+        #{returnOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="returnOrderName != null">
+        #{returnOrderName,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalId != null">
+        #{hospitalId,jdbcType=INTEGER},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="creatReceiptsPerson != null">
+        #{creatReceiptsPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createReceiptsTime != null">
+        #{createReceiptsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submissionTime != null">
+        #{submissionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="returnStateId != null">
+        #{returnStateId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ygjy.pojo.HospitalTransactionReturnExample" resultType="java.lang.Long">
+    select count(*) from hospital_transaction_return
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hospital_transaction_return
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnOrderNumber != null">
+        return_order_number = #{record.returnOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnOrderName != null">
+        return_order_name = #{record.returnOrderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hospitalId != null">
+        hospital_id = #{record.hospitalId,jdbcType=INTEGER},
+      </if>
+      <if test="record.contacts != null">
+        contacts = #{record.contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creatReceiptsPerson != null">
+        creat_receipts_person = #{record.creatReceiptsPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createReceiptsTime != null">
+        create_receipts_time = #{record.createReceiptsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.submissionTime != null">
+        submission_time = #{record.submissionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnStateId != null">
+        return_state_id = #{record.returnStateId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hospital_transaction_return
+    set id = #{record.id,jdbcType=INTEGER},
+      return_order_number = #{record.returnOrderNumber,jdbcType=VARCHAR},
+      return_order_name = #{record.returnOrderName,jdbcType=VARCHAR},
+      hospital_id = #{record.hospitalId,jdbcType=INTEGER},
+      contacts = #{record.contacts,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      creat_receipts_person = #{record.creatReceiptsPerson,jdbcType=VARCHAR},
+      create_receipts_time = #{record.createReceiptsTime,jdbcType=TIMESTAMP},
+      submission_time = #{record.submissionTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      return_state_id = #{record.returnStateId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.pojo.HospitalTransactionReturn">
+    update hospital_transaction_return
+    <set>
+      <if test="returnOrderNumber != null">
+        return_order_number = #{returnOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="returnOrderName != null">
+        return_order_name = #{returnOrderName,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalId != null">
+        hospital_id = #{hospitalId,jdbcType=INTEGER},
+      </if>
+      <if test="contacts != null">
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="creatReceiptsPerson != null">
+        creat_receipts_person = #{creatReceiptsPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="createReceiptsTime != null">
+        create_receipts_time = #{createReceiptsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="submissionTime != null">
+        submission_time = #{submissionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="returnStateId != null">
+        return_state_id = #{returnStateId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.pojo.HospitalTransactionReturn">
+    update hospital_transaction_return
+    set return_order_number = #{returnOrderNumber,jdbcType=VARCHAR},
+      return_order_name = #{returnOrderName,jdbcType=VARCHAR},
+      hospital_id = #{hospitalId,jdbcType=INTEGER},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      creat_receipts_person = #{creatReceiptsPerson,jdbcType=VARCHAR},
+      create_receipts_time = #{createReceiptsTime,jdbcType=TIMESTAMP},
+      submission_time = #{submissionTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      return_state_id = #{returnStateId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -5,6 +5,11 @@ server:
 spring:
   thymeleaf:
     cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    content-type: text/html
+    mode: HTML5
 
   datasource:
     url: jdbc:mysql://localhost:3306/drugplatform?characterEncoding=utf8
@@ -12,5 +17,5 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
 mybatis:
-  mapper-locations: classpath:com/ygjy/mapper/*.xml
+  mapper-locations: classpath:com/ygjy/**/mapper/*.xml
   type-aliases-package: com.ygjy.pojo
