@@ -785,72 +785,72 @@ public class HospitalTransactionDetailsExample {
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberIsNull() {
+        public Criteria andinvoiceNumberIsNull() {
             addCriterion(" Invoice_number is null");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberIsNotNull() {
+        public Criteria andinvoiceNumberIsNotNull() {
             addCriterion(" Invoice_number is not null");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberEqualTo(String value) {
+        public Criteria andinvoiceNumberEqualTo(String value) {
             addCriterion(" Invoice_number =", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberNotEqualTo(String value) {
+        public Criteria andinvoiceNumberNotEqualTo(String value) {
             addCriterion(" Invoice_number <>", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberGreaterThan(String value) {
+        public Criteria andinvoiceNumberGreaterThan(String value) {
             addCriterion(" Invoice_number >", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberGreaterThanOrEqualTo(String value) {
+        public Criteria andinvoiceNumberGreaterThanOrEqualTo(String value) {
             addCriterion(" Invoice_number >=", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberLessThan(String value) {
+        public Criteria andinvoiceNumberLessThan(String value) {
             addCriterion(" Invoice_number <", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberLessThanOrEqualTo(String value) {
+        public Criteria andinvoiceNumberLessThanOrEqualTo(String value) {
             addCriterion(" Invoice_number <=", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberLike(String value) {
+        public Criteria andinvoiceNumberLike(String value) {
             addCriterion(" Invoice_number like", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberNotLike(String value) {
+        public Criteria andinvoiceNumberNotLike(String value) {
             addCriterion(" Invoice_number not like", value, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberIn(List<String> values) {
+        public Criteria andinvoiceNumberIn(List<String> values) {
             addCriterion(" Invoice_number in", values, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberNotIn(List<String> values) {
+        public Criteria andinvoiceNumberNotIn(List<String> values) {
             addCriterion(" Invoice_number not in", values, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberBetween(String value1, String value2) {
+        public Criteria andinvoiceNumberBetween(String value1, String value2) {
             addCriterion(" Invoice_number between", value1, value2, " invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria and invoiceNumberNotBetween(String value1, String value2) {
+        public Criteria andinvoiceNumberNotBetween(String value1, String value2) {
             addCriterion(" Invoice_number not between", value1, value2, " invoiceNumber");
             return (Criteria) this;
         }

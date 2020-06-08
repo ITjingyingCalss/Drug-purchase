@@ -4,17 +4,18 @@ import java.io.Serializable;
 
 /**
  * country
- * @author 
+ *
+ * @author
  */
 public class Country implements Serializable {
-    private Integer 
+    private Integer
 
 
-countryId;
+            countryId;
 
-    private String 
+    private String
 
-countryName;
+            countryName;
 
     /**
      * 等级
@@ -28,50 +29,20 @@ countryName;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer get
-
-
-countryId() {
-        return 
-
-
-countryId;
+    public Integer getcountryId() {
+        return countryId;
     }
 
-    public void set
-
-
-countryId(Integer 
-
-
-countryId) {
-        this.
-
-
-countryId = 
-
-
-countryId;
+    public void setcountryId(Integer countryId) {
+        this.countryId = countryId;
     }
 
-    public String get
-
-countryName() {
-        return 
-
-countryName;
+    public String getcountryName() {
+        return countryName;
     }
 
-    public void set
-
-countryName(String 
-
-countryName) {
-        this.
-
-countryName = 
-
-countryName;
+    public void setcountryName(String countryName) {
+        this.countryName =countryName;
     }
 
     public Integer getGrade() {
@@ -102,48 +73,15 @@ countryName;
             return false;
         }
         Country other = (Country) that;
-        return (this.get
-
-
-countryId() == null ? other.get
-
-
-countryId() == null : this.get
-
-
-countryId().equals(other.get
-
-
-countryId()))
-            && (this.get
-
-countryName() == null ? other.get
-
-countryName() == null : this.get
-
-countryName().equals(other.get
-
-countryName()))
-            && (this.getGrade() == null ? other.getGrade() == null : this.getGrade().equals(other.getGrade()))
-            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()));
+        return (this.getcountryId() == null ? other.getcountryId() == null :this.getcountryId().equals(other.getcountryId()))&&(this.getcountryName() == null ? other.getcountryName() == null :this.getcountryName().equals(other.getcountryName())) && (this.getGrade() == null ? other.getGrade() == null : this.getGrade().equals(other.getGrade()))&& (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((get
-
-
-countryId() == null) ? 0 : get
-
-
-countryId().hashCode());
-        result = prime * result + ((get
-
-countryName() == null) ? 0 : get
-
-countryName().hashCode());
+        result = prime * result + ((getcountryId() == null) ?0 :getcountryId().hashCode());
+        result = prime * result + ((getcountryName() == null) ?0 :getcountryName().hashCode());
         result = prime * result + ((getGrade() == null) ? 0 : getGrade().hashCode());
         result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
         return result;
@@ -155,18 +93,8 @@ countryName().hashCode());
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", 
-
-
-countryId=").append(
-
-
-countryId);
-        sb.append(", 
-
-countryName=").append(
-
-countryName);
+        sb.append(", countryId = ").append(countryId);
+        sb.append(", countryName = ").append(countryName);
         sb.append(", grade=").append(grade);
         sb.append(", parentId=").append(parentId);
         sb.append(", serialVersionUID=").append(serialVersionUID);

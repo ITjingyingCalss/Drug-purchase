@@ -72,7 +72,7 @@
   <select id="selectByExample" parameterType="com.ygjy.pojo.EnterpriseDrugCatalogControlExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
-      distinct
+      selectByExample
     </if>
     <include refid="Base_Column_List" />
     from enterprise_drug_catalog_control
