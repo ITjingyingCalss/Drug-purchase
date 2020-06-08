@@ -24,6 +24,15 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--spring boot热部署的插件-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>2.1.4.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
+
+
         <!--shrio整合spring-->
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring -->
         <dependency>
