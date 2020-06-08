@@ -1,0 +1,252 @@
+
+<!--案件登记-->
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="IE=edge">
+    <title>查询药品交易明细</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../js/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="../adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../angularjs/toaster.min.css">
+    <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        function down(){
+            window.location.href="down";
+        }
+    </script>
+
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="shebao" ng-controller="registrationOfCasesController">
+<!-- .box-body -->
+<toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
+<div class="panel panel-info">
+    <!-- Default panel contents -->
+    <div class="panel-heading">查询药品交易明细</div>
+    <!-- Table -->
+    <table class="table">
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_unitName">
+            </td>
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_organizationalCode">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购状态：</span>
+            </td>
+            <td>
+                <select style="width: 30%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
+                <!-- <input class="form-control" id="" >-->
+            </td>
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购医院：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
+            </td>
+            <td>
+                <select style="width: 30%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
+                <!-- <input class="form-control" id="" >-->
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
+            </td>
+            <td>
+                <input class="form-control" style="width: 120px;float: left"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_organi">
+            </td>
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">通用名：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_organis" style="float: left"><label style="float: left" class="btn-success">按拼音首字母</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
+            </td>
+            <td>
+                <select style="width: 30%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">单位：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">转换系数：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
+            </td>
+            <td>
+                <select style="width: 30%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
+                <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center;padding-top: 10px">
+        <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
+        <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+    </div>
+</div>
+<div class="box-body">
+    <div class="table-box">
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th class="sorting_asc">序号</th>
+                <th class="sorting_asc">采购医院</th>
+                <th class="sorting_asc">采购单编号</th>
+                <th class="sorting_asc">采购单名称</th>
+                <th class="sorting_asc">开始采购时间</th>
+                <th class="sorting_asc">结束采购时间</th>
+                <th class="sorting_asc">流水号</th>
+                <th class="sorting_asc">通用名</th>
+                <th class="sorting_asc">商品名称</th>
+                <th class="sorting">剂型</th>
+                <th class="sorting">规格</th>
+                <th class="sorting">单位</th>
+                <th class="sorting">转换系数</th>
+                <th class="sorting">生产企业</th>
+                <th class="sorting_asc">中标价</th>
+                <th class="sorting_asc">交易价</th>
+                <th class="sorting">采购量</th>
+                <th class="sorting">采购金额</th>
+                <th class="sorting_asc">采购状态</th>
+                <th class="sorting_asc">入库量</th>
+                <th class="sorting_asc">入库金额</th>
+                <th class="sorting_asc">退货量</th>
+                <th class="sorting_asc">退货金额</th>
+                <th class="sorting">详细</th>
+                <th class="sorting">修改</th>
+                <th class="sorting">删除</th>
+            </tr>
+            </thead>
+            <tbody class="context">
+            <tr>
+                <td>1</td>
+                <td>京城康欣村卫生室</td>
+                <td>0000002</td>
+                <td>京城康欣村卫生室采购单</td>
+                <td>2019-02-03</td>
+                <td>2020-05-03</td>
+                <td>1234503</td>
+                <td>0.9%氢化钠</td>
+                <td>0.9%氢化钠</td>
+                <td>大输液</td>
+                <td>240ml</td>
+                <td>瓶</td>
+                <td>1</td>
+                <td>河南药业有限公司</td>
+                <td>86</td>
+                <td>186</td>
+                <td>67</td>
+                <td>22</td>
+                <td>已发货</td>
+                <td>26.18</td>
+                <td>34</td>
+                <td>34.56</td>
+                <td>45.6</td>
+                <td>
+                    <a href="#">查看</a>
+                </td>
+                <td>
+                    <a href="#">修改</a>
+                </td>
+                <td>
+                    <a href="#">删除</a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+        <!--数据列表/-->
+        <!--分页工具条展示-->
+        <div style="text-align: center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- 数据表格 /-->
+</div>
+</body>
+</html>
