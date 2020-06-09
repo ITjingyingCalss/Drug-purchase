@@ -1,191 +1,282 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ygjy.systemmanagement.dao.UserMapper">
-    <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.User">
-        <id column="user_id" jdbcType="INTEGER" property="userId" />
-        <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
-        <result column="user_name" jdbcType="VARCHAR" property="userName" />
-        <result column="role_id" jdbcType="INTEGER" property="roleId" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="user_state" jdbcType="INTEGER" property="userState" />
-        <result column="unit_id" jdbcType="INTEGER" property="unitId" />
-        <result column="contact_address" jdbcType="VARCHAR" property="contactAddress" />
-        <result column="postal_code" jdbcType="VARCHAR" property="postalCode" />
-        <result column="contacts" jdbcType="VARCHAR" property="contacts" />
-        <result column="phone" jdbcType="VARCHAR" property="phone" />
-        <result column="email" jdbcType="VARCHAR" property="email" />
-        <association property="role" javaType="com.ygjy.systemmanagement.pojo.Role">
-            <id column="roleId" jdbcType="INTEGER" property="roleId" />
-            <result column="role_name" jdbcType="VARCHAR" property="roleName" />
-            <result column="description" jdbcType="VARCHAR" property="description" />
-        </association>
-    </resultMap>
-    <sql id="Base_Column_List">
-    user_id, user_account, user_name, role_id, password, user_state, unit_id, contact_address,
-    postal_code, contacts, phone, email
+  <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="user_state" jdbcType="INTEGER" property="userState" />
+    <result column="user_unit" jdbcType="VARCHAR" property="userUnit" />
+    <result column="contact_address" jdbcType="VARCHAR" property="contactAddress" />
+    <result column="postal_code" jdbcType="VARCHAR" property="postalCode" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_create_time" jdbcType="TIMESTAMP" property="userCreateTime" />
+    <result column="user_update_time" jdbcType="TIMESTAMP" property="userUpdateTime" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+      <association property="role" javaType="com.ygjy.systemmanagement.pojo.Role">
+          <id column="roleId" jdbcType="INTEGER" property="id" />
+          <result column="role_id" jdbcType="INTEGER" property="roleId" />
+          <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+          <result column="role_description" jdbcType="VARCHAR" property="roleDescription" />
+          <result column="role_status" jdbcType="INTEGER" property="roleStatus" />
+          <result column="role_create_time" jdbcType="TIMESTAMP" property="roleCreateTime" />
+          <result column="role_update_time" jdbcType="TIMESTAMP" property="roleUpdateTime" />
+          <association property="jurisdiction" javaType="com.ygjy.systemmanagement.pojo.Jurisdiction">
+              <id column="jurisdictionId" jdbcType="INTEGER" property="id" />
+              <result column="permission_id" jdbcType="VARCHAR" property="permissionId" />
+              <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+              <result column="permission_description" jdbcType="VARCHAR" property="permissionDescription" />
+              <result column="permission_status" jdbcType="INTEGER" property="permissionStatus" />
+              <result column="permission_url" jdbcType="VARCHAR" property="permissionUrl" />
+              <result column="permission_perms" jdbcType="VARCHAR" property="permissionPerms" />
+              <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+              <result column="type" jdbcType="INTEGER" property="type" />
+              <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+              <result column="icon" jdbcType="VARCHAR" property="icon" />
+              <result column="permission_create_time" jdbcType="TIMESTAMP" property="permissionCreateTime" />
+              <result column="permission_update_time" jdbcType="TIMESTAMP" property="permissionUpdateTime" />
+          </association>
+      </association>
+      <association property="userRole" javaType="com.ygjy.systemmanagement.pojo.UserRole">
+          <id column="userRoleId" jdbcType="INTEGER" property="id" />
+          <result column="user_id" jdbcType="INTEGER" property="userId" />
+          <result column="role_id" jdbcType="INTEGER" property="roleId" />
+      </association>
+      <association property="joleJurisdiction" javaType="com.ygjy.systemmanagement.pojo.RoleJurisdiction">
+          <id column="joleJurisdictionId" jdbcType="INTEGER" property="id" />
+          <result column="role_id" jdbcType="INTEGER" property="roleId" />
+          <result column="jur_id" jdbcType="INTEGER" property="jurId" />
+      </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_account, username, password, salt, user_state, user_unit, contact_address, 
+    postal_code, contacts, user_phone, user_email, user_create_time, user_update_time, 
+    last_login_time
   </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select 'true' as QUERYID,
-        <include refid="Base_Column_List" />
-        from user
-        where user_id = #{userId,jdbcType=INTEGER}
-    </select>
-   <!-- 通过用户名查找用户密码进行验证-->
-    <select id="queryPasswordByUserName" parameterType="com.ygjy.systemmanagement.pojo.User">
-        SELECT u.*,r.description,r.role_name,r.role_id as roleId
-        FROM `user`u,role r
-        WHERE u.role_id = r.role_id
-        <if test="userName != null and userName !=''">
-            and user_name = #{userName}
+  <select id="selectByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.User" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </select>
+    <!--根据用户ID,用户名称,用户联系地址查找用户信息-->
+    <select id="selectUserAll" resultMap="BaseResultMap">
+        select u.*,r.*,j.*,r.id as roleId,j.id as jurisdictionId,ur.id as userRoleId,rj.id as joleJurisdiction
+        from  user u,role r,jurisdiction j,user_role ur,role_jurisdiction rj
+        where u.user_id = r.role_id and r.role_id = j.jur_id
+        <if test="userId != null and userId != ''">
+            and u.user_id = #{userId}
+        </if>
+        <if test="userAccount != null and userAccount != ''">
+            and u.user_account like CONCAT("%",#{userAccount},"%")
+        </if>
+        <if test="contactAddress != null and contactAddress != ''">
+            and u.contact_address like CONCAT("%",#{contactAddress},"%")
         </if>
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--根据用户账号查找用户登录权限密码-->
+    <select id="loginByUsername" resultMap="BaseResultMap">
+        select u.*,r.*,j.*,r.id as roleId,j.id as jurisdictionId,ur.id as userRoleId,rj.id as joleJurisdiction
+        from  user u,role r,jurisdiction j,user_role ur,role_jurisdiction rj
+        where u.user_id = r.role_id and r.role_id = j.jur_id
+        <if test="username != null and username != ''">
+            and u.username = #{username}
+        </if>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.User">
     delete from user
-    where user_id = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.User">
-    insert into user (user_id, user_account, user_name,
-      role_id, password, user_state,
-      unit_id, contact_address, postal_code,
-      contacts, phone, email
-      )
-    values (#{userId,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
-      #{roleId,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{userState,jdbcType=INTEGER},
-      #{unitId,jdbcType=INTEGER}, #{contactAddress,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR},
-      #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.User">
+    insert into user (id, user_id, user_account, 
+      username, password, salt, 
+      user_state, user_unit, contact_address, 
+      postal_code, contacts, user_phone, 
+      user_email, user_create_time, user_update_time, 
+      last_login_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
+      #{userState,jdbcType=INTEGER}, #{userUnit,jdbcType=VARCHAR}, #{contactAddress,jdbcType=VARCHAR}, 
+      #{postalCode,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+      #{userEmail,jdbcType=VARCHAR}, #{userCreateTime,jdbcType=TIMESTAMP}, #{userUpdateTime,jdbcType=TIMESTAMP}, 
+      #{lastLoginTime,jdbcType=TIMESTAMP})
   </insert>
-    <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.User">
-        insert into user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                user_id,
-            </if>
-            <if test="userAccount != null">
-                user_account,
-            </if>
-            <if test="userName != null">
-                user_name,
-            </if>
-            <if test="roleId != null">
-                role_id,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="userState != null">
-                user_state,
-            </if>
-            <if test="unitId != null">
-                unit_id,
-            </if>
-            <if test="contactAddress != null">
-                contact_address,
-            </if>
-            <if test="postalCode != null">
-                postal_code,
-            </if>
-            <if test="contacts != null">
-                contacts,
-            </if>
-            <if test="phone != null">
-                phone,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null">
-                #{userId,jdbcType=INTEGER},
-            </if>
-            <if test="userAccount != null">
-                #{userAccount,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="roleId != null">
-                #{roleId,jdbcType=INTEGER},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="userState != null">
-                #{userState,jdbcType=INTEGER},
-            </if>
-            <if test="unitId != null">
-                #{unitId,jdbcType=INTEGER},
-            </if>
-            <if test="contactAddress != null">
-                #{contactAddress,jdbcType=VARCHAR},
-            </if>
-            <if test="postalCode != null">
-                #{postalCode,jdbcType=VARCHAR},
-            </if>
-            <if test="contacts != null">
-                #{contacts,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.User">
-        update user
-        <set>
-            <if test="userAccount != null">
-                user_account = #{userAccount,jdbcType=VARCHAR},
-            </if>
-            <if test="userName != null">
-                user_name = #{userName,jdbcType=VARCHAR},
-            </if>
-            <if test="roleId != null">
-                role_id = #{roleId,jdbcType=INTEGER},
-            </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="userState != null">
-                user_state = #{userState,jdbcType=INTEGER},
-            </if>
-            <if test="unitId != null">
-                unit_id = #{unitId,jdbcType=INTEGER},
-            </if>
-            <if test="contactAddress != null">
-                contact_address = #{contactAddress,jdbcType=VARCHAR},
-            </if>
-            <if test="postalCode != null">
-                postal_code = #{postalCode,jdbcType=VARCHAR},
-            </if>
-            <if test="contacts != null">
-                contacts = #{contacts,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where user_id = #{userId,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.User">
+  <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userAccount != null">
+        user_account,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="salt != null">
+        salt,
+      </if>
+      <if test="userState != null">
+        user_state,
+      </if>
+      <if test="userUnit != null">
+        user_unit,
+      </if>
+      <if test="contactAddress != null">
+        contact_address,
+      </if>
+      <if test="postalCode != null">
+        postal_code,
+      </if>
+      <if test="contacts != null">
+        contacts,
+      </if>
+      <if test="userPhone != null">
+        user_phone,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userCreateTime != null">
+        user_create_time,
+      </if>
+      <if test="userUpdateTime != null">
+        user_update_time,
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="userState != null">
+        #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userUnit != null">
+        #{userUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null">
+        #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null">
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null">
+        #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userUpdateTime != null">
+        #{userUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null">
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.User">
+    update user
+    <set>
+      <if test="userAccount != null">
+        user_account = #{userAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="userState != null">
+        user_state = #{userState,jdbcType=INTEGER},
+      </if>
+      <if test="userUnit != null">
+        user_unit = #{userUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        contact_address = #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="postalCode != null">
+        postal_code = #{postalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null">
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userCreateTime != null">
+        user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userUpdateTime != null">
+        user_update_time = #{userUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginTime != null">
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.User">
     update user
     set user_account = #{userAccount,jdbcType=VARCHAR},
-      user_name = #{userName,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
       user_state = #{userState,jdbcType=INTEGER},
-      unit_id = #{unitId,jdbcType=INTEGER},
+      user_unit = #{userUnit,jdbcType=VARCHAR},
       contact_address = #{contactAddress,jdbcType=VARCHAR},
       postal_code = #{postalCode,jdbcType=VARCHAR},
       contacts = #{contacts,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=INTEGER}
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+      user_update_time = #{userUpdateTime,jdbcType=TIMESTAMP},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

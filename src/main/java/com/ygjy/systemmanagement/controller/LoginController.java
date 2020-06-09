@@ -23,9 +23,9 @@ public class LoginController {
      * 登录跳转
      * @return
      */
-    @RequestMapping("/toLogin")
+    @RequestMapping("/")
     public String toLogin(){
-        return "index";
+        return "login";
     }
 
     /**

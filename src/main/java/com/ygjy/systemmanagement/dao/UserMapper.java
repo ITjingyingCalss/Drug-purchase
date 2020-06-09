@@ -2,34 +2,37 @@ package com.ygjy.systemmanagement.dao;
 
 import com.ygjy.systemmanagement.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Created by IntelliJ IDEA.
- * User: zhaozhiqiang
- * Date: 2020/6/8
- * Desc: 描述
- */
+import java.util.List;
+
 @Mapper
-@Component("userMapper")
 public interface UserMapper {
-
-    int deleteByPrimaryKey(Integer userId);
+    int deleteByPrimaryKey(User key);
 
     int insert(User record);
 
     int insertSelective(User record);
 
-    User selectByPrimaryKey(Integer userId);
+    User selectByPrimaryKey(User key);
 
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
     /**
-     * 登录验证
-     * @param userName
+     * 通过用户Id,用户名称,用户地址查找用户信息
+     * @param userId
+     * @param userAccount
+     * @param contactAddress
      * @return
      */
-    User queryPasswordByUserName(String userName);
+    List<User> selectUserAll(@RequestParam("userId") int userId, @RequestParam("userAccount") String userAccount, @RequestParam("contactAddress") String contactAddress);
+
+    /**
+     * 通过用户账号获得用户密码进行判断登录
+     * @param username
+     * @return
+     */
+    User loginByUsername(@RequestParam("username") String username);
 }

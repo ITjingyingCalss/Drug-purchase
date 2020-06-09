@@ -1,6 +1,9 @@
 package com.ygjy.systemmanagement.service;
 
 import com.ygjy.systemmanagement.pojo.User;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,9 +14,18 @@ import com.ygjy.systemmanagement.pojo.User;
 public interface UserService {
 
     /**
-     * 登录,通过用户匹配对应信息
-     * @param userName
+     * 通过用户Id,用户名称,用户地址查找用户信息
+     * @param userId
+     * @param userAccount
+     * @param contactAddress
      * @return
      */
-    User queryPasswordByUserName(String userName);
+    List<User> findUserAll(int userId,String userAccount,String contactAddress);
+
+    /**
+     * 通过用户账号获得用户密码进行判断登录
+     * @param username
+     * @return
+     */
+    User loginByUsername(String username);
 }

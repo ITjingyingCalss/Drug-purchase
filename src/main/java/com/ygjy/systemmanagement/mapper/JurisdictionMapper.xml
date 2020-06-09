@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.systemmanagement.dao.JurisdictionMapper">
+  <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.Jurisdiction">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="permission_id" jdbcType="VARCHAR" property="permissionId" />
+    <result column="permission_name" jdbcType="VARCHAR" property="permissionName" />
+    <result column="permission_description" jdbcType="VARCHAR" property="permissionDescription" />
+    <result column="permission_status" jdbcType="INTEGER" property="permissionStatus" />
+    <result column="permission_url" jdbcType="VARCHAR" property="permissionUrl" />
+    <result column="permission_perms" jdbcType="VARCHAR" property="permissionPerms" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="permission_create_time" jdbcType="TIMESTAMP" property="permissionCreateTime" />
+    <result column="permission_update_time" jdbcType="TIMESTAMP" property="permissionUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, permission_id, permission_name, permission_description, permission_status, permission_url, 
+    permission_perms, parent_id, type, order_num, icon, permission_create_time, permission_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from jurisdiction
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <!-- 查找所有权限-->
+    <select id="selectJurisdictionAll" resultMap="BaseResultMap">
+        select 'true' as QUERYID,
+        <include refid="Base_Column_List" />
+        from jurisdiction
+    </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jurisdiction
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.Jurisdiction">
+    insert into jurisdiction (id, permission_id, permission_name, 
+      permission_description, permission_status, 
+      permission_url, permission_perms, parent_id, 
+      type, order_num, icon, 
+      permission_create_time, permission_update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{permissionId,jdbcType=VARCHAR}, #{permissionName,jdbcType=VARCHAR}, 
+      #{permissionDescription,jdbcType=VARCHAR}, #{permissionStatus,jdbcType=INTEGER}, 
+      #{permissionUrl,jdbcType=VARCHAR}, #{permissionPerms,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{orderNum,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
+      #{permissionCreateTime,jdbcType=TIMESTAMP}, #{permissionUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.Jurisdiction">
+    insert into jurisdiction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="permissionName != null">
+        permission_name,
+      </if>
+      <if test="permissionDescription != null">
+        permission_description,
+      </if>
+      <if test="permissionStatus != null">
+        permission_status,
+      </if>
+      <if test="permissionUrl != null">
+        permission_url,
+      </if>
+      <if test="permissionPerms != null">
+        permission_perms,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+      <if test="permissionCreateTime != null">
+        permission_create_time,
+      </if>
+      <if test="permissionUpdateTime != null">
+        permission_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionName != null">
+        #{permissionName,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionDescription != null">
+        #{permissionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionStatus != null">
+        #{permissionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="permissionUrl != null">
+        #{permissionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionPerms != null">
+        #{permissionPerms,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCreateTime != null">
+        #{permissionCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="permissionUpdateTime != null">
+        #{permissionUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.Jurisdiction">
+    update jurisdiction
+    <set>
+      <if test="permissionId != null">
+        permission_id = #{permissionId,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionName != null">
+        permission_name = #{permissionName,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionDescription != null">
+        permission_description = #{permissionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionStatus != null">
+        permission_status = #{permissionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="permissionUrl != null">
+        permission_url = #{permissionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionPerms != null">
+        permission_perms = #{permissionPerms,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCreateTime != null">
+        permission_create_time = #{permissionCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="permissionUpdateTime != null">
+        permission_update_time = #{permissionUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.Jurisdiction">
+    update jurisdiction
+    set permission_id = #{permissionId,jdbcType=VARCHAR},
+      permission_name = #{permissionName,jdbcType=VARCHAR},
+      permission_description = #{permissionDescription,jdbcType=VARCHAR},
+      permission_status = #{permissionStatus,jdbcType=INTEGER},
+      permission_url = #{permissionUrl,jdbcType=VARCHAR},
+      permission_perms = #{permissionPerms,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      order_num = #{orderNum,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      permission_create_time = #{permissionCreateTime,jdbcType=TIMESTAMP},
+      permission_update_time = #{permissionUpdateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
