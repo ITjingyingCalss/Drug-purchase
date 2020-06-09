@@ -18,4 +18,13 @@ public class DrugItemMaintenanceController {
     public List<DurgsFrom> findSelectOption (){
         return drugItemMaintenanceService.findSelectOption();
     }
+    /*
+    * 查询剂型和药品类别
+    * */
+    @RequestMapping("/findDrugFromAndDrugCategory")
+    @ResponseBody
+    public List findDrugFromAndDrugCategory (){
+        List list = drugItemMaintenanceService.findDrugFromAndDrugCategory();
+        return list;
+    }
 }

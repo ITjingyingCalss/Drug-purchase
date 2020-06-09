@@ -4,7 +4,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="IE=edge">
-    <title>采购单审核</title>
+    <title>采购医院查询</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../js/plugins/bootstrap/css/bootstrap.min.css">
@@ -28,34 +28,18 @@
 <toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
 <div class="panel panel-info">
     <!-- Default panel contents -->
-    <div class="panel-heading">采购单审核</div>
+    <div class="panel-heading">按采购医院查询</div>
     <!-- Table -->
     <table class="table">
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购医院名称：</span>
             </td>
             <td >
                 <input class="form-control">
             </td>
-            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
-            </td>
-            <td >
-                <input class="form-control" id="searchEntity_organizationalCode">
-            </td>
-        </tr>
-        <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单状态：</span>
-            </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-                <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
             </td>
             <td style="word-break: keep-all;white-space: nowrap;width: 32%">
                 <input style="width: 23%"><span style="color: #0E74B4">至</span><input style="width: 23%;">
@@ -63,72 +47,57 @@
         </tr>
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">医院名称：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购状态：</span>
             </td>
             <td>
-                <input class="form-control">
+                <select style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
+                <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
             </td>
         </tr>
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="">查询</button>
+        <button class="btn btn-success btn-sm" onclick="">导出</button>
     </div>
 </div>
 <div class="box-body">
     <!-- 数据表格 -->
     <div class="table-box">
         <!-- 数据表格 -->
-        <div class="table-box">
-            <!--工具栏-->
-            <div class="pull-left">
-                <div class="form-group form-inline">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm" >提交审核结果</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--工具栏/-->
         <!--数据列表-->
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
                 <th>序号</th>
-                <th>选择</th>
-                <th class="sorting_asc">审核结果</th>
-                <th class="sorting">审核意见</th>
-                <th class="sorting">医院名称</th>
-                <th class="sorting">采购单编号</th>
-                <th class="sorting">采购单名称</th>
-                <th class="sorting">开始时间</th>
-                <th class="sorting">结束时间</th>
-                <th class="sorting">建单时间</th>
-                <th class="sorting">提交时间</th>
-                <th class="sorting">审核时间</th>
-                <th class="sorting">采购单状态</th>
-                <th class="sorting">查看</th>
+                <th>采购医院</th>
+                <th class="sorting_asc">采购状态</th>
+                <th class="sorting">采购量</th>
+                <th class="sorting">采购金额</th>
+                <th class="sorting">入库量</th>
+                <th class="sorting">入库金额</th>
+                <th class="sorting">退货量</th>
+                <th class="sorting">退货金额</th>
+                <th class="sorting">结算量</th>
+                <th class="sorting">结算金额</th>
+                <th class="sorting">交易药品</th>
             </tr>
             </thead>
             <tbody class="context">
             <tr>
                 <td>1</td>
-                <td><input type="checkbox"></td>
-                <td>
-                    <select>
-                        <option value="0">请选择</option>
-                    </select>
-                </td>
-                <td><input type="text" style="width: 100%"></td>
-                <td>二十里铺村卫生室</td>
-                <td>000008</td>
-                <td>二十里铺村卫生室2013-08-07 15:43:07</td>
-                <td>2013-08-07</td>
-                <td>2013-08-17</td>
-                <td>2013-08-07</td>
-                <td>2013-08-07</td>
-                <td></td>
-                <td>审核中</td>
-                <td><a href="#">查看</a> </td>
+                <td>崔庙村卫生室</td>
+                <td>已入库</td>
+                <td>25</td>
+                <td>112.5</td>
+                <td>166</td>
+                <td>780.0</td>
+                <td>22</td>
+                <td>66.0</td>
+                <td>99</td>
+                <td>579.0</td>
+                <td><a href="#">查询</a> </td>
             </tr>
             </tbody>
 
@@ -214,5 +183,3 @@
 </div>
 </body>
 </html>
-
-

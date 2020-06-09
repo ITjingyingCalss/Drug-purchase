@@ -1812,73 +1812,63 @@ public class DrugInformationExample {
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryIsNull() {
-            addCriterion("drug_category is null");
+        public Criteria andDrugCategoryIdIsNull() {
+            addCriterion("drug_category_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryIsNotNull() {
-            addCriterion("drug_category is not null");
+        public Criteria andDrugCategoryIdIsNotNull() {
+            addCriterion("drug_category_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryEqualTo(String value) {
-            addCriterion("drug_category =", value, "drugCategory");
+        public Criteria andDrugCategoryIdEqualTo(Integer value) {
+            addCriterion("drug_category_id =", value, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryNotEqualTo(String value) {
-            addCriterion("drug_category <>", value, "drugCategory");
+        public Criteria andDrugCategoryIdNotEqualTo(Integer value) {
+            addCriterion("drug_category_id <>", value, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryGreaterThan(String value) {
-            addCriterion("drug_category >", value, "drugCategory");
+        public Criteria andDrugCategoryIdGreaterThan(Integer value) {
+            addCriterion("drug_category_id >", value, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryGreaterThanOrEqualTo(String value) {
-            addCriterion("drug_category >=", value, "drugCategory");
+        public Criteria andDrugCategoryIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("drug_category_id >=", value, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryLessThan(String value) {
-            addCriterion("drug_category <", value, "drugCategory");
+        public Criteria andDrugCategoryIdLessThan(Integer value) {
+            addCriterion("drug_category_id <", value, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryLessThanOrEqualTo(String value) {
-            addCriterion("drug_category <=", value, "drugCategory");
+        public Criteria andDrugCategoryIdLessThanOrEqualTo(Integer value) {
+            addCriterion("drug_category_id <=", value, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryLike(String value) {
-            addCriterion("drug_category like", value, "drugCategory");
+        public Criteria andDrugCategoryIdIn(List<Integer> values) {
+            addCriterion("drug_category_id in", values, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryNotLike(String value) {
-            addCriterion("drug_category not like", value, "drugCategory");
+        public Criteria andDrugCategoryIdNotIn(List<Integer> values) {
+            addCriterion("drug_category_id not in", values, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryIn(List<String> values) {
-            addCriterion("drug_category in", values, "drugCategory");
+        public Criteria andDrugCategoryIdBetween(Integer value1, Integer value2) {
+            addCriterion("drug_category_id between", value1, value2, "drugCategoryId");
             return (Criteria) this;
         }
 
-        public Criteria andDrugCategoryNotIn(List<String> values) {
-            addCriterion("drug_category not in", values, "drugCategory");
-            return (Criteria) this;
-        }
-
-        public Criteria andDrugCategoryBetween(String value1, String value2) {
-            addCriterion("drug_category between", value1, value2, "drugCategory");
-            return (Criteria) this;
-        }
-
-        public Criteria andDrugCategoryNotBetween(String value1, String value2) {
-            addCriterion("drug_category not between", value1, value2, "drugCategory");
+        public Criteria andDrugCategoryIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("drug_category_id not between", value1, value2, "drugCategoryId");
             return (Criteria) this;
         }
 
