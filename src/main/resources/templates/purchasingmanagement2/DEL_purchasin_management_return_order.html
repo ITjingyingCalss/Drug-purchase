@@ -21,6 +21,29 @@
         }
     </script>
 
+<!--添加退货单-->
+<script type="text/javascript">
+
+    var returnOrderNumber = $("#return_order_number").val();
+    var returnOrderName = $("#return_order_name").val();
+    var hospitalId = $("#hospital_id").val();
+    var contacts = $("#contacts").val();
+    var phone = $("#phone").val();
+    var creatReceiptsPerson = $("#creat_receipts_person").val();
+    var createReceiptsTime = $("#create_receipts_time").val();
+    var submissionTime = $("#submission_time").val();
+    var remark = $("#remark").val();
+    var returnStateId = $("#return_state_id").val();
+
+    function saveReturnForm(){
+        $.ajax({
+
+        })
+    }
+</script>
+
+
+
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="shebao" ng-controller="registrationOfCasesController">
 <!-- .box-body -->
@@ -161,7 +184,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
             </td>
             <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                <input style="width: 50%"><span style="color: #0E74B4">至</span><input style="width: 50%;">
+                <input style="width: 22%"><span style="color: #0E74B4">至</span><input style="width: 22%;">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品批号：</span>
@@ -253,10 +276,24 @@
                 <td>00008</td>
                 <td>0.9%氯化钠</td>
                 <td>大输液</td>
-                <td>1000ml（玻瓶）</td>
+                <td>1000玻瓶</td>
                 <td>瓶</td>
                 <td>1</td>
-                <td></td>
+                <td>3</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
+                <td>正常</td>
                 <td>正常</td>
                 <td>
                     <a href="#">查看</a>
@@ -307,48 +344,44 @@
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table">
                     <tr>
-                        <td>医院编号:</td>
-                        <td><input id="#" name="organizationalCode" class="form-control"></td>
-                        <td>医院名称:</td>
-                        <td><input id="organizationalCode1" name="organizationalCode" class="form-control"></td>
+                        <td>退货单编号:</td>
+                        <td><input id="return_order_number" name="returnOrderNumber" class="form-control"></td>
+                        <td>退货单名称:</td>
+                        <td><input id="return_order_name" name="returnOrderName" class="form-control"></td>
                     </tr>
                     <tr>
-                        <td>退货单编号:</td>
-                        <td><input id="#1" name="organizationalCode" class="form-control"></td>
+                        <td>医院id:</td>
+                        <td><input id="hospital_id" name="hospitalId" class="form-control"></td>
 
-                        <td>退货单名称:</td>
-                        <td><input id="idCard1" name="idCard" class="form-control">
+                        <td>联系人:</td>
+                        <td><input id="contacts" name="contacts" class="form-control">
                         </td>
                     </tr>
                     <tr>
-                        <td>退货时间:</td>
-                        <td><input id="phone1" name="phone" class="form-control"></td>
-
-                        <td>建单时间:</td>
-                        <td><input id="nameOfRegistrant1" name="" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>联系人:</td>
-                        <td><input id="#2" name="organizationalCode" class="form-control"></td>
-
                         <td>联系电话:</td>
-                        <td><input id="#3" name="organizationalCode" class="form-control"></td>
+                        <td><input id="phone" name="phone" class="form-control"></td>
+
+                        <td>建单人:</td>
+                        <td><input id="creat_receipts_person" name="creatReceiptsPerson" class="form-control"></td>
                     </tr>
                     <tr>
-                        <td>退货单状态:</td>
-                        <td><input id="#4" name="organizationalCode" class="form-control"></td>
+                        <td>建单时间:</td>
+                        <td><input id="create_receipts_time" name="createReceiptsTime" class="form-control"></td>
 
                         <td>提交时间:</td>
-                        <td><input id="#5" name="organizationalCode" class="form-control"></td>
+                        <td><input id="submission_time" name="submissionTime" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>备注:</td>
-                        <td><input id="#6" name="organizationalCode" class="form-control"></td>
+                        <td><input id="remark" name="remark" class="form-control"></td>
+
+                        <td>退货单状态:</td>
+                        <td><input id="return_state_id" name="returnStateId" class="form-control"></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" ng-click="save()" data-dismiss="modal" onclick="updataRegistrationOfCases()">保存退货单</button>
+                <button class="btn btn-success" onclick="saveReturnForm()" data-dismiss="modal">保存退货单</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">提交退货单</button>
             </div>
         </div>
