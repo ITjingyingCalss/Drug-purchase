@@ -24,9 +24,9 @@ public class PurchasingManagementController {
     /*
      *跳转到退货单页面
      */
-    @RequestMapping("/purchasing_management_return_order")
-    public String purchasingManagementReturnOrder() {
-        return "purchasingmanagement2/purchasin_management_return_order";
+    @RequestMapping("/purchasing_management_return_form")
+    public String purchasingManagementReturnForm() {
+        return "purchasingmanagement2/purchasin_management_return_form";
     }
 
     /*

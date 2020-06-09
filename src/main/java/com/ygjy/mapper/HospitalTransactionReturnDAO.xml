@@ -117,12 +117,12 @@
   <insert id="insert" parameterType="com.ygjy.pojo.HospitalTransactionReturn">
     insert into hospital_transaction_return (id, return_order_number, return_order_name, 
       hospital_id, contacts, phone, 
-      creat_receipts_person, create_receipts_time, 
+      creat_receipts_person, create_receipts_time,
       submission_time, remark, return_state_id
       )
     values (#{id,jdbcType=INTEGER}, #{returnOrderNumber,jdbcType=VARCHAR}, #{returnOrderName,jdbcType=VARCHAR}, 
-      #{hospitalId,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{creatReceiptsPerson,jdbcType=VARCHAR}, #{createReceiptsTime,jdbcType=TIMESTAMP}, 
+      #{hospitalId,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{creatReceiptsPerson,jdbcType=VARCHAR}, #{createReceiptsTime,jdbcType=TIMESTAMP},
       #{submissionTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{returnStateId,jdbcType=INTEGER}
       )
   </insert>
