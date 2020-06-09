@@ -89,6 +89,9 @@
       </if>
     </if>
   </select>
+  <select id="selectDurgsFrom" resultMap="BaseResultMap">
+        SELECT * FROM durgs_from
+    </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
