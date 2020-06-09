@@ -4,6 +4,9 @@ import com.ygjy.systemmanagement.pojo.User;
 import com.ygjy.systemmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: zhaozhiqiang
@@ -18,12 +21,24 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     /**
-     * 通过前端页面输入的用户名进行匹配用户信息
-     * @param userName
+     * 查询所有用户信息
+     * @param userId
+     * @param userAccount
+     * @param contactAddress
      * @return
      */
     @Override
-    public User queryPasswordByUserName(String userName) {
-        return userMapper.queryPasswordByUserName(userName);
+    public List<User> findUserAll(int userId, String userAccount, String contactAddress) {
+        return userMapper.selectUserAll(userId,userAccount,userAccount);
+    }
+
+    /**
+     * 通过用户名获取密码进行判断登录信息
+     * @param username
+     * @return
+     */
+    @Override
+    public User loginByUsername(String username) {
+        return userMapper.loginByUsername(username);
     }
 }

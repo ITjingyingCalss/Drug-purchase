@@ -1,7 +1,8 @@
 package com.ygjy.supervision.service.impl;
 
-import com.ygjy.pojo.DurgsFrom;
 import com.ygjy.dao.DurgsFromDAO;
+import com.ygjy.pojo.DurgsFrom;
+
 import com.ygjy.pojo.DurgsFromExample;
 import com.ygjy.supervision.service.DrugItemMaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,8 @@ import java.util.List;
 
 @Service
 public class DrugItemMaintenanceServiceImpl implements DrugItemMaintenanceService {
-    @Autowired private DurgsFromDAO durgsFromDAO;
+    @Autowired
+    private DurgsFromDAO durgsFromDAO;
 
     @Override
     public List<DurgsFrom> findSelectOption() {

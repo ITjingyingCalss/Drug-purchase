@@ -1,3 +1,4 @@
+/*
 package com.ygjy.config;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
@@ -11,20 +12,30 @@ import java.net.ResponseCache;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
+*/
+/*
+*
  * Created by IntelliJ IDEA.
  * User: zhaozhiqiang
  * Date: 2020/6/8
- * Desc: 描述*/
+ * Desc: 描述
+*//*
+
+
+
+
 
 
 @Configuration
 public class ShiroConfig {
-
-    /**
+*/
+/**
      * 第三步//shiroFilterFactoy
      * @param securityManager
-     * @return*/
+     * @return*//*
+
+
+
 
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
@@ -32,7 +43,8 @@ public class ShiroConfig {
         //设置安全管理器
         bean.setSecurityManager(securityManager);
         //添加shiro过滤器
-        /*
+*/
+/*
         *
          * anao:无需认证就可访问
          * authc:必须认证才可以访问
@@ -40,17 +52,28 @@ public class ShiroConfig {
          * perms:拥有对某个资源的权限才可以访问
          * role:拥有某个角色权限才可以访问
          *
-        */
+*//*
 
-        /*filterMap.put("/user/add","authc");
-        filterMap.put("/user/update","authc");*/
+
+
+
+
+*/
+/*
+filterMap.put("/user/add","authc");
+        filterMap.put("/user/update","authc");
+
+*//*
+
+
 
         //拦截
         Map<String,String> filterMap = new LinkedHashMap<>();
         //添加认证,拦截器
         //授权.正常情况下,未授权会跳转未授权页面
         filterMap.put("/systemmanagement/user_control","perms[user:1]");
-        /*filterMap.put("/user/update","perms[user:update]");*/
+        filterMap.put("/user/update","perms[user:update]");
+
 
         //通配符模式
         filterMap.put("/user/*","authc");
@@ -62,12 +85,16 @@ public class ShiroConfig {
         return bean;
     }
 
-/*
-*
-     * 第二步//DafaultWebSecurityManager
-     * @param custonRealm
-     * @return
 */
+/*    *
+         * 第二步//DafaultWebSecurityManager
+         * @param custonRealm
+         * @return
+    *//*
+
+
+
+
 
 
     @Bean(name = "securityManager")
@@ -78,11 +105,12 @@ public class ShiroConfig {
         return securityManager;
     }
 
-/*
-*第一步//创建  Realm对象  自定义
-     * 注入Bean，由Spring托管
-     * @return
 */
+/*    *第一步//创建  Realm对象  自定义
+         * 注入Bean，由Spring托管
+         * @return
+    *//*
+
 
 
     @Bean
@@ -96,3 +124,4 @@ public class ShiroConfig {
         return new ShiroDialect();
     }
 }
+*/

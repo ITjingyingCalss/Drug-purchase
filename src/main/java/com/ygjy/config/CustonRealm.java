@@ -1,3 +1,4 @@
+/*
 package com.ygjy.config;
 
 import com.ygjy.systemmanagement.pojo.User;
@@ -12,11 +13,16 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+*/
 /**
  * Created by IntelliJ IDEA.
  * User: zhaozhiqiang
  * Date: 2020/6/8
- * Desc: 描述*/
+ * Desc: 描述*//*
+
+
+
+
 
 
 public class CustonRealm extends AuthorizingRealm {
@@ -24,11 +30,15 @@ public class CustonRealm extends AuthorizingRealm {
     @Autowired
     private UserService userService;
 
+*/
 /**
      * 授权
      * @param principalCollection
      * @return
-     */
+     *//*
+
+
+
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -38,15 +48,18 @@ public class CustonRealm extends AuthorizingRealm {
         //拿到当前登录对象
         Subject subject = SecurityUtils.getSubject();
         User currentUser = (User)subject.getPrincipal();//拿到user对象
-        info.addStringPermission(String.valueOf(currentUser.getRoleId()));
+        info.addStringPermission(String.valueOf(currentUser.getRole()));
         return info;
     }
-/*
-*
+*/
+/**
      * 认证
      * @param token
      * @return
-     * @throws AuthenticationException*/
+     * @throws AuthenticationException*//*
+
+
+
 
 
     @Override
@@ -54,7 +67,7 @@ public class CustonRealm extends AuthorizingRealm {
         System.out.println("执行了=>认证doGetAuthorizationInfo");
         //获取数据库数据
         UsernamePasswordToken userToken = (UsernamePasswordToken) token;
-        User user = userService.queryPasswordByUserName(userToken.getUsername());
+        User user = userService.loginByUsername(userToken.getUsername());
         if(user == null){
             //没有该用户,返回空
             //UnknowAccountException
@@ -66,3 +79,4 @@ public class CustonRealm extends AuthorizingRealm {
         return new SimpleAuthenticationInfo(user,user.getPassword(),"");
     }
 }
+*/
