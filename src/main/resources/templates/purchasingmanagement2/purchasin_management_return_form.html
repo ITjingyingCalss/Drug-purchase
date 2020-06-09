@@ -1,0 +1,272 @@
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="IE=edge">
+    <title>退货单维护</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/AdminLTE.css">
+    <link rel="stylesheet" href="js/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="js/angularjs/toaster.min.css">
+    <script src="js/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        function down(){
+            window.location.href="down";
+        }
+    </script>
+
+<!--添加退货单-->
+<script type="text/javascript">
+
+    function saveReturnForm(){
+
+        var returnOrderNumber = $("#return_order_number").val();
+        var returnOrderName = $("#return_order_name").val();
+        var hospitalId = $("#hospital_id").val();
+        var contacts = $("#contacts").val();
+        var phone = $("#phone").val();
+        var creatReceiptsPerson = $("#creat_receipts_person").val();
+        var createReceiptsTime = $("#create_receipts_time").val();
+        var submissionTime = $("#submission_time").val();
+        var remark = $("#remark").val();
+        var returnStateId = $("#return_state_id").val();
+        console.log(returnOrderNumber);
+
+        $.ajax({
+            url:"hospss",
+            type:"get",
+            data:{"returnOrderNumber":returnOrderNumber,"returnOrderName":returnOrderName,"hospitalId":hospitalId,"contacts":contacts,
+                "phone":phone,"creatReceiptsPerson":creatReceiptsPerson ,/*"createReceiptsTime":createReceiptsTime,
+                "submissionTime":submissionTime,*/"remark":remark,"returnStateId":returnStateId},
+            dataType:"json",
+            success:function (hosps) {
+                if (hosps != 0){
+                    alert("添加成功");
+                }else{
+                    alert("添加失败");
+                }
+            }
+        })
+    }
+</script>
+
+
+
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="yaopin" ng-controller="registrationOfCasesController">
+<!-- .box-body -->
+<toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
+
+<div class="panel panel-info">
+    <!-- Default panel contents -->
+    <div class="panel-heading">退货单维护</div>
+    <!-- Table -->
+    <table class="table" >
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单编号：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_unitName">
+            </td>
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_organizationalCode">
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center;padding-top: 10px">
+        <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
+<!--        <button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
+                data-target="#editModal">导出
+        </button>-->
+    </div>
+</div>
+<div class="box-body">
+    <!-- 数据表格 -->
+    <div class="table-box">
+        <!-- 数据表格 -->
+        <div class="table-box">
+            <!--工具栏-->
+            <div class="pull-left">
+                <div class="form-group form-inline">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                data-target="#editModal1">添加
+                        </button>
+                        <!--<button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                data-target="#">删除
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" >保存退货量
+                        </button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--工具栏/-->
+        <!--数据列表-->
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th class="sorting_asc">退货单编号</th>
+                <th class="sorting_asc">退货单名称</th>
+                <th class="sorting">医院id</th>
+                <th class="sorting">联系人</th>
+                <th class="sorting">联系电话</th>
+                <th class="sorting">建单人</th>
+                <th class="sorting">建单时间</th>
+                <th class="sorting">提交时间</th>
+                <th class="sorting">备注</th>
+                <th class="sorting">退货单状态</th>
+<!--                <th class="sorting">查看</th>-->
+                <th class="sorting">修改</th>
+                <th class="sorting">删除</th>
+            </tr>
+            </thead>
+            <tbody class="context">
+            <tr>
+                <td>00008</td>
+                <td>0.9%氯化钠</td>
+                <td>大输液</td>
+                <td>1000玻瓶</td>
+                <td>瓶</td>
+                <td>1</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+<!--                <td>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                            data-target="#editModal1">添加
+                    </button>
+                </td>-->
+                <td>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                            data-target="#editModal1">修改
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                            data-target="#editModal1">删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+        <!--数据列表/-->
+        <!--分页工具条展示-->
+        <div style="text-align: center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- 数据表格 /-->
+</div>
+<div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 id="myModalLabe">退货单</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" id="id_table">
+                    <tr>
+                        <td>退货单编号:</td>
+                        <td><input id="return_order_number" name="returnOrderNumber" class="form-control"></td>
+                        <td>退货单名称:</td>
+                        <td><input id="return_order_name" name="returnOrderName" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>医院id:</td>
+                        <td><input id="hospital_id" name="hospitalId" class="form-control"></td>
+
+                        <td>联系人:</td>
+                        <td><input id="contacts" name="contacts" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>联系电话:</td>
+                        <td><input id="phone" name="phone" class="form-control"></td>
+
+                        <td>建单人:</td>
+                        <td><input id="creat_receipts_person" name="creatReceiptsPerson" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>建单时间:</td>
+                        <td><input id="create_receipts_time" name="createReceiptsTime" class="form-control"></td>
+
+                        <td>提交时间:</td>
+                        <td><input id="submission_time" name="submissionTime" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>备注:</td>
+                        <td><input id="remark" name="remark" class="form-control"></td>
+
+                        <td>退货单状态:</td>
+                        <td><input id="return_state_id" name="returnStateId" class="form-control"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="saveReturnForm()" data-dismiss="modal">保存退货单</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 编辑窗口 -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel1">药品品目导入</h3>
+            </div>
+            <div style="text-align: center">
+                下载模板文件<a href="#">点击下载药品品目导入模板</a>
+            </div>
+            <div style="text-align: center;color: red">提示：请下载后在模板文件中录入药品信息,在下面的“选择文件”中选择要导入的文件,点击“导入”</div>
+            <div class="modal-body" style="text-align: center">
+                <input type="file" name="file" id="file">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="uploadfile()">上传</button>
+                <button class="btn btn-warning" onclick="">查看导入失败结果</button>
+                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
+
