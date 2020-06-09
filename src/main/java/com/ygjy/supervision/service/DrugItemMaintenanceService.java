@@ -8,4 +8,5 @@ import java.util.List;
 @Service
 public interface DrugItemMaintenanceService {
     List<DurgsFrom> findSelectOption();
+    List<List<Object>> findDrugFromAndDrugCategory();
 }

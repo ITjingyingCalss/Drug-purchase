@@ -15,8 +15,10 @@
 
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
 	<script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
-
+    <!--引入自己的JS-->
     <script src="js/supervision/Drug_item_maintenance.js"></script>
+    <script src="js/supervision/check_drug_item.js"></script>
+
 	
 
 	<script type="text/javascript">
@@ -113,9 +115,7 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#editModal1">添加
-                        </button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="findDrugFromAndDrugCategory()" data-toggle="modal" data-target="#editModal1">添加</button>
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                 data-target="#editModal">导入
                         </button>
@@ -190,60 +190,80 @@
     </div>
     <!-- 数据表格 /-->
 </div>
-<div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width:80%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">编辑药品品目</h3>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered table-striped" id="id_table">
-                    <tr>
-                        <td>品目号:</td>
-                        <td></td>
-                        <td>通用名:</td>
-                        <td><input id="organizationalCode1" name="organizationalCode" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>剂型:</td>
-                        <td>
-                            <select style="width:50%;height: 10%">
-                                <option value="0">请选择</option>
-                            </select>
-                        </td>
-                        <td>规格:</td>
-                        <td><input id="idCard1" name="idCard" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>单位:</td>
-                        <td width=""><input class="form-control"></td>
-                        <td>转换系数:</td>
-                        <td><input class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>药品类别:</td>
-                        <td>
-                            <select style="width:50%;height: 10%">
-                                <option value="0">请选择</option>
-                            </select>
-                        </td>
-                        <td>状态:</td>
-                        <td><select style="width:50%;height: 10%">
-                            <option value="0">请选择</option>
-                        </select>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" ng-click="save()" onclick="updataRegistrationOfCases()">保存</button>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+<form action="" id="formId" method="post">
+    <div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width:80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h3 id="myModalLabe">编辑药品品目</h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped" id="id_table">
+                        <tr>
+                            <td>品目号:</td>
+                            <td></td>
+                            <td>通用名:</td>
+                            <td style="white-space:nowrap">
+                                <input name="commonName" onblur="checkCommonName()">
+                                <span id="commonName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>剂型:</td>
+                            <td style="white-space:nowrap">
+                                <select id="drugsFromId" name="dosageForm" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                                    <option value="0">请选择</option>
+                                </select>
+                                <span id="dosageForm"></span>
+                            </td>
+                            <td>规格:</td>
+                            <td style="white-space:nowrap">
+                                <input name="specification" onblur="checkSpecification()">
+                                <span id="specification"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>单位:</td>
+                            <td style="white-space:nowrap">
+                                <input name="unit" onblur="chenkUnit()">
+                                <span id="unit"></span>
+                            </td>
+                            <td>转换系数:</td>
+                            <td style="white-space:nowrap">
+                                <input name="conversionFraction" onblur="checkConversionFraction()">
+                                <span id="conversionFraction"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>药品类别:</td>
+                            <td style="white-space:nowrap">
+                                <select id="drugCategory_id" name="drugCategory" onblur="checkDrugCategory()" style="width:50%;height: 10%">
+                                    <option value="0">请选择</option>
+                                </select>
+                                <span id="drugCategory"></span>
+                            </td>
+                            <td>状态:</td>
+                            <td style="white-space:nowrap">
+                                <select name="drugTransactionStatusId" onblur="checkDrugTransactionStatusId()" style="width:50%;height: 10%">
+                                    <option value="0">请选择</option>
+                                    <option value="1">正常</option>
+                                    <option value="2">不正常</option>
+                                </select>
+                                <span id="drugTransactionStatusId"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="save()">保存</button>
+                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- 编辑窗口 -->
+</form>
+<!-- 导入窗口 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -259,7 +279,7 @@
                 <input type="file" name="file" id="file">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="uploadfile()">上传</button>
+                <button class="btn btn-success" onclick="uploadfile()">导入</button>
                 <button class="btn btn-warning" onclick="">查看导入失败结果</button>
                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>

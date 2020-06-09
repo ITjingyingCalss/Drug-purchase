@@ -27,7 +27,7 @@
     <result column="drug_inspection_report_number" jdbcType="VARCHAR" property="drugInspectionReportNumber" />
     <result column="validity_of_drug_inspection_report" jdbcType="DATE" property="validityOfDrugInspectionReport" />
     <result column="description_of_products" jdbcType="VARCHAR" property="descriptionOfProducts" />
-    <result column="drug_category" jdbcType="VARCHAR" property="drugCategory" />
+    <result column="drug_category_id" jdbcType="INTEGER" property="drugCategoryId" />
     <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
     <result column="del_state" jdbcType="INTEGER" property="delState" />
   </resultMap>
@@ -95,7 +95,7 @@
     approval_number, validity_of_approval_number, imported_drug, packaging_material, 
     packing_unit, latest_retail_price, source_of_retail_price, quality_level_id, quality_level_description, 
     drug_inspection_report, drug_inspection_report_number, validity_of_drug_inspection_report, 
-    description_of_products, drug_category, drug_transaction_status_id, del_state
+    description_of_products, drug_category_id, drug_transaction_status_id, del_state
   </sql>
   <select id="selectByExample" parameterType="com.ygjy.pojo.DrugInformationExample" resultMap="BaseResultMap">
     select
@@ -145,8 +145,8 @@
       latest_retail_price, source_of_retail_price, quality_level_id, 
       quality_level_description, drug_inspection_report, 
       drug_inspection_report_number, validity_of_drug_inspection_report, 
-      description_of_products, drug_category, drug_transaction_status_id, 
-      del_state)
+      description_of_products, drug_category_id, 
+      drug_transaction_status_id, del_state)
     values (#{id,jdbcType=INTEGER}, #{serialNumber,jdbcType=INTEGER}, #{commonName,jdbcType=VARCHAR}, 
       #{dosageFormId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, #{conversionFraction,jdbcType=VARCHAR}, 
       #{enterpriseName,jdbcType=VARCHAR}, #{tradeName,jdbcType=VARCHAR}, #{biddingPrice,jdbcType=REAL}, 
@@ -156,8 +156,8 @@
       #{latestRetailPrice,jdbcType=REAL}, #{sourceOfRetailPrice,jdbcType=VARCHAR}, #{qualityLevelId,jdbcType=INTEGER}, 
       #{qualityLevelDescription,jdbcType=VARCHAR}, #{drugInspectionReport,jdbcType=INTEGER}, 
       #{drugInspectionReportNumber,jdbcType=VARCHAR}, #{validityOfDrugInspectionReport,jdbcType=DATE}, 
-      #{descriptionOfProducts,jdbcType=VARCHAR}, #{drugCategory,jdbcType=VARCHAR}, #{drugTransactionStatusId,jdbcType=INTEGER}, 
-      #{delState,jdbcType=INTEGER})
+      #{descriptionOfProducts,jdbcType=VARCHAR}, #{drugCategoryId,jdbcType=INTEGER}, 
+      #{drugTransactionStatusId,jdbcType=INTEGER}, #{delState,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ygjy.pojo.DrugInformation">
     insert into drug_information
@@ -237,8 +237,8 @@
       <if test="descriptionOfProducts != null">
         description_of_products,
       </if>
-      <if test="drugCategory != null">
-        drug_category,
+      <if test="drugCategoryId != null">
+        drug_category_id,
       </if>
       <if test="drugTransactionStatusId != null">
         drug_transaction_status_id,
@@ -323,8 +323,8 @@
       <if test="descriptionOfProducts != null">
         #{descriptionOfProducts,jdbcType=VARCHAR},
       </if>
-      <if test="drugCategory != null">
-        #{drugCategory,jdbcType=VARCHAR},
+      <if test="drugCategoryId != null">
+        #{drugCategoryId,jdbcType=INTEGER},
       </if>
       <if test="drugTransactionStatusId != null">
         #{drugTransactionStatusId,jdbcType=INTEGER},
@@ -418,8 +418,8 @@
       <if test="record.descriptionOfProducts != null">
         description_of_products = #{record.descriptionOfProducts,jdbcType=VARCHAR},
       </if>
-      <if test="record.drugCategory != null">
-        drug_category = #{record.drugCategory,jdbcType=VARCHAR},
+      <if test="record.drugCategoryId != null">
+        drug_category_id = #{record.drugCategoryId,jdbcType=INTEGER},
       </if>
       <if test="record.drugTransactionStatusId != null">
         drug_transaction_status_id = #{record.drugTransactionStatusId,jdbcType=INTEGER},
@@ -459,7 +459,7 @@
       drug_inspection_report_number = #{record.drugInspectionReportNumber,jdbcType=VARCHAR},
       validity_of_drug_inspection_report = #{record.validityOfDrugInspectionReport,jdbcType=DATE},
       description_of_products = #{record.descriptionOfProducts,jdbcType=VARCHAR},
-      drug_category = #{record.drugCategory,jdbcType=VARCHAR},
+      drug_category_id = #{record.drugCategoryId,jdbcType=INTEGER},
       drug_transaction_status_id = #{record.drugTransactionStatusId,jdbcType=INTEGER},
       del_state = #{record.delState,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -541,8 +541,8 @@
       <if test="descriptionOfProducts != null">
         description_of_products = #{descriptionOfProducts,jdbcType=VARCHAR},
       </if>
-      <if test="drugCategory != null">
-        drug_category = #{drugCategory,jdbcType=VARCHAR},
+      <if test="drugCategoryId != null">
+        drug_category_id = #{drugCategoryId,jdbcType=INTEGER},
       </if>
       <if test="drugTransactionStatusId != null">
         drug_transaction_status_id = #{drugTransactionStatusId,jdbcType=INTEGER},
@@ -579,7 +579,7 @@
       drug_inspection_report_number = #{drugInspectionReportNumber,jdbcType=VARCHAR},
       validity_of_drug_inspection_report = #{validityOfDrugInspectionReport,jdbcType=DATE},
       description_of_products = #{descriptionOfProducts,jdbcType=VARCHAR},
-      drug_category = #{drugCategory,jdbcType=VARCHAR},
+      drug_category_id = #{drugCategoryId,jdbcType=INTEGER},
       drug_transaction_status_id = #{drugTransactionStatusId,jdbcType=INTEGER},
       del_state = #{delState,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}

@@ -1,0 +1,185 @@
+
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="IE=edge">
+    <title>供货商查询</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../js/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="js/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="js/angularjs/toaster.min.css">
+
+    <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        function down(){
+            window.location.href="down";
+        }
+    </script>
+
+</head>
+<body class="hold-transition skin-red sidebar-mini">
+<!-- .box-body -->
+<toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
+<div class="panel panel-info">
+    <!-- Default panel contents -->
+    <div class="panel-heading">按供货商查询</div>
+    <!-- Table -->
+    <table class="table">
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
+            </td>
+            <td >
+                <input class="form-control">
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
+            </td>
+            <td style="word-break: keep-all;white-space: nowrap;width: 32%">
+                <input style="width: 23%"><span style="color: #0E74B4">至</span><input style="width: 23%;">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购状态：</span>
+            </td>
+            <td>
+                <select style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
+                <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center;padding-top: 10px">
+        <button class="btn btn-success btn-sm" onclick="">查询</button>
+        <button class="btn btn-success btn-sm" onclick="">导出</button>
+    </div>
+</div>
+<div class="box-body">
+    <!-- 数据表格 -->
+    <div class="table-box">
+        <!-- 数据表格 -->
+        <!--数据列表-->
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>供货商</th>
+                <th class="sorting_asc">采购状态</th>
+                <th class="sorting">订货量</th>
+                <th class="sorting">订货金额</th>
+                <th class="sorting">送货量</th>
+                <th class="sorting">送货金额</th>
+                <th class="sorting">退货量</th>
+                <th class="sorting">退货金额</th>
+                <th class="sorting">结算量</th>
+                <th class="sorting">结算金额</th>
+                <th class="sorting">交易药品</th>
+            </tr>
+            </thead>
+            <tbody class="context">
+            <tr>
+                <td>1</td>
+                <td>供货商2</td>
+                <td>无法供货</td>
+                <td>25</td>
+                <td>112.5</td>
+                <td>166</td>
+                <td>780.0</td>
+                <td>22</td>
+                <td>66.0</td>
+                <td>99</td>
+                <td>579.0</td>
+                <td><a href="#">查询</a> </td>
+            </tr>
+            </tbody>
+
+        </table>
+        <!--数据列表/-->
+        <!--分页工具条展示-->
+        <div style="text-align: center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- 数据表格 /-->
+</div>
+<div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 id="myModalLabe">编辑药品品目</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" id="id_table">
+                    <tr>
+                        <td>品目号:</td>
+                        <td></td>
+                        <td>通用名:</td>
+                        <td><input id="organizationalCode1" name="organizationalCode" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>剂型:</td>
+                        <td>
+                            <select style="width:50%;height: 10%">
+                                <option value="0">请选择</option>
+                            </select>
+                        </td>
+                        <td>规格:</td>
+                        <td><input id="idCard1" name="idCard" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>单位:</td>
+                        <td width=""><input class="form-control"></td>
+                        <td>转换系数:</td>
+                        <td><input class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>药品类别:</td>
+                        <td>
+                            <select style="width:50%;height: 10%">
+                                <option value="0">请选择</option>
+                            </select>
+                        </td>
+                        <td>状态:</td>
+                        <td><select style="width:50%;height: 10%">
+                            <option value="0">请选择</option>
+                        </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" ng-click="save()" onclick="updataRegistrationOfCases()">保存</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

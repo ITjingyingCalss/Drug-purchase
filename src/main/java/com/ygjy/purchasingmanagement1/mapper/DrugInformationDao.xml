@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.purchasingmanagement1.dao.DrugInformationDao">
+    <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugInformation">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
+        <result column="common_name" jdbcType="VARCHAR" property="commonName" />
+        <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
+        <result column="specification" jdbcType="VARCHAR" property="specification" />
+        <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+        <result column="trade_name" jdbcType="VARCHAR" property="tradeName" />
+        <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
+        <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <result column="common_name_pinyin" jdbcType="VARCHAR" property="commonNamePinyin" />
+        <result column="product_picture" jdbcType="VARCHAR" property="productPicture" />
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+        <result column="validity_of_approval_number" jdbcType="VARCHAR" property="validityOfApprovalNumber" />
+        <result column="imported_drug" jdbcType="INTEGER" property="importedDrug" />
+        <result column="packaging_material" jdbcType="VARCHAR" property="packagingMaterial" />
+        <result column="packing_unit" jdbcType="VARCHAR" property="packingUnit" />
+        <result column="latest_retail_price" jdbcType="REAL" property="latestRetailPrice" />
+        <result column="source_of_retail_price" jdbcType="VARCHAR" property="sourceOfRetailPrice" />
+        <result column="quality_level_id" jdbcType="INTEGER" property="qualityLevelId" />
+        <result column="quality_level_description" jdbcType="VARCHAR" property="qualityLevelDescription" />
+        <result column="drug_inspection_report" jdbcType="INTEGER" property="drugInspectionReport" />
+        <result column="drug_inspection_report_number" jdbcType="VARCHAR" property="drugInspectionReportNumber" />
+        <result column="validity_of_drug_inspection_report" jdbcType="DATE" property="validityOfDrugInspectionReport" />
+        <result column="description_of_products" jdbcType="VARCHAR" property="descriptionOfProducts" />
+        <result column="drug_category" jdbcType="VARCHAR" property="drugCategory" />
+        <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
+        <result column="del_state" jdbcType="INTEGER" property="delState" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, serial_number, common_name, dosage_form_id, specification, conversion_fraction,
+    enterprise_name, trade_name, bidding_price, unit, common_name_pinyin, product_picture,
+    approval_number, validity_of_approval_number, imported_drug, packaging_material,
+    packing_unit, latest_retail_price, source_of_retail_price, quality_level_id, quality_level_description,
+    drug_inspection_report, drug_inspection_report_number, validity_of_drug_inspection_report,
+    description_of_products, drug_category, drug_transaction_status_id, del_state
+  </sql>
+    <select id="selectAll" >
+        select * from drug_information
+    </select>
+</mapper>

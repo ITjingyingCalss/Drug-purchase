@@ -133,7 +133,7 @@ public class DrugInformation implements Serializable {
     /**
      * 药品类别
      */
-    private String drugCategory;
+    private Integer drugCategoryId;
 
     /**
      * 药品交易状态
@@ -347,12 +347,12 @@ public class DrugInformation implements Serializable {
         this.descriptionOfProducts = descriptionOfProducts;
     }
 
-    public String getDrugCategory() {
-        return drugCategory;
+    public Integer getDrugCategoryId() {
+        return drugCategoryId;
     }
 
-    public void setDrugCategory(String drugCategory) {
-        this.drugCategory = drugCategory;
+    public void setDrugCategoryId(Integer drugCategoryId) {
+        this.drugCategoryId = drugCategoryId;
     }
 
     public Integer getDrugTransactionStatusId() {
@@ -408,7 +408,7 @@ public class DrugInformation implements Serializable {
             && (this.getDrugInspectionReportNumber() == null ? other.getDrugInspectionReportNumber() == null : this.getDrugInspectionReportNumber().equals(other.getDrugInspectionReportNumber()))
             && (this.getValidityOfDrugInspectionReport() == null ? other.getValidityOfDrugInspectionReport() == null : this.getValidityOfDrugInspectionReport().equals(other.getValidityOfDrugInspectionReport()))
             && (this.getDescriptionOfProducts() == null ? other.getDescriptionOfProducts() == null : this.getDescriptionOfProducts().equals(other.getDescriptionOfProducts()))
-            && (this.getDrugCategory() == null ? other.getDrugCategory() == null : this.getDrugCategory().equals(other.getDrugCategory()))
+            && (this.getDrugCategoryId() == null ? other.getDrugCategoryId() == null : this.getDrugCategoryId().equals(other.getDrugCategoryId()))
             && (this.getDrugTransactionStatusId() == null ? other.getDrugTransactionStatusId() == null : this.getDrugTransactionStatusId().equals(other.getDrugTransactionStatusId()))
             && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()));
     }
@@ -442,7 +442,7 @@ public class DrugInformation implements Serializable {
         result = prime * result + ((getDrugInspectionReportNumber() == null) ? 0 : getDrugInspectionReportNumber().hashCode());
         result = prime * result + ((getValidityOfDrugInspectionReport() == null) ? 0 : getValidityOfDrugInspectionReport().hashCode());
         result = prime * result + ((getDescriptionOfProducts() == null) ? 0 : getDescriptionOfProducts().hashCode());
-        result = prime * result + ((getDrugCategory() == null) ? 0 : getDrugCategory().hashCode());
+        result = prime * result + ((getDrugCategoryId() == null) ? 0 : getDrugCategoryId().hashCode());
         result = prime * result + ((getDrugTransactionStatusId() == null) ? 0 : getDrugTransactionStatusId().hashCode());
         result = prime * result + ((getDelState() == null) ? 0 : getDelState().hashCode());
         return result;
@@ -479,7 +479,7 @@ public class DrugInformation implements Serializable {
         sb.append(", drugInspectionReportNumber=").append(drugInspectionReportNumber);
         sb.append(", validityOfDrugInspectionReport=").append(validityOfDrugInspectionReport);
         sb.append(", descriptionOfProducts=").append(descriptionOfProducts);
-        sb.append(", drugCategory=").append(drugCategory);
+        sb.append(", drugCategoryId=").append(drugCategoryId);
         sb.append(", drugTransactionStatusId=").append(drugTransactionStatusId);
         sb.append(", delState=").append(delState);
         sb.append(", serialVersionUID=").append(serialVersionUID);

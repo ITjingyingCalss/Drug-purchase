@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.dao.DrugItemsDAO">
+  <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugItems">
+    <id column="items_id" jdbcType="INTEGER" property="itemsId" />
+    <result column="drug_items_number" jdbcType="VARCHAR" property="drugItemsNumber" />
+    <result column="common_name" jdbcType="VARCHAR" property="commonName" />
+    <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
+    <result column="specification" jdbcType="VARCHAR" property="specification" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
+    <result column="drug_category_id" jdbcType="INTEGER" property="drugCategoryId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    items_id, drug_items_number, common_name, dosage_form_id, specification, unit, conversion_fraction, 
+    drug_category_id, `state`
+  </sql>
+  <select id="selectByExample" parameterType="com.ygjy.pojo.DrugItemsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from drug_items
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from drug_items
+    where items_id = #{itemsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from drug_items
+    where items_id = #{itemsId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ygjy.pojo.DrugItemsExample">
+    delete from drug_items
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ygjy.pojo.DrugItems">
+    insert into drug_items (items_id, drug_items_number, common_name, 
+      dosage_form_id, specification, unit, 
+      conversion_fraction, drug_category_id, `state`
+      )
+    values (#{itemsId,jdbcType=INTEGER}, #{drugItemsNumber,jdbcType=VARCHAR}, #{commonName,jdbcType=VARCHAR}, 
+      #{dosageFormId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{conversionFraction,jdbcType=VARCHAR}, #{drugCategoryId,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ygjy.pojo.DrugItems">
+    insert into drug_items
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="itemsId != null">
+        items_id,
+      </if>
+      <if test="drugItemsNumber != null">
+        drug_items_number,
+      </if>
+      <if test="commonName != null">
+        common_name,
+      </if>
+      <if test="dosageFormId != null">
+        dosage_form_id,
+      </if>
+      <if test="specification != null">
+        specification,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="conversionFraction != null">
+        conversion_fraction,
+      </if>
+      <if test="drugCategoryId != null">
+        drug_category_id,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="itemsId != null">
+        #{itemsId,jdbcType=INTEGER},
+      </if>
+      <if test="drugItemsNumber != null">
+        #{drugItemsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="commonName != null">
+        #{commonName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageFormId != null">
+        #{dosageFormId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null">
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="conversionFraction != null">
+        #{conversionFraction,jdbcType=VARCHAR},
+      </if>
+      <if test="drugCategoryId != null">
+        #{drugCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ygjy.pojo.DrugItemsExample" resultType="java.lang.Long">
+    select count(*) from drug_items
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update drug_items
+    <set>
+      <if test="record.itemsId != null">
+        items_id = #{record.itemsId,jdbcType=INTEGER},
+      </if>
+      <if test="record.drugItemsNumber != null">
+        drug_items_number = #{record.drugItemsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commonName != null">
+        common_name = #{record.commonName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dosageFormId != null">
+        dosage_form_id = #{record.dosageFormId,jdbcType=INTEGER},
+      </if>
+      <if test="record.specification != null">
+        specification = #{record.specification,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.conversionFraction != null">
+        conversion_fraction = #{record.conversionFraction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugCategoryId != null">
+        drug_category_id = #{record.drugCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        `state` = #{record.state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update drug_items
+    set items_id = #{record.itemsId,jdbcType=INTEGER},
+      drug_items_number = #{record.drugItemsNumber,jdbcType=VARCHAR},
+      common_name = #{record.commonName,jdbcType=VARCHAR},
+      dosage_form_id = #{record.dosageFormId,jdbcType=INTEGER},
+      specification = #{record.specification,jdbcType=VARCHAR},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      conversion_fraction = #{record.conversionFraction,jdbcType=VARCHAR},
+      drug_category_id = #{record.drugCategoryId,jdbcType=INTEGER},
+      `state` = #{record.state,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.pojo.DrugItems">
+    update drug_items
+    <set>
+      <if test="drugItemsNumber != null">
+        drug_items_number = #{drugItemsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="commonName != null">
+        common_name = #{commonName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageFormId != null">
+        dosage_form_id = #{dosageFormId,jdbcType=INTEGER},
+      </if>
+      <if test="specification != null">
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="conversionFraction != null">
+        conversion_fraction = #{conversionFraction,jdbcType=VARCHAR},
+      </if>
+      <if test="drugCategoryId != null">
+        drug_category_id = #{drugCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where items_id = #{itemsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.pojo.DrugItems">
+    update drug_items
+    set drug_items_number = #{drugItemsNumber,jdbcType=VARCHAR},
+      common_name = #{commonName,jdbcType=VARCHAR},
+      dosage_form_id = #{dosageFormId,jdbcType=INTEGER},
+      specification = #{specification,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      conversion_fraction = #{conversionFraction,jdbcType=VARCHAR},
+      drug_category_id = #{drugCategoryId,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=VARCHAR}
+    where items_id = #{itemsId,jdbcType=INTEGER}
+  </update>
+</mapper>

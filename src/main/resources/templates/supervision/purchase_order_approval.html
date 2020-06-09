@@ -4,7 +4,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="IE=edge">
-    <title>药品品目维护</title>
+    <title>采购单审核</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../js/plugins/bootstrap/css/bootstrap.min.css">
@@ -16,9 +16,6 @@
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="js/supervision/Drug_item_maintenance.js"></script>
-
-
     <script type="text/javascript">
         function down(){
             window.location.href="down";
@@ -26,22 +23,22 @@
     </script>
 
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-controller="registrationOfCasesController">
+<body class="hold-transition skin-red sidebar-mini">
 <!-- .box-body -->
 <toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
 <div class="panel panel-info">
     <!-- Default panel contents -->
-    <div class="panel-heading">药品品目查询</div>
+    <div class="panel-heading">采购单审核</div>
     <!-- Table -->
     <table class="table">
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品品目号：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_unitName">
+                <input class="form-control">
             </td>
-            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">通用名：</span>
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
             </td>
             <td >
                 <input class="form-control" id="searchEntity_organizationalCode">
@@ -49,59 +46,32 @@
         </tr>
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单状态：</span>
             </td>
             <td>
-                <select id="durgfrom" style="width: 50%;height: 20%">
+                <select style="width: 50%;height: 20%">
                     <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
             </td>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
             </td>
-            <td>
-                <input class="form-control">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">单位：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">转换系数：</span>
-            </td>
-            <td>
-                <input class="form-control">
+            <td style="word-break: keep-all;white-space: nowrap;width: 32%">
+                <input style="width: 23%"><span style="color: #0E74B4">至</span><input style="width: 23%;">
             </td>
         </tr>
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">医院名称：</span>
             </td>
             <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-                <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">状态：</span>
-            </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-                <!-- <input class="form-control" id="" >-->
+                <input class="form-control">
             </td>
         </tr>
     </table>
     <div style="text-align: center;padding-top: 10px">
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+        <button class="btn btn-success btn-sm" onclick="">查询</button>
     </div>
 </div>
 <div class="box-body">
@@ -113,12 +83,7 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#editModal1">添加
-                        </button>
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#editModal">导入
-                        </button>
+                        <button type="button" class="btn btn-success btn-sm" >提交审核结果</button>
                     </div>
                 </div>
             </div>
@@ -128,38 +93,42 @@
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
-                <th class="sorting_asc">药品品目号</th>
-                <th class="sorting_asc">通用名</th>
-                <th class="sorting">剂型</th>
-                <th class="sorting">规格</th>
-                <th class="sorting">单位</th>
-                <th class="sorting">转换系数</th>
-                <th class="sorting">药品类别</th>
-                <th class="sorting">状态</th>
-                <th class="sorting">详细</th>
-                <th class="sorting">修改</th>
-                <th class="sorting">删除</th>
+                <th>序号</th>
+                <th>选择</th>
+                <th class="sorting_asc">审核结果</th>
+                <th class="sorting">审核意见</th>
+                <th class="sorting">医院名称</th>
+                <th class="sorting">采购单编号</th>
+                <th class="sorting">采购单名称</th>
+                <th class="sorting">开始时间</th>
+                <th class="sorting">结束时间</th>
+                <th class="sorting">建单时间</th>
+                <th class="sorting">提交时间</th>
+                <th class="sorting">审核时间</th>
+                <th class="sorting">采购单状态</th>
+                <th class="sorting">查看</th>
             </tr>
             </thead>
             <tbody class="context">
             <tr>
-                <td>00008</td>
-                <td>0.9%氯化钠</td>
-                <td>大输液</td>
-                <td>1000ml（玻瓶）</td>
-                <td>瓶</td>
                 <td>1</td>
+                <td><input type="checkbox"></td>
+                <td>
+                    <select>
+                        <option value="0">请选择</option>
+                    </select>
+                </td>
+                <td><input type="text" style="width: 100%"></td>
+                <td>二十里铺村卫生室</td>
+                <td>000008</td>
+                <td>二十里铺村卫生室2013-08-07 15:43:07</td>
+                <td>2013-08-07</td>
+                <td>2013-08-17</td>
+                <td>2013-08-07</td>
+                <td>2013-08-07</td>
                 <td></td>
-                <td>正常</td>
-                <td>
-                    <a href="#">查看</a>
-                </td>
-                <td>
-                    <a onclick="findDrugItem()" data-toggle="modal" data-target="#editModal1">修改</a>
-                </td>
-                <td>
-                    <a href="#">删除</a>
-                </td>
+                <td>审核中</td>
+                <td><a href="#">查看</a> </td>
             </tr>
             </tbody>
 
@@ -239,29 +208,6 @@
             <div class="modal-footer">
                 <button class="btn btn-success" ng-click="save()" onclick="updataRegistrationOfCases()">保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 编辑窗口 -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button id="" type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="myModalLabel1">药品品目导入</h3>
-            </div>
-            <div style="text-align: center">
-                下载模板文件<a href="#">点击下载药品品目导入模板</a>
-            </div>
-            <div style="text-align: center;color: red">提示：请下载后在模板文件中录入药品信息,在下面的“选择文件”中选择要导入的文件,点击“导入”</div>
-            <div class="modal-body" style="text-align: center">
-                <input type="file" name="file" id="file">
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-success" onclick="uploadfile()">上传</button>
-                <button class="btn btn-warning" onclick="">查看导入失败结果</button>
-                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
     </div>
