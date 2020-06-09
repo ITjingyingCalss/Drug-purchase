@@ -1272,11 +1272,11 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
         padding: 30px 15px;
         margin-bottom: 0;
     }
-    
+
     /* Tabs
-    =================================*/ 
+    =================================*/
     nav.navbar.bootsnav .megamenu-content.tabbed{
-        padding-left: 0mportant;
+        padding-left:mportant;
     }
     
     nav.navbar.bootsnav .tabbed > li{
