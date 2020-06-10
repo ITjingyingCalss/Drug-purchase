@@ -26,6 +26,14 @@
     </script>
 
     <script type="text/javascript">
+        $(function(){
+            url="http://localhost:8080/durgplatform/drug_information_maintenance1";
+            $.get(url,{},function (data) {
+                var list = data;
+
+
+            })
+        });
     </script>
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-controller="registrationOfCasesController">
