@@ -124,8 +124,4 @@ public class LeftNavigation {
     public String settlementdocprocessing() {
         return "supplymanagement/settlementdocprocessing";
     }
-    @RequestMapping("/ss")
-    public String ss() {
-        return "supplymanagement/ss";
-    }
 }
