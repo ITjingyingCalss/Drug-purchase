@@ -1,5 +1,6 @@
 package com.ygjy.supplymanagement.controller;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.ygjy.supplymanagement.service.DrugsInformationService;
 import com.ygjy.supplymanagement.utils.Dto;
 import org.springframework.web.bind.annotation.RequestMapping;
