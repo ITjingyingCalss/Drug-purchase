@@ -11,7 +11,7 @@ function checkCommonName() {
 }
 //检查剂型是否填写
 function checkDosageForm() {
-    var dosageForm = $("select[name=dosageForm]").val();
+    var dosageForm = $("select[name=dosageFormId]").val();
     if (dosageForm==0||dosageForm==null){
         $("#dosageForm").html("剂型不能为空").css("color","red");ok2=false;
     }else{
@@ -47,7 +47,7 @@ function checkConversionFraction() {
 }
 //检查药品类别是否为空
 function checkDrugCategory() {
-    var drugCategory = $("select[name=drugCategory]").val();
+    var drugCategory = $("select[name=drugCategoryId]").val();
     if (drugCategory==0||drugCategory==null){
         $("#drugCategory").html("药品类别不能为空").css("color","red");ok6=false;
     }else{
@@ -56,7 +56,7 @@ function checkDrugCategory() {
 }
 //检查状态是否为空
 function checkDrugTransactionStatusId() {
-    var drugTransactionStatusId = $("select[name=drugTransactionStatusId]").val();
+    var drugTransactionStatusId = $("select[name=state]").val();
     if (drugTransactionStatusId==0||drugTransactionStatusId==null){
         $("#drugTransactionStatusId").html("状态不能为空").css("color","red");ok7=false;
     }else{

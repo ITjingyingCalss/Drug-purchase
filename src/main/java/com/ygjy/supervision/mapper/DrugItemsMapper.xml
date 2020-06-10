@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ygjy.supervision.dao.DrugItemsMapper">
+    <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugItems">
+        <id column="items_id" jdbcType="INTEGER" property="itemsId" />
+        <result column="drug_items_number" jdbcType="VARCHAR" property="drugItemsNumber" />
+        <result column="common_name" jdbcType="VARCHAR" property="commonName" />
+        <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
+        <result column="specification" jdbcType="VARCHAR" property="specification" />
+        <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
+        <result column="drug_category_id" jdbcType="INTEGER" property="drugCategoryId" />
+        <result column="state" jdbcType="VARCHAR" property="state" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    items_id, drug_items_number, common_name, dosage_form_id, specification, unit, conversion_fraction, 
+    drug_category_id, `state`
+  </sql>
+    <select id="findAllDrugItems" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from drug_items
+        <where>
+            state = 1
+        </where>
+    </select>
+    <select id="findMaxItemsId" resultType="java.lang.Integer">
+        select max(items_id) from drug_items
+    </select>
+</mapper>
