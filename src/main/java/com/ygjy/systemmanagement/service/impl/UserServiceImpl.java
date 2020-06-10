@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<User> findUserAll(int userId, String userAccount, String contactAddress) {
+    public List<User> findUserAll(Integer userId, String userAccount, String contactAddress) {
         return userMapper.selectUserAll(userId,userAccount,userAccount);
     }
 

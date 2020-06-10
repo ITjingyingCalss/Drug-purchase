@@ -30,17 +30,17 @@ public class LoginController {
 
     /**
      * 判断用户登录信息是否正确
-     * @param userName
+     * @param username
      * @param password
      * @param model
      * @return
      */
     @RequestMapping("/login")
-    public String login(String userName, String password, Model model){
+    public String login(String username, String password, Model model){
         //获取当前用户
         Subject subject = SecurityUtils.getSubject();
         //封装用户登录数据
-        UsernamePasswordToken token = new UsernamePasswordToken(userName,password);
+        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
         //捕获异常
         try{
             //执行登录方法
