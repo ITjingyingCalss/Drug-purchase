@@ -1,6 +1,7 @@
 package com.ygjy.supplymanagement.dao;
 
 import com.ygjy.supplymanagement.pojo.*;
+import com.ygjy.supplymanagement.utils.Dto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,17 +19,17 @@ public interface DrugsInformationDao {
      * @return
      */
     List<DrugInformation> getQuery(@Param("commonName")String commonName,
-                                   @Param("serialNumber")String serialNumber,
-                                   @Param("dosageFormId")Integer dosageFormId,
-                                   @Param("specification")String specification,
-                                   @Param("unit")String unit,
-                                   @Param("conversionFraction")String conversionFraction,
-                                   @Param("drugCategoryId")Integer drugCategoryId,
-                                   @Param("drugTransactionStatusId")Integer drugTransactionStatusId,
-                                    @Param("enterpriseName")String enterpriseName,
-                                   @Param("tradeName") String tradeName,
-                                   @Param("latestRetailPrice") Float latestRetailPrice,
-                                   @Param("qualityLevelId") Integer qualityLevelId);
+                 @Param("serialNumber")String serialNumber,
+                 @Param("dosageFormId")Integer dosageFormId,
+                 @Param("specification")String specification,
+                 @Param("unit")String unit,
+                 @Param("conversionFraction")String conversionFraction,
+                 @Param("drugCategoryId")Integer drugCategoryId,
+                 @Param("drugTransactionStatusId")Integer drugTransactionStatusId,
+                 @Param("enterpriseName")String enterpriseName,
+                 @Param("tradeName") String tradeName,
+                 @Param("latestRetailPrice") Float latestRetailPrice,
+                 @Param("qualityLevelId") Integer qualityLevelId);
 
     /**
      * 剂型表
@@ -49,4 +50,10 @@ public interface DrugsInformationDao {
      * 质量层次表
      */
     List<QualityLevel> qualityLevel();
+
+    /**
+     * 条件查询
+     * @return
+     */
+    DrugInformation getSelect(Integer id);
 }

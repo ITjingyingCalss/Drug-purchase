@@ -17,7 +17,7 @@ public interface DrugsInformationService {
      * 药品品目、信息模糊查询及全部查询
      * @return
      */
-    Dto getQuery(String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,String enterpriseName,String tradeName,Float latestRetailPrice,Integer qualityLevelId);
+    List<DrugInformation> getQuery(String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,String enterpriseName,String tradeName,Float latestRetailPrice,Integer qualityLevelId);
     /**
      * 剂型表查询
      */
@@ -35,4 +35,10 @@ public interface DrugsInformationService {
      * 质量层次表
      */
     Dto qualityLevel();
+
+    /**
+     * 条件查询
+     * @return
+     */
+    Dto getSelect(Integer id);
 }

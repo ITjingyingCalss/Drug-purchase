@@ -20,9 +20,15 @@ public class DrugsInformationImpl implements DrugsInformationService {
     @Resource
     private DrugsInformationDao drugsInformationDao;
     @Override
-    public Dto getQuery(String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer drugTransactionStatusId,String enterpriseName,String tradeName,Float latestRetailPrice,Integer qualityLevelId) {
-        List<DrugInformation> query = drugsInformationDao.getQuery(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId,enterpriseName,tradeName,latestRetailPrice,qualityLevelId);
-        return DtoUtil.returnDataSuccess(query);
+    public List<DrugInformation> getQuery(String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer drugTransactionStatusId,String enterpriseName,String tradeName,Float latestRetailPrice,Integer qualityLevelId) {
+        List<DrugInformation> query = drugsInformationDao.getQuery(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseName, tradeName, latestRetailPrice, qualityLevelId);
+        return query;
+    }
+
+    @Override
+    public Dto getSelect(Integer id) {
+        DrugInformation select = drugsInformationDao.getSelect(id);
+        return DtoUtil.returnDataSuccess(select);
     }
 
     @Override
