@@ -107,10 +107,10 @@
                 and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
             </if>
             <if test="drugCategoryId != null">
-                and c.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+                and `drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
             </if>
             <if test="drugTransactionStatusId != null">
-                and s.`drug_transaction_status_id` like CONCAT('%',#{drugTransactionStatusId,jdbcType=INTEGER},'%')
+                and `drug_transaction_status_id` like CONCAT('%',#{drugTransactionStatusId,jdbcType=INTEGER},'%')
             </if>
         <if test="enterpriseName != null and enterpriseName != ''">
             and `enterprise_name` like CONCAT('%',#{enterpriseName,jdbcType=VARCHAR},'%')
@@ -122,7 +122,7 @@
             and `latest_retail_price` like CONCAT('%',#{latestRetailPrice,jdbcType=REAL},'%')
         </if>
         <if test="qualityLevelId != null">
-            and d.`quality_level_id` like CONCAT('%',#{qualityLevelId,jdbcType=INTEGER},'%')
+            and `quality_level_id` like CONCAT('%',#{qualityLevelId,jdbcType=INTEGER},'%')
         </if>
     </select>
     <!--剂型表查询-->
