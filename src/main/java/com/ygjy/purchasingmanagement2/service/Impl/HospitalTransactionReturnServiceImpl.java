@@ -1,6 +1,6 @@
 package com.ygjy.purchasingmanagement2.service.Impl;
 
-import com.ygjy.pojo.HospitalTransactionReturn;
+import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import com.ygjy.purchasingmanagement2.dao.HospitalTransactionReturnsDao;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +21,32 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
     @Autowired
     HospitalTransactionReturnsDao hospitalTransactionReturnsDao;
 
+    /*添加退货单*/
     @Override
     public int insert(HospitalTransactionReturn hosp) {
 
         return hospitalTransactionReturnsDao.insert(hosp);
+    }
+
+    /*查询全部到页面*/
+    @Override
+    public List<HospitalTransactionReturn> list(HospitalTransactionReturn htrList) {
+
+        return hospitalTransactionReturnsDao.list(htrList);
+    }
+
+    /*修改回显*/
+    @Override
+    public HospitalTransactionReturn htrSee(Integer id) {
+
+        return hospitalTransactionReturnsDao.htrSee(id);
+
+    }
+
+    /*更新*/
+    @Override
+    public int update(HospitalTransactionReturn htr) {
+
+        return hospitalTransactionReturnsDao.update(htr);
     }
 }
