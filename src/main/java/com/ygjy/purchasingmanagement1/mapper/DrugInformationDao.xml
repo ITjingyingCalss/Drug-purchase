@@ -39,7 +39,64 @@
     drug_inspection_report, drug_inspection_report_number, validity_of_drug_inspection_report,
     description_of_products, drug_category, drug_transaction_status_id, del_state
   </sql>
-    <select id="selectAll" >
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
         select * from drug_information
     </select>
+    <!--模糊查询-->
+    <select id="selectLike" resultMap="BaseResultMap">
+        select * from drug_information
+        <where>
+            <if test="serialNumber!=null and serialNumber!=0">
+                and serial_number like CONCAT ('%',#{serialNumber},'%')
+            </if>
+            <if test="commonName!=null and commonName!=''">
+                and common_name like CONCAT ('%',#{commonName},'%')
+            </if>
+            <if test="dosageFormId!=null and dosageFormId!= 0">
+                and dosage_form_id like CONCAT ('%',#{dosageFormId},'%')
+            </if>
+            <if test="specification!=null and specification!=''">
+                and specification like CONCAT ('%',#{specification},'%')
+            </if>
+            <if test="unit!=null and unit!=''">
+                and unit like CONCAT ('%',#{unit},'%')
+            </if>
+            <if test="conversionFraction!=null and conversionFraction!=''">
+                and conversion_fraction like CONCAT ('%',#{conversionFraction},'%')
+            </if>
+            <if test="enterpriseName!=null and enterpriseName!=''">
+                and enterprise_name like CONCAT ('%',#{enterpriseName},'%')
+            </if>
+            <if test="tradeName!=null and tradeName!=''">
+                and trade_name like CONCAT ('%',#{tradeName},'%')
+            </if>
+            <if test="biddingPrice!=null and biddingPrice!= 0 ">
+                and bidding_price like CONCAT ('%',#{biddingPrice},'%')
+            </if>
+            <if test="qualityLevelId!=null and qualityLevelId!= 0 ">
+                and quality_level_id like CONCAT ('%',#{qualityLevelId},'%')
+            </if>
+            <if test="drugCategory!=null and drugCategory!='0'">
+                and drug_category like CONCAT ('%',#{drugCategory},'%')
+            </if>
+            <if test="drugTransactionStatusId!=null and drugTransactionStatusId!= 0 ">
+                and drug_transaction_status_id like CONCAT ('%',#{drugTransactionStatusId},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--插入-->
+    <insert id="addDrug" parameterType="com.ygjy.pojo.DrugInformation">
+        insert into drug_information(serial_number,common_name,dosage_form_id,specification,
+        unit,conversion_fraction,enterprise_name,trade_name,bidding_price,approval_number,imported_drug,
+        validity_of_approval_number,packaging_material,packing_unit,latest_retail_price,source_of_retail_price,
+        quality_level_id,quality_level_description,drug_inspection_report,drug_inspection_report_number,validity_of_drug_inspection_report,
+        drug_transaction_status_id,description_of_products,del_state)values
+        (#{serialNumber},#{commonName},#{dosageFormId},#{specification},#{unit},#{conversionFraction},#{enterpriseName},
+        #{tradeName},#{biddingPrice},#{approvalNumber},#{importedDrug},#{validityOfApprovalNumber},
+        #{packagingMaterial},#{packingUnit},#{latestRetailPrice},#{sourceOfRetailPrice},
+        #{qualityLevelId},#{qualityLevelDescription},#{drugInspectionReport},#{drugInspectionReportNumber},
+        #{validityOfDrugInspectionReport},#{drugTransactionStatusId},#{descriptionOfProducts},0)
+    </insert>
 </mapper>

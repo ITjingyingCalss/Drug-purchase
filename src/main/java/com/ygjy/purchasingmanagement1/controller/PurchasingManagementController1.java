@@ -13,7 +13,61 @@ import java.util.List;
 public class PurchasingManagementController1 {
 
     @Autowired
-    DrugInformationImpl drugInformation;
+    DrugInformationImpl drugInformationImpl;
+
+    @ResponseBody
+    @RequestMapping("/selectAll")//查询所有
+    public List<DrugInformation> selectAll(){
+        List<DrugInformation> drugInformations = drugInformationImpl.selectAll();
+        return drugInformations;
+    }
+    @ResponseBody
+    @RequestMapping("/selectLike")//模糊查询
+    public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, String enterpriseName, String tradeName, Double biddingPrice, Integer qualityLevelId, String drugCategory, Integer drugTransactionStatusId){
+        List<DrugInformation> drugInformations = drugInformationImpl.selectLike(serialNumber,commonName,dosageFormId, specification, unit,conversionFraction, enterpriseName, tradeName, biddingPrice, qualityLevelId,  drugCategory, drugTransactionStatusId);
+        return drugInformations;
+    }
+    @ResponseBody
+    @RequestMapping("/add")//添加药品
+    public int addDrug(DrugInformation drugInformation){
+        int i = drugInformationImpl.addDrug(drugInformation);
+        return i;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      *
      * @return  采购管理主页面
@@ -36,11 +90,9 @@ public class PurchasingManagementController1 {
      *
      * @return 药品信息管理页面
      */
-    @ResponseBody
     @RequestMapping("/drug_information_maintenance1")
-    public List<DrugInformation> selectAll(){
-        List<DrugInformation> drugInformations = drugInformation.selectAll();
-        return drugInformations;
+    public String drugInformationMaintenance1(){
+        return "purchasingmanagement1/drug_information_maintenance1";
     }
 
     /**
