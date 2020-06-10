@@ -20,7 +20,7 @@ public interface UserService {
      * @param contactAddress
      * @return
      */
-    List<User> findUserAll(int userId,String userAccount,String contactAddress);
+    List<User> findUserAll(Integer userId,String userAccount,String contactAddress);
 
     /**
      * 通过用户账号获得用户密码进行判断登录

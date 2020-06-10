@@ -47,8 +47,8 @@
           <result column="user_id" jdbcType="INTEGER" property="userId" />
           <result column="role_id" jdbcType="INTEGER" property="roleId" />
       </association>
-      <association property="joleJurisdiction" javaType="com.ygjy.systemmanagement.pojo.RoleJurisdiction">
-          <id column="joleJurisdictionId" jdbcType="INTEGER" property="id" />
+      <association property="roleJurisdiction" javaType="com.ygjy.systemmanagement.pojo.RoleJurisdiction">
+          <id column="roleJurisdictionId" jdbcType="INTEGER" property="id" />
           <result column="role_id" jdbcType="INTEGER" property="roleId" />
           <result column="jur_id" jdbcType="INTEGER" property="jurId" />
       </association>
@@ -67,9 +67,9 @@
   </select>
     <!--根据用户ID,用户名称,用户联系地址查找用户信息-->
     <select id="selectUserAll" resultMap="BaseResultMap">
-        select u.*,r.*,j.*,r.id as roleId,j.id as jurisdictionId,ur.id as userRoleId,rj.id as joleJurisdiction
-        from  user u,role r,jurisdiction j,user_role ur,role_jurisdiction rj
-        where u.user_id = r.role_id and r.role_id = j.jur_id
+        SELECT u.user_id,u.user_account,u.username,u.postal_code,u.contact_address,u.contacts,u.user_email,u.user_phone,u.user_state,u.user_unit,r.role_description
+        FROM `user` u,role r,user_role ur
+        WHERE u.user_id = ur.user_id AND r.role_id = ur.role_id
         <if test="userId != null and userId != ''">
             and u.user_id = #{userId}
         </if>
@@ -82,13 +82,14 @@
     </select>
     <!--根据用户账号查找用户登录权限密码-->
     <select id="loginByUsername" resultMap="BaseResultMap">
-        select u.*,r.*,j.*,r.id as roleId,j.id as jurisdictionId,ur.id as userRoleId,rj.id as joleJurisdiction
-        from  user u,role r,jurisdiction j,user_role ur,role_jurisdiction rj
-        where u.user_id = r.role_id and r.role_id = j.jur_id
-        <if test="username != null and username != ''">
-            and u.username = #{username}
-        </if>
+    SELECT DISTINCT u.user_account,u.username,u.`password`,r.role_name
+	    FROM `user` u,role r,user_role ur,jurisdiction j,role_jurisdiction rj
+	        WHERE ur.role_id = r.role_id AND ur.user_id = u.user_id AND rj.jur_id = j.permission_id AND rj.role_id = r.role_id
+            <if test="username != null and username != ''">
+                AND u.username = #{username,jdbcType=VARCHAR}
+            </if>
     </select>
+
   <delete id="deleteByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.User">
     delete from user
     where id = #{id,jdbcType=INTEGER}

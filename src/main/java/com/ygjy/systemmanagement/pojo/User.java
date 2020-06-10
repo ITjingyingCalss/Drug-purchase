@@ -3,6 +3,7 @@ package com.ygjy.systemmanagement.pojo;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.Date;
+import java.util.List;
 
 public class User {
 
@@ -39,6 +40,66 @@ public class User {
     private Date lastLoginTime;
 
     private Role role;
+
+    private UserRole userRole;
+
+    private Jurisdiction jurisdiction;
+
+    private RoleJurisdiction roleJurisdiction;
+
+    private List<Role> roleList;
+
+    private List<Jurisdiction> jurisdictionList;
+
+    private List<UserRole> userRoleList;
+
+    public List<UserRole> getUserRoleList() {
+        return userRoleList;
+    }
+
+    public void setUserRoleList(List<UserRole> userRoleList) {
+        this.userRoleList = userRoleList;
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
+    public List<Jurisdiction> getJurisdictionList() {
+        return jurisdictionList;
+    }
+
+    public void setJurisdictionList(List<Jurisdiction> jurisdictionList) {
+        this.jurisdictionList = jurisdictionList;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
+    public Jurisdiction getJurisdiction() {
+        return jurisdiction;
+    }
+
+    public void setJurisdiction(Jurisdiction jurisdiction) {
+        this.jurisdiction = jurisdiction;
+    }
+
+    public RoleJurisdiction getRoleJurisdiction() {
+        return roleJurisdiction;
+    }
+
+    public void setRoleJurisdiction(RoleJurisdiction roleJurisdiction) {
+        this.roleJurisdiction = roleJurisdiction;
+    }
 
     public Role getRole() {
         return role;

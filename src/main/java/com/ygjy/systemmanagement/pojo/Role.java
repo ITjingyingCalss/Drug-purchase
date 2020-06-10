@@ -1,6 +1,7 @@
 package com.ygjy.systemmanagement.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Role {
     private Integer id;
@@ -18,6 +19,26 @@ public class Role {
     private Date roleUpdateTime;
 
     private Jurisdiction jurisdiction;
+
+    private List<Jurisdiction> jurisdictionList;
+
+    private List<RoleJurisdiction> roleJurisdictionList;
+
+    public List<RoleJurisdiction> getRoleJurisdictionList() {
+        return roleJurisdictionList;
+    }
+
+    public void setRoleJurisdictionList(List<RoleJurisdiction> roleJurisdictionList) {
+        this.roleJurisdictionList = roleJurisdictionList;
+    }
+
+    public List<Jurisdiction> getJurisdictionList() {
+        return jurisdictionList;
+    }
+
+    public void setJurisdictionList(List<Jurisdiction> jurisdictionList) {
+        this.jurisdictionList = jurisdictionList;
+    }
 
     public Jurisdiction getJurisdiction() {
         return jurisdiction;
