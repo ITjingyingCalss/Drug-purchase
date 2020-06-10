@@ -7,7 +7,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/AdminLTE.css">
+    <link rel="stylesheet" href="adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="js/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="js/angularjs/toaster.min.css">
@@ -21,40 +21,156 @@
         }
     </script>
 
-<!--添加退货单-->
-<script type="text/javascript">
+    <!--添加退货单-->
+    <script type="text/javascript">
 
-    function saveReturnForm(){
+        function saveReturnForm(){
 
-        var returnOrderNumber = $("#return_order_number").val();
-        var returnOrderName = $("#return_order_name").val();
-        var hospitalId = $("#hospital_id").val();
-        var contacts = $("#contacts").val();
-        var phone = $("#phone").val();
-        var creatReceiptsPerson = $("#creat_receipts_person").val();
-        var createReceiptsTime = $("#create_receipts_time").val();
-        var submissionTime = $("#submission_time").val();
-        var remark = $("#remark").val();
-        var returnStateId = $("#return_state_id").val();
-        console.log(returnOrderNumber);
+            var returnOrderNumber = $("#return_order_number").val();
+            var returnOrderName = $("#return_order_name").val();
+            var hospitalId = $("#hospital_id").val();
+            var contacts = $("#contacts").val();
+            var phone = $("#phone").val();
+            var creatReceiptsPerson = $("#creat_receipts_person").val();
+            var createReceiptsTime = $("#create_receipts_time").val();
+            var submissionTime = $("#submission_time").val();
+            var remark = $("#remark").val();
+            var returnStateId = $("#return_state_id").val();
+            console.log(returnOrderNumber);
 
-        $.ajax({
-            url:"hospss",
-            type:"get",
-            data:{"returnOrderNumber":returnOrderNumber,"returnOrderName":returnOrderName,"hospitalId":hospitalId,"contacts":contacts,
-                "phone":phone,"creatReceiptsPerson":creatReceiptsPerson ,/*"createReceiptsTime":createReceiptsTime,
-                "submissionTime":submissionTime,*/"remark":remark,"returnStateId":returnStateId},
-            dataType:"json",
-            success:function (hosps) {
-                if (hosps != 0){
-                    alert("添加成功");
-                }else{
-                    alert("添加失败");
+            $.ajax({
+                url:"hospss",
+                type:"get",
+                data:{"returnOrderNumber":returnOrderNumber,"returnOrderName":returnOrderName,"hospitalId":hospitalId,"contacts":contacts,
+                    "phone":phone,"creatReceiptsPerson":creatReceiptsPerson ,/*"createReceiptsTime":createReceiptsTime,
+                    "submissionTime":submissionTime,*/"remark":remark,"returnStateId":returnStateId},
+                dataType:"json",
+                success:function (hosps) {
+                    if (hosps != 0){
+                        alert("添加成功");
+                    }else{
+                        alert("添加失败");
+                    }
                 }
-            }
+            })
+        }
+    </script>
+
+
+    <!--查询所有到页面-->
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajax({
+                url:"lists",
+                type:"post",
+                dataType:"json",
+                success:function (list1) {
+                    var ss = "";
+                    for (var i = 0; i < list1.length; i++) {
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + list1[i].id + "></td><td>"+ list1[i].returnOrderNumber +"</td><td>"+ list1[i].returnOrderName +"</td><td>"
+                            + list1[i].hospitalId +"</td><td>"+ list1[i].contacts +"</td><td>"
+                            + list1[i].phone +"</td><td>"+ list1[i].creatReceiptsPerson +"</td><td>"
+                            + list1[i].createReceiptsTime +"</td><td>"+ list1[i].submissionTime +"</td><td>"
+                            + list1[i].remark +"</td><td>"
+                            + (list1[i].returnStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ list1[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
+
+                        $("#dataList").append(ss);
+                    }
+                }
+            })
         })
-    }
-</script>
+
+        function xiaOnclick() {
+            var clickpool = true;
+            $.each($(".checkboxxia"),function(index,item){
+                if($(item).prop("checked")==false)clickpool=false;
+            })
+            $("#checkboxMain").prop("checked",clickpool)
+        }
+
+        function mainOnclick() {
+            $.each($(".checkboxxia"),function(index,item){
+                $(item).prop("checked",$("#checkboxMain").prop("checked"));
+            })
+        }
+
+        function deleteALL() {
+            var bool = false;
+            var list = new Array();
+            $.each($("input[class='checkboxxia']:checkbox:checked"),function(index,item){
+                list.push($(item).val());
+                console.log($(item).val());
+                bool = true;
+            });
+
+            if(true){
+            }
+        }
+
+    </script>
+
+
+    <!--修改回显-->
+    <script type="text/javascript">
+
+        function updateSee(id){
+            $.ajax({
+                url:"htrsees",
+                type:"post",
+                data:{ id : id },
+                dataType:"json",
+                success:function ( htrsee ) {
+                    $("#see").val(htrsee.id);
+                    $("#return_order_number2").val(htrsee.returnOrderNumber);
+                    $("#return_order_name2").val(htrsee.returnOrderName);
+                    $("#hospital_id2").val(htrsee.hospitalId);
+                    $("#contacts2").val(htrsee.contacts);
+                    $("#phone2").val(htrsee.phone);
+                    $("#creat_receipts_person2").val(htrsee.creatReceiptsPerson);
+                    $("#create_receipts_time2").val(htrsee.createReceiptsTime);
+                    $("#submission_time2").val(htrsee.submissionTime);
+                    $("#remark2").val(htrsee.remark);
+                    $("#return_state_id2").val(htrsee.returnStateId);
+                }
+            })
+        }
+    </script>
+
+    <!--更新-->
+    <script type="text/javascript">
+
+        function updateReturnForm(){
+
+/*            var returnOrderNumber = $("#return_order_number2").val();
+            var returnOrderName = $("#return_order_name2").val();
+            var hospitalId = $("#hospital_id2").val();
+            var contacts = $("#contacts2").val();
+            var phone = $("#phone2").val();
+            var creatReceiptsPerson = $("#creat_receipts_person2").val();
+            var createReceiptsTime = $("#create_receipts_time2").val();
+            var submissionTime = $("#submission_time2").val();
+            var remark = $("#remark2").val();
+            var returnStateId = $("#return_state_id2").val();*/
+
+            $.ajax({
+                url:"updates",
+                type:"post",
+                data:$("#yy").serialize(),
+                    /*"returnOrderNumber":returnOrderNumber,"returnOrderName":returnOrderName,"hospitalId":hospitalId,"contacts":contacts,
+                    "phone":phone,"creatReceiptsPerson":creatReceiptsPerson ,"createReceiptsTime":createReceiptsTime,
+                    "submissionTime":submissionTime,"remark":remark,"returnStateId":returnStateId*/
+                success:function (update) {
+                    if (update != 0){
+                        alert("修改成功");
+                        window.location.reload();
+                    }else{
+                        alert("修改失败");
+                    }
+                }
+            })
+        }
+    </script>
 
 
 
@@ -83,7 +199,7 @@
         </tr>
     </table>
     <div style="text-align: center;padding-top: 10px">
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
+        <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询退货单</button>
 <!--        <button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
                 data-target="#editModal">导出
         </button>-->
@@ -98,9 +214,20 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
+                        <td>
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                 data-target="#editModal1">添加
                         </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm" onclick="deleteALL()">删除
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                    data-target="#">保存退货量
+                            </button>
+                        </td>
                         <!--<button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                 data-target="#">删除
                         </button>
@@ -115,9 +242,10 @@
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
+                <th><input type="checkbox" id="checkboxMain" onclick="mainOnclick()" value=''></th>
                 <th class="sorting_asc">退货单编号</th>
                 <th class="sorting_asc">退货单名称</th>
-                <th class="sorting">医院id</th>
+                <th class="sorting">医院编号</th>
                 <th class="sorting">联系人</th>
                 <th class="sorting">联系电话</th>
                 <th class="sorting">建单人</th>
@@ -127,10 +255,9 @@
                 <th class="sorting">退货单状态</th>
 <!--                <th class="sorting">查看</th>-->
                 <th class="sorting">修改</th>
-                <th class="sorting">删除</th>
             </tr>
             </thead>
-            <tbody class="context">
+            <!--<tbody class="context">
             <tr>
                 <td>00008</td>
                 <td>0.9%氯化钠</td>
@@ -142,24 +269,11 @@
                 <td>3</td>
                 <td>3</td>
                 <td>3</td>
-<!--                <td>
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                            data-target="#editModal1">添加
-                    </button>
-                </td>-->
                 <td>
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                            data-target="#editModal1">修改
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                            data-target="#editModal1">删除
-                    </button>
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="updateSee("+ list[i].id +")"data-target="#editModal2">修改</button>
                 </td>
             </tr>
-            </tbody>
-
+            </tbody>-->
         </table>
         <!--数据列表/-->
         <!--分页工具条展示-->
@@ -178,21 +292,23 @@
                     <li><a href="#">5</a></li>
                     <li>
                         <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
+                            <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
     </div>
-    <!-- 数据表格 /-->
 </div>
+
+
+<!--添加退货单-->
 <div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:80%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">退货单</h3>
+                <h3 id="myModalLabe">添加退货单</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table">
@@ -203,7 +319,7 @@
                         <td><input id="return_order_name" name="returnOrderName" class="form-control"></td>
                     </tr>
                     <tr>
-                        <td>医院id:</td>
+                        <td>医院编号:</td>
                         <td><input id="hospital_id" name="hospitalId" class="form-control"></td>
 
                         <td>联系人:</td>
@@ -219,17 +335,22 @@
                     </tr>
                     <tr>
                         <td>建单时间:</td>
-                        <td><input id="create_receipts_time" name="createReceiptsTime" class="form-control"></td>
+                        <td><!--<input id="create_receipts_time" name="createReceiptsTime" class="form-control">--></td>
 
                         <td>提交时间:</td>
-                        <td><input id="submission_time" name="submissionTime" class="form-control"></td>
+                        <td><!--<input id="submission_time" name="submissionTime" class="form-control">--></td>
                     </tr>
                     <tr>
                         <td>备注:</td>
                         <td><input id="remark" name="remark" class="form-control"></td>
 
                         <td>退货单状态:</td>
-                        <td><input id="return_state_id" name="returnStateId" class="form-control"></td>
+                        <td>
+                            <select id="return_state_id" name="returnStateId" style="width: 50%;height: 20%">
+                                <option value="1">未提交</option>
+                                <option value="2">提交</option>
+                            </select>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -240,7 +361,72 @@
         </div>
     </div>
 </div>
-<!-- 编辑窗口 -->
+
+
+<!--修改退货单-->
+<form action="" id="yy" method="post">
+<div class="modal fade" id="editModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="bt2" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 id="myModalLabe2">修改退货单</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" id="id_table2">
+                    <tr>
+                        <input type="hidden" id="see" name="id">
+                        <td>退货单编号:</td>
+                        <td><input id="return_order_number2" name="returnOrderNumber" class="form-control"></td>
+                        <td>退货单名称:</td>
+                        <td><input id="return_order_name2" name="returnOrderName" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>医院编号:</td>
+                        <td><input id="hospital_id2" name="hospitalId" class="form-control"></td>
+
+                        <td>联系人:</td>
+                        <td><input id="contacts2" name="contacts" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>联系电话:</td>
+                        <td><input id="phone2" name="phone" class="form-control"></td>
+
+                        <td>建单人:</td>
+                        <td><input id="creat_receipts_person2" name="creatReceiptsPerson" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>建单时间:</td>
+                        <td><input id="create_receipts_time2" name="createReceiptsTime" class="form-control"></td>
+
+                        <td>提交时间:</td>
+                        <td><input id="submission_time2" name="submissionTime" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>备注:</td>
+                        <td><input id="remark2" name="remark" class="form-control"></td>
+
+                        <td>退货单状态:</td>
+                        <td>
+                            <select id="return_state_id2" name="returnStateId" style="width: 50%;height: 20%">
+                                <option value="1">未提交</option>
+                                <option value="2">提交</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="updateReturnForm()" data-dismiss="modal">更新退货单</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">提交退货单</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<!-- 文件上传 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
