@@ -18,10 +18,14 @@
 
 
     <script type="text/javascript">
+        var page;
+        var qian;
+        var hou;
         $(function () {
             selectByEntity();
         })
-        function selectByEntity(){
+        //查询
+        function selectByEntity(pageNum){
             $("#tbody").empty();
             var serial_number=$("#serial_number").val();
             var common_name=$("#common_name").val();
@@ -34,35 +38,112 @@
             $.ajax({
                 url:"DrugsInformation",
                 data:{
-                    serialNumber:serial_number,
-                    commonName:common_name,
-                    dosageFormId:dosage_form_id,
-                    specification:specification,
-                    unit:unit,
-                    conversionFraction:conversion_fraction,
-                    drugCategoryId:drug_category_id,
-                    drugTransactionStatusId:drug_transaction_status_id
+                    "serialNumber":serial_number,
+                    "commonName":common_name,
+                    "dosageFormId":dosage_form_id,
+                    "specification":specification,
+                    "unit":unit,
+                    "conversionFraction":conversion_fraction,
+                    "drugCategoryId":drug_category_id,
+                    "drugTransactionStatusId":drug_transaction_status_id,
+                    "pageNum":pageNum
                 },
-                type:"get",
+                type:"post",
                 dataType:"json",
                 success:function (result) {
-                    alert(1)
-                    alert(result.unit);
+                    console.log(result);
+                    page=result;
                     var v = "";
-                    for(var i=0;i<result.length;i++){
+                    for(var i=0;i<result.list.length;i++){
+                        var data=result.list;
                         v+='<tr>';
-                        v+='<td>'+result.serialNumber+'</td>'
-                        v+='<td>'+result.commonName+'</td>'
-                        v+='<td>'+result.dosageFormId+'</td>'
-                        v+='<td>'+result.specification+'</td>'
-                        v+='<td>'+result.unit+'</td>'
-                        v+='<td>'+result.conversionFraction+'</td>'
-                        v+='<td>'+result.drugCategoryId+'</td>'
-                        v+='<td>'+result.drugTransactionStatusId+'</td>'
-                        v+='<td><a href="#" data-target="#editModal1" data-toggle="modal">查看</a></td>'
+                        v+='<td>'+data[i].serialNumber+'</td>'
+                        v+='<td>'+data[i].commonName+'</td>'
+                        v+='<td>'+data[i].dosageFormId+'</td>'
+                        v+='<td>'+data[i].specification+'</td>'
+                        v+='<td>'+data[i].unit+'</td>'
+                        v+='<td>'+data[i].conversionFraction+'</td>'
+                        v+='<td>'+data[i].drugCategoryId+'</td>'
+                        v+='<td>'+data[i].drugTransactionStatusId+'</td>'
+                        v+='<td><a href="#" data-target="#editModal1" data-toggle="modal" onclick="saw('+data[i].id+')">查看</a></td>'
                         v+='</tr>';
                     }
                     $("#tbody").append(v);
+                    qian=result.pageNum==1?1:result.pageNum-1;
+                    hou=result.pageNum==result.pages?result.pages:result.pageNum+1;
+                }
+            })
+        }
+        // 剂型
+        $.ajax({
+            url:"selectDurgsFrom",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#dosage_form_id").empty();
+                console.log(result)
+                $("#dosage_form_id").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#dosage_form_id").prepend('<option value="' + list[i].durgFromId + '">' + list[i].drugFrom + '</option>')
+                }
+            }
+        })
+        // 药品类别
+        $.ajax({
+            url:"selectdrugcategory",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#drug_category_id").empty();
+                console.log(result)
+                $("#drug_category_id").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#drug_category_id").prepend('<option value="' + list[i].id + '">' + list[i].drugCategoryName + '</option>')
+                }
+            }
+        })
+        // 药品交易状态
+        $.ajax({
+            url:"selectDrugTransactionStatus",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#drug_transaction_status_id").empty();
+                console.log(result)
+                $("#drug_transaction_status_id").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#drug_transaction_status_id").prepend('<option value="' + list[i].id + '">' + list[i].drugTransactionExplain + '</option>')
+                }
+            }
+        })
+        function saw(id) {
+            $.ajax({
+                url:"getSelect",
+                data:{
+                    "id":id
+                },
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    var data=result.data;
+                    $("#serialNumber").val(data.serialNumber);
+                    $("#commonName").val(data.commonName);
+                    $("#dosageFormId").val(data.durgsFrom.drugFrom);
+                    $("#specifications").val(data.specification);
+                    $("#units").val(data.unit);
+                    $("#conversionFraction").val(data.conversionFraction);
+                    $("#enterpriseName").val(data.enterpriseName);
+                    $("#tradeName").val(data.tradeName);
+                    $("#biddingPrice").val(data.biddingPrice);
+                    $("#qualityLevelId").val(data.qualityLevel.level);
+                    $("#drugCategoryId").val(data.drugCategory.drugCategoryName);
+                    $("#drugTransactionStatusId").val(data.drugTransactionStatus.drugTransactionExplain);
                 }
             })
         }
@@ -191,17 +272,17 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a href="#" aria-label="Previous">
+                        <a href="#" aria-label="Previous" onclick="selectByEntity(qian)">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <li><a href="#" onclick="selectByEntity(1)">1</a></li>
+                    <li><a href="#" onclick="selectByEntity(2)">2</a></li>
+                    <li><a href="#" onclick="selectByEntity(3)">3</a></li>
+                    <li><a href="#" onclick="selectByEntity(4)">4</a></li>
+                    <li><a href="#" onclick="selectByEntity(5)">5</a></li>
                     <li>
-                        <a href="#" aria-label="Next">
+                        <a href="#" aria-label="Next" onclick="selectByEntity(hou)">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -228,12 +309,11 @@
                     <tr>
                         <td>剂型:</td>
                         <td>
-                            <select style="width:50%;height: 10%" id="dosageFormId">
-                                <option value="0">请选择</option>
-                            </select>
+                            <input type="text" id="dosageFormId"> </td>
                         </td>
                         <td>规格:</td>
-                        <td><input id="specifications" name="specification" class="form-control">
+                        <td>
+                            <input id="specifications" name="specification" class="form-control">
                         </td>
                     </tr>
                     <tr>
@@ -253,22 +333,16 @@
                         <td><input id="biddingPrice" name="biddingPrice" class="form-control"></td>
                         <td>质量层次:</td>
                         <td>
-                            <select style="width:50%;height: 10%" id="qualityLevelId">
-                                <option value="0">请选择</option>
-                            </select>
+                            <input type="text" id="qualityLevelId">
                         </td>
                     </tr>
                     <tr>
                         <td>药品类别:</td>
-                        <td>
-                            <select style="width:50%;height: 10%" id="drugCategoryId">
-                                <option value="0">请选择</option>
-                            </select>
-                        </td>
+                        <td><input id="drugCategoryId" name="drugCategoryId" class="form-control"></td>
                         <td>药品交易状态:</td>
-                        <td><select style="width:50%;height: 10%" id="drugTransactionStatusId">
-                            <option value="0">请选择</option>
-                        </select></td>
+                        <td>
+                            <input id="drugTransactionStatusId" name="drugTransactionStatusId" class="form-control">
+                        </td>
                     </tr>
                 </table>
             </div>
