@@ -36,12 +36,6 @@ public class PurchasingManagementController1 {
      *
      * @return 药品信息管理页面
      */
-    @RequestMapping("/drug_information_maintenance1")
-    public String drugInformationMaintenance1(){
-        return "purchasingmanagement1/drug_information_maintenance1";
-    }
-
-
     @ResponseBody
     @RequestMapping("/drug_information_maintenance1")
     public List<DrugInformation> selectAll(){
