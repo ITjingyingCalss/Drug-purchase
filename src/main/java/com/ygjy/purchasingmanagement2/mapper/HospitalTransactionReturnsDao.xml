@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ygjy.purchasingmanagement2.dao.HospitalTransactionReturnsDao">
-  <insert id="insert" parameterType="com.ygjy.pojo.HospitalTransactionReturn">
+  <resultMap id="BaseResultMap" type="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="return_order_number" jdbcType="VARCHAR" property="returnOrderNumber" />
+    <result column="return_order_name" jdbcType="VARCHAR" property="returnOrderName" />
+    <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="creat_receipts_person" jdbcType="VARCHAR" property="creatReceiptsPerson" />
+    <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
+    <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="return_state_id" jdbcType="INTEGER" property="returnStateId" />
+  </resultMap>
+
+  <!--添加退货单-->
+  <insert id="insert" parameterType="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn">
     insert into hospital_transaction_return (id, return_order_number, return_order_name, 
       hospital_id, contacts, phone, 
       creat_receipts_person, create_receipts_time,
@@ -13,4 +28,28 @@
       #{submissionTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{returnStateId,jdbcType=INTEGER}
       )
   </insert>
+
+  <!--查询所有到页面-->
+  <select id="list" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_return
+
+  </select>
+
+  <!--修改回显-->
+  <select id="htrSee" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_return where id = #{id}
+
+  </select>
+
+  <!--更新-->
+  <update id="update" parameterType="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn">
+
+    UPDATE `drugplatform`.`hospital_transaction_return` SET `return_order_number`=#{returnOrderNumber},
+      `return_order_name`=#{returnOrderName}, `hospital_id`=#{hospitalId}, `contacts`=#{contacts}, `phone`=#{phone},
+      `creat_receipts_person`=#{creatReceiptsPerson}, `create_receipts_time`=#{createReceiptsTime},
+      `submission_time`=#{submissionTime},`remark`=#{remark}, `return_state_id`=#{returnStateId} WHERE (`id`=#{id});
+
+  </update>
 </mapper>

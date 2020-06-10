@@ -1,7 +1,7 @@
 package com.ygjy.purchasingmanagement2.service;
 
 
-import com.ygjy.pojo.HospitalTransactionReturn;
+import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,16 @@ import java.util.List;
  */
 public interface HospitalTransactionReturnService {
 
+   /*添加退货单*/
    int insert(HospitalTransactionReturn hosp);
 
+   /*查询所有到页面*/
+   List<HospitalTransactionReturn> list(HospitalTransactionReturn htrList);
+
+   /*修改回显*/
+   HospitalTransactionReturn htrSee(Integer id);
+
+   /*更新*/
+   int update(HospitalTransactionReturn htr);
 
 }
