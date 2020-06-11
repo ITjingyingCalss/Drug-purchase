@@ -38,7 +38,7 @@ public class DrugInformation implements Serializable {
     /**
      * 生产企业名称
      */
-    private String enterpriseName;
+    private Integer enterpriseNameId;
 
     /**
      * 商品名
@@ -150,6 +150,15 @@ public class DrugInformation implements Serializable {
     private DurgsFrom durgsFrom;
     private DrugCategory drugCategory;
     private QualityLevel qualityLevel;
+    private Enterprise enterprise;
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+    }
 
     public QualityLevel getQualityLevel() {
         return qualityLevel;
@@ -231,12 +240,12 @@ public class DrugInformation implements Serializable {
         this.conversionFraction = conversionFraction;
     }
 
-    public String getEnterpriseName() {
-        return enterpriseName;
+    public Integer getEnterpriseNameId() {
+        return enterpriseNameId;
     }
 
-    public void setEnterpriseName(String enterpriseName) {
-        this.enterpriseName = enterpriseName;
+    public void setEnterpriseNameId(Integer enterpriseNameId) {
+        this.enterpriseNameId = enterpriseNameId;
     }
 
     public String getTradeName() {
@@ -425,7 +434,7 @@ public class DrugInformation implements Serializable {
             && (this.getDosageFormId() == null ? other.getDosageFormId() == null : this.getDosageFormId().equals(other.getDosageFormId()))
             && (this.getSpecification() == null ? other.getSpecification() == null : this.getSpecification().equals(other.getSpecification()))
             && (this.getConversionFraction() == null ? other.getConversionFraction() == null : this.getConversionFraction().equals(other.getConversionFraction()))
-            && (this.getEnterpriseName() == null ? other.getEnterpriseName() == null : this.getEnterpriseName().equals(other.getEnterpriseName()))
+            && (this.getEnterpriseNameId() == null ? other.getEnterpriseNameId() == null : this.getEnterpriseNameId().equals(other.getEnterpriseNameId()))
             && (this.getTradeName() == null ? other.getTradeName() == null : this.getTradeName().equals(other.getTradeName()))
             && (this.getBiddingPrice() == null ? other.getBiddingPrice() == null : this.getBiddingPrice().equals(other.getBiddingPrice()))
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
@@ -459,7 +468,7 @@ public class DrugInformation implements Serializable {
         result = prime * result + ((getDosageFormId() == null) ? 0 : getDosageFormId().hashCode());
         result = prime * result + ((getSpecification() == null) ? 0 : getSpecification().hashCode());
         result = prime * result + ((getConversionFraction() == null) ? 0 : getConversionFraction().hashCode());
-        result = prime * result + ((getEnterpriseName() == null) ? 0 : getEnterpriseName().hashCode());
+        result = prime * result + ((getEnterpriseNameId() == null) ? 0 : getEnterpriseNameId().hashCode());
         result = prime * result + ((getTradeName() == null) ? 0 : getTradeName().hashCode());
         result = prime * result + ((getBiddingPrice() == null) ? 0 : getBiddingPrice().hashCode());
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
@@ -493,7 +502,7 @@ public class DrugInformation implements Serializable {
                 ", dosageFormId=" + dosageFormId +
                 ", specification='" + specification + '\'' +
                 ", conversionFraction='" + conversionFraction + '\'' +
-                ", enterpriseName='" + enterpriseName + '\'' +
+                ", enterpriseNameId=" + enterpriseNameId +
                 ", tradeName='" + tradeName + '\'' +
                 ", biddingPrice=" + biddingPrice +
                 ", unit='" + unit + '\'' +
@@ -519,6 +528,7 @@ public class DrugInformation implements Serializable {
                 ", durgsFrom=" + durgsFrom +
                 ", drugCategory=" + drugCategory +
                 ", qualityLevel=" + qualityLevel +
+                ", enterprise=" + enterprise +
                 '}';
     }
 }

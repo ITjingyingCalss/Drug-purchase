@@ -10,7 +10,7 @@
         <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
         <result column="specification" jdbcType="VARCHAR" property="specification" />
         <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
-        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+        <result column="enterprise_name_id" jdbcType="VARCHAR" property="enterpriseNameId" />
         <result column="trade_name" jdbcType="VARCHAR" property="tradeName" />
         <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
         <result column="unit" jdbcType="VARCHAR" property="unit" />
@@ -50,6 +50,38 @@
             <id column="qua_id" jdbcType="INTEGER" property="quaId" />
             <result column="level" jdbcType="VARCHAR" property="level" />
         </association>
+        <association property="enterprise" javaType="com.ygjy.supplymanagement.pojo.Enterprise">
+            <id column="eid" jdbcType="INTEGER" property="id" />
+            <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+            <result column="enterprise_type" jdbcType="VARCHAR" property="enterpriseType" />
+            <result column="license" jdbcType="VARCHAR" property="license" />
+            <result column="license_expiration_date" jdbcType="DATE" property="licenseExpirationDate" />
+            <result column="enterprise_contacts" jdbcType="VARCHAR" property="enterpriseContacts" />
+            <result column="enterprise_telephone" jdbcType="VARCHAR" property="enterpriseTelephone" />
+            <result column="business_scope" jdbcType="VARCHAR" property="businessScope" />
+            <result column="registered_address" jdbcType="VARCHAR" property="registeredAddress" />
+            <result column="contact_address" jdbcType="VARCHAR" property="contactAddress" />
+            <result column="postal_Code" jdbcType="VARCHAR" property="postalCode" />
+            <result column="total_assets" jdbcType="REAL" property="totalAssets" />
+            <result column="corporate_fax" jdbcType="VARCHAR" property="corporateFax" />
+            <result column="legal_person" jdbcType="VARCHAR" property="legalPerson" />
+            <result column="legal_person_id_card" jdbcType="VARCHAR" property="legalPersonIdCard" />
+            <result column="enterprise_registered_capital" jdbcType="REAL" property="enterpriseRegisteredCapital" />
+            <result column="sales_amount_last_year" jdbcType="REAL" property="salesAmountLastYear" />
+            <result column="email" jdbcType="VARCHAR" property="email" />
+            <result column="website" jdbcType="VARCHAR" property="website" />
+            <result column="enterprise_code" jdbcType="VARCHAR" property="enterpriseCode" />
+            <result column="enterprise_code_date" jdbcType="DATE" property="enterpriseCodeDate" />
+            <result column="business_license" jdbcType="VARCHAR" property="businessLicense" />
+            <result column="business_license _date" jdbcType="DATE" property="businessLicenseDate" />
+            <result column="enterprise_letter_of_credit" jdbcType="INTEGER" property="enterpriseLetterOfCredit" />
+            <result column="enterprise_letter_number" jdbcType="VARCHAR" property="enterpriseLetterNumber" />
+            <result column="enterprise_letter_data" jdbcType="DATE" property="enterpriseLetterData" />
+            <result column="fixed_assets" jdbcType="REAL" property="fixedAssets" />
+            <result column="company_profile" jdbcType="VARCHAR" property="companyProfile" />
+            <result column="remark" jdbcType="VARCHAR" property="remark" />
+            <result column="del_state" jdbcType="INTEGER" property="delState" />
+        </association>
     </resultMap>
     <resultMap id="BaseResultMap2" type="com.ygjy.supplymanagement.pojo.DurgsFrom">
         <id column="durg_from_id" jdbcType="INTEGER" property="durgFromId" />
@@ -69,9 +101,18 @@
         <id column="qua_id" jdbcType="INTEGER" property="quaId" />
         <result column="level" jdbcType="VARCHAR" property="level" />
     </resultMap>
+    <resultMap id="BaseResultMap6" type="com.ygjy.supplymanagement.pojo.Enterprise">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+    </resultMap>
+    <resultMap id="BaseResultMap7" type="com.ygjy.supplymanagement.pojo.EnterpriseDrugCatalog">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+        <result column="drug_information_id" jdbcType="INTEGER" property="drugInformationId" />
+    </resultMap>
     <sql id="Base_Column_List">
     i.serial_number, i.common_name, i.dosage_form_id, i.specification, i.conversion_fraction,
-    i.enterprise_name, i.trade_name, i.bidding_price, i.unit, i.common_name_pinyin,i. product_picture,
+    i.enterprise_name_id, i.trade_name, i.bidding_price, i.unit, i.common_name_pinyin,i. product_picture,
     i.approval_number, i.validity_of_approval_number, i.imported_drug, i.packaging_material,
     i.packing_unit, i.latest_retail_price, i.source_of_retail_price, i.quality_level_id,i.quality_level_description,
     i.drug_inspection_report, i.drug_inspection_report_number, i.validity_of_drug_inspection_report,
@@ -80,13 +121,14 @@
     <!--药品品目模糊查询及全部查询-->
     <select id="getQuery" resultMap="BaseResultMap">
         SELECT
-        i.`id` AS iid ,c.`id` AS cid,s.`id` as sid,d.`drug_from`,d.`note`,c.`drug_category_name`,s.`drug_transaction_explain`,s.`drug_transaction_status` ,d.`durg_from_id`,l.`qua_id`,l.`level`,
+        i.`id` AS iid ,c.`id` AS cid,s.`id` as sid,e.`id` as eid,d.`drug_from`,d.`note`,c.`drug_category_name`,s.`drug_transaction_explain`,s.`drug_transaction_status` ,d.`durg_from_id`,l.`qua_id`,l.`level`,e.enterprise_name,
       <include refid="Base_Column_List" />
         FROM drug_information i
         left JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
         left JOIN drug_category c ON c.`id`=i.`drug_category_id`
         left JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
         left JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        LEFT JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
         where i.`del_state`=0
             <if test="commonName != null and commonName != ''">
                 and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
@@ -112,8 +154,8 @@
             <if test="drugTransactionStatusId != null">
                 and `drug_transaction_status_id` like CONCAT('%',#{drugTransactionStatusId,jdbcType=INTEGER},'%')
             </if>
-        <if test="enterpriseName != null and enterpriseName != ''">
-            and `enterprise_name` like CONCAT('%',#{enterpriseName,jdbcType=VARCHAR},'%')
+        <if test="enterpriseNameId != null">
+            and `enterprise_name_id` like CONCAT('%',#{enterpriseNameId,jdbcType=INTEGER},'%')
         </if>
         <if test="tradeName != null and tradeName != ''">
             and `trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
@@ -128,13 +170,14 @@
     <!--条件查询-->
     <select id="getSelect" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT
-        i.`id` AS iid ,c.`id` AS cid,s.`id` as sid,d.`drug_from`,d.`note`,c.`drug_category_name`,s.`drug_transaction_explain`,s.`drug_transaction_status` ,d.`durg_from_id`,l.`qua_id`,l.`level`,
+        i.`id` AS iid ,c.`id` AS cid,s.`id` as sid,e.`id` as eid,d.`drug_from`,d.`note`,c.`drug_category_name`,s.`drug_transaction_explain`,s.`drug_transaction_status` ,d.`durg_from_id`,l.`qua_id`,l.`level`,e.enterprise_name,
         <include refid="Base_Column_List" />
         FROM drug_information i
-        INNER JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
-        INNER JOIN drug_category c ON c.`id`=i.`drug_category_id`
-        INNER JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
-        INNER JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        left JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
+        left JOIN drug_category c ON c.`id`=i.`drug_category_id`
+        left JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
+        left JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        LEFT JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
         where i.`del_state`=0 and i.`id` = #{id,jdbcType=INTEGER}
     </select>
     <!--剂型表查询-->
@@ -152,5 +195,97 @@
     <!--质量层次-->
     <select id="qualityLevel" resultMap="BaseResultMap5">
          SELECT * FROM quality_level
+    </select>
+    <!--企业-->
+    <select id="enterPrise" resultMap="BaseResultMap6">
+        SELECT id,enterprise_name FROM enterprise
+    </select>
+    <!--导出-->
+    <select id="importselect" resultMap="BaseResultMap">
+        SELECT
+        i.`id` AS iid ,c.`id` AS cid,s.`id` as sid,e.`id` as eid,d.`drug_from`,d.`note`,c.`drug_category_name`,s.`drug_transaction_explain`,s.`drug_transaction_status` ,d.`durg_from_id`,l.`qua_id`,l.`level`,e.enterprise_name,
+        <include refid="Base_Column_List" />
+        FROM drug_information i
+        left JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
+        left JOIN drug_category c ON c.`id`=i.`drug_category_id`
+        left JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
+        left JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        LEFT JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
+        where i.`id` in
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </select>
+    <!--选择供货-->
+    <insert id="insertSelective" parameterType="com.ygjy.pojo.EnterpriseDrugCatalog">
+        insert into enterprise_drug_catalog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="enterpriseId != null">
+                enterprise_id,
+            </if>
+            <if test="drugInformationId != null">
+                drug_information_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="enterpriseId != null">
+                #{enterpriseId,jdbcType=INTEGER},
+            </if>
+            <if test="drugInformationId != null">
+                #{drugInformationId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <!--供应商药品目录表查询-->
+    <select id="selectEnterpriseDrugCatalog" resultMap="BaseResultMap7">
+        SELECT * FROM enterprise_drug_catalog
+    </select>
+    <!--取消供货查询-->
+    <select id="backSelect" resultMap="BaseResultMap">
+        SELECT *FROM enterprise_drug_catalog e
+        LEFT JOIN `drug_information` d ON d.`id`=e.`drug_information_id`
+        LEFT JOIN enterprise s ON s.`id`=e.`enterprise_id`
+        <if test="commonName != null and commonName != ''">
+            and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="serialNumber != null and serialNumber != ''">
+            and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dosageFormId != null">
+            and d.`durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="specification != null and specification != ''">
+            and specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="unit != null and unit != ''">
+            and unit like CONCAT('%',#{unit,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="conversionFraction != null and conversionFraction != ''">
+            and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="drugCategoryId != null">
+            and `drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="drugTransactionStatusId != null">
+            and `drug_transaction_status_id` like CONCAT('%',#{drugTransactionStatusId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="enterpriseNameId != null">
+            and `enterprise_name_id` like CONCAT('%',#{enterpriseNameId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="tradeName != null and tradeName != ''">
+            and `trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="latestRetailPrice != null">
+            and `latest_retail_price` like CONCAT('%',#{latestRetailPrice,jdbcType=REAL},'%')
+        </if>
+        <if test="qualityLevelId != null">
+            and `quality_level_id` like CONCAT('%',#{qualityLevelId,jdbcType=INTEGER},'%')
+        </if>
     </select>
 </mapper>
