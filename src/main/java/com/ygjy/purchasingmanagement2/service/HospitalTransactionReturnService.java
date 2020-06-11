@@ -2,8 +2,8 @@ package com.ygjy.purchasingmanagement2.service;
 
 
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Param;
+
 
 import java.util.List;
 
@@ -27,5 +27,13 @@ public interface HospitalTransactionReturnService {
 
    /*更新*/
    int update(HospitalTransactionReturn htr);
+
+   /*批量删除*/
+   boolean removeByKeys(String[] ids);
+
+   /*条件查询*/
+   List<HospitalTransactionReturn> selList(@Param("returnOrderNumber")String returnOrderNumber, @Param("returnOrderName")String returnOrderName,
+                                           @Param("hospitalId")Integer hospitalId, @Param("returnStateId") Integer returnStateId);
+
 
 }

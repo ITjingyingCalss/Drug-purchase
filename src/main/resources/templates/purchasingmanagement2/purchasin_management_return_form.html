@@ -48,6 +48,7 @@
                 success:function (hosps) {
                     if (hosps != 0){
                         alert("添加成功");
+                        window.location.reload();
                     }else{
                         alert("添加失败");
                     }
@@ -81,6 +82,7 @@
             })
         })
 
+        /*批量删除*/
         function xiaOnclick() {
             var clickpool = true;
             $.each($(".checkboxxia"),function(index,item){
@@ -98,13 +100,33 @@
         function deleteALL() {
             var bool = false;
             var list = new Array();
+            /*var st="";*/
             $.each($("input[class='checkboxxia']:checkbox:checked"),function(index,item){
                 list.push($(item).val());
-                console.log($(item).val());
+                alert($(item).val());
+                /*st+=$(item).val()+",";*/
+                /*console.log($(item).val());*/
                 bool = true;
             });
 
             if(true){
+                $.ajax({
+                    type:"GET",
+                    url:"removeByKeys",
+                    dataType:"json",
+                    data:{"list":list}, // 传输一个list集合包含所选框的id,,,,也可以传一个st到后台data:{"list":st},
+                    success:function (result) {
+                        var b = result;
+                        if (result > 0){
+                            alert("批量删除成功!");
+                            window.location.reload();
+                        }else{
+                            alert("批量删除失败!");
+                        }
+                    }
+                })
+            }else {
+                alert("请选择数据")
             }
         }
 
@@ -141,7 +163,6 @@
     <script type="text/javascript">
 
         function updateReturnForm(){
-
 /*            var returnOrderNumber = $("#return_order_number2").val();
             var returnOrderName = $("#return_order_name2").val();
             var hospitalId = $("#hospital_id2").val();
@@ -152,7 +173,6 @@
             var submissionTime = $("#submission_time2").val();
             var remark = $("#remark2").val();
             var returnStateId = $("#return_state_id2").val();*/
-
             $.ajax({
                 url:"updates",
                 type:"post",
@@ -166,6 +186,53 @@
                         window.location.reload();
                     }else{
                         alert("修改失败");
+                    }
+                }
+            })
+        }
+    </script>
+
+
+    <!--退货单查询-->
+    <script type="text/javascript">
+
+        function selectByEntity(){
+
+            /*清除页面*/
+            $("#dataList").empty();
+
+            var returnOrderNumber = $("#return_order_number3").val();
+            var returnOrderName = $("#return_order_name3").val();
+            var hospitalId = $("#hospital_id3").val();
+            var returnStateId = $("#return_state_id3").val();
+            
+            $.ajax({
+                url:"sele",
+                type:"post",
+                data:{
+                    "returnOrderNumber":returnOrderNumber,
+                    "returnOrderName":returnOrderName,
+                    "hospitalId":hospitalId,
+                    "returnStateId":returnStateId
+                },
+                dataType:"json",
+                success:function (select) {
+                    var ss = "";
+                    for (var i = 0; i < select.length; i++) {
+                        /*var html="";
+                        if (select[i].returnStateId==1) {
+                            html="未提交";
+                        }else if(select[i].returnStateId==2){
+                            html="提交";
+                        }*/
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + select[i].id + "></td><td>"+ select[i].returnOrderNumber +"</td><td>"+ select[i].returnOrderName +"</td><td>"
+                            + select[i].hospitalId +"</td><td>"+ select[i].contacts +"</td><td>"
+                            + select[i].phone +"</td><td>"+ select[i].creatReceiptsPerson +"</td><td>"
+                            + select[i].createReceiptsTime +"</td><td>"+ select[i].submissionTime +"</td><td>"
+                            + select[i].remark +"</td><td>"
+                            + (select[i].returnStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ select[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
+
+                        $("#dataList").append(ss);
                     }
                 }
             })
@@ -189,18 +256,37 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单编号：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_unitName">
+                <input class="form-control" id="return_order_number3" name="returnOrderNumber">
             </td>
-            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_organizationalCode">
+                <input class="form-control" id="return_order_name3" name="returnOrderName">
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">医院编号：</span>
+            </td>
+            <td >
+                <input class="form-control" id="hospital_id3" name="hospitalId">
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单状态：</span>
+            </td>
+            <td>
+                <select id="return_state_id3" name="returnStateId" style="width: 50%;height: 20%">
+                    <option value="1">未提交</option>
+                    <option value="2">提交</option>
+                </select>
             </td>
         </tr>
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询退货单</button>
-<!--        <button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
+       <!--<button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
                 data-target="#editModal">导出
         </button>-->
     </div>
@@ -220,19 +306,15 @@
                         </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success btn-sm" onclick="deleteALL()">删除
+                            <button type="button" class="btn btn-success btn-sm" onclick="deleteALL()">
+                                删除
                             </button>
                         </td>
-                        <td>
+                        <!--<td>
                             <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                     data-target="#">保存退货量
                             </button>
-                        </td>
-                        <!--<button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#">删除
-                        </button>
-                        <button type="button" class="btn btn-success btn-sm" >保存退货量
-                        </button>-->
+                        </td>-->
                     </div>
                 </div>
             </div>
@@ -418,7 +500,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="updateReturnForm()" data-dismiss="modal">更新退货单</button>
+                <button class="btn btn-success" onclick="updateReturnForm()" data-dismiss="modal">修改退货单</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">提交退货单</button>
             </div>
         </div>

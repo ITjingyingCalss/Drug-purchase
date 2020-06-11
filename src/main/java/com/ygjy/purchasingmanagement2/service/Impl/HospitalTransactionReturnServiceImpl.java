@@ -49,4 +49,22 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 
         return hospitalTransactionReturnsDao.update(htr);
     }
+
+    public boolean removeByKeys(String[] ids) {
+
+
+        int result=hospitalTransactionReturnsDao.deleteByKeys(ids);
+        if (result>0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public List<HospitalTransactionReturn> selList(String returnOrderNumber, String returnOrderName, Integer hospitalId, Integer returnStateId) {
+
+        return hospitalTransactionReturnsDao.selList(returnOrderNumber,returnOrderName, hospitalId, returnStateId);
+    }
 }
