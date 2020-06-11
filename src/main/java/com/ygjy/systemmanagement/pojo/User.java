@@ -1,18 +1,24 @@
 package com.ygjy.systemmanagement.pojo;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.util.Date;
 import java.util.List;
 
-public class User {
+public class User extends BaseRowModel {
 
     private Integer id;
 
+    @ExcelIgnore
     private Integer userId;
 
+    @ExcelProperty(value = "用户名",index = 0)
     private String userAccount;
 
+    @ExcelProperty(value = "用户账号",index = 1)
     private String username;
 
     private String password;
@@ -21,20 +27,28 @@ public class User {
 
     private Integer userState;
 
+    @ExcelProperty(value = "单位名称",index = 2)
     private String userUnit;
 
+    @ExcelProperty(value = "联系地址",index = 3)
     private String contactAddress;
 
+    @ExcelProperty(value = "邮政编码",index = 4)
     private String postalCode;
 
+    @ExcelProperty(value = "联系人",index = 5)
     private String contacts;
 
+    @ExcelProperty(value = "联系方式",index = 6)
     private String userPhone;
 
+    @ExcelProperty(value = "邮箱",index = 7)
     private String userEmail;
 
+    @ExcelProperty(value = "创建时间",index = 8)
     private Date userCreateTime;
 
+    @ExcelProperty(value = "更新时间",index = 9)
     private Date userUpdateTime;
 
     private Date lastLoginTime;
