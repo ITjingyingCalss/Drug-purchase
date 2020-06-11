@@ -67,7 +67,7 @@
   </select>
     <!--根据用户ID,用户名称,用户联系地址查找用户信息-->
     <select id="selectUserAll" resultMap="BaseResultMap">
-        SELECT u.user_id,u.user_account,u.username,u.postal_code,u.contact_address,u.contacts,u.user_email,u.user_phone,u.user_state,u.user_unit,r.role_description
+        SELECT u.user_id,u.user_account,u.username,u.postal_code,u.contact_address,u.contacts,u.user_email,u.user_phone,u.user_unit,r.role_description
         FROM `user` u,role r,user_role ur
         WHERE u.user_id = ur.user_id AND r.role_id = ur.role_id
         <if test="userId != null and userId != ''">
@@ -79,6 +79,9 @@
         <if test="contactAddress != null and contactAddress != ''">
             and u.contact_address like CONCAT("%",#{contactAddress},"%")
         </if>
+        <if test="userState != null and userState != ''">
+            and u.user_state = #{userState}
+        </if>
     </select>
     <!--根据用户账号查找用户登录权限密码-->
     <select id="loginByUsername" resultMap="BaseResultMap">
@@ -89,7 +92,67 @@
                 AND u.username = #{username,jdbcType=VARCHAR}
             </if>
     </select>
-
+   <!-- 批量导出信息-->
+    <select id="queryUserList" resultMap="BaseResultMap">
+        select * from user where user_id in
+           <foreach collection="array" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=INTEGER}
+           </foreach>
+    </select>
+  <!--  根据用户id删除该条信息-->
+    <delete id="deleteUserByUserId">
+        delete from user where user_id = #{userId}
+    </delete>
+    <!--  根据用户id删除该条信息,假删除-->
+    <update id="updateUserStatus">
+        update user
+        <set>
+            <if test="userAccount != null">
+                user_account = #{userAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="userState != null">
+                user_state = #{userState,jdbcType=INTEGER},
+            </if>
+            <if test="userUnit != null">
+                user_unit = #{userUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="contactAddress != null">
+                contact_address = #{contactAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="postalCode != null">
+                postal_code = #{postalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="contacts != null">
+                contacts = #{contacts,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userCreateTime != null">
+                user_create_time = #{userCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userUpdateTime != null">
+                user_update_time = #{userUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+        and user_id = #{userId,jdbcType=INTEGER}
+  </update>
   <delete id="deleteByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.User">
     delete from user
     where id = #{id,jdbcType=INTEGER}
@@ -222,7 +285,7 @@
         username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
+        password = #{username,jdbcType=VARCHAR},
       </if>
       <if test="salt != null">
         salt = #{salt,jdbcType=VARCHAR},

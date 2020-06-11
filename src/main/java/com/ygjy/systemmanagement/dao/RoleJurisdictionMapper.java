@@ -1,7 +1,11 @@
 package com.ygjy.systemmanagement.dao;
 
 import com.ygjy.systemmanagement.pojo.RoleJurisdiction;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Mapper
 public interface RoleJurisdictionMapper {
     int deleteByPrimaryKey(Integer id);
 

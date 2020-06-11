@@ -13,12 +13,22 @@ import java.util.List;
 public interface UserMapper {
     int deleteByPrimaryKey(User key);
 
+    /**
+     * 添加用户信息
+     * @param record
+     * @return
+     */
     int insert(User record);
 
     int insertSelective(User record);
 
     User selectByPrimaryKey(User key);
 
+    /**
+     * 更新用户信息
+     * @param record
+     * @return
+     */
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
@@ -30,7 +40,7 @@ public interface UserMapper {
      * @param contactAddress
      * @return
      */
-    List<User> selectUserAll(@RequestParam("userId") Integer userId, @RequestParam("userAccount") String userAccount, @RequestParam("contactAddress") String contactAddress);
+    List<User> selectUserAll(@Param("userId") Integer userId, @Param("userAccount") String userAccount, @Param("contactAddress") String contactAddress,@Param("userState") Integer userState);
 
     /**
      * 通过用户账号获得用户密码进行判断登录
@@ -38,4 +48,25 @@ public interface UserMapper {
      * @return
      */
     User loginByUsername(@Param("username") String username);
+
+    /**
+     * 通过用户id(userId)删除该条信息
+     * @param userId
+     * @return
+     */
+    boolean deleteUserByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 通过用户id(userId)假删除该条信息
+     * @param userId
+     * @return
+     */
+    int updateUserStatus(@Param("userId") Integer userId);
+
+    /**
+     * 批量导出用户信息
+     * @param userId
+     * @return
+     */
+    List<User> queryUserList(String[] userId);
 }
