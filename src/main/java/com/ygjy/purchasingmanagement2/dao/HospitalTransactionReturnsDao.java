@@ -3,6 +3,7 @@ package com.ygjy.purchasingmanagement2.dao;
 
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +26,11 @@ public interface HospitalTransactionReturnsDao {
 
     /*更新*/
     int update(HospitalTransactionReturn htr);
+
+    /*批量删除*/
+    int deleteByKeys(String[] ids);
+
+    /*条件查询*/
+    List<HospitalTransactionReturn> selList(@Param("returnOrderNumber")String returnOrderNumber,@Param("returnOrderName")String returnOrderName,
+                                            @Param("hospitalId")Integer hospitalId,@Param("returnStateId") Integer returnStateId);
 }

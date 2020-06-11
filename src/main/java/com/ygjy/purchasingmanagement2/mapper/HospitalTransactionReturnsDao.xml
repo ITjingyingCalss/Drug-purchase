@@ -52,4 +52,35 @@
       `submission_time`=#{submissionTime},`remark`=#{remark}, `return_state_id`=#{returnStateId} WHERE (`id`=#{id});
 
   </update>
+
+  <delete id="deleteByKeys" parameterType="java.lang.Integer">
+    delete from hospital_transaction_return where id in
+    <foreach collection="array" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+
+  </delete>
+
+  <select id="selList" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_return where 1 = 1
+
+        <if test="returnOrderNumber != null and returnOrderNumber != ''">
+            and return_order_number like CONCAT ('%',#{returnOrderNumber},'%')
+        </if>
+
+        <if test="returnOrderName != null and returnOrderName != ''">
+          and return_order_name like CONCAT ('%',#{returnOrderName},'%')
+        </if>
+
+        <if test="hospitalId != null and hospitalId != ''">
+          and hospital_id like CONCAT ('%',#{hospitalId},'%')
+        </if>
+
+        <if test="returnStateId != null and returnStateId != ''">
+          and return_state_id like CONCAT ('%',#{returnStateId},'%')
+        </if>
+
+  </select>
+
 </mapper>

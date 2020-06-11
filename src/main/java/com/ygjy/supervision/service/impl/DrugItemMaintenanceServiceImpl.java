@@ -3,11 +3,9 @@ package com.ygjy.supervision.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ygjy.dao.DrugCategoryDAO;
+import com.ygjy.dao.DrugItemsDAO;
 import com.ygjy.dao.DurgsFromDAO;
-import com.ygjy.pojo.DrugCategory;
-import com.ygjy.pojo.DrugCategoryExample;
-import com.ygjy.pojo.DurgsFrom;
-import com.ygjy.pojo.DurgsFromExample;
+import com.ygjy.pojo.*;
 
 
 import com.ygjy.supervision.dao.DrugItemsMapper;

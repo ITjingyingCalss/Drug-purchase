@@ -1,10 +1,13 @@
 package com.ygjy.purchasingmanagement2.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionReturnService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -67,6 +70,41 @@ public class HospitalTransactionReturnController {
         int update = hospitalTransactionReturnService.update(htr);
 
         return update;
+
+    }
+
+    /*批量删除*/
+    @ResponseBody
+    @RequestMapping(value="removeByKeys",produces={"application/json;charset=utf-8"})
+    public String removeByKeys(@RequestParam(value = "list[]") String[] list){
+
+        boolean result=hospitalTransactionReturnService.removeByKeys(list);
+
+        return JSON.toJSONString(result);
+    }
+
+/*    批量删除
+    @ResponseBody
+    @RequestMapping(value="removeByKeys",produces={"application/json;charset=utf-8"})
+    public String removeByKeys(@RequestParam(value = "list")String list){
+
+        String[] ids=list.split(",");
+
+        boolean result=hospitalTransactionReturnService.removeByKeys(ids);
+
+        return JSON.toJSONString(result);
+
+    }*/
+
+
+    /*条件查询*/
+    @ResponseBody
+    @RequestMapping("sele")
+    public List<HospitalTransactionReturn> selList (String returnOrderNumber,String returnOrderName,Integer hospitalId,Integer returnStateId){
+
+        List<HospitalTransactionReturn> select = hospitalTransactionReturnService.selList(returnOrderNumber,returnOrderName,hospitalId,returnStateId);
+
+        return select;
 
     }
 
