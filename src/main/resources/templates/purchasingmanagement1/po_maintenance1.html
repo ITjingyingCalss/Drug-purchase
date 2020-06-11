@@ -16,14 +16,25 @@
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="js/supervision/Drug_item_maintenance.js"></script>
-
-
     <script type="text/javascript">
-        function down(){
-            window.location.href="down";
-        }
+       $(function () {
+           url="selectPurchaseOrderAll";
+           $.get(url,{},function (data) {
+               for (var i = 0;i<data.length;i++){
+                   $(".context").append('<tr><td>'+data[i].hospitalId+'</td><td>'+data[i].purchaseOrderNumber + '</td><td>' +data[i].nameOfPurchaseOrder+ '</td><td>'
+                       +data[i].createReceiptsTime + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
+                       + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseName+ '</td><td>'+ data[i].tradeName+ '</td><td>'
+                       + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevelId+ '</td><td>'+ data[i].drugCategory+ '</td><td>'+ data[i].drugTransactionStatusId
+                       + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')">查看'
+                       +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')"> 修改'
+                       +'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
+               }
+           })
+       })
     </script>
+
+
+
 
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-controller="PurchasingManagementController1">

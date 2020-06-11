@@ -1,6 +1,6 @@
 package com.ygjy.purchasingmanagement1.controller;
 
-import com.ygjy.pojo.DrugInformation;
+import com.ygjy.purchasingmanagement1.pojo.DrugInformation;
 import com.ygjy.purchasingmanagement1.service.impl.DrugInformationImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,20 +17,42 @@ public class PurchasingManagementController1 {
 
     @ResponseBody
     @RequestMapping("/selectAll")//查询所有
-    public List<DrugInformation> selectAll(){
+    public List<DrugInformation> selectAll() {
         List<DrugInformation> drugInformations = drugInformationImpl.selectAll();
         return drugInformations;
     }
+
     @ResponseBody
     @RequestMapping("/selectLike")//模糊查询
-    public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, String enterpriseName, String tradeName, Double biddingPrice, Integer qualityLevelId, String drugCategory, Integer drugTransactionStatusId){
-        List<DrugInformation> drugInformations = drugInformationImpl.selectLike(serialNumber,commonName,dosageFormId, specification, unit,conversionFraction, enterpriseName, tradeName, biddingPrice, qualityLevelId,  drugCategory, drugTransactionStatusId);
+    public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, String enterpriseName, String tradeName, Double biddingPrice, Integer qualityLevelId, String drugCategory, Integer drugTransactionStatusId) {
+        List<DrugInformation> drugInformations = drugInformationImpl.selectLike(serialNumber, commonName, dosageFormId, specification, unit, conversionFraction, enterpriseName, tradeName, biddingPrice, qualityLevelId, drugCategory, drugTransactionStatusId);
         return drugInformations;
     }
+
     @ResponseBody
     @RequestMapping("/add")//添加药品
-    public int addDrug(DrugInformation drugInformation){
+    public int addDrug(DrugInformation drugInformation) {
         int i = drugInformationImpl.addDrug(drugInformation);
+        return i;
+    }
+
+    @ResponseBody
+    @RequestMapping("/selectBySerialNumber")//流水号查询
+    public DrugInformation selectBySerialNumber(Integer serialNumber){
+        DrugInformation drugInformation = drugInformationImpl.selectBySerialNumber(serialNumber);
+        return drugInformation;
+    }
+
+    @ResponseBody
+    @RequestMapping("/updateDrug")//药品修改
+    public int  updateDrug(DrugInformation drugInformation){
+        int i = drugInformationImpl.updateDrug(drugInformation);
+        return i;
+    }
+    @ResponseBody
+    @RequestMapping("/deleteDrug")//药品删除
+    public int deleteDrug(Integer id){
+        int i = drugInformationImpl.deleteDrug(id);
         return i;
     }
 
