@@ -1,6 +1,6 @@
 package com.ygjy.purchasingmanagement1.service.impl;
 
-import com.ygjy.pojo.DrugInformation;
+import com.ygjy.purchasingmanagement1.pojo.DrugInformation;
 import com.ygjy.purchasingmanagement1.dao.DrugInformationDao;
 import com.ygjy.purchasingmanagement1.service.DrugInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,21 @@ public class DrugInformationImpl implements DrugInformationService {
     public int addDrug(DrugInformation drugInformation) {
         int i = drugInformationDao.addDrug(drugInformation);
         return i;
+    }
+
+    @Override
+    public DrugInformation selectBySerialNumber(Integer serialNumber) {
+        return drugInformationDao.selectBySerialNumber(serialNumber);
+    }
+
+    @Override
+    public int updateDrug(DrugInformation drugInformation) {
+        return drugInformationDao.updataDrug(drugInformation);
+    }
+
+    @Override
+    public int deleteDrug(Integer id) {
+        return drugInformationDao.deleteDrug(id);
     }
 
 

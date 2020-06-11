@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ygjy.purchasingmanagement1.dao.DrugInformationDao">
-    <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugInformation">
+    <resultMap id="BaseResultMap" type="com.ygjy.purchasingmanagement1.pojo.DrugInformation">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
         <result column="common_name" jdbcType="VARCHAR" property="commonName" />
@@ -41,7 +41,7 @@
   </sql>
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from drug_information
+        select * from drug_information where del_state = 0
     </select>
     <!--模糊查询-->
     <select id="selectLike" resultMap="BaseResultMap">
@@ -83,6 +83,7 @@
             <if test="drugTransactionStatusId!=null and drugTransactionStatusId!= 0 ">
                 and drug_transaction_status_id like CONCAT ('%',#{drugTransactionStatusId},'%')
             </if>
+            and del_state = 0
         </where>
     </select>
 
@@ -99,4 +100,23 @@
         #{qualityLevelId},#{qualityLevelDescription},#{drugInspectionReport},#{drugInspectionReportNumber},
         #{validityOfDrugInspectionReport},#{drugTransactionStatusId},#{descriptionOfProducts},0)
     </insert>
+    <!--流水号查询-->
+    <select id="selectBySerialNumber" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from drug_information where serial_number = #{serialNumber,jdbcType=INTEGER}
+    </select>
+    <!--修改药品-->
+    <update id="updataDrug" parameterType="com.ygjy.purchasingmanagement1.pojo.DrugInformation">
+        update drug_information set serial_number = #{serialNumber},
+        common_name = #{commonName}, dosage_form_id = #{dosageFormId}, specification = #{specification}, conversion_fraction = #{conversionFraction},
+    enterprise_name = #{enterpriseName}, trade_name = #{tradeName}, bidding_price = #{biddingPrice}, unit = #{unit}, common_name_pinyin = #{commonNamePinyin}, product_picture = #{productPicture},
+    approval_number = #{approvalNumber}, validity_of_approval_number = #{validityOfApprovalNumber}, imported_drug = #{importedDrug}, packaging_material = #{packagingMaterial},
+    packing_unit = #{packingUnit}, latest_retail_price = #{latestRetailPrice}, source_of_retail_price = #{sourceOfRetailPrice}, quality_level_id = #{qualityLevelId}, quality_level_description = #{qualityLevelDescription},
+    drug_inspection_report = #{drugInspectionReport}, drug_inspection_report_number = #{drugInspectionReportNumber}, validity_of_drug_inspection_report = #{validityOfDrugInspectionReport},
+    description_of_products = #{descriptionOfProducts}, drug_category = #{drugCategory}, drug_transaction_status_id = #{drugTransactionStatusId}, del_state = 0
+    where id = #{id}
+    </update>
+    <!--删除-->
+    <update id="deleteDrug" parameterType="java.lang.Integer">
+        update drug_information set del_state = 1 where id=#{id}
+    </update>
 </mapper>
