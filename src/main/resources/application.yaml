@@ -8,8 +8,9 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     encoding: UTF-8
-    content-type: text/html
     mode: HTML5
+    servlet:
+      content-type: text/html
 
   datasource:
     url: jdbc:mysql://localhost:3306/drugplatform?characterEncoding=utf8
@@ -19,3 +20,8 @@ spring:
 mybatis:
   mapper-locations: classpath:com/ygjy/**/mapper/*.xml
   type-aliases-package: com.ygjy.pojo
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql

@@ -13,7 +13,7 @@ function save(){
             url:"drugItemsAdd",
             data:formData,
             success:function (data) {
-                alert(data);
+                alert(data)
                 window.location.reload();
             },
             error:function () {
@@ -22,4 +22,15 @@ function save(){
         })
         console.log(formData);
     }
+}
+function updateState(itemsId) {
+    $.ajax({
+        type:"post",
+        url:"updateItemsState",
+        data:{"id":itemsId},
+        success:function (data) {
+            alert("成功删除"+data+"条数据！")
+            window.location.reload();
+        }
+    })
 }

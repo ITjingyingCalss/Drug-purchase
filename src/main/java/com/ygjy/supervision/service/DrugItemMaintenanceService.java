@@ -13,7 +13,11 @@ public interface DrugItemMaintenanceService {
     //添加药品品目信息
     int drugItemsAdd(DrugItems drugItems);
     //加载全部药品品目信息
-    PageInfo findAllDrugItems(Integer pageNum);
+    PageInfo findAllDrugItems(Integer pageNum,DrugItems drugItems);
 
     DrugItems findItemsById(Integer itemsId);
+
+    Integer updateItemsState(Integer itemsId);
+
+    List<DrugItems> exportExcle();
 }

@@ -3,11 +3,9 @@ package com.ygjy.supervision.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ygjy.dao.DrugCategoryDAO;
+import com.ygjy.dao.DrugItemsDAO;
 import com.ygjy.dao.DurgsFromDAO;
-import com.ygjy.pojo.DrugCategory;
-import com.ygjy.pojo.DrugCategoryExample;
-import com.ygjy.pojo.DurgsFrom;
-import com.ygjy.pojo.DurgsFromExample;
+import com.ygjy.pojo.*;
 
 
 import com.ygjy.supervision.dao.DrugItemsMapper;
@@ -47,7 +45,7 @@ public class DrugItemMaintenanceServiceImpl implements DrugItemMaintenanceServic
             int itemsId = drugItemsMapper.findMaxItemsId()+1;
             String drugItemsNumber = "0000"+itemsId;
             drugItems.setDrugItemsNumber(drugItemsNumber);
-            return  drugItemsDAO.insert(drugItems);
+            return  drugItemsMapper.drugItemsAdd(drugItems);
         }else {
             return  drugItemsDAO.updateByPrimaryKeySelective(drugItems);
         }
@@ -55,14 +53,26 @@ public class DrugItemMaintenanceServiceImpl implements DrugItemMaintenanceServic
     }
 
     @Override
-    public PageInfo findAllDrugItems(Integer pageNum) {
+    public PageInfo findAllDrugItems(Integer pageNum,DrugItems drugItems) {
+        int count = drugItemsMapper.findDrugItemsCount();
         PageHelper.startPage(pageNum,5);
-        List<DrugItems> list = drugItemsMapper.findAllDrugItems();
+        List<DrugItems> list = drugItemsMapper.findAllDrugItems(drugItems);
         return new PageInfo(list);
     }
 
     @Override
     public DrugItems findItemsById(Integer itemsId) {
         return drugItemsDAO.selectByPrimaryKey(itemsId);
+    }
+
+    @Override
+    public Integer updateItemsState(Integer itemsId) {
+        return drugItemsMapper.updateItemsState(itemsId);
+    }
+
+    @Override
+    public List<DrugItems> exportExcle() {
+        DrugItemsExample drugItemsExample = new DrugItemsExample();
+        return drugItemsDAO.selectByExample(drugItemsExample);
     }
 }

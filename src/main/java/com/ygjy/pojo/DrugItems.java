@@ -49,6 +49,10 @@ public class DrugItems implements Serializable {
      */
     private String state;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getItemsId() {

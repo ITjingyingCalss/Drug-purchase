@@ -2,7 +2,7 @@ var ok1=false;var ok2=false;var ok3=false;var ok4=false;
 var ok5=false;var ok6=false;var ok7=false;
 //检查通用名是否填写
 function checkCommonName() {
-    var commonName = $("input[name=commonName]").val();
+    var commonName = $("#id_table input[name=commonName]").val();
     if (commonName==''||commonName==null){
         $("#commonName").html("通用名不能为空").css("color","red");ok1=false;
     }else{
@@ -11,7 +11,7 @@ function checkCommonName() {
 }
 //检查剂型是否填写
 function checkDosageForm() {
-    var dosageForm = $("select[name=dosageFormId]").val();
+    var dosageForm = $("#id_table select[name=dosageFormId]").val();
     if (dosageForm==0||dosageForm==null){
         $("#dosageForm").html("剂型不能为空").css("color","red");ok2=false;
     }else{
@@ -20,7 +20,7 @@ function checkDosageForm() {
 }
 //检查规格是否为空
 function checkSpecification() {
-    var specification = $("input[name=specification]").val();
+    var specification = $("#id_table input[name=specification]").val();
     if (specification==''||specification==null){
         $("#specification").html("规格不能为空").css("color","red");ok3=false;
     }else{
@@ -29,7 +29,7 @@ function checkSpecification() {
 }
 //检查单位是否为空
 function chenkUnit() {
-    var unit = $("input[name=unit]").val();
+    var unit = $("#id_table input[name=unit]").val();
     if (unit==''||unit==null){
         $("#unit").html("单位不能为空").css("color","red");ok4=false;
     }else{
@@ -38,7 +38,7 @@ function chenkUnit() {
 }
 //检查转换系数是否为空
 function checkConversionFraction() {
-    var conversionFraction = $("input[name=conversionFraction]").val();
+    var conversionFraction = $("#id_table input[name=conversionFraction]").val();
     if (conversionFraction==''||conversionFraction==null){
         $("#conversionFraction").html("转换系数不能为空").css("color","red");ok5=false;
     }else{
@@ -47,7 +47,7 @@ function checkConversionFraction() {
 }
 //检查药品类别是否为空
 function checkDrugCategory() {
-    var drugCategory = $("select[name=drugCategoryId]").val();
+    var drugCategory = $("#id_table select[name=drugCategoryId]").val();
     if (drugCategory==0||drugCategory==null){
         $("#drugCategory").html("药品类别不能为空").css("color","red");ok6=false;
     }else{
@@ -56,7 +56,7 @@ function checkDrugCategory() {
 }
 //检查状态是否为空
 function checkDrugTransactionStatusId() {
-    var drugTransactionStatusId = $("select[name=state]").val();
+    var drugTransactionStatusId = $("#id_table select[name=state]").val();
     if (drugTransactionStatusId==0||drugTransactionStatusId==null){
         $("#drugTransactionStatusId").html("状态不能为空").css("color","red");ok7=false;
     }else{
