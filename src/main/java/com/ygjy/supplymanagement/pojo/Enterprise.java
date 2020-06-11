@@ -480,42 +480,37 @@ public class Enterprise implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", enterpriseName=").append(enterpriseName);
-        sb.append(", enterpriseType=").append(enterpriseType);
-        sb.append(", license=").append(license);
-        sb.append(", licenseExpirationDate=").append(licenseExpirationDate);
-        sb.append(", enterpriseContacts=").append(enterpriseContacts);
-        sb.append(", enterpriseTelephone=").append(enterpriseTelephone);
-        sb.append(", businessScope=").append(businessScope);
-        sb.append(", registeredAddress=").append(registeredAddress);
-        sb.append(", contactAddress=").append(contactAddress);
-        sb.append(", postalCode=").append(postalCode);
-        sb.append(", totalAssets=").append(totalAssets);
-        sb.append(", corporateFax=").append(corporateFax);
-        sb.append(", legalPerson=").append(legalPerson);
-        sb.append(", legalPersonIdCard=").append(legalPersonIdCard);
-        sb.append(", enterpriseRegisteredCapital=").append(enterpriseRegisteredCapital);
-        sb.append(", salesAmountLastYear=").append(salesAmountLastYear);
-        sb.append(", email=").append(email);
-        sb.append(", website=").append(website);
-        sb.append(", enterpriseCode=").append(enterpriseCode);
-        sb.append(", enterpriseCodeDate=").append(enterpriseCodeDate);
-        sb.append(", businessLicense=").append(businessLicense);
-        sb.append(", businessLicenseDate=").append(businessLicenseDate);
-        sb.append(", enterpriseLetterOfCredit=").append(enterpriseLetterOfCredit);
-        sb.append(", enterpriseLetterNumber=").append(enterpriseLetterNumber);
-        sb.append(", enterpriseLetterData=").append(enterpriseLetterData);
-        sb.append(", fixedAssets=").append(fixedAssets);
-        sb.append(", companyProfile=").append(companyProfile);
-        sb.append(", remark=").append(remark);
-        sb.append(", delState=").append(delState);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "Enterprise{" +
+                "id=" + id +
+                ", enterpriseName='" + enterpriseName + '\'' +
+                ", enterpriseType='" + enterpriseType + '\'' +
+                ", license='" + license + '\'' +
+                ", licenseExpirationDate=" + licenseExpirationDate +
+                ", enterpriseContacts='" + enterpriseContacts + '\'' +
+                ", enterpriseTelephone='" + enterpriseTelephone + '\'' +
+                ", businessScope='" + businessScope + '\'' +
+                ", registeredAddress='" + registeredAddress + '\'' +
+                ", contactAddress='" + contactAddress + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", totalAssets=" + totalAssets +
+                ", corporateFax='" + corporateFax + '\'' +
+                ", legalPerson='" + legalPerson + '\'' +
+                ", legalPersonIdCard='" + legalPersonIdCard + '\'' +
+                ", enterpriseRegisteredCapital=" + enterpriseRegisteredCapital +
+                ", salesAmountLastYear=" + salesAmountLastYear +
+                ", email='" + email + '\'' +
+                ", website='" + website + '\'' +
+                ", enterpriseCode='" + enterpriseCode + '\'' +
+                ", enterpriseCodeDate=" + enterpriseCodeDate +
+                ", businessLicense='" + businessLicense + '\'' +
+                ", businessLicenseDate=" + businessLicenseDate +
+                ", enterpriseLetterOfCredit=" + enterpriseLetterOfCredit +
+                ", enterpriseLetterNumber='" + enterpriseLetterNumber + '\'' +
+                ", enterpriseLetterData=" + enterpriseLetterData +
+                ", fixedAssets=" + fixedAssets +
+                ", companyProfile='" + companyProfile + '\'' +
+                ", remark='" + remark + '\'' +
+                ", delState=" + delState +
+                '}';
     }
 }

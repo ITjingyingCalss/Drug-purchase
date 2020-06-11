@@ -2,6 +2,8 @@ package com.ygjy.supplymanagement.service;
 
 import com.ygjy.supplymanagement.pojo.DrugInformation;
 import com.ygjy.supplymanagement.pojo.DrugTransactionStatus;
+import com.ygjy.supplymanagement.pojo.Enterprise;
+import com.ygjy.supplymanagement.pojo.EnterpriseDrugCatalog;
 import com.ygjy.supplymanagement.utils.Dto;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +19,7 @@ public interface DrugsInformationService {
      * 药品品目、信息模糊查询及全部查询
      * @return
      */
-    List<DrugInformation> getQuery(String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,String enterpriseName,String tradeName,Float latestRetailPrice,Integer qualityLevelId);
+    List<DrugInformation> getQuery(String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,Integer enterpriseNameId,String tradeName,Float latestRetailPrice,Integer qualityLevelId);
     /**
      * 剂型表查询
      */
@@ -37,8 +39,31 @@ public interface DrugsInformationService {
     Dto qualityLevel();
 
     /**
+     * 企业表
+     * @return
+     */
+    Dto enterPrise();
+    /**
      * 条件查询
      * @return
      */
     Dto getSelect(Integer id);
+    /**
+     * 导出
+     * @param items
+     * @return
+     */
+    List<DrugInformation> importselect(String[] items);
+    /**
+     * 添加从表供应商药品目录表
+     */
+    int insertSelective(EnterpriseDrugCatalog enterpriseDrugCatalog);
+    /**
+     * 供应商药品目录表查询
+     */
+    List<EnterpriseDrugCatalog> selectEnterpriseDrugCatalog();
+    /**
+     * 取消供货查询
+     */
+    List<EnterpriseDrugCatalog> backSelect(String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,Integer enterpriseNameId,String tradeName,Float latestRetailPrice,Integer qualityLevelId);
 }

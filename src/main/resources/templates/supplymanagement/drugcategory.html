@@ -57,6 +57,7 @@
                     for(var i=0;i<result.list.length;i++){
                         var data=result.list;
                         v+='<tr>';
+                        v+='<td><input type="checkbox" name="del" value='+data[i].id+'></td>';
                         v+='<td>'+data[i].serialNumber+'</td>'
                         v+='<td>'+data[i].commonName+'</td>'
                         v+='<td>'+data[i].dosageFormId+'</td>'
@@ -122,6 +123,7 @@
                 }
             }
         })
+        //条件查询
         function saw(id) {
             $.ajax({
                 url:"getSelect",
@@ -138,7 +140,7 @@
                     $("#specifications").val(data.specification);
                     $("#units").val(data.unit);
                     $("#conversionFraction").val(data.conversionFraction);
-                    $("#enterpriseName").val(data.enterpriseName);
+                    $("#enterpriseName").val(data.enterprise.enterpriseName);
                     $("#tradeName").val(data.tradeName);
                     $("#biddingPrice").val(data.biddingPrice);
                     $("#qualityLevelId").val(data.qualityLevel.level);
@@ -146,6 +148,37 @@
                     $("#drugTransactionStatusId").val(data.drugTransactionStatus.drugTransactionExplain);
                 }
             })
+        }
+        //全选/全不选
+        function setAllNo() {
+            var box = document.getElementById("boxid");
+            var loves = document.getElementsByName("del");
+            if(box.checked == false){
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = false;
+                }
+            }else{
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = true;
+                }
+            }
+        }
+        //导出
+        function importOne() {
+            var import1=$('input[name="del"]:checked').length;
+            if(import1==0){
+                alert("请至少选择一项导出");
+                return;
+            }
+            if(confirm("确定要导出吗?")){
+                var importId=[];
+                $('input[name="del"]:checked').each(function () {
+                    importId.push($(this).val())
+                })
+                window.location.href="export?importId="+importId;
+            }
         }
     </script>
 
@@ -227,7 +260,7 @@
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+        <button class="btn btn-success btn-sm" onclick="importOne()">导出</button>
     </div>
 </div>
 <div class="box-body">
@@ -238,6 +271,7 @@
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
+                <th class="sorting" style="width: 100px"><input type="checkbox" id="boxid" onclick="setAllNo()"  />全选/全不选</th>
                 <th class="sorting_asc">流水号</th>
                 <th class="sorting_asc">通用名</th>
                 <th class="sorting">剂型</th>

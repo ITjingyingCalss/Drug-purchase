@@ -26,7 +26,7 @@ public interface DrugsInformationDao {
                  @Param("conversionFraction")String conversionFraction,
                  @Param("drugCategoryId")Integer drugCategoryId,
                  @Param("drugTransactionStatusId")Integer drugTransactionStatusId,
-                 @Param("enterpriseName")String enterpriseName,
+                 @Param("enterpriseNameId")Integer enterpriseNameId,
                  @Param("tradeName") String tradeName,
                  @Param("latestRetailPrice") Float latestRetailPrice,
                  @Param("qualityLevelId") Integer qualityLevelId);
@@ -52,8 +52,42 @@ public interface DrugsInformationDao {
     List<QualityLevel> qualityLevel();
 
     /**
+     * 企业表
+     * @return
+     */
+    List<Enterprise> enterPrise();
+    /**
      * 条件查询
      * @return
      */
     DrugInformation getSelect(Integer id);
+    /**
+     * 导出
+     * @param items
+     * @return
+     */
+    List<DrugInformation> importselect(String[] items);
+    /**
+     * 添加从表供应商药品目录表
+     */
+    int insertSelective(EnterpriseDrugCatalog enterpriseDrugCatalog);
+    /**
+     * 供应商药品目录表查询
+     */
+    List<EnterpriseDrugCatalog> selectEnterpriseDrugCatalog();
+    /**
+     * 取消供货查询
+     */
+    List<EnterpriseDrugCatalog> backSelect(@Param("commonName")String commonName,
+                                           @Param("serialNumber")String serialNumber,
+                                           @Param("dosageFormId")Integer dosageFormId,
+                                           @Param("specification")String specification,
+                                           @Param("unit")String unit,
+                                           @Param("conversionFraction")String conversionFraction,
+                                           @Param("drugCategoryId")Integer drugCategoryId,
+                                           @Param("drugTransactionStatusId")Integer drugTransactionStatusId,
+                                           @Param("enterpriseNameId")Integer enterpriseNameId,
+                                           @Param("tradeName") String tradeName,
+                                           @Param("latestRetailPrice") Float latestRetailPrice,
+                                           @Param("qualityLevelId") Integer qualityLevelId);
 }

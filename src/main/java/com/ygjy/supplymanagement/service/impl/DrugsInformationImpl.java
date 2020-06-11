@@ -20,9 +20,15 @@ public class DrugsInformationImpl implements DrugsInformationService {
     @Resource
     private DrugsInformationDao drugsInformationDao;
     @Override
-    public List<DrugInformation> getQuery(String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer drugTransactionStatusId,String enterpriseName,String tradeName,Float latestRetailPrice,Integer qualityLevelId) {
-        List<DrugInformation> query = drugsInformationDao.getQuery(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseName, tradeName, latestRetailPrice, qualityLevelId);
+    public List<DrugInformation> getQuery(String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer drugTransactionStatusId,Integer enterpriseNameId,String tradeName,Float latestRetailPrice,Integer qualityLevelId) {
+        List<DrugInformation> query = drugsInformationDao.getQuery(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseNameId, tradeName, latestRetailPrice, qualityLevelId);
         return query;
+    }
+
+    @Override
+    public Dto enterPrise() {
+        List<Enterprise> enterprises = drugsInformationDao.enterPrise();
+        return DtoUtil.returnDataSuccess(enterprises);
     }
 
     @Override
@@ -53,5 +59,25 @@ public class DrugsInformationImpl implements DrugsInformationService {
     public Dto qualityLevel() {
         List<QualityLevel> qualityLevels = drugsInformationDao.qualityLevel();
         return DtoUtil.returnDataSuccess(qualityLevels);
+    }
+    @Override
+    public List<DrugInformation> importselect(String[] items) {
+        return drugsInformationDao.importselect(items);
+    }
+
+    @Override
+    public int insertSelective(EnterpriseDrugCatalog enterpriseDrugCatalog) {
+        return drugsInformationDao.insertSelective(enterpriseDrugCatalog);
+    }
+
+    @Override
+    public  List<EnterpriseDrugCatalog> selectEnterpriseDrugCatalog() {
+        return drugsInformationDao.selectEnterpriseDrugCatalog();
+    }
+
+    @Override
+    public List<EnterpriseDrugCatalog> backSelect(String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer drugTransactionStatusId, Integer enterpriseNameId, String tradeName, Float latestRetailPrice, Integer qualityLevelId) {
+        List<EnterpriseDrugCatalog> enterpriseDrugCatalogs = drugsInformationDao.backSelect(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseNameId, tradeName, latestRetailPrice, qualityLevelId);
+        return enterpriseDrugCatalogs;
     }
 }

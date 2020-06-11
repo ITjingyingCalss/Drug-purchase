@@ -33,7 +33,7 @@
             var conversion_fraction=$("#conversion_fraction").val();
             var drug_category_id=$("#drug_category_id").val();
             var drug_transaction_status_id=$("#drugTransactionStatusId").val();
-            var enterpriseName=$("#enterpriseName").val();
+            var enterpriseName=$("#enterpriseNameId").val();
             var tradeName=$("#tradeName").val();
             var qualityLevelId=$("#qualityLevelId").val();
             $.ajax({
@@ -47,7 +47,7 @@
                     "conversionFraction":conversion_fraction,
                     "drugCategoryId":drug_category_id,
                     "drugTransactionStatusId":drug_transaction_status_id,
-                    "enterpriseName":enterpriseName,
+                    "enterpriseNameId":enterpriseName,
                     "tradeName":tradeName,
                     "qualityLevelId":qualityLevelId,
                     "pageNum":pageNum
@@ -60,13 +60,14 @@
                     for(var i=0;i<result.list.length;i++){
                         var data=result.list;
                         v+='<tr>';
+                        v+='<td><input type="checkbox" name="del" value='+data[i].id+'></td>';
                         v+='<td>'+data[i].serialNumber+'</td>'
                         v+='<td>'+data[i].commonName+'</td>'
                         v+='<td>'+data[i].dosageFormId+'</td>'
                         v+='<td>'+data[i].specification+'</td>'
                         v+='<td>'+data[i].unit+'</td>'
                         v+='<td>'+data[i].conversionFraction+'</td>'
-                        v+='<td>'+data[i].enterpriseName+'</td>';
+                        v+='<td>'+data[i].enterprise.enterpriseName+'</td>';
                         v+='<td>'+data[i].tradeName+'</td>';
                         v+='<td>'+data[i].biddingPrice+'</td>';
                         v+='<td>'+data[i].qualityLevelId+'</td>';
@@ -89,7 +90,6 @@
             dataType:"json",
             success:function (result) {
                 $("#dosage_form_id").empty();
-                console.log(result)
                 $("#dosage_form_id").prepend('<option value="0">请选择</option>')
                 for(var i=0;i<result.data.length;i++){
                     var list=result.data;
@@ -105,7 +105,6 @@
             dataType:"json",
             success:function (result) {
                 $("#drug_category_id").empty();
-                console.log(result)
                 $("#drug_category_id").prepend('<option value="0">请选择</option>')
                 for(var i=0;i<result.data.length;i++){
                     var list=result.data;
@@ -121,7 +120,6 @@
             dataType:"json",
             success:function (result) {
                 $("#drugTransactionStatusId").empty();
-                console.log(result)
                 $("#drugTransactionStatusId").prepend('<option value="0">请选择</option>')
                 for(var i=0;i<result.data.length;i++){
                     var list=result.data;
@@ -137,11 +135,25 @@
             dataType:"json",
             success:function (result) {
                 $("#qualityLevelId").empty();
-                console.log(result)
                 $("#qualityLevelId").prepend('<option value="0">请选择</option>')
                 for(var i=0;i<result.data.length;i++){
                     var list=result.data;
                     $("#qualityLevelId").prepend('<option value="' + list[i].quaId + '">' + list[i].level + '</option>')
+                }
+            }
+        })
+        //企业表查询
+        $.ajax({
+            url:"enterPrise",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#enterpriseNameId").empty();
+                $("#enterpriseNameId").prepend('<option value="0" >请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#enterpriseNameId").prepend('<option value="' + list[i].id + '">' + list[i].enterpriseName + '</option>')
                 }
             }
         })
@@ -154,6 +166,7 @@
                 type:"post",
                 dataType:"json",
                 success:function (result) {
+                    console.log(result);
                     var data=result.data;
                     $("#serialNumber").val(data.serialNumber);
                     $("#commonName").val(data.commonName);
@@ -161,7 +174,7 @@
                     $("#specifications").val(data.specification);
                     $("#units").val(data.unit);
                     $("#conversionFraction").val(data.conversionFraction);
-                    $("#enterpriseNames").val(data.enterpriseName);
+                    $("#enterpriseNames").val(data.enterprise.enterpriseName);
                     $("#tradeNames").val(data.tradeName);
                     $("#biddingPrice").val(data.biddingPrice);
                     $("#qualityLevelIds").val(data.qualityLevel.level);
@@ -171,6 +184,38 @@
                     $("#source_of_retail_price").val(data.sourceOfRetailPrice);
                 }
             })
+        }
+        //全选/全不选
+        function setAllNo() {
+            var box = document.getElementById("boxid");
+            var loves = document.getElementsByName("del");
+            if(box.checked == false){
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = false;
+                }
+            }else{
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = true;
+                }
+            }
+        }
+        //导出
+        function importOne() {
+            var import1=$('input[name="del"]:checked').length;
+            if(import1==0){
+                alert("请至少选择一项导出");
+                return;
+            }
+            if(confirm("确定要导出吗?")){
+                var importId=[];
+                $('input[name="del"]:checked').each(function () {
+                    importId.push($(this).val())
+                    // alert(importId)
+                })
+                window.location.href="export2?importId="+importId;
+            }
         }
     </script>
 
@@ -232,7 +277,9 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
             </td>
             <td>
-                <input class="form-control" id="enterpriseName">
+                <select style="width: 30%;height: 20%" id="enterpriseNameId">
+                    <option value="0">请选择</option>
+                </select>
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
@@ -281,33 +328,16 @@
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+        <button class="btn btn-success btn-sm" onclick="importOne()">导出</button>
     </div>
 </div>
 <div class="box-body">
     <!-- 数据表格 -->
     <div class="table-box">
-        <!-- 数据表格 -->
-        <!--<div class="table-box">-->
-            <!--&lt;!&ndash;工具栏&ndash;&gt;-->
-            <!--<div class="pull-left">-->
-                <!--<div class="form-group form-inline">-->
-                    <!--<div class="btn-group">-->
-                        <!--<button type="button" class="btn btn-success btn-sm" data-toggle="modal"-->
-                                <!--data-target="#editModal1">添加-->
-                        <!--</button>-->
-                        <!--<button type="button" class="btn btn-success btn-sm" data-toggle="modal"-->
-                                <!--data-target="#editModal">导入-->
-                        <!--</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--工具栏/-->
-        <!--数据列表-->
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
+                <th class="sorting" style="width: 100px"><input type="checkbox" id="boxid" onclick="setAllNo()"  />全选/全不选</th>
                 <th class="sorting_asc">药品流水号</th>
                 <th class="sorting_asc">通用名</th>
                 <th class="sorting">剂型</th>
