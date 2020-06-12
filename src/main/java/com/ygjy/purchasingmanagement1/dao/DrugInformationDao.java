@@ -1,6 +1,6 @@
 package com.ygjy.purchasingmanagement1.dao;
 
-import com.ygjy.purchasingmanagement1.pojo.DrugInformation;
+import com.ygjy.pojo.DrugInformation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,16 +18,16 @@ public interface DrugInformationDao {
             @Param("specification") String specification,
             @Param("unit")String unit,
             @Param("conversionFraction")String conversionFraction,
-            @Param("enterpriseName")String enterpriseName,
+            @Param("enterpriseNameId")Integer enterpriseNameId,
             @Param("tradeName")String tradeName,
             @Param("biddingPrice")Double biddingPrice,
             @Param("qualityLevelId")Integer qualityLevelId,
-            @Param("drugCategory")String drugCategory,
+            @Param("drugCategoryId")Integer drugCategoryId,
             @Param("drugTransactionStatusId")Integer drugTransactionStatusId);
     //添加药品信息
     int addDrug(DrugInformation drugInformation);
     //药品流水号查询实现查看全部药品信息功能
-    DrugInformation selectBySerialNumber(Integer serialNumber);
+    DrugInformation selectById(Integer id);
     //修改药品信息
     int updataDrug(DrugInformation drugInformation);
     //删除
