@@ -44,4 +44,12 @@ public class PurchasingManagementController {
     public String purchasinManagementReturnDrug() {
         return "purchasingmanagement2/purchasin_management_return_drug";
     }
+
+    /*
+     *跳转到结算药品页面
+     */
+    @RequestMapping("/purchasing_management_add_statement")
+    public String purchasingManagementAddStatement() {
+        return "purchasingmanagement2/purchasing_management_add_statement";
+    }
 }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.purchasingmanagement2.dao.HospitalTransactionStatementDao">
+  <resultMap id="BaseResultMap" type="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionStatement">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="statement_number" jdbcType="VARCHAR" property="statementNumber" />
+    <result column="statement_name" jdbcType="VARCHAR" property="statementName" />
+    <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+    <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="creat_receipts_person" jdbcType="VARCHAR" property="creatReceiptsPerson" />
+    <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
+    <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="return_state_id" jdbcType="INTEGER" property="returnStateId" />
+  </resultMap>
+
+  <!--添加退货单-->
+  <insert id="insert" parameterType="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionStatement">
+    insert into hospital_transaction_statement (id, statement_number, statement_name,
+      hospital_id, contacts, phone, 
+      creat_receipts_person, create_receipts_time,
+      submission_time, remark, return_state_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{statementNumber,jdbcType=VARCHAR}, #{statementName,jdbcType=VARCHAR},
+      #{hospitalId,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{creatReceiptsPerson,jdbcType=VARCHAR}, now(),
+      #{submissionTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{returnStateId,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <!--查询所有到页面-->
+  <select id="list" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_statement
+
+  </select>
+
+  <!--修改回显-->
+  <select id="htrSee" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_statement where id = #{id}
+
+  </select>
+
+  <!--更新-->
+  <update id="update" parameterType="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionStatement">
+
+    UPDATE `drugplatform`.`hospital_transaction_statement` SET `statement_number`=#{statementNumber},
+      `statement_name`=#{statementName}, `hospital_id`=#{hospitalId}, `contacts`=#{contacts}, `phone`=#{phone},
+      `creat_receipts_person`=#{creatReceiptsPerson}, `create_receipts_time`=#{createReceiptsTime},
+      `submission_time`=#{submissionTime},`remark`=#{remark}, `return_state_id`=#{returnStateId} WHERE (`id`=#{id});
+
+  </update>
+
+  <delete id="deleteByKeys" parameterType="java.lang.Integer">
+    delete from hospital_transaction_statement where id in
+    <foreach collection="array" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+
+  </delete>
+
+  <select id="selList" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_statement where 1 = 1
+
+        <if test="statementNumber != null and statementNumber != ''">
+            and statement_number like CONCAT ('%',#{statementNumber},'%')
+        </if>
+
+        <if test="statementName != null and statementName != ''">
+          and statement_name like CONCAT ('%',#{statementName},'%')
+        </if>
+
+        <if test="hospitalId != null and hospitalId != ''">
+          and hospital_id like CONCAT ('%',#{hospitalId},'%')
+        </if>
+
+        <if test="returnStateId != null and returnStateId != ''">
+          and return_state_id like CONCAT ('%',#{returnStateId},'%')
+        </if>
+
+  </select>
+
+</mapper>
