@@ -6,18 +6,18 @@ package com.ygjy.supplymanagement.pojo;
  * @Description:
  */
 public class DrugCategory {
-    private Integer id;
+    private Integer drugCateGoryId;
     /**
      * 药品类别
      */
     private String drugCategoryName;
 
-    public Integer getId() {
-        return id;
+    public Integer getDrugCateGoryId() {
+        return drugCateGoryId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDrugCateGoryId(Integer drugCateGoryId) {
+        this.drugCateGoryId = drugCateGoryId;
     }
 
     public String getDrugCategoryName() {
@@ -31,7 +31,7 @@ public class DrugCategory {
     @Override
     public String toString() {
         return "DrugCategory{" +
-                "id=" + id +
+                "drugCateGoryId=" + drugCateGoryId +
                 ", drugCategoryName='" + drugCategoryName + '\'' +
                 '}';
     }

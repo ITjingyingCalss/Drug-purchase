@@ -56,6 +56,12 @@ public interface DrugsInformationDao {
      * @return
      */
     List<Enterprise> enterPrise();
+
+    /**
+     * 供货商
+     * @return
+     */
+    List<Suppliers> supplierSelect();
     /**
      * 条件查询
      * @return
@@ -76,7 +82,7 @@ public interface DrugsInformationDao {
      */
     List<EnterpriseDrugCatalog> selectEnterpriseDrugCatalog();
     /**
-     * 取消供货查询
+     * 选择供货查询
      */
     List<EnterpriseDrugCatalog> backSelect(@Param("commonName")String commonName,
                                            @Param("serialNumber")String serialNumber,
@@ -89,5 +95,18 @@ public interface DrugsInformationDao {
                                            @Param("enterpriseNameId")Integer enterpriseNameId,
                                            @Param("tradeName") String tradeName,
                                            @Param("latestRetailPrice") Float latestRetailPrice,
-                                           @Param("qualityLevelId") Integer qualityLevelId);
+                                           @Param("qualityLevelId") Integer qualityLevelId,
+                                           @Param("suppliersid") Integer suppliersid,
+                                            @Param("auditStatus") Integer auditStatus);
+
+    /**
+     * 取消选择供货
+     * @param items
+     * @return
+     */
+    int falseDelete(String[] items);
+    /**
+     * 修改商品信息维护
+     */
+    int updateByPrimaryKeySelectives(DrugInformation drugInformation);
 }

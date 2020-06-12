@@ -61,7 +61,7 @@
                         var data=result.list;
                         v+='<tr>';
                         v+='<td>'+data[i].id+'</td>'
-                        v+='<td><input type="checkbox" name="del" value='+data[i].id+'></td>';
+                        v+='<td><input type="checkbox" name="del" value='+data[i].enterpriseDrugCatalog.id+'></td>';
                         v+='<td>'+data[i].serialNumber+'</td>'
                         v+='<td>'+data[i].commonName+'</td>'
                         v+='<td>'+data[i].dosageFormId+'</td>'
@@ -109,7 +109,7 @@
                 $("#drug_category_id").prepend('<option value="0">请选择</option>')
                 for(var i=0;i<result.data.length;i++){
                     var list=result.data;
-                    $("#drug_category_id").prepend('<option value="' + list[i].id + '">' + list[i].drugCategoryName + '</option>')
+                    $("#drug_category_id").prepend('<option value="' + list[i].drugCateGoryId + '">' + list[i].drugCategoryName + '</option>')
                 }
             }
         })
@@ -202,36 +202,33 @@
                 }
             }
         }
-        //导出
+        //取消供货
         function xuanze() {
-            var import1=$('input[name="del"]:checked').length;
-            if(import1==0){
-                alert("请至少选择一项供货");
-                return;
-            }
-            if(confirm("确定要供货吗?")){
-                var importId=[];
-                $('input[name="del"]:checked').each(function () {
-                    importId.push($(this).val())
-                })
-                $.ajax({
-                    url:"insertSelective",
-                    data:{
-                        importId:importId
-                    },
-                    type:"post",
-                    dataType:"json",
-                    traditional:true,
-                    success:function (result) {
-                        console.log(result)
-                        if(result>0){
-                            alert("供货成功，成功"+parseFloat(result)+"条,失败"+parseFloat(importId.length-result)+"条")
-                        }else{
-                            alert("供货失败")
+                var checkNum=$('input[name="del"]:checked').length;
+                if(checkNum==0){
+                    alert("请至少选择一项")
+                    return;
+                }
+                if(confirm("确定要取消供货吗?")){
+                    var checkedId=[];
+                    $('input[name="del"]:checked').each(function () {
+                        checkedId.push($(this).val())
+                    })
+                    $.ajax({
+                        url:"falseDelete",
+                        data:{
+                            checkedId:checkedId
+                        },
+                        type:"post",
+                        dataType:"json",
+                        traditional:true,
+                        success:function (result) {
+                            if(result>0){
+                                selectByEntity();
+                            }
                         }
-                    }
-                })
-            }
+                    })
+                }
         }
     </script>
 

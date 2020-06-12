@@ -102,11 +102,19 @@ public class DrugsInformationController {
         return query;
     }
     /**
+     * 供货商查询
+     */
+    @RequestMapping(value = "/supplierSelect" ,produces = "application/json;charset=utf-8")
+    public Dto supplierSelect(){
+        Dto query = drugsInformationService.supplierSelect();
+        return query;
+    }
+    /**
      * 添加从表供应商药品目录表
      */
     @RequestMapping(value = "/insertSelective" ,produces = "application/json;charset=utf-8")
     public int insertSelective(Integer[] importId){
-        List<EnterpriseDrugCatalog> EDClist=new ArrayList<>();
+//        List<EnterpriseDrugCatalog> EDClist=new ArrayList<>();
         List<EnterpriseDrugCatalog> enterpriseDrugCatalogs = drugsInformationService.selectEnterpriseDrugCatalog();
         boolean bel=true;
         int result=0;
@@ -130,7 +138,7 @@ public class DrugsInformationController {
      * 取消供货查询
      */
     @RequestMapping(value = "/backSelect" ,produces = "application/json;charset=utf-8")
-    public String backSelect(@RequestParam(value = "commonName",required = false) String commonName,String serialNumber,@RequestParam(value = "dosageFormId",required = false)Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,Integer enterpriseNameId,String tradeName,Float latestRetailPrice,Integer qualityLevelId,
+    public String backSelect(@RequestParam(value = "commonName",required = false) String commonName,String serialNumber,@RequestParam(value = "dosageFormId",required = false)Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,Integer enterpriseNameId,String tradeName,Float latestRetailPrice,Integer qualityLevelId,Integer suppliersid,Integer auditStatus,
                           @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
         PageHelper.startPage(pageNum,5);
         if(dosageFormId!=null&&dosageFormId<=0){
@@ -148,8 +156,30 @@ public class DrugsInformationController {
         if(enterpriseNameId!=null&&enterpriseNameId<=0){
             enterpriseNameId=null;
         }
-        List<EnterpriseDrugCatalog> query = drugsInformationService.backSelect(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseNameId, tradeName, latestRetailPrice, qualityLevelId);
+        if(suppliersid!=null&&suppliersid<=0){
+            suppliersid=null;
+        }
+        if(auditStatus!=null&&auditStatus<0){
+            auditStatus=null;
+        }
+        List<EnterpriseDrugCatalog> query = drugsInformationService.backSelect(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseNameId, tradeName, latestRetailPrice, qualityLevelId,suppliersid,auditStatus);
         PageInfo<EnterpriseDrugCatalog> pageInfo = new PageInfo<>(query);
         return JSON.toJSONString(pageInfo);
+    }
+    /**
+     * 企业查询
+     */
+    @RequestMapping(value = "/falseDelete" ,produces = "application/json;charset=utf-8")
+    public String falseDelete(String[] checkedId){
+        int i = drugsInformationService.falseDelete(checkedId);
+        return JSON.toJSONString(i);
+    }
+    /**
+     * 修改商品信息维护
+     */
+    @RequestMapping(value = "/updateByPrimaryKeySelectives" ,produces = "application/json;charset=utf-8")
+    public String updateByPrimaryKeySelective(DrugInformation drugInformation){
+        int i = drugsInformationService.updateByPrimaryKeySelectives(drugInformation);
+        return JSON.toJSONString(i);
     }
 }

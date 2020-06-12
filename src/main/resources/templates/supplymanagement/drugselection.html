@@ -109,7 +109,7 @@
                 $("#drug_category_id").prepend('<option value="0">请选择</option>')
                 for(var i=0;i<result.data.length;i++){
                     var list=result.data;
-                    $("#drug_category_id").prepend('<option value="' + list[i].id + '">' + list[i].drugCategoryName + '</option>')
+                    $("#drug_category_id").prepend('<option value="' + list[i].drugCateGoryId + '">' + list[i].drugCategoryName + '</option>')
                 }
             }
         })
@@ -225,7 +225,8 @@
                     success:function (result) {
                         console.log(result)
                         if(result>0){
-                           alert("供货成功，成功"+parseFloat(result)+"条,失败"+parseFloat(importId.length-result)+"条")
+                           alert("供货成功，成功"+parseFloat(result)+"条,失败"+parseFloat(importId.length-result)+"条");
+                            selectByEntity();
                         }else{
                             alert("供货失败")
                         }

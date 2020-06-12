@@ -119,7 +119,10 @@ public class DrugInformation implements Serializable {
      * 药品检验报告编号
      */
     private String drugInspectionReportNumber;
-
+    /**
+     * 供应商id
+     */
+    private int suppliersid;
     /**
      * 药品检验报告有效期（年月日）
      */
@@ -144,6 +147,32 @@ public class DrugInformation implements Serializable {
      * 删除状态(0：展示，1：不展示)
      */
     private Integer delState;
+    /**
+     * 审核状态
+     */
+    private Integer auditStatus;
+
+    /**
+     * 供货商
+     * @return
+     */
+    private Suppliers suppliers;
+
+    public Suppliers getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Suppliers suppliers) {
+        this.suppliers = suppliers;
+    }
+
+    public Integer getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(Integer auditStatus) {
+        this.auditStatus = auditStatus;
+    }
 
     private static final long serialVersionUID = 1L;
     private DrugTransactionStatus drugTransactionStatus;
@@ -151,6 +180,23 @@ public class DrugInformation implements Serializable {
     private DrugCategory drugCategory;
     private QualityLevel qualityLevel;
     private Enterprise enterprise;
+    private EnterpriseDrugCatalog enterpriseDrugCatalog;
+
+    public int getSuppliersid() {
+        return suppliersid;
+    }
+
+    public void setSuppliersid(int suppliersid) {
+        this.suppliersid = suppliersid;
+    }
+
+    public EnterpriseDrugCatalog getEnterpriseDrugCatalog() {
+        return enterpriseDrugCatalog;
+    }
+
+    public void setEnterpriseDrugCatalog(EnterpriseDrugCatalog enterpriseDrugCatalog) {
+        this.enterpriseDrugCatalog = enterpriseDrugCatalog;
+    }
 
     public Enterprise getEnterprise() {
         return enterprise;
@@ -519,16 +565,20 @@ public class DrugInformation implements Serializable {
                 ", qualityLevelDescription='" + qualityLevelDescription + '\'' +
                 ", drugInspectionReport=" + drugInspectionReport +
                 ", drugInspectionReportNumber='" + drugInspectionReportNumber + '\'' +
+                ", suppliersid=" + suppliersid +
                 ", validityOfDrugInspectionReport=" + validityOfDrugInspectionReport +
                 ", descriptionOfProducts='" + descriptionOfProducts + '\'' +
                 ", drugCategoryId=" + drugCategoryId +
                 ", drugTransactionStatusId=" + drugTransactionStatusId +
                 ", delState=" + delState +
+                ", auditStatus=" + auditStatus +
+                ", suppliers=" + suppliers +
                 ", drugTransactionStatus=" + drugTransactionStatus +
                 ", durgsFrom=" + durgsFrom +
                 ", drugCategory=" + drugCategory +
                 ", qualityLevel=" + qualityLevel +
                 ", enterprise=" + enterprise +
+                ", enterpriseDrugCatalog=" + enterpriseDrugCatalog +
                 '}';
     }
 }
