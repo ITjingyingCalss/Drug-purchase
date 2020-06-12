@@ -32,6 +32,7 @@
     <result column="company_profile" jdbcType="VARCHAR" property="companyProfile" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="del_state" jdbcType="INTEGER" property="delState" />
+    <result column="suppliers_id" jdbcType="INTEGER" property="suppliersId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -97,7 +98,7 @@
     total_assets, corporate_fax, legal_person, legal_person_id_card, enterprise_registered_capital, 
     sales_amount_last_year, email, website, enterprise_code, enterprise_code_date, business_license, 
     `business_license _date`, enterprise_letter_of_credit, enterprise_letter_number, 
-    enterprise_letter_data, fixed_assets, company_profile, remark, del_state
+    enterprise_letter_data, fixed_assets, company_profile, remark, del_state, suppliers_id
   </sql>
   <select id="selectByExample" parameterType="com.ygjy.pojo.EnterpriseExample" resultMap="BaseResultMap">
     select
@@ -148,7 +149,8 @@
       enterprise_code_date, business_license, `business_license _date`, 
       enterprise_letter_of_credit, enterprise_letter_number, 
       enterprise_letter_data, fixed_assets, company_profile, 
-      remark, del_state)
+      remark, del_state, suppliers_id
+      )
     values (#{id,jdbcType=INTEGER}, #{enterpriseName,jdbcType=VARCHAR}, #{enterpriseType,jdbcType=VARCHAR}, 
       #{license,jdbcType=VARCHAR}, #{licenseExpirationDate,jdbcType=DATE}, #{enterpriseContacts,jdbcType=VARCHAR}, 
       #{enterpriseTelephone,jdbcType=VARCHAR}, #{businessScope,jdbcType=VARCHAR}, #{registeredAddress,jdbcType=VARCHAR}, 
@@ -159,7 +161,8 @@
       #{enterpriseCodeDate,jdbcType=DATE}, #{businessLicense,jdbcType=VARCHAR}, #{businessLicenseDate,jdbcType=DATE}, 
       #{enterpriseLetterOfCredit,jdbcType=INTEGER}, #{enterpriseLetterNumber,jdbcType=VARCHAR}, 
       #{enterpriseLetterData,jdbcType=DATE}, #{fixedAssets,jdbcType=REAL}, #{companyProfile,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR}, #{delState,jdbcType=INTEGER})
+      #{remark,jdbcType=VARCHAR}, #{delState,jdbcType=INTEGER}, #{suppliersId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ygjy.pojo.Enterprise">
     insert into enterprise
@@ -254,6 +257,9 @@
       <if test="delState != null">
         del_state,
       </if>
+      <if test="suppliersId != null">
+        suppliers_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -345,6 +351,9 @@
       </if>
       <if test="delState != null">
         #{delState,jdbcType=INTEGER},
+      </if>
+      <if test="suppliersId != null">
+        #{suppliersId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -447,6 +456,9 @@
       <if test="record.delState != null">
         del_state = #{record.delState,jdbcType=INTEGER},
       </if>
+      <if test="record.suppliersId != null">
+        suppliers_id = #{record.suppliersId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -483,7 +495,8 @@
       fixed_assets = #{record.fixedAssets,jdbcType=REAL},
       company_profile = #{record.companyProfile,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      del_state = #{record.delState,jdbcType=INTEGER}
+      del_state = #{record.delState,jdbcType=INTEGER},
+      suppliers_id = #{record.suppliersId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -578,6 +591,9 @@
       <if test="delState != null">
         del_state = #{delState,jdbcType=INTEGER},
       </if>
+      <if test="suppliersId != null">
+        suppliers_id = #{suppliersId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -611,7 +627,8 @@
       fixed_assets = #{fixedAssets,jdbcType=REAL},
       company_profile = #{companyProfile,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      del_state = #{delState,jdbcType=INTEGER}
+      del_state = #{delState,jdbcType=INTEGER},
+      suppliers_id = #{suppliersId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

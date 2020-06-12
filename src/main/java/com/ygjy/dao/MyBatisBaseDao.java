@@ -1,10 +1,8 @@
 package com.ygjy.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import java.io.Serializable;
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * DAO公共基类，由MybatisGenerator自动生成请勿修改
@@ -12,7 +10,6 @@ import java.util.List;
  * @param <PK> The Primary Key Class 如果是无主键，则可以用Model来跳过，如果是多主键则是Key类
  * @param <E> The Example Class
  */
-@Mapper
 public interface MyBatisBaseDao<Model, PK extends Serializable, E> {
     long countByExample(E example);
 

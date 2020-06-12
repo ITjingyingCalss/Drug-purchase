@@ -7,9 +7,7 @@ import java.util.Date;
  * drug_information
  * @author 
  */
-public class DrugInformation implements Serializable {
-    private Integer id;
-
+public class DrugInformation extends DrugInformationKey implements Serializable {
     /**
      * 流水号
      */
@@ -34,11 +32,6 @@ public class DrugInformation implements Serializable {
      * 转换系数
      */
     private String conversionFraction;
-
-    /**
-     * 生产企业名称
-     */
-    private String enterpriseName;
 
     /**
      * 商品名
@@ -145,15 +138,12 @@ public class DrugInformation implements Serializable {
      */
     private Integer delState;
 
+    /**
+     * 审核状态(0通过1不通过)
+     */
+    private Integer auditStatus;
+
     private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getSerialNumber() {
         return serialNumber;
@@ -193,14 +183,6 @@ public class DrugInformation implements Serializable {
 
     public void setConversionFraction(String conversionFraction) {
         this.conversionFraction = conversionFraction;
-    }
-
-    public String getEnterpriseName() {
-        return enterpriseName;
-    }
-
-    public void setEnterpriseName(String enterpriseName) {
-        this.enterpriseName = enterpriseName;
     }
 
     public String getTradeName() {
@@ -371,6 +353,14 @@ public class DrugInformation implements Serializable {
         this.delState = delState;
     }
 
+    public Integer getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(Integer auditStatus) {
+        this.auditStatus = auditStatus;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -384,12 +374,12 @@ public class DrugInformation implements Serializable {
         }
         DrugInformation other = (DrugInformation) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getEnterpriseNameId() == null ? other.getEnterpriseNameId() == null : this.getEnterpriseNameId().equals(other.getEnterpriseNameId()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
             && (this.getCommonName() == null ? other.getCommonName() == null : this.getCommonName().equals(other.getCommonName()))
             && (this.getDosageFormId() == null ? other.getDosageFormId() == null : this.getDosageFormId().equals(other.getDosageFormId()))
             && (this.getSpecification() == null ? other.getSpecification() == null : this.getSpecification().equals(other.getSpecification()))
             && (this.getConversionFraction() == null ? other.getConversionFraction() == null : this.getConversionFraction().equals(other.getConversionFraction()))
-            && (this.getEnterpriseName() == null ? other.getEnterpriseName() == null : this.getEnterpriseName().equals(other.getEnterpriseName()))
             && (this.getTradeName() == null ? other.getTradeName() == null : this.getTradeName().equals(other.getTradeName()))
             && (this.getBiddingPrice() == null ? other.getBiddingPrice() == null : this.getBiddingPrice().equals(other.getBiddingPrice()))
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
@@ -410,7 +400,8 @@ public class DrugInformation implements Serializable {
             && (this.getDescriptionOfProducts() == null ? other.getDescriptionOfProducts() == null : this.getDescriptionOfProducts().equals(other.getDescriptionOfProducts()))
             && (this.getDrugCategoryId() == null ? other.getDrugCategoryId() == null : this.getDrugCategoryId().equals(other.getDrugCategoryId()))
             && (this.getDrugTransactionStatusId() == null ? other.getDrugTransactionStatusId() == null : this.getDrugTransactionStatusId().equals(other.getDrugTransactionStatusId()))
-            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()));
+            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()))
+            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()));
     }
 
     @Override
@@ -418,12 +409,12 @@ public class DrugInformation implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getEnterpriseNameId() == null) ? 0 : getEnterpriseNameId().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
         result = prime * result + ((getCommonName() == null) ? 0 : getCommonName().hashCode());
         result = prime * result + ((getDosageFormId() == null) ? 0 : getDosageFormId().hashCode());
         result = prime * result + ((getSpecification() == null) ? 0 : getSpecification().hashCode());
         result = prime * result + ((getConversionFraction() == null) ? 0 : getConversionFraction().hashCode());
-        result = prime * result + ((getEnterpriseName() == null) ? 0 : getEnterpriseName().hashCode());
         result = prime * result + ((getTradeName() == null) ? 0 : getTradeName().hashCode());
         result = prime * result + ((getBiddingPrice() == null) ? 0 : getBiddingPrice().hashCode());
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
@@ -445,6 +436,7 @@ public class DrugInformation implements Serializable {
         result = prime * result + ((getDrugCategoryId() == null) ? 0 : getDrugCategoryId().hashCode());
         result = prime * result + ((getDrugTransactionStatusId() == null) ? 0 : getDrugTransactionStatusId().hashCode());
         result = prime * result + ((getDelState() == null) ? 0 : getDelState().hashCode());
+        result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
         return result;
     }
 
@@ -454,13 +446,11 @@ public class DrugInformation implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", commonName=").append(commonName);
         sb.append(", dosageFormId=").append(dosageFormId);
         sb.append(", specification=").append(specification);
         sb.append(", conversionFraction=").append(conversionFraction);
-        sb.append(", enterpriseName=").append(enterpriseName);
         sb.append(", tradeName=").append(tradeName);
         sb.append(", biddingPrice=").append(biddingPrice);
         sb.append(", unit=").append(unit);
@@ -482,6 +472,7 @@ public class DrugInformation implements Serializable {
         sb.append(", drugCategoryId=").append(drugCategoryId);
         sb.append(", drugTransactionStatusId=").append(drugTransactionStatusId);
         sb.append(", delState=").append(delState);
+        sb.append(", auditStatus=").append(auditStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

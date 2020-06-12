@@ -212,6 +212,66 @@ public class DrugInformationExample {
             return (Criteria) this;
         }
 
+        public Criteria andEnterpriseNameIdIsNull() {
+            addCriterion("enterprise_name_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdIsNotNull() {
+            addCriterion("enterprise_name_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdEqualTo(Integer value) {
+            addCriterion("enterprise_name_id =", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdNotEqualTo(Integer value) {
+            addCriterion("enterprise_name_id <>", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdGreaterThan(Integer value) {
+            addCriterion("enterprise_name_id >", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("enterprise_name_id >=", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdLessThan(Integer value) {
+            addCriterion("enterprise_name_id <", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdLessThanOrEqualTo(Integer value) {
+            addCriterion("enterprise_name_id <=", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdIn(List<Integer> values) {
+            addCriterion("enterprise_name_id in", values, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdNotIn(List<Integer> values) {
+            addCriterion("enterprise_name_id not in", values, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdBetween(Integer value1, Integer value2) {
+            addCriterion("enterprise_name_id between", value1, value2, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("enterprise_name_id not between", value1, value2, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
         public Criteria andSerialNumberIsNull() {
             addCriterion("serial_number is null");
             return (Criteria) this;
@@ -539,76 +599,6 @@ public class DrugInformationExample {
 
         public Criteria andConversionFractionNotBetween(String value1, String value2) {
             addCriterion("conversion_fraction not between", value1, value2, "conversionFraction");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIsNull() {
-            addCriterion("enterprise_name is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIsNotNull() {
-            addCriterion("enterprise_name is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameEqualTo(String value) {
-            addCriterion("enterprise_name =", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameNotEqualTo(String value) {
-            addCriterion("enterprise_name <>", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameGreaterThan(String value) {
-            addCriterion("enterprise_name >", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameGreaterThanOrEqualTo(String value) {
-            addCriterion("enterprise_name >=", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameLessThan(String value) {
-            addCriterion("enterprise_name <", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameLessThanOrEqualTo(String value) {
-            addCriterion("enterprise_name <=", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameLike(String value) {
-            addCriterion("enterprise_name like", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameNotLike(String value) {
-            addCriterion("enterprise_name not like", value, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIn(List<String> values) {
-            addCriterion("enterprise_name in", values, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameNotIn(List<String> values) {
-            addCriterion("enterprise_name not in", values, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameBetween(String value1, String value2) {
-            addCriterion("enterprise_name between", value1, value2, "enterpriseName");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameNotBetween(String value1, String value2) {
-            addCriterion("enterprise_name not between", value1, value2, "enterpriseName");
             return (Criteria) this;
         }
 
@@ -1989,6 +1979,66 @@ public class DrugInformationExample {
 
         public Criteria andDelStateNotBetween(Integer value1, Integer value2) {
             addCriterion("del_state not between", value1, value2, "delState");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIsNull() {
+            addCriterion("audit_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIsNotNull() {
+            addCriterion("audit_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusEqualTo(Integer value) {
+            addCriterion("audit_status =", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotEqualTo(Integer value) {
+            addCriterion("audit_status <>", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThan(Integer value) {
+            addCriterion("audit_status >", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("audit_status >=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThan(Integer value) {
+            addCriterion("audit_status <", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("audit_status <=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIn(List<Integer> values) {
+            addCriterion("audit_status in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotIn(List<Integer> values) {
+            addCriterion("audit_status not in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusBetween(Integer value1, Integer value2) {
+            addCriterion("audit_status between", value1, value2, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("audit_status not between", value1, value2, "auditStatus");
             return (Criteria) this;
         }
     }

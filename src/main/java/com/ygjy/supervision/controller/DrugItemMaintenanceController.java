@@ -5,11 +5,13 @@ import com.ygjy.pojo.DrugItems;
 import com.ygjy.pojo.DurgsFrom;
 import com.ygjy.supervision.service.DrugItemMaintenanceService;
 import com.ygjy.util.ExportExcel;
+import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
 
@@ -82,14 +84,12 @@ public class DrugItemMaintenanceController {
      * 导出文档
      * @return String*/
     @RequestMapping("/exportExcle")
-    public String exportExcle() throws FileNotFoundException {
+    public void exportExcle(HttpServletResponse response) throws IOException {
         List<DrugItems> list = drugItemMaintenanceService.exportExcle();
         String[] headers = {"药品品目号","通用名","剂型","规格","单位","转换系数","药品类别","状态"};
-        File file = new File("D:测试文档.xls");
-        OutputStream out = new FileOutputStream(file);
+        OutputStream out = response.getOutputStream();
         ExportExcel exportExcel = new ExportExcel();
         exportExcel.exportExcel("测试文档",headers,list,out,null);
-        return "111";
     }
 }
 

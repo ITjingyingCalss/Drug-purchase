@@ -2141,6 +2141,66 @@ public class EnterpriseExample {
             addCriterion("del_state not between", value1, value2, "delState");
             return (Criteria) this;
         }
+
+        public Criteria andSuppliersIdIsNull() {
+            addCriterion("suppliers_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdIsNotNull() {
+            addCriterion("suppliers_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdEqualTo(Integer value) {
+            addCriterion("suppliers_id =", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdNotEqualTo(Integer value) {
+            addCriterion("suppliers_id <>", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdGreaterThan(Integer value) {
+            addCriterion("suppliers_id >", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("suppliers_id >=", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdLessThan(Integer value) {
+            addCriterion("suppliers_id <", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdLessThanOrEqualTo(Integer value) {
+            addCriterion("suppliers_id <=", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdIn(List<Integer> values) {
+            addCriterion("suppliers_id in", values, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdNotIn(List<Integer> values) {
+            addCriterion("suppliers_id not in", values, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdBetween(Integer value1, Integer value2) {
+            addCriterion("suppliers_id between", value1, value2, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("suppliers_id not between", value1, value2, "suppliersId");
+            return (Criteria) this;
+        }
     }
 
     /**

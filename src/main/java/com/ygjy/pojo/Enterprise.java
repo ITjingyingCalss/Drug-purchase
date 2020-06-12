@@ -155,6 +155,11 @@ public class Enterprise implements Serializable {
      */
     private Integer delState;
 
+    /**
+     * 供货商id
+     */
+    private Integer suppliersId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -397,6 +402,14 @@ public class Enterprise implements Serializable {
         this.delState = delState;
     }
 
+    public Integer getSuppliersId() {
+        return suppliersId;
+    }
+
+    public void setSuppliersId(Integer suppliersId) {
+        this.suppliersId = suppliersId;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -438,7 +451,8 @@ public class Enterprise implements Serializable {
             && (this.getFixedAssets() == null ? other.getFixedAssets() == null : this.getFixedAssets().equals(other.getFixedAssets()))
             && (this.getCompanyProfile() == null ? other.getCompanyProfile() == null : this.getCompanyProfile().equals(other.getCompanyProfile()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
-            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()));
+            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()))
+            && (this.getSuppliersId() == null ? other.getSuppliersId() == null : this.getSuppliersId().equals(other.getSuppliersId()));
     }
 
     @Override
@@ -475,6 +489,7 @@ public class Enterprise implements Serializable {
         result = prime * result + ((getCompanyProfile() == null) ? 0 : getCompanyProfile().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getDelState() == null) ? 0 : getDelState().hashCode());
+        result = prime * result + ((getSuppliersId() == null) ? 0 : getSuppliersId().hashCode());
         return result;
     }
 
@@ -514,6 +529,7 @@ public class Enterprise implements Serializable {
         sb.append(", companyProfile=").append(companyProfile);
         sb.append(", remark=").append(remark);
         sb.append(", delState=").append(delState);
+        sb.append(", suppliersId=").append(suppliersId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
