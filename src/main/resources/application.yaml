@@ -13,10 +13,36 @@ spring:
       content-type: text/html
 
   datasource:
-    url: jdbc:mysql://localhost:3306/drugplatform?characterEncoding=utf8
+    #druid连接池
+    #初始化连接数
+    initialSize: 5
+    #最小连接池数量
+    minIdle: 20
+    #最大连接池数量
+    maxActive: 60000
+    #获取连接时最大等待时间，单位毫秒
+    maxWait: 60000
+    #检测连接的间隔时间
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    #检测连接是否有效的sql
+    validationQuery: SELECT 1 FROM DUAL
+    #申请连接的时候检测
+    testWhileIdle: true
+    #申请连接时执行validationQuery检测连接是否有效
+    testOnBorrow: false
+    #归还连接时执行validationQuery检测连接是否有效
+    testOnReturn: false
+    #是否缓存preparedStatement
+    poolPreparedStatements: true
+
+    url: jdbc:mysql://192.168.1.248:3306/drugplatform?characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
+
+
+
 mybatis:
   mapper-locations: classpath:com/ygjy/**/mapper/*.xml
   type-aliases-package: com.ygjy.pojo

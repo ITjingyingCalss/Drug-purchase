@@ -26,6 +26,15 @@
 		function down(){
 			window.location.href="down";
 		}
+        function sleep(d){
+            for(var t = Date.now();Date.now() - t <= d;);
+        }
+
+		function xiazai(){
+			window.location.href="DrugItemMaintenanceController/downloadTemplate?filenames=导入说明";
+            sleep(2000);
+			window.location.href="DrugItemMaintenanceController/downloadTemplate1?filenames=药品信息模板";
+		}
 	</script>
 
 </head>
@@ -279,7 +288,7 @@
                 <h3 id="myModalLabel1">药品品目导入</h3>
             </div>
             <div style="text-align: center">
-                下载模板文件<a href="#">点击下载药品品目导入模板</a>
+                下载模板文件<a href="JavaScript:xiazai()">点击下载药品品目导入模板</a>
             </div>
             <div style="text-align: center;color: red">提示：请下载后在模板文件中录入药品信息,在下面的“选择文件”中选择要导入的文件,点击“导入”</div>
             <div class="modal-body" style="text-align: center">

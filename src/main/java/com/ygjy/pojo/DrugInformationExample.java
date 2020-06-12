@@ -212,66 +212,6 @@ public class DrugInformationExample {
             return (Criteria) this;
         }
 
-        public Criteria andEnterpriseNameIdIsNull() {
-            addCriterion("enterprise_name_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdIsNotNull() {
-            addCriterion("enterprise_name_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdEqualTo(Integer value) {
-            addCriterion("enterprise_name_id =", value, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdNotEqualTo(Integer value) {
-            addCriterion("enterprise_name_id <>", value, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdGreaterThan(Integer value) {
-            addCriterion("enterprise_name_id >", value, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("enterprise_name_id >=", value, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdLessThan(Integer value) {
-            addCriterion("enterprise_name_id <", value, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdLessThanOrEqualTo(Integer value) {
-            addCriterion("enterprise_name_id <=", value, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdIn(List<Integer> values) {
-            addCriterion("enterprise_name_id in", values, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdNotIn(List<Integer> values) {
-            addCriterion("enterprise_name_id not in", values, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdBetween(Integer value1, Integer value2) {
-            addCriterion("enterprise_name_id between", value1, value2, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEnterpriseNameIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("enterprise_name_id not between", value1, value2, "enterpriseNameId");
-            return (Criteria) this;
-        }
-
         public Criteria andSerialNumberIsNull() {
             addCriterion("serial_number is null");
             return (Criteria) this;
@@ -282,52 +222,62 @@ public class DrugInformationExample {
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberEqualTo(Integer value) {
+        public Criteria andSerialNumberEqualTo(String value) {
             addCriterion("serial_number =", value, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberNotEqualTo(Integer value) {
+        public Criteria andSerialNumberNotEqualTo(String value) {
             addCriterion("serial_number <>", value, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberGreaterThan(Integer value) {
+        public Criteria andSerialNumberGreaterThan(String value) {
             addCriterion("serial_number >", value, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberGreaterThanOrEqualTo(Integer value) {
+        public Criteria andSerialNumberGreaterThanOrEqualTo(String value) {
             addCriterion("serial_number >=", value, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberLessThan(Integer value) {
+        public Criteria andSerialNumberLessThan(String value) {
             addCriterion("serial_number <", value, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberLessThanOrEqualTo(Integer value) {
+        public Criteria andSerialNumberLessThanOrEqualTo(String value) {
             addCriterion("serial_number <=", value, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberIn(List<Integer> values) {
+        public Criteria andSerialNumberLike(String value) {
+            addCriterion("serial_number like", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberNotLike(String value) {
+            addCriterion("serial_number not like", value, "serialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNumberIn(List<String> values) {
             addCriterion("serial_number in", values, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberNotIn(List<Integer> values) {
+        public Criteria andSerialNumberNotIn(List<String> values) {
             addCriterion("serial_number not in", values, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberBetween(Integer value1, Integer value2) {
+        public Criteria andSerialNumberBetween(String value1, String value2) {
             addCriterion("serial_number between", value1, value2, "serialNumber");
             return (Criteria) this;
         }
 
-        public Criteria andSerialNumberNotBetween(Integer value1, Integer value2) {
+        public Criteria andSerialNumberNotBetween(String value1, String value2) {
             addCriterion("serial_number not between", value1, value2, "serialNumber");
             return (Criteria) this;
         }
@@ -599,6 +549,66 @@ public class DrugInformationExample {
 
         public Criteria andConversionFractionNotBetween(String value1, String value2) {
             addCriterion("conversion_fraction not between", value1, value2, "conversionFraction");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdIsNull() {
+            addCriterion("enterprise_name_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdIsNotNull() {
+            addCriterion("enterprise_name_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdEqualTo(Integer value) {
+            addCriterion("enterprise_name_id =", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdNotEqualTo(Integer value) {
+            addCriterion("enterprise_name_id <>", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdGreaterThan(Integer value) {
+            addCriterion("enterprise_name_id >", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("enterprise_name_id >=", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdLessThan(Integer value) {
+            addCriterion("enterprise_name_id <", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdLessThanOrEqualTo(Integer value) {
+            addCriterion("enterprise_name_id <=", value, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdIn(List<Integer> values) {
+            addCriterion("enterprise_name_id in", values, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdNotIn(List<Integer> values) {
+            addCriterion("enterprise_name_id not in", values, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdBetween(Integer value1, Integer value2) {
+            addCriterion("enterprise_name_id between", value1, value2, "enterpriseNameId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterpriseNameIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("enterprise_name_id not between", value1, value2, "enterpriseNameId");
             return (Criteria) this;
         }
 

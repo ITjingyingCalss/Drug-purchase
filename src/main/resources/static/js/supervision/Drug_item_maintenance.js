@@ -3,8 +3,9 @@ $(function(){
     //加载全部药品品目信息
     findDrugFromAndDrugCategory();
     fenye(1);
-        var durgFrom = dd[0][0];
-        var drugCategory = dd[1][0];
+    console.log(dd)
+        var durgFrom = dd.list_durgsFrom;
+        var drugCategory = dd.list_drugCategory;
         //模糊查询select
         $("#durgfrom").empty();
         $("#drugcategory1").empty();
@@ -27,15 +28,15 @@ function fenye(pageNum) {
         console.log(formData);
         $.ajax({
             type:"post",
-            url:"/findAllDrugItems",
+            url:"DrugItemMaintenanceController/findAllDrugItems",
             data: formData,
             success:function (value) {
 
                 console.log(value)
                 var result = value.list;
                 var a = "";
-                var durgFrom = dd[0][0];
-                var drugCategory = dd[1][0];
+                var durgFrom = dd.list_durgsFrom;
+                var drugCategory = dd.list_drugCategory;
                 for (var i = 0;i < result.length;i++){
                     a+="<tr>";
                     a+="<td>"+result[i].drugItemsNumber+"</td>";
@@ -75,7 +76,7 @@ function fenye(pageNum) {
 function findDrugItem(itemsId) {
     $.ajax({
         type: "post",
-        url:"findItemsById",
+        url:"DrugItemMaintenanceController/findItemsById",
         data:{"id":itemsId},
         success:function (data) {
             $("input[name=itemsId]").val(data.itemsId);
@@ -98,16 +99,17 @@ function findDrugItem(itemsId) {
 function findDrugFromAndDrugCategory() {
     $.ajax({
         type:"post",
-        url:"/findDrugFromAndDrugCategory",
+        url:"DrugItemMaintenanceController/findDrugFromAndDrugCategory",
         async : false,
         success:function (data) {
+            console.log(data)
             var a = "<option value='0'>请选择</option>>";
             var b = "<option value='0'>请选择</option>>";
-            for (var i=0;i<data[0][0].length;i++){
-                a+="<option value='"+data[0][0][i].durgFromId+"'>"+data[0][0][i].drugFrom+"</option>"
+            for (var i=0;i<data.list_durgsFrom.length;i++){
+                a+="<option value='"+data.list_durgsFrom[i].durgFromId+"'>"+data.list_durgsFrom[i].drugFrom+"</option>"
             }
-            for (var i=0;i<data[1][0].length;i++){
-                b+="<option value='"+data[1][0][i].drugCategoryId+"'>"+data[1][0][i].drugCategoryName+"</option>"
+            for (var i=0;i<data.list_drugCategory.length;i++){
+                b+="<option value='"+data.list_drugCategory[i].drugCategoryId+"'>"+data.list_drugCategory[i].drugCategoryName+"</option>"
             }
             $("#drugsFromId").empty();
             $("#drugCategory_id").empty();
@@ -119,11 +121,27 @@ function findDrugFromAndDrugCategory() {
 }
 //导出文档
 function exportExcle() {
+    if (confirm("确定导出文件吗？")){
+        location.href="DrugItemMaintenanceController/exportExcle";
+    }
+}
+//上传文件
+function uploadfile() {
+    var formData = new FormData();
+    formData.append("file",$('#file')[0].files[0])
     $.ajax({
-        type:"post",
-        url:"exportExcle",
-        success:function (data) {
-            alert(data)
+        url:'DrugItemMaintenanceController/readExcel',
+        dataType:'json',
+        type:'POST',
+        async: false,
+        data: formData,
+        processData : false, // 使数据不做处理
+        contentType : false, // 不要设置Content-Type请求头
+        success: function(data){
+            console.log(data);
+            if (data.status == 'ok') {
+                alert('上传成功！');
+            }
         }
-    })
+    });
 }

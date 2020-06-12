@@ -13,9 +13,7 @@ import com.ygjy.supervision.service.DrugItemMaintenanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DrugItemMaintenanceServiceImpl implements DrugItemMaintenanceService {
@@ -27,15 +25,15 @@ public class DrugItemMaintenanceServiceImpl implements DrugItemMaintenanceServic
     @Autowired private DrugItemsMapper drugItemsMapper;
 
     @Override
-    public List<List<Object>> findDrugFromAndDrugCategory() {
-        List<List<Object>> list = new ArrayList<List<Object>>();
+    public Map findDrugFromAndDrugCategory() {
+        Map map = new HashMap();
         DurgsFromExample durgsFromExample=new DurgsFromExample();
         DrugCategoryExample drugCategoryExample = new DrugCategoryExample();
         List<DurgsFrom> list_durgsFrom = durgsFromDAO.selectByExample(durgsFromExample);
         List<DrugCategory> list_drugCategory = drugCategoryDAO.selectByExample(drugCategoryExample);
-        list.add(Collections.singletonList(list_durgsFrom));
-        list.add(Collections.singletonList(list_drugCategory));
-        return list;
+        map.put("list_durgsFrom",list_durgsFrom);
+        map.put("list_drugCategory",list_drugCategory);
+        return map;
     }
 
     @Override

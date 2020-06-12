@@ -3,12 +3,12 @@
 <mapper namespace="com.ygjy.dao.DrugInformationDAO">
   <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugInformation">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="enterprise_name_id" jdbcType="INTEGER" property="enterpriseNameId" />
-    <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
     <result column="common_name" jdbcType="VARCHAR" property="commonName" />
     <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
     <result column="specification" jdbcType="VARCHAR" property="specification" />
     <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
+    <result column="enterprise_name_id" jdbcType="INTEGER" property="enterpriseNameId" />
     <result column="trade_name" jdbcType="VARCHAR" property="tradeName" />
     <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
@@ -91,8 +91,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, enterprise_name_id, serial_number, common_name, dosage_form_id, specification, 
-    conversion_fraction, trade_name, bidding_price, unit, common_name_pinyin, product_picture, 
+    id, serial_number, common_name, dosage_form_id, specification, conversion_fraction, 
+    enterprise_name_id, trade_name, bidding_price, unit, common_name_pinyin, product_picture, 
     approval_number, validity_of_approval_number, imported_drug, packaging_material, 
     packing_unit, latest_retail_price, source_of_retail_price, quality_level_id, quality_level_description, 
     drug_inspection_report, drug_inspection_report_number, validity_of_drug_inspection_report, 
@@ -121,17 +121,15 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="com.ygjy.pojo.DrugInformationKey" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from drug_information
     where id = #{id,jdbcType=INTEGER}
-      and enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.ygjy.pojo.DrugInformationKey">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from drug_information
     where id = #{id,jdbcType=INTEGER}
-      and enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.ygjy.pojo.DrugInformationExample">
     delete from drug_information
@@ -140,9 +138,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ygjy.pojo.DrugInformation">
-    insert into drug_information (id, enterprise_name_id, serial_number, 
-      common_name, dosage_form_id, specification, 
-      conversion_fraction, trade_name, bidding_price, 
+    insert into drug_information (id, serial_number, common_name, 
+      dosage_form_id, specification, conversion_fraction, 
+      enterprise_name_id, trade_name, bidding_price, 
       unit, common_name_pinyin, product_picture, 
       approval_number, validity_of_approval_number, 
       imported_drug, packaging_material, packing_unit, 
@@ -152,9 +150,9 @@
       description_of_products, drug_category_id, 
       drug_transaction_status_id, del_state, audit_status
       )
-    values (#{id,jdbcType=INTEGER}, #{enterpriseNameId,jdbcType=INTEGER}, #{serialNumber,jdbcType=INTEGER}, 
-      #{commonName,jdbcType=VARCHAR}, #{dosageFormId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
-      #{conversionFraction,jdbcType=VARCHAR}, #{tradeName,jdbcType=VARCHAR}, #{biddingPrice,jdbcType=REAL}, 
+    values (#{id,jdbcType=INTEGER}, #{serialNumber,jdbcType=VARCHAR}, #{commonName,jdbcType=VARCHAR}, 
+      #{dosageFormId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, #{conversionFraction,jdbcType=VARCHAR}, 
+      #{enterpriseNameId,jdbcType=INTEGER}, #{tradeName,jdbcType=VARCHAR}, #{biddingPrice,jdbcType=REAL}, 
       #{unit,jdbcType=VARCHAR}, #{commonNamePinyin,jdbcType=VARCHAR}, #{productPicture,jdbcType=VARCHAR}, 
       #{approvalNumber,jdbcType=VARCHAR}, #{validityOfApprovalNumber,jdbcType=VARCHAR}, 
       #{importedDrug,jdbcType=INTEGER}, #{packagingMaterial,jdbcType=VARCHAR}, #{packingUnit,jdbcType=VARCHAR}, 
@@ -171,9 +169,6 @@
       <if test="id != null">
         id,
       </if>
-      <if test="enterpriseNameId != null">
-        enterprise_name_id,
-      </if>
       <if test="serialNumber != null">
         serial_number,
       </if>
@@ -188,6 +183,9 @@
       </if>
       <if test="conversionFraction != null">
         conversion_fraction,
+      </if>
+      <if test="enterpriseNameId != null">
+        enterprise_name_id,
       </if>
       <if test="tradeName != null">
         trade_name,
@@ -260,11 +258,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="enterpriseNameId != null">
-        #{enterpriseNameId,jdbcType=INTEGER},
-      </if>
       <if test="serialNumber != null">
-        #{serialNumber,jdbcType=INTEGER},
+        #{serialNumber,jdbcType=VARCHAR},
       </if>
       <if test="commonName != null">
         #{commonName,jdbcType=VARCHAR},
@@ -277,6 +272,9 @@
       </if>
       <if test="conversionFraction != null">
         #{conversionFraction,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseNameId != null">
+        #{enterpriseNameId,jdbcType=INTEGER},
       </if>
       <if test="tradeName != null">
         #{tradeName,jdbcType=VARCHAR},
@@ -358,11 +356,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.enterpriseNameId != null">
-        enterprise_name_id = #{record.enterpriseNameId,jdbcType=INTEGER},
-      </if>
       <if test="record.serialNumber != null">
-        serial_number = #{record.serialNumber,jdbcType=INTEGER},
+        serial_number = #{record.serialNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.commonName != null">
         common_name = #{record.commonName,jdbcType=VARCHAR},
@@ -375,6 +370,9 @@
       </if>
       <if test="record.conversionFraction != null">
         conversion_fraction = #{record.conversionFraction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseNameId != null">
+        enterprise_name_id = #{record.enterpriseNameId,jdbcType=INTEGER},
       </if>
       <if test="record.tradeName != null">
         trade_name = #{record.tradeName,jdbcType=VARCHAR},
@@ -450,12 +448,12 @@
   <update id="updateByExample" parameterType="map">
     update drug_information
     set id = #{record.id,jdbcType=INTEGER},
-      enterprise_name_id = #{record.enterpriseNameId,jdbcType=INTEGER},
-      serial_number = #{record.serialNumber,jdbcType=INTEGER},
+      serial_number = #{record.serialNumber,jdbcType=VARCHAR},
       common_name = #{record.commonName,jdbcType=VARCHAR},
       dosage_form_id = #{record.dosageFormId,jdbcType=INTEGER},
       specification = #{record.specification,jdbcType=VARCHAR},
       conversion_fraction = #{record.conversionFraction,jdbcType=VARCHAR},
+      enterprise_name_id = #{record.enterpriseNameId,jdbcType=INTEGER},
       trade_name = #{record.tradeName,jdbcType=VARCHAR},
       bidding_price = #{record.biddingPrice,jdbcType=REAL},
       unit = #{record.unit,jdbcType=VARCHAR},
@@ -486,7 +484,7 @@
     update drug_information
     <set>
       <if test="serialNumber != null">
-        serial_number = #{serialNumber,jdbcType=INTEGER},
+        serial_number = #{serialNumber,jdbcType=VARCHAR},
       </if>
       <if test="commonName != null">
         common_name = #{commonName,jdbcType=VARCHAR},
@@ -499,6 +497,9 @@
       </if>
       <if test="conversionFraction != null">
         conversion_fraction = #{conversionFraction,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseNameId != null">
+        enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER},
       </if>
       <if test="tradeName != null">
         trade_name = #{tradeName,jdbcType=VARCHAR},
@@ -568,15 +569,15 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ygjy.pojo.DrugInformation">
     update drug_information
-    set serial_number = #{serialNumber,jdbcType=INTEGER},
+    set serial_number = #{serialNumber,jdbcType=VARCHAR},
       common_name = #{commonName,jdbcType=VARCHAR},
       dosage_form_id = #{dosageFormId,jdbcType=INTEGER},
       specification = #{specification,jdbcType=VARCHAR},
       conversion_fraction = #{conversionFraction,jdbcType=VARCHAR},
+      enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER},
       trade_name = #{tradeName,jdbcType=VARCHAR},
       bidding_price = #{biddingPrice,jdbcType=REAL},
       unit = #{unit,jdbcType=VARCHAR},
@@ -600,6 +601,5 @@
       del_state = #{delState,jdbcType=INTEGER},
       audit_status = #{auditStatus,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
-      and enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER}
   </update>
 </mapper>

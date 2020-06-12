@@ -7,11 +7,13 @@ import java.util.Date;
  * drug_information
  * @author 
  */
-public class DrugInformation extends DrugInformationKey implements Serializable {
+public class DrugInformation implements Serializable {
+    private Integer id;
+
     /**
      * 流水号
      */
-    private Integer serialNumber;
+    private String serialNumber;
 
     /**
      * 通用名
@@ -32,6 +34,11 @@ public class DrugInformation extends DrugInformationKey implements Serializable 
      * 转换系数
      */
     private String conversionFraction;
+
+    /**
+     * 生产企业名称
+     */
+    private Integer enterpriseNameId;
 
     /**
      * 商品名
@@ -124,7 +131,7 @@ public class DrugInformation extends DrugInformationKey implements Serializable 
     private String descriptionOfProducts;
 
     /**
-     * 药品类别
+     * 药品类别(1.处方药2.非处方药)
      */
     private Integer drugCategoryId;
 
@@ -145,11 +152,19 @@ public class DrugInformation extends DrugInformationKey implements Serializable 
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getSerialNumber() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(Integer serialNumber) {
+    public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
 
@@ -183,6 +198,14 @@ public class DrugInformation extends DrugInformationKey implements Serializable 
 
     public void setConversionFraction(String conversionFraction) {
         this.conversionFraction = conversionFraction;
+    }
+
+    public Integer getEnterpriseNameId() {
+        return enterpriseNameId;
+    }
+
+    public void setEnterpriseNameId(Integer enterpriseNameId) {
+        this.enterpriseNameId = enterpriseNameId;
     }
 
     public String getTradeName() {
@@ -374,12 +397,12 @@ public class DrugInformation extends DrugInformationKey implements Serializable 
         }
         DrugInformation other = (DrugInformation) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getEnterpriseNameId() == null ? other.getEnterpriseNameId() == null : this.getEnterpriseNameId().equals(other.getEnterpriseNameId()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
             && (this.getCommonName() == null ? other.getCommonName() == null : this.getCommonName().equals(other.getCommonName()))
             && (this.getDosageFormId() == null ? other.getDosageFormId() == null : this.getDosageFormId().equals(other.getDosageFormId()))
             && (this.getSpecification() == null ? other.getSpecification() == null : this.getSpecification().equals(other.getSpecification()))
             && (this.getConversionFraction() == null ? other.getConversionFraction() == null : this.getConversionFraction().equals(other.getConversionFraction()))
+            && (this.getEnterpriseNameId() == null ? other.getEnterpriseNameId() == null : this.getEnterpriseNameId().equals(other.getEnterpriseNameId()))
             && (this.getTradeName() == null ? other.getTradeName() == null : this.getTradeName().equals(other.getTradeName()))
             && (this.getBiddingPrice() == null ? other.getBiddingPrice() == null : this.getBiddingPrice().equals(other.getBiddingPrice()))
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
@@ -409,12 +432,12 @@ public class DrugInformation extends DrugInformationKey implements Serializable 
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getEnterpriseNameId() == null) ? 0 : getEnterpriseNameId().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
         result = prime * result + ((getCommonName() == null) ? 0 : getCommonName().hashCode());
         result = prime * result + ((getDosageFormId() == null) ? 0 : getDosageFormId().hashCode());
         result = prime * result + ((getSpecification() == null) ? 0 : getSpecification().hashCode());
         result = prime * result + ((getConversionFraction() == null) ? 0 : getConversionFraction().hashCode());
+        result = prime * result + ((getEnterpriseNameId() == null) ? 0 : getEnterpriseNameId().hashCode());
         result = prime * result + ((getTradeName() == null) ? 0 : getTradeName().hashCode());
         result = prime * result + ((getBiddingPrice() == null) ? 0 : getBiddingPrice().hashCode());
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
@@ -446,11 +469,13 @@ public class DrugInformation extends DrugInformationKey implements Serializable 
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", commonName=").append(commonName);
         sb.append(", dosageFormId=").append(dosageFormId);
         sb.append(", specification=").append(specification);
         sb.append(", conversionFraction=").append(conversionFraction);
+        sb.append(", enterpriseNameId=").append(enterpriseNameId);
         sb.append(", tradeName=").append(tradeName);
         sb.append(", biddingPrice=").append(biddingPrice);
         sb.append(", unit=").append(unit);
