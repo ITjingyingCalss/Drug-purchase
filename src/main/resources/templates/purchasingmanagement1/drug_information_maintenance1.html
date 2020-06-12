@@ -25,15 +25,16 @@
                     console.log(data);
                     $(".context").append('<tr><td type="hidden">'+data[i].id+'</td><td>'+data[i].serialNumber + '</td><td>' +data[i].commonName+ '</td><td>'
                     +data[i].dosageFormId + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
-                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseName+ '</td><td>'+ data[i].tradeName+ '</td><td>'
-                        + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevelId+ '</td><td>'+ data[i].drugCategory+ '</td><td>'+ data[i].drugTransactionStatusId
-                        + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')">查看'+'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')"> 修改'+'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
+                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseNameId+ '</td><td>'+ data[i].tradeName+ '</td><td>'
+                        + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevelId+ '</td><td>'+ data[i].drugCategoryId+ '</td><td>'+ data[i].drugTransactionStatusId
+                        + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')">查看'+'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')"> 修改'+'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
                 }
             })
         });
         
         //模糊查询
         function selectLike() {
+            var id = $("#id").val();
             var serialNumber = $("#serialNumber").val();
             var commonName = $("#commonName").val();
             var dosageFormId = $("#dosageFormId").val();
@@ -41,26 +42,27 @@
             var specification = $("#specification").val();
             var unit = $("#unit").val();
             var conversionFraction = $("#conversionFraction").val();
-            var enterpriseName = $("#enterpriseName").val();
+            var enterpriseNameId = $("#enterpriseNameId").val();
+            if(enterpriseNameId==0)enterpriseNameId=null;
             var tradeName = $("#tradeName").val();
             var biddingPrice = $("#biddingPrice").val();
             var qualityLevelId = $("#qualityLevelId").val();
             if(qualityLevelId==0)qualityLevelId=null;
-            var drugCategory = $("#drugCategory").val();
-            if(drugCategory==0)drugCategory=null;
+            var drugCategoryId = $("#drugCategoryId").val();
+            if(drugCategoryId==0)drugCategoryId=null;
             var drugTransactionStatusId = $("#drugTransactionStatusId").val();
             if(drugTransactionStatusId==0)drugTransactionStatusId=null;
             url="selectLike";
             $(".context").empty();
-            $.get(url,{"serialNumber":serialNumber,"commonName":commonName,"dosageFormId":dosageFormId,"specification":specification,"unit":unit,"conversionFraction":conversionFraction,
-                "enterpriseName":enterpriseName,"tradeName":tradeName,"biddingPrice":biddingPrice,"qualityLevelId":qualityLevelId,"drugCategory":drugCategory,"drugTransactionStatusId":drugTransactionStatusId},
+            $.get(url,{"id":id,"serialNumber":serialNumber,"commonName":commonName,"dosageFormId":dosageFormId,"specification":specification,"unit":unit,"conversionFraction":conversionFraction,
+                "enterpriseNameId":enterpriseNameId,"tradeName":tradeName,"biddingPrice":biddingPrice,"qualityLevelId":qualityLevelId,"drugCategoryId":drugCategoryId,"drugTransactionStatusId":drugTransactionStatusId},
             function (data) {
                 for (var i = 0;i<data.length;i++){
                     $(".context").append('<tr><td type="hidden">'+data[i].id+'</td><td>'+data[i].serialNumber + '</td><td>' +data[i].commonName+ '</td><td>'
                         +data[i].dosageFormId + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
-                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseName+ '</td><td>'+ data[i].tradeName+ '</td><td>'
-                        + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevelId+ '</td><td>'+ data[i].drugCategory+ '</td><td>'+ data[i].drugTransactionStatusId
-                        + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')">查看'+'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')"> 修改'+'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
+                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseNameId+ '</td><td>'+ data[i].tradeName+ '</td><td>'
+                        + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevelId+ '</td><td>'+ data[i].drugCategoryId+ '</td><td>'+ data[i].drugTransactionStatusId
+                        + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')">查看'+'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')"> 修改'+'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
                 }
             })
         }
@@ -73,7 +75,7 @@
             var specification = $("#specification1").val();//规格
             var unit = $("#unit1").val();
             var conversionFraction = $("#conversionFraction1").val();
-            var enterpriseName = $("#enterpriseName1").val();
+            var enterpriseNameId = $("#enterpriseNameId1").val();
             var tradeName = $("#tradeName1").val();
             var biddingPrice = $("#biddingPrice1").val();
             var approvalNumber = $("#approvalNumber1").val();
@@ -93,7 +95,7 @@
             url="updateDrug";
             $.get(url,{"id":id,"serialNumber":serialNumber,"commonName":commonName,"dosageFormId":dosageFormId,
                 "specification":specification,"unit":unit,"conversionFraction":conversionFraction,
-                "enterpriseName":enterpriseName,"tradeName":tradeName,"biddingPrice":biddingPrice,
+                "enterpriseNameId":enterpriseNameId,"tradeName":tradeName,"biddingPrice":biddingPrice,
                 "approvalNumber":approvalNumber,"importedDrug":importedDrug,"validityOfApprovalNumber":validityOfApprovalNumber,
                 "packagingMaterial":packagingMaterial,"packingUnit":packingUnit,"latestRetailPrice":latestRetailPrice,
                 "sourceOfRetailPrice":sourceOfRetailPrice,"qualityLevelId":qualityLevelId,"qualityLevelDescription":qualityLevelDescription,
@@ -109,21 +111,25 @@
                 }
             })
         }
-        //导入
+        //导出
+        function expore() {
+            url="expore";
+            window.location.href=url;
+        }
         //查看
-        function selectBySerialNumber(serialNumber) {
-            url="selectBySerialNumber";
-            $.get(url,{"serialNumber":serialNumber},function (data) {
+        function selectById(id) {
+            url="selectById";
+            $.get(url,{"id":id},function (data) {
                 if (data != null){
                     alert("药品详细信息");
                     $("#id").val(data.id);
-                    $("#serialNumber1").val(serialNumber);
+                    $("#serialNumber1").val(data.serialNumber);
                     $("#commonName1").val(data.commonName);//通用名
                     $("#dosageFormId1").val(data.dosageFormId);//剂型id
                     $("#specification1").val(data.specification);//规格
                     $("#unit1").val(data.unit);
                     $("#conversionFraction1").val(data.conversionFraction);
-                    $("#enterpriseName1").val(data.enterpriseName);
+                    $("#enterpriseNameId1").val(data.enterpriseNameId);
                     $("#tradeName1").val(data.tradeName);
                     $("#biddingPrice1").val(data.biddingPrice);
                     $("#approvalNumber1").val(data.approvalNumber);
@@ -222,7 +228,7 @@
                  <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
             </td>
             <td>
-                <input class="form-control" id="enterpriseName">
+                <input class="form-control" id="enterpriseNameId">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
@@ -254,7 +260,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
             </td>
             <td>
-                <select style="width: 50%;height: 20%" id="drugCategory">
+                <select style="width: 50%;height: 20%" id="drugCategoryId">
                     <option value="0">请选择</option>
                     <option value="1">儿童用药</option>
                     <option value="2">营养治疗药</option>
@@ -280,7 +286,7 @@
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectLike()">查询</button>
-        <button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal">导出</button>
+        <button class="btn btn-success btn-sm" onclick="expore()">导出</button>
     </div>
 </div>
 <div class="box-body">
@@ -419,7 +425,7 @@
                     </tr>
                     <tr>
                         <td>生产企业名称</td>
-                        <td><input class="form-control" id="enterpriseName1" name="enterpriseName1"></td>
+                        <td><input class="form-control" id="enterpriseNameId1" name="enterpriseNameId1"></td>
                         <td>商品名</td>
                         <td><input class="form-control" id="tradeName1" name="tradeName1"></td>
                     </tr>

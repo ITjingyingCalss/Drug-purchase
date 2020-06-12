@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.purchasingmanagement1.dao.DrugItemsDao">
+    <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugItems">
+        <id column="items_id" jdbcType="INTEGER" property="itemsId" />
+        <result column="drug_items_number" jdbcType="INTEGER" property="drugItemsNumber" />
+        <result column="common_name" jdbcType="VARCHAR" property="commonName" />
+        <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
+        <result column="specification" jdbcType="VARCHAR" property="specification" />
+        <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
+        <result column="drug_category_id" jdbcType="VARCHAR" property="drugCategoryId" />
+        <result column="state" jdbcType="VARCHAR" property="state" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    items_id, drug_items_number, common_name, dosage_form_id, specification, unit,conversion_fraction,
+    drug_category_id, state
+  </sql>
+    <!-- 查询所有 -->
+    <select id="selectItems" resultMap="BaseResultMap">
+        select * from drug_items where state = 1
+    </select>
+    <!--模糊查询-->
+    <select id="selectItemsLike" resultMap="BaseResultMap">
+        select * from drug_items
+        <where>
+            <if test="drugItemsNumber!=null and drugItemsNumber!=''">
+                and drug_items_number like CONCAT ('%',#{drugItemsNumber},'%')
+            </if>
+            <if test="commonName!=null and commonName!=''">
+                and common_name like CONCAT ('%',#{commonName},'%')
+            </if>
+            <if test="dosageFormId!=null and dosageFormId!= 0">
+                and dosage_form_id like CONCAT ('%',#{dosageFormId},'%')
+            </if>
+            <if test="specification!=null and specification!=''">
+                and specification like CONCAT ('%',#{specification},'%')
+            </if>
+            <if test="unit!=null and unit!=''">
+                and unit like CONCAT ('%',#{unit},'%')
+            </if>
+            <if test="conversionFraction!=null and conversionFraction!=''">
+                and conversion_fraction like CONCAT ('%',#{conversionFraction},'%')
+            </if>
+            <if test="drugCategoryId!=null and drugCategoryId!=0 ">
+                and drug_category_id like CONCAT ('%',#{drugCategoryId},'%')
+            </if>
+            <if test="state!=null and state!='' ">
+                and state like CONCAT ('%',#{state},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--插入-->
+    <insert id="insertDrugItems" parameterType="com.ygjy.pojo.DrugItems">
+        insert into drug_items(drug_items_number,common_name,dosage_form_id,specification,
+        unit,conversion_fraction,drug_category_id,state)values
+        (#{drugItemsNumber},#{commonName},#{dosageFormId},#{specification},#{unit},#{conversionFraction},
+        #{drugCategoryId},#{state})
+    </insert>
+    <!--品目号查询-->
+    <select id="selectByItemsId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from drug_items where items_id = #{itemsId,jdbcType=INTEGER}
+    </select>
+    <!--修改药品-->
+    <update id="updataDrugItems" parameterType="com.ygjy.pojo.DrugItems">
+        update drug_items set drug_items_number = #{drugItemsNumber},
+        common_name = #{commonName}, dosage_form_id = #{dosageFormId}, specification = #{specification}, conversion_fraction = #{conversionFraction},
+        unit = #{unit},drug_category_id= #{drugCategoryId},state = #{state}
+    where items_id = #{itemsId}
+    </update>
+    <!--删除-->
+    <update id="deleteDrugItems" parameterType="java.lang.Integer">
+        update drug_items set state = 2 where items_id=#{itemsId}
+    </update>
+</mapper>

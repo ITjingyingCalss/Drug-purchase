@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ygjy.purchasingmanagement1.dao.DrugInformationDao">
-    <resultMap id="BaseResultMap" type="com.ygjy.purchasingmanagement1.pojo.DrugInformation">
+    <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugInformation">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
         <result column="common_name" jdbcType="VARCHAR" property="commonName" />
         <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
         <result column="specification" jdbcType="VARCHAR" property="specification" />
         <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
-        <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+        <result column="enterprise_name_id" jdbcType="VARCHAR" property="enterpriseNameId" />
         <result column="trade_name" jdbcType="VARCHAR" property="tradeName" />
         <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
         <result column="unit" jdbcType="VARCHAR" property="unit" />
@@ -27,17 +27,18 @@
         <result column="drug_inspection_report_number" jdbcType="VARCHAR" property="drugInspectionReportNumber" />
         <result column="validity_of_drug_inspection_report" jdbcType="DATE" property="validityOfDrugInspectionReport" />
         <result column="description_of_products" jdbcType="VARCHAR" property="descriptionOfProducts" />
-        <result column="drug_category" jdbcType="VARCHAR" property="drugCategory" />
+        <result column="drug_category_id" jdbcType="VARCHAR" property="drugCategoryId" />
         <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
         <result column="del_state" jdbcType="INTEGER" property="delState" />
+        <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
     </resultMap>
     <sql id="Base_Column_List">
     id, serial_number, common_name, dosage_form_id, specification, conversion_fraction,
-    enterprise_name, trade_name, bidding_price, unit, common_name_pinyin, product_picture,
+    enterprise_name_id, trade_name, bidding_price, unit, common_name_pinyin, product_picture,
     approval_number, validity_of_approval_number, imported_drug, packaging_material,
     packing_unit, latest_retail_price, source_of_retail_price, quality_level_id, quality_level_description,
     drug_inspection_report, drug_inspection_report_number, validity_of_drug_inspection_report,
-    description_of_products, drug_category, drug_transaction_status_id, del_state
+    description_of_products, drug_category_id, drug_transaction_status_id, del_state,audit_status
   </sql>
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="BaseResultMap">
@@ -65,8 +66,8 @@
             <if test="conversionFraction!=null and conversionFraction!=''">
                 and conversion_fraction like CONCAT ('%',#{conversionFraction},'%')
             </if>
-            <if test="enterpriseName!=null and enterpriseName!=''">
-                and enterprise_name like CONCAT ('%',#{enterpriseName},'%')
+            <if test="enterpriseNameId!=null and enterpriseNameId!=0 ">
+                and enterprise_name_id like CONCAT ('%',#{enterpriseNameId},'%')
             </if>
             <if test="tradeName!=null and tradeName!=''">
                 and trade_name like CONCAT ('%',#{tradeName},'%')
@@ -77,8 +78,8 @@
             <if test="qualityLevelId!=null and qualityLevelId!= 0 ">
                 and quality_level_id like CONCAT ('%',#{qualityLevelId},'%')
             </if>
-            <if test="drugCategory!=null and drugCategory!='0'">
-                and drug_category like CONCAT ('%',#{drugCategory},'%')
+            <if test="drugCategoryId!=null and drugCategoryId!='0'">
+                and drug_category_id like CONCAT ('%',#{drugCategoryId},'%')
             </if>
             <if test="drugTransactionStatusId!=null and drugTransactionStatusId!= 0 ">
                 and drug_transaction_status_id like CONCAT ('%',#{drugTransactionStatusId},'%')
@@ -90,29 +91,29 @@
     <!--插入-->
     <insert id="addDrug" parameterType="com.ygjy.pojo.DrugInformation">
         insert into drug_information(serial_number,common_name,dosage_form_id,specification,
-        unit,conversion_fraction,enterprise_name,trade_name,bidding_price,approval_number,imported_drug,
+        unit,conversion_fraction,enterprise_name_id,trade_name,bidding_price,approval_number,imported_drug,
         validity_of_approval_number,packaging_material,packing_unit,latest_retail_price,source_of_retail_price,
         quality_level_id,quality_level_description,drug_inspection_report,drug_inspection_report_number,validity_of_drug_inspection_report,
-        drug_transaction_status_id,description_of_products,del_state)values
-        (#{serialNumber},#{commonName},#{dosageFormId},#{specification},#{unit},#{conversionFraction},#{enterpriseName},
+        drug_transaction_status_id,description_of_products,del_state,audit_status)values
+        (#{serialNumber},#{commonName},#{dosageFormId},#{specification},#{unit},#{conversionFraction},#{enterpriseNameId},
         #{tradeName},#{biddingPrice},#{approvalNumber},#{importedDrug},#{validityOfApprovalNumber},
         #{packagingMaterial},#{packingUnit},#{latestRetailPrice},#{sourceOfRetailPrice},
         #{qualityLevelId},#{qualityLevelDescription},#{drugInspectionReport},#{drugInspectionReportNumber},
         #{validityOfDrugInspectionReport},#{drugTransactionStatusId},#{descriptionOfProducts},0)
     </insert>
     <!--流水号查询-->
-    <select id="selectBySerialNumber" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select * from drug_information where serial_number = #{serialNumber,jdbcType=INTEGER}
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from drug_information where id = #{id,jdbcType=INTEGER}
     </select>
     <!--修改药品-->
-    <update id="updataDrug" parameterType="com.ygjy.purchasingmanagement1.pojo.DrugInformation">
+    <update id="updataDrug" parameterType="com.ygjy.pojo.DrugInformation">
         update drug_information set serial_number = #{serialNumber},
         common_name = #{commonName}, dosage_form_id = #{dosageFormId}, specification = #{specification}, conversion_fraction = #{conversionFraction},
-    enterprise_name = #{enterpriseName}, trade_name = #{tradeName}, bidding_price = #{biddingPrice}, unit = #{unit}, common_name_pinyin = #{commonNamePinyin}, product_picture = #{productPicture},
+    enterprise_name_id = #{enterpriseNameId}, trade_name = #{tradeName}, bidding_price = #{biddingPrice}, unit = #{unit}, common_name_pinyin = #{commonNamePinyin}, product_picture = #{productPicture},
     approval_number = #{approvalNumber}, validity_of_approval_number = #{validityOfApprovalNumber}, imported_drug = #{importedDrug}, packaging_material = #{packagingMaterial},
     packing_unit = #{packingUnit}, latest_retail_price = #{latestRetailPrice}, source_of_retail_price = #{sourceOfRetailPrice}, quality_level_id = #{qualityLevelId}, quality_level_description = #{qualityLevelDescription},
     drug_inspection_report = #{drugInspectionReport}, drug_inspection_report_number = #{drugInspectionReportNumber}, validity_of_drug_inspection_report = #{validityOfDrugInspectionReport},
-    description_of_products = #{descriptionOfProducts}, drug_category = #{drugCategory}, drug_transaction_status_id = #{drugTransactionStatusId}, del_state = 0
+    description_of_products = #{descriptionOfProducts}, drug_category_id = #{drugCategoryId}, drug_transaction_status_id = #{drugTransactionStatusId}, del_state = 0
     where id = #{id}
     </update>
     <!--删除-->

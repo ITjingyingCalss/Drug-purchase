@@ -1,14 +1,16 @@
 package com.ygjy.purchasingmanagement1.service.impl;
 
-import com.ygjy.purchasingmanagement1.pojo.DrugInformation;
+import com.ygjy.pojo.DrugInformation;
 import com.ygjy.purchasingmanagement1.dao.DrugInformationDao;
 import com.ygjy.purchasingmanagement1.service.DrugInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Repository
 public class DrugInformationImpl implements DrugInformationService {
     @Autowired
     DrugInformationDao drugInformationDao;
@@ -19,8 +21,8 @@ public class DrugInformationImpl implements DrugInformationService {
     }
 
     @Override
-    public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, String enterpriseName, String tradeName, Double biddingPrice, Integer qualityLevelId, String drugCategory, Integer drugTransactionStatusId) {
-        return drugInformationDao.selectLike(serialNumber,commonName,dosageFormId, specification, unit,conversionFraction, enterpriseName, tradeName, biddingPrice, qualityLevelId,  drugCategory, drugTransactionStatusId);
+    public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice, Integer qualityLevelId, Integer drugCategoryId, Integer drugTransactionStatusId) {
+        return drugInformationDao.selectLike(serialNumber,commonName,dosageFormId, specification, unit,conversionFraction, enterpriseNameId, tradeName, biddingPrice, qualityLevelId,  drugCategoryId, drugTransactionStatusId);
     }
 
     @Override
@@ -30,8 +32,8 @@ public class DrugInformationImpl implements DrugInformationService {
     }
 
     @Override
-    public DrugInformation selectBySerialNumber(Integer serialNumber) {
-        return drugInformationDao.selectBySerialNumber(serialNumber);
+    public DrugInformation selectById(Integer id) {
+        return drugInformationDao.selectById(id);
     }
 
     @Override
