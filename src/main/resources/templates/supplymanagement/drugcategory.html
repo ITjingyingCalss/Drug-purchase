@@ -60,12 +60,12 @@
                         v+='<td><input type="checkbox" name="del" value='+data[i].id+'></td>';
                         v+='<td>'+data[i].serialNumber+'</td>'
                         v+='<td>'+data[i].commonName+'</td>'
-                        v+='<td>'+data[i].dosageFormId+'</td>'
+                        v+='<td>'+data[i].durgsFrom.drugFrom+'</td>'
                         v+='<td>'+data[i].specification+'</td>'
                         v+='<td>'+data[i].unit+'</td>'
                         v+='<td>'+data[i].conversionFraction+'</td>'
-                        v+='<td>'+data[i].drugCategoryId+'</td>'
-                        v+='<td>'+data[i].drugTransactionStatusId+'</td>'
+                        v+='<td>'+data[i].drugCategory.drugCategoryName+'</td>'
+                        v+='<td>'+data[i].drugTransactionStatus.drugTransactionExplain+'</td>'
                         v+='<td><a href="#" data-target="#editModal1" data-toggle="modal" onclick="saw('+data[i].id+')">查看</a></td>'
                         v+='</tr>';
                     }
@@ -103,7 +103,7 @@
                 $("#drug_category_id").prepend('<option value="0">请选择</option>')
                 for(var i=0;i<result.data.length;i++){
                     var list=result.data;
-                    $("#drug_category_id").prepend('<option value="' + list[i].id + '">' + list[i].drugCategoryName + '</option>')
+                    $("#drug_category_id").prepend('<option value="' + list[i].drugCateGoryId + '">' + list[i].drugCategoryName + '</option>')
                 }
             }
         })

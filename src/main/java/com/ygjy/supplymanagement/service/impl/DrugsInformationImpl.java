@@ -76,8 +76,25 @@ public class DrugsInformationImpl implements DrugsInformationService {
     }
 
     @Override
-    public List<EnterpriseDrugCatalog> backSelect(String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer drugTransactionStatusId, Integer enterpriseNameId, String tradeName, Float latestRetailPrice, Integer qualityLevelId) {
-        List<EnterpriseDrugCatalog> enterpriseDrugCatalogs = drugsInformationDao.backSelect(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseNameId, tradeName, latestRetailPrice, qualityLevelId);
+    public List<EnterpriseDrugCatalog> backSelect(String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer drugTransactionStatusId, Integer enterpriseNameId, String tradeName, Float latestRetailPrice, Integer qualityLevelId,Integer suppliersid,Integer auditStatus) {
+        List<EnterpriseDrugCatalog> enterpriseDrugCatalogs = drugsInformationDao.backSelect(commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, drugTransactionStatusId, enterpriseNameId, tradeName, latestRetailPrice, qualityLevelId,suppliersid,auditStatus);
         return enterpriseDrugCatalogs;
+    }
+
+    @Override
+    public int falseDelete(String[] items) {
+        return drugsInformationDao.falseDelete(items);
+    }
+
+    @Override
+    public Dto supplierSelect() {
+        List<Suppliers> suppliers = drugsInformationDao.supplierSelect();
+        return DtoUtil.returnDataSuccess(suppliers);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelectives(DrugInformation drugInformation) {
+        int i = drugsInformationDao.updateByPrimaryKeySelectives(drugInformation);
+        return i;
     }
 }

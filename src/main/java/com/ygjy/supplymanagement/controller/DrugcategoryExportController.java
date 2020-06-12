@@ -1,5 +1,4 @@
 package com.ygjy.supplymanagement.controller;
-
 import com.ygjy.supplymanagement.pojo.DrugInformation;
 import com.ygjy.supplymanagement.service.DrugsInformationService;
 import com.ygjy.supplymanagement.utils.ExcelUtil;
@@ -14,38 +13,32 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
-
-/**
- * @author: 赵林
- * @Date: 2020/6/11 10:19
- * @Description:
- */
 @RestController
-public class DrugsImportController {
+public class DrugcategoryExportController {
     @Autowired
     private DrugsInformationService drugsInformationService;
     /**
      * 导出报表
      * @return
      */
-    @RequestMapping("export2")
+    @RequestMapping("export")
     public String export(HttpServletRequest request, HttpServletResponse response, String[] importId) throws Exception {
 
         String message = "";
 
         //获取数据
         List<DrugInformation> list = drugsInformationService.importselect(importId);
-        System.out.println(list+"=======================");
+
         //excel标题
-        String[] title = {"流水号","通用名","剂型","规格","单位","转换系数","生产企业","商品名","中标价","质量层次","药品类别","交易状态","零售价出处","通用名拼音"};
+        String[] title = {"流水号","通用名","剂型","规格","单位","转换系数","生产企业","商品名","中标价","质量层次","药品类别","交易状态"};
 
         //excel文件名
-        String fileName = "药品信息详情表"+System.currentTimeMillis()+".xls";
+        String fileName = "药品品目详情表"+System.currentTimeMillis()+".xls";
 
         fileName= URLEncoder.encode(fileName, "UTF-8");
 
         //sheet名
-        String sheetName = "药品信息详情表";
+        String sheetName = "药品品目详情表";
 
         String [][] content = new String[list.size()][];
         for (int i = 0; i < list.size(); i++) {
@@ -67,8 +60,6 @@ public class DrugsImportController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            content[i][12] = stu.getSourceOfRetailPrice()+"";
-            content[i][13] = stu.getCommonNamePinyin()+"";
         }
 
         //创建HSSFWorkbook

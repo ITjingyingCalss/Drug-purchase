@@ -1,9 +1,6 @@
 package com.ygjy.supplymanagement.service;
 
-import com.ygjy.supplymanagement.pojo.DrugInformation;
-import com.ygjy.supplymanagement.pojo.DrugTransactionStatus;
-import com.ygjy.supplymanagement.pojo.Enterprise;
-import com.ygjy.supplymanagement.pojo.EnterpriseDrugCatalog;
+import com.ygjy.supplymanagement.pojo.*;
 import com.ygjy.supplymanagement.utils.Dto;
 import org.apache.ibatis.annotations.Param;
 
@@ -44,6 +41,11 @@ public interface DrugsInformationService {
      */
     Dto enterPrise();
     /**
+     * 供货商
+     * @return
+     */
+   Dto supplierSelect();
+    /**
      * 条件查询
      * @return
      */
@@ -65,5 +67,18 @@ public interface DrugsInformationService {
     /**
      * 取消供货查询
      */
-    List<EnterpriseDrugCatalog> backSelect(String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,Integer enterpriseNameId,String tradeName,Float latestRetailPrice,Integer qualityLevelId);
+    List<EnterpriseDrugCatalog> backSelect(String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer drugTransactionStatusId,Integer enterpriseNameId,String tradeName,Float latestRetailPrice,Integer qualityLevelId,Integer suppliersid,Integer auditStatus);
+    /**
+     * 取消选择供货
+     * @param items
+     * @return
+     */
+    int falseDelete(String[] items);
+
+    /**
+     * 修改商品信息维护
+     * @param
+     * @return
+     */
+    int updateByPrimaryKeySelectives(DrugInformation drugInformation);
 }
