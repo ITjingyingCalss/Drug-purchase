@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.ygjy.systemmanagement.pojo.User;
 import com.ygjy.systemmanagement.service.UserService;
 import com.ygjy.systemmanagement.util.ExportExcel;
+import com.ygjy.systemmanagement.util.ImportExcel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -82,8 +85,40 @@ public class SystemManagementDataController {
      * 上传Excel文档解析存储至数据库
      * @return
      */
-    @RequestMapping(value = "importUserExcel")
-    public String importUserExcel(){
+    @RequestMapping(value = "importUserExcel",produces = {"application/json;charset=utf-8"})
+    public String importUserExcel(@RequestParam("file") MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String uname = fileName.substring(0,fileName.lastIndexOf("."));
+        String newFileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + fileName.substring(fileName.lastIndexOf("."));
+        String path;
+        if (newFileName.endsWith(".doc") || newFileName.endsWith(".docx")){
+            path = "G://upload/work/"+newFileName;
+        }else if (newFileName.endsWith(".xls") || newFileName.endsWith(".xlsx")){
+            path = "G://upload/excel/"+newFileName;
+        }else if (newFileName.endsWith(".jpg") || newFileName.endsWith(".png")){
+            path = "G://upload/img/"+newFileName;
+        }else {
+            path = "G://upload/media/"+newFileName;
+        }
+        file.transferTo(new File(path));
+        if (newFileName.endsWith("xls") || newFileName.endsWith("xlsx")) {
+            ImportExcel excel = new ImportExcel();
+            List<List<Object>> list = excel.readExcel(new File(path));
+            List<User> userLists = new ArrayList<>();
+            for (int i = 0; i < list.size()-1; i++) {
+                User user = new User();
+			/*	System.out.println(list.get(i+1).get(0).toString());
+				cases.setId((int)(Double.parseDouble(list.get(i+1).get(0).toString())));*/
+               /* user.set(list.get(i+1).get(1).toString());
+                user.setIdCard(list.get(i+1).get(2).toString());
+                casess.add(cases);*/
+               user.setUserCreateTime(new Date());
+               user.setUserState(0);
+               userLists.add(user);
+            }
+           /* registrationOfCasesService.addBeachRegis(casess);*/
+            //执行Service;
+        }
         return "";
     }
 
@@ -92,7 +127,7 @@ public class SystemManagementDataController {
      * @return
      */
     @RequestMapping(value = "outputUserExcel")
-    public String outputUserExcel(String ids) throws IOException {
+    public String outputUserExcel(String ids,HttpServletRequest request,HttpServletResponse response) throws IOException {
       String[] head = {"用Id","用户名","用户类别","用户账号","用户密码","单位名称","联系地址","邮政编码","联系人","联系方式","邮箱"};
       String title = "用户信息";
       String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+".xlsx";
@@ -132,9 +167,27 @@ public class SystemManagementDataController {
      * 下载文件
      * @return
      */
-    @RequestMapping(value = "downloadFile")
-    public String downloadFile(MultipartFile file){
-        return "";
-    }
+   /* @RequestMapping(value = "downloadFile")
+    public void downloadFile(HttpServletRequest request ,HttpServletResponse response) throws IOException {
+        String fileName = "G://upload/img/哈哈.jpg";
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(new File(fileName)));
+
+        String filename = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+
+        fileName = URLEncoder.encode(fileName,"UTF-8");
+
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+
+        response.setContentType("multipart/form-data");
+
+        BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+
+        int len  = 0 ;
+        while ((len = inputStream.read())!=-1){
+            outputStream.write(len);
+            outputStream.flush();
+        }
+        outputStream.close();
+    }*/
 
 }

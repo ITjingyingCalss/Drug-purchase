@@ -53,7 +53,7 @@ public interface UserService {
 
     /**
      * 通过id查询用户信息批量导出
-     * @param id
+     * @param userId
      * @return
      */
     List<User> queryUserList(String[] userId);
