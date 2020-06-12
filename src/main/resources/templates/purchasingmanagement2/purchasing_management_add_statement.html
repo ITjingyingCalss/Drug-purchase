@@ -3,7 +3,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="IE=edge">
-    <title>添加退货单</title>
+    <title>添加结算单</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -21,13 +21,13 @@
         }
     </script>
 
-    <!--添加退货单-->
+    <!--添加结算单-->
     <script type="text/javascript">
 
         function saveReturnForm(){
 
-            var returnOrderNumber = $("#return_order_number").val();
-            var returnOrderName = $("#return_order_name").val();
+            var statementNumber = $("#statement_number").val();
+            var statementName = $("#statement_name").val();
             var hospitalId = $("#hospital_id").val();
             var contacts = $("#contacts").val();
             var phone = $("#phone").val();
@@ -41,7 +41,7 @@
             $.ajax({
                 url:"hospss",
                 type:"get",
-                data:{"returnOrderNumber":returnOrderNumber,"returnOrderName":returnOrderName,"hospitalId":hospitalId,"contacts":contacts,
+                data:{"statementNumber":statementNumber,"statementName":statementName,"hospitalId":hospitalId,"contacts":contacts,
                     "phone":phone,"creatReceiptsPerson":creatReceiptsPerson ,/*"createReceiptsTime":createReceiptsTime,
                     "submissionTime":submissionTime,*/"remark":remark,"returnStateId":returnStateId},
                 dataType:"json",
@@ -70,7 +70,7 @@
                 success:function (list1) {
                     var ss = "";
                     for (var i = 0; i < list1.length; i++) {
-                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + list1[i].id + "></td><td>"+ list1[i].returnOrderNumber +"</td><td>"+ list1[i].returnOrderName +"</td><td>"
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + list1[i].id + "></td><td>"+ list1[i].statementNumber +"</td><td>"+ list1[i].statementName +"</td><td>"
                             + list1[i].hospitalId +"</td><td>"+ list1[i].contacts +"</td><td>"
                             + list1[i].phone +"</td><td>"+ list1[i].creatReceiptsPerson +"</td><td>"
                             + list1[i].createReceiptsTime +"</td><td>"+ list1[i].submissionTime +"</td><td>"
@@ -146,8 +146,8 @@
                 dataType:"json",
                 success:function ( htrsee ) {
                     $("#see").val(htrsee.id);
-                    $("#return_order_number2").val(htrsee.returnOrderNumber);
-                    $("#return_order_name2").val(htrsee.returnOrderName);
+                    $("#statement_number2").val(htrsee.statementNumber);
+                    $("#statement_name2").val(htrsee.statementName);
                     $("#hospital_id2").val(htrsee.hospitalId);
                     $("#contacts2").val(htrsee.contacts);
                     $("#phone2").val(htrsee.phone);
@@ -195,7 +195,7 @@
     </script>
 
 
-    <!--退货单查询-->
+    <!--结算单查询-->
     <script type="text/javascript">
 
         function selectByEntity(){
@@ -203,8 +203,8 @@
             /*清除页面*/
             $("#dataList").empty();
 
-            var returnOrderNumber = $("#return_order_number3").val();
-            var returnOrderName = $("#return_order_name3").val();
+            var statementNumber = $("#statement_number").val();
+            var statementName = $("#statement_name").val();
             var hospitalId = $("#hospital_id3").val();
             var returnStateId = $("#return_state_id3").val();
             
@@ -212,8 +212,8 @@
                 url:"sele",
                 type:"post",
                 data:{
-                    "returnOrderNumber":returnOrderNumber,
-                    "returnOrderName":returnOrderName,
+                    "statementNumber":statementNumber,
+                    "statementName":statementName,
                     "hospitalId":hospitalId,
                     "returnStateId":returnStateId
                 },
@@ -227,7 +227,7 @@
                         }else if(select[i].returnStateId==2){
                             html="提交";
                         }*/
-                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + select[i].id + "></td><td>"+ select[i].returnOrderNumber +"</td><td>"+ select[i].returnOrderName +"</td><td>"
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + select[i].id + "></td><td>"+ select[i].statementNumber +"</td><td>"+ select[i].statementName +"</td><td>"
                             + select[i].hospitalId +"</td><td>"+ select[i].contacts +"</td><td>"
                             + select[i].phone +"</td><td>"+ select[i].creatReceiptsPerson +"</td><td>"
                             + select[i].createReceiptsTime +"</td><td>"+ select[i].submissionTime +"</td><td>"
@@ -250,18 +250,18 @@
 
 <div class="panel panel-info">
     <!-- Default panel contents -->
-    <div class="panel-heading">退货单维护</div>
+    <div class="panel-heading">结算单维护</div>
     <!-- Table -->
     <table class="table" >
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单编号：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单编号：</span>
             </td>
             <td >
                 <input class="form-control" id="return_order_number3" name="returnOrderNumber">
             </td>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单名称：</span>
             </td>
             <td >
                 <input class="form-control" id="return_order_name3" name="returnOrderName">
@@ -327,8 +327,8 @@
             <thead>
             <tr>
                 <th><input type="checkbox" id="checkboxMain" onclick="mainOnclick()" value=''></th>
-                <th class="sorting_asc">退货单编号</th>
-                <th class="sorting_asc">退货单名称</th>
+                <th class="sorting_asc">结算单编号</th>
+                <th class="sorting_asc">结算单名称</th>
                 <th class="sorting">医院编号</th>
                 <th class="sorting">联系人</th>
                 <th class="sorting">联系电话</th>
@@ -392,15 +392,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">添加退货单</h3>
+                <h3 id="myModalLabe">添加结算单</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table">
                     <tr>
-                        <td>退货单编号:</td>
-                        <td><input id="return_order_number" name="returnOrderNumber" class="form-control"></td>
-                        <td>退货单名称:</td>
-                        <td><input id="return_order_name" name="returnOrderName" class="form-control"></td>
+                        <td>结算单编号:</td>
+                        <td><input id="statement_number" name="statementNumber" class="form-control"></td>
+                        <td>结算单名称:</td>
+                        <td><input id="statement_name" name="statementName" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>医院编号:</td>
@@ -460,10 +460,10 @@
                 <table class="table table-bordered table-striped" id="id_table2">
                     <tr>
                         <input type="hidden" id="see" name="id">
-                        <td>退货单编号:</td>
-                        <td><input id="return_order_number2" name="returnOrderNumber" class="form-control"></td>
+                        <td>结算单编号:</td>
+                        <td><input id="statement_number2" name="statementNumber" class="form-control"></td>
                         <td>退货单名称:</td>
-                        <td><input id="return_order_name2" name="returnOrderName" class="form-control"></td>
+                        <td><input id="statement_name2" name="statementName" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>医院编号:</td>

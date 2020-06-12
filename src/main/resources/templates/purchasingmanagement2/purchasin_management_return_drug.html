@@ -40,6 +40,56 @@
 
         })
     }
+
+
+    /*/!*批量删除*!/
+    function xiaOnclick() {
+        var clickpool = true;
+        $.each($(".checkboxxia"),function(index,item){
+            if($(item).prop("checked")==false)clickpool=false;
+        })
+        $("#checkboxMain").prop("checked",clickpool)
+    }
+
+    function mainOnclick() {
+        $.each($(".checkboxxia"),function(index,item){
+            $(item).prop("checked",$("#checkboxMain").prop("checked"));
+        })
+    }
+
+    function BatchDelete() {
+        var bool = false;
+        var list = new Array();
+        /!*var st="";*!/
+        $.each($("input[class='checkboxxia']:checkbox:checked"),function(index,item){
+            list.push($(item).val());
+
+            /!*st+=$(item).val()+",";*!/
+
+            /!*console.log($(item).val());*!/
+            bool = true;
+        });
+
+        if(true){
+            $.ajax({
+                type:"GET",
+                url:"removeByKeys",
+                dataType:"json",
+                data:{"list":list}, // 传输一个list集合包含所选框的id,,,,也可以传一个st到后台data:{"list":st},
+                success:function (result) {
+                    var b = result;
+                    if (result > 0){
+                        alert("删除成功!");
+                        window.location.reload();
+                    }else{
+                        alert("删除失败!");
+                    }
+                }
+            })
+        }else {
+            alert("请选择数据");
+        }
+    }*/
 </script>
 
 
@@ -50,6 +100,98 @@
 <toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
 
 <div class="panel panel-info">
+
+    <!--退货单-->
+    <div class="panel-heading">退货单查看</div>
+    <table class="table" >
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单编号：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_unitName1">
+            </td>
+
+
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
+            </td>
+            <td >
+                <input class="form-control" id="searchEntity_organizationalCode1">
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">医院编号：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">联系人：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">联系电话：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">建单人：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">建单时间：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">提交时间：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">备注：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单状态：</span>
+            </td>
+            <td>
+                <select id="return_state_id1" name="returnStateId" style="width: 50%;height: 20%">
+                    <option value="1">未提交</option>
+                    <option value="2">提交</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <div style="text-align: center;padding-top: 10px">
+        <button class="btn btn-success btn-sm" onclick="saveReturnForm()">
+            保存退货单
+        </button>
+        <button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
+                data-target="#editModal">提交退货单
+        </button>
+    </div>
+
     <!-- Default panel contents -->
     <div class="panel-heading">退货药品查询</div>
     <!-- Table -->
@@ -72,7 +214,7 @@
 
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货状态：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
             </td>
             <td>
                 <select style="width: 50%;height: 20%">
@@ -80,27 +222,14 @@
                 </select>
                 <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
             </td>
-
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购医院：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
             </td>
             <td>
-                <input class="form-control">
-            </td>
-        </tr>
-
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">开始采购时间：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结束采购时间：</span>
-            </td>
-            <td>
-                <input class="form-control">
+                <select style="width: 50%;height: 20%">
+                    <option value="0">全部</option>
+                </select>
+                <!-- <input class="form-control" id="" >-->
             </td>
         </tr>
         <tr>
@@ -170,27 +299,27 @@
                 <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
             </td>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
+            </td>
+            <td style="word-break: keep-all;white-space: nowrap;width: 32%">
+                <input style="width: 40%"><span style="color: #0E74B4">至</span><input style="width: 40%;">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品批号：</span>
+            </td>
+            <td>
+                <input class="form-control">
+            </td>
+            <td style="text-align: right">
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货状态：</span>
             </td>
             <td>
                 <select style="width: 50%;height: 20%">
                     <option value="0">全部</option>
                 </select>
                 <!-- <input class="form-control" id="" >-->
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
-            </td>
-            <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                <input style="width: 23%"><span style="color: #0E74B4">至</span><input style="width: 23%;">
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品批号：</span>
-            </td>
-            <td>
-                <input class="form-control">
             </td>
         </tr>
         <tr>
@@ -199,15 +328,6 @@
             </td>
             <td>
                 <input class="form-control">
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
-            </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">全部</option>
-                </select>
-                <!-- <input class="form-control" id="" >-->
             </td>
         </tr>
     </table>
@@ -230,8 +350,8 @@
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                 data-target="#editModal1">添加
                         </button>
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#">删除
+                        <button type="button" class="btn btn-success btn-sm" onclick="BatchDelete()">
+                            删除
                         </button>
                         <button type="button" class="btn btn-success btn-sm" >保存退货量
                         </button>
@@ -246,26 +366,23 @@
             <tr>
                 <th class="sorting_asc">采购单编号</th>
                 <th class="sorting_asc">采购单名称</th>
-                <th class="sorting">流水号</th>
+                <th class="sorting">供货商</th>
+                <th class="sorting">药品类别</th>
+                <th class="sorting">药品流水号</th>
                 <th class="sorting">通用名</th>
-                <th class="sorting">商品名</th>
-                <th class="sorting">中标价</th>
-                <th class="sorting">交易价</th>
-                <th class="sorting">采购量</th>
-                <th class="sorting">采购金额</th>
-                <th class="sorting">入库量</th>
-                <th class="sorting">实际交易金额</th>
-                <th class="sorting">发票号或入库单号</th>
-                <th class="sorting">药品批号</th>
-                <th class="sorting">药品有效期</th>
-                <th class="sorting">退货量</th>
-                <th class="sorting">退货金额</th>
-                <th class="sorting">退货原因</th>
                 <th class="sorting">剂型</th>
                 <th class="sorting">规格</th>
                 <th class="sorting">单位</th>
                 <th class="sorting">转换系数</th>
+                <th class="sorting">生产企业</th>
+                <th class="sorting">商品名</th>
                 <th class="sorting">质量层次</th>
+                <th class="sorting">入库时间</th>
+                <th class="sorting">药品批号</th>
+
+                <th class="sorting">退货状态</th>
+                <th class="sorting">发票号或入库单号</th>
+
                 <th class="sorting">详细</th>
                 <th class="sorting">修改</th>
                 <th class="sorting">删除</th>
@@ -274,17 +391,12 @@
             <tbody class="context">
             <tr>
                 <td>00008</td>
-                <td>0.9%氯化钠</td>
-                <td>大输液</td>
-                <td>1000玻瓶</td>
+                <td>0.</td>
+                <td>大输</td>
+                <td>1</td>
                 <td>瓶</td>
                 <td>1</td>
                 <td>3</td>
-                <td>正常</td>
-                <td>正常</td>
-                <td>正常</td>
-                <td>正常</td>
-                <td>正常</td>
                 <td>正常</td>
                 <td>正常</td>
                 <td>正常</td>
