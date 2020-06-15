@@ -1,25 +1,23 @@
 package com.ygjy.systemmanagement.controller;
 
-import com.alibaba.excel.EasyExcelFactory;
-import com.alibaba.excel.ExcelWriter;
-import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ygjy.systemmanagement.pojo.User;
 import com.ygjy.systemmanagement.service.UserService;
 import com.ygjy.systemmanagement.util.ExportExcel;
 import com.ygjy.systemmanagement.util.ImportExcel;
+import com.ygjy.systemmanagement.util.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+import sun.security.provider.MD5;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,8 +45,53 @@ public class SystemManagementDataController {
      */
     @RequestMapping(value = "findUserAll",produces= {"application/json;charset=utf-8"})
     public String findAllUser(@RequestParam("userId") Integer userId,@RequestParam("userAccount") String userAccount,
-                              @RequestParam("contactAddress") String contactAddress,@RequestParam(value = "userState",required = false,defaultValue = "0") Integer userState){
-        return JSON.toJSONString(userService.findUserAll(userId,userAccount,contactAddress,userState));
+                              @RequestParam("contactAddress") String contactAddress,@RequestParam(value="pageNum",required = false,defaultValue="1") Integer pageNum,
+                              @RequestParam(value="pageSize",required = false,defaultValue="10") Integer pageSize,@RequestParam(value = "userState",required = false,defaultValue = "0") Integer userState){
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> userAll = userService.findUserAll(userId, userAccount, contactAddress, userState);
+        PageInfo<User> pageInfo = new PageInfo<>(userAll);
+        return JSON.toJSONString(pageInfo);
+    }
+
+    //验证字段合理性
+    @RequestMapping(value="findAllProperty",produces= {"application/json;charset=utf-8"})
+    public String findAllProperty(String userPhone,String username,String password,String userEmail) {
+        User user = userService.selectUserProperty(username, password, userPhone, userEmail);
+        if (user == null) {
+            return JSON.toJSONString(true);
+        }else {
+            return JSON.toJSONString(false);
+        }
+    }
+
+    /**
+     * 查询所有省
+     * @return
+     */
+    @RequestMapping(value = "findProvince",produces= {"application/json;charset=utf-8"})
+    public String findProvince() {
+        return JSON.toJSONString(userService.findAll());
+
+    }
+
+    /**
+     * 通过省编码查询下属市
+     * @param pcode
+     * @return
+     */
+    @RequestMapping(value = "findCityByPcode",produces= {"application/json;charset=utf-8"})
+    public String findCityByPcode(String pcode) {
+        return JSON.toJSONString(userService.findByPcode(pcode));
+    }
+
+    /**
+     * 通过市编码查询下属县
+     * @param ccode
+     * @return
+     */
+    @RequestMapping(value = "findCountyByCcode",produces= {"application/json;charset=utf-8"})
+    public String findCountyByCcode(String ccode) {
+        return JSON.toJSONString(userService.findTownByCcode(ccode));
     }
 
     /**
@@ -77,6 +120,8 @@ public class SystemManagementDataController {
      */
     @RequestMapping(value = "addUserInfo")
     public String addUserInfo(User user){
+        String message = Md5Util.getMessage(user.getPassword());
+        user.setSalt(message);
         user.setUserCreateTime(new Date());
         return JSON.toJSONString(userService.addUserInfo(user));
     }

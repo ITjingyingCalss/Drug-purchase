@@ -1,7 +1,6 @@
 package com.ygjy.systemmanagement.service;
 
-import com.ygjy.systemmanagement.pojo.User;
-import com.ygjy.systemmanagement.pojo.UserRole;
+import com.ygjy.systemmanagement.pojo.*;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -57,4 +56,34 @@ public interface UserService {
      * @return
      */
     List<User> queryUserList(String[] userId);
+
+    /**
+     * 查询所有省
+     * @return
+     */
+    List<AddressProvince> findAll();
+
+    /**
+     * 通过省编码查询下属市
+     * @param pcode
+     * @return
+     */
+    List<AddressCity> findByPcode(String pcode);
+
+    /**
+     * 通过市编码查询下属县
+     * @param ccode
+     * @return
+     */
+    List<AddressTown> findTownByCcode(String ccode);
+
+    /**
+     * 验证用户信息合理性,是否重复添加
+     * @param username
+     * @param password
+     * @param userPhone
+     * @param userEmail
+     * @return
+     */
+    User selectUserProperty(String username,String password,String userPhone,String userEmail);
 }

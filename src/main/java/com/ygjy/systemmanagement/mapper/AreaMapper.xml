@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.systemmanagement.dao.AreaMapper">
+  <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.Area">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="p_code" jdbcType="INTEGER" property="pCode" />
+    <result column="p_name" jdbcType="VARCHAR" property="pName" />
+    <result column="c_code" jdbcType="INTEGER" property="cCode" />
+    <result column="c_name" jdbcType="VARCHAR" property="cName" />
+    <result column="cu_code" jdbcType="INTEGER" property="cuCode" />
+    <result column="cu_name" jdbcType="VARCHAR" property="cuName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, p_code, p_name, c_code, c_name, cu_code, cu_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from area
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from area
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.Area">
+    insert into area (id, p_code, p_name, 
+      c_code, c_name, cu_code, 
+      cu_name)
+    values (#{id,jdbcType=INTEGER}, #{pCode,jdbcType=INTEGER}, #{pName,jdbcType=VARCHAR}, 
+      #{cCode,jdbcType=INTEGER}, #{cName,jdbcType=VARCHAR}, #{cuCode,jdbcType=INTEGER}, 
+      #{cuName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.Area">
+    insert into area
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pCode != null">
+        p_code,
+      </if>
+      <if test="pName != null">
+        p_name,
+      </if>
+      <if test="cCode != null">
+        c_code,
+      </if>
+      <if test="cName != null">
+        c_name,
+      </if>
+      <if test="cuCode != null">
+        cu_code,
+      </if>
+      <if test="cuName != null">
+        cu_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pCode != null">
+        #{pCode,jdbcType=INTEGER},
+      </if>
+      <if test="pName != null">
+        #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="cCode != null">
+        #{cCode,jdbcType=INTEGER},
+      </if>
+      <if test="cName != null">
+        #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cuCode != null">
+        #{cuCode,jdbcType=INTEGER},
+      </if>
+      <if test="cuName != null">
+        #{cuName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.Area">
+    update area
+    <set>
+      <if test="pCode != null">
+        p_code = #{pCode,jdbcType=INTEGER},
+      </if>
+      <if test="pName != null">
+        p_name = #{pName,jdbcType=VARCHAR},
+      </if>
+      <if test="cCode != null">
+        c_code = #{cCode,jdbcType=INTEGER},
+      </if>
+      <if test="cName != null">
+        c_name = #{cName,jdbcType=VARCHAR},
+      </if>
+      <if test="cuCode != null">
+        cu_code = #{cuCode,jdbcType=INTEGER},
+      </if>
+      <if test="cuName != null">
+        cu_name = #{cuName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.Area">
+    update area
+    set p_code = #{pCode,jdbcType=INTEGER},
+      p_name = #{pName,jdbcType=VARCHAR},
+      c_code = #{cCode,jdbcType=INTEGER},
+      c_name = #{cName,jdbcType=VARCHAR},
+      cu_code = #{cuCode,jdbcType=INTEGER},
+      cu_name = #{cuName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

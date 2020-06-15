@@ -1,8 +1,6 @@
 package com.ygjy.systemmanagement.service.impl;
-import com.ygjy.systemmanagement.dao.UserMapper;
-import com.ygjy.systemmanagement.dao.UserRoleMapper;
-import com.ygjy.systemmanagement.pojo.User;
-import com.ygjy.systemmanagement.pojo.UserRole;
+import com.ygjy.systemmanagement.dao.*;
+import com.ygjy.systemmanagement.pojo.*;
 import com.ygjy.systemmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +26,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private AddressProvinceMapper addressProvinceMapper;
+
+    @Autowired
+    private AddressCityMapper addressCityMapper;
+
+    @Autowired
+    private AddressTownMapper addressTownMapper;
 
     /**
      * 查询所有用户信息
@@ -74,13 +81,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean addUserInfo(User user) {
-        UserRole userRole = new UserRole();
-        userRole.setUserId(user.getUserId());
-        userRole.setRoleId(user.getRole().getRoleId());
-        userRoleMapper.insert(userRole);
+       /* UserRole userRole = new UserRole();
+        userRole.setUserId(user.getUserId());*/
+       /* userRoleMapper.insert(userRole);*/
         user.setUserCreateTime(new Date());
         user.setUserState(0);
-        int i = userMapper.insertSelective(user);
+        int i = userMapper.insert(user);
         if (i > 0 ){
             return true;
         }else {
@@ -106,5 +112,45 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> queryUserList(String[] userId) {
         return userMapper.queryUserList(userId);
+    }
+
+    /**
+     * 查询所有省
+     */
+    @Override
+    public List<AddressProvince> findAll() {
+        // TODO Auto-generated method stub
+        return addressProvinceMapper.selectAll();
+    }
+
+    /**
+     * 查询所有市
+     */
+    @Override
+    public List<AddressCity> findByPcode(String pcode) {
+        // TODO Auto-generated method stub
+        return addressCityMapper.selectByPcode(pcode);
+    }
+
+    /**
+     * 查询所有县
+     */
+    @Override
+    public List<AddressTown> findTownByCcode(String ccode) {
+        // TODO Auto-generated method stub
+        return addressTownMapper.selectTownByCcode(ccode);
+    }
+
+    /**
+     * 比较字段是否重复添加
+     * @param username
+     * @param password
+     * @param userPhone
+     * @param userEmail
+     * @return
+     */
+    @Override
+    public User selectUserProperty(String username, String password, String userPhone, String userEmail) {
+        return userMapper.selectUserProperty(username,password,userPhone,userEmail);
     }
 }

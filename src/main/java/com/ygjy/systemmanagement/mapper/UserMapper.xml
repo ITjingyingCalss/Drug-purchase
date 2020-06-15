@@ -99,6 +99,25 @@
             #{item,jdbcType=INTEGER}
            </foreach>
     </select>
+
+    <select id="selectUserProperty" resultMap="BaseResultMap">
+        select *
+        from user
+        <where>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                and user_phone = #{userPhone}
+            </if>
+            <if test="userEmail != null and userEmail !=''">
+                and user_email = #{userEmail}
+            </if>
+        </where>
+    </select>
   <!--  根据用户id删除该条信息-->
     <delete id="deleteUserByUserId">
         delete from user where user_id = #{userId}
