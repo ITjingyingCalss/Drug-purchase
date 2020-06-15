@@ -26,12 +26,12 @@ public interface HospitalTransactionStatementDao {
     HospitalTransactionStatement htrSee(Integer id);
 
     /*更新*/
-    int update(HospitalTransactionStatement htr);
+    int update1(HospitalTransactionStatement htr);
 
     /*批量删除*/
     int deleteByKeys(String[] ids);
 
     /*条件查询*/
-    List<HospitalTransactionStatement> selList(@Param("returnOrderNumber") String returnOrderNumber, @Param("returnOrderName") String returnOrderName,
-                                               @Param("hospitalId") Integer hospitalId, @Param("returnStateId") Integer returnStateId);
+    List<HospitalTransactionStatement> selList(@Param("statementNumber") String statementNumber, @Param("statementName") String statementName,
+                                               @Param("hospitalId") Integer hospitalId, @Param("statementStateId") Integer statementStateId);
 }

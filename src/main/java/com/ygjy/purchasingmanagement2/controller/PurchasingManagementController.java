@@ -30,15 +30,15 @@ public class PurchasingManagementController {
     }
 
     /*
-     *跳转到结算管理页面
+     *跳转到添加退货药品页面
      */
-    @RequestMapping("/purchasin_management_settlement_management")
+    @RequestMapping("/purchasin_management_add_returned_drugs")
     public String purchasinManagementSettlementManagement() {
-        return "purchasingmanagement2/purchasin_management_settlement_management";
+        return "purchasingmanagement2/purchasin_management_add_returned_drugs";
     }
 
     /*
-     *跳转到退货药品页面
+     *跳转到退货单维护页面
      */
     @RequestMapping("/purchasin_management_return_drug")
     public String purchasinManagementReturnDrug() {
@@ -46,10 +46,27 @@ public class PurchasingManagementController {
     }
 
     /*
-     *跳转到结算药品页面
+     *跳转到添加结单页面
      */
     @RequestMapping("/purchasing_management_add_statement")
     public String purchasingManagementAddStatement() {
         return "purchasingmanagement2/purchasing_management_add_statement";
+    }
+
+    /*
+     *跳转到添加结算药品页面
+     */
+    @RequestMapping("/purchasin_management_add_settlement_medicine")
+    public String purchasinManagementAddSettlementMedicine() {
+        return "purchasingmanagement2/purchasin_management_add_settlement_medicine";
+    }
+
+
+    /*
+     *跳转到添加结算单维护页面
+     */
+    @RequestMapping("/purchasing_management_settlement_doc_maintenance")
+    public String purchasingManagementSettlementDocMaintenance() {
+        return "purchasingmanagement2/purchasin_management_settlement_doc_maintenance";
     }
 }

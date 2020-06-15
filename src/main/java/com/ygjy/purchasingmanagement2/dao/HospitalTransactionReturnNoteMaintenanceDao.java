@@ -9,11 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * HospitalTransactionReturnDAO继承基类
+ * HHospitalTransactionReturnNoteMaintenanceDao继承基类
+ * 退货单维护页面
  */
 @Mapper
 @Repository
-public interface HospitalTransactionReturnsDao {
+public interface HospitalTransactionReturnNoteMaintenanceDao {
 
     /*添加退货单*/
     int insert(HospitalTransactionReturn hosp);

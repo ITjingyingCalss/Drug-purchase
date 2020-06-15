@@ -24,7 +24,7 @@
     <!--添加结算单-->
     <script type="text/javascript">
 
-        function saveReturnForm(){
+        function saveReturnForm1(){
 
             var statementNumber = $("#statement_number").val();
             var statementName = $("#statement_name").val();
@@ -35,15 +35,14 @@
             var createReceiptsTime = $("#create_receipts_time").val();
             var submissionTime = $("#submission_time").val();
             var remark = $("#remark").val();
-            var returnStateId = $("#return_state_id").val();
-            console.log(returnOrderNumber);
+            var statementStateId = $("#statement_state_id").val();
 
             $.ajax({
-                url:"hospss",
+                url:"hospss1",
                 type:"get",
                 data:{"statementNumber":statementNumber,"statementName":statementName,"hospitalId":hospitalId,"contacts":contacts,
                     "phone":phone,"creatReceiptsPerson":creatReceiptsPerson ,/*"createReceiptsTime":createReceiptsTime,
-                    "submissionTime":submissionTime,*/"remark":remark,"returnStateId":returnStateId},
+                    "submissionTime":submissionTime,*/"remark":remark,"statementStateId":statementStateId},
                 dataType:"json",
                 success:function (hosps) {
                     if (hosps != 0){
@@ -64,7 +63,7 @@
 
         $(function () {
             $.ajax({
-                url:"lists",
+                url:"lists1",
                 type:"post",
                 dataType:"json",
                 success:function (list1) {
@@ -75,9 +74,9 @@
                             + list1[i].phone +"</td><td>"+ list1[i].creatReceiptsPerson +"</td><td>"
                             + list1[i].createReceiptsTime +"</td><td>"+ list1[i].submissionTime +"</td><td>"
                             + list1[i].remark +"</td><td>"
-                            + (list1[i].returnStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ list1[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
+                            + (list1[i].statementStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ list1[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
 
-                        $("#dataList").append(ss);
+                        $("#dataList1").append(ss);
                     }
                 }
             })
@@ -114,7 +113,7 @@
             if(true){
                 $.ajax({
                     type:"GET",
-                    url:"removeByKeys",
+                    url:"removeByKeys1",
                     dataType:"json",
                     data:{"list":list}, // 传输一个list集合包含所选框的id,,,,也可以传一个st到后台data:{"list":st},
                     success:function (result) {
@@ -140,7 +139,7 @@
 
         function updateSee(id){
             $.ajax({
-                url:"htrsees",
+                url:"htrsees1",
                 type:"post",
                 data:{ id : id },
                 dataType:"json",
@@ -155,7 +154,7 @@
                     $("#create_receipts_time2").val(htrsee.createReceiptsTime);
                     $("#submission_time2").val(htrsee.submissionTime);
                     $("#remark2").val(htrsee.remark);
-                    $("#return_state_id2").val(htrsee.returnStateId);
+                    $("#statement_state_id2").val(htrsee.statementStateId);
                 }
             })
         }
@@ -164,7 +163,7 @@
     <!--更新-->
     <script type="text/javascript">
 
-        function updateReturnForm(){
+        function updateReturnForm1(){
 /*            var returnOrderNumber = $("#return_order_number2").val();
             var returnOrderName = $("#return_order_name2").val();
             var hospitalId = $("#hospital_id2").val();
@@ -176,12 +175,13 @@
             var remark = $("#remark2").val();
             var returnStateId = $("#return_state_id2").val();*/
             $.ajax({
-                url:"updates",
+                url:"updates1",
                 type:"post",
-                data:$("#yy").serialize(),
+                data:$("#yy1").serialize(),
                     /*"returnOrderNumber":returnOrderNumber,"returnOrderName":returnOrderName,"hospitalId":hospitalId,"contacts":contacts,
                     "phone":phone,"creatReceiptsPerson":creatReceiptsPerson ,"createReceiptsTime":createReceiptsTime,
                     "submissionTime":submissionTime,"remark":remark,"returnStateId":returnStateId*/
+                dataType:"json",
                 success:function (update) {
                     if (update != 0){
                         alert("修改成功");
@@ -201,21 +201,21 @@
         function selectByEntity(){
 
             /*清除页面*/
-            $("#dataList").empty();
+            $("#dataList1").empty();
 
             var statementNumber = $("#statement_number").val();
             var statementName = $("#statement_name").val();
             var hospitalId = $("#hospital_id3").val();
-            var returnStateId = $("#return_state_id3").val();
+            var statementStateId = $("#statement_state_id3").val();
             
             $.ajax({
-                url:"sele",
+                url:"sele1",
                 type:"post",
                 data:{
                     "statementNumber":statementNumber,
                     "statementName":statementName,
                     "hospitalId":hospitalId,
-                    "returnStateId":returnStateId
+                    "statementStateId":statementStateId
                 },
                 dataType:"json",
                 success:function (select) {
@@ -232,9 +232,9 @@
                             + select[i].phone +"</td><td>"+ select[i].creatReceiptsPerson +"</td><td>"
                             + select[i].createReceiptsTime +"</td><td>"+ select[i].submissionTime +"</td><td>"
                             + select[i].remark +"</td><td>"
-                            + (select[i].returnStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ select[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
+                            + (select[i].statementStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ select[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
 
-                        $("#dataList").append(ss);
+                        $("#dataList1").append(ss);
                     }
                 }
             })
@@ -250,7 +250,7 @@
 
 <div class="panel panel-info">
     <!-- Default panel contents -->
-    <div class="panel-heading">结算单维护</div>
+    <div class="panel-heading">添加结算单</div>
     <!-- Table -->
     <table class="table" >
         <tr>
@@ -279,7 +279,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单状态：</span>
             </td>
             <td>
-                <select id="return_state_id3" name="returnStateId" style="width: 50%;height: 20%">
+                <select id="statement_state_id3" name="statementStateId" style="width: 50%;height: 20%">
                     <option value="1">未提交</option>
                     <option value="2">提交</option>
                 </select>
@@ -323,7 +323,7 @@
         </div>
         <!--工具栏/-->
         <!--数据列表-->
-        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+        <table id="dataList1" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
                 <th><input type="checkbox" id="checkboxMain" onclick="mainOnclick()" value=''></th>
@@ -336,7 +336,7 @@
                 <th class="sorting">建单时间</th>
                 <th class="sorting">提交时间</th>
                 <th class="sorting">备注</th>
-                <th class="sorting">退货单状态</th>
+                <th class="sorting">结算单状态</th>
 <!--                <th class="sorting">查看</th>-->
                 <th class="sorting">修改</th>
             </tr>
@@ -428,9 +428,9 @@
                         <td>备注:</td>
                         <td><input id="remark" name="remark" class="form-control"></td>
 
-                        <td>退货单状态:</td>
+                        <td>结算单状态:</td>
                         <td>
-                            <select id="return_state_id" name="returnStateId" style="width: 50%;height: 20%">
+                            <select id="statement_state_id" name="statementStateId" style="width: 50%;height: 20%">
                                 <option value="1">未提交</option>
                                 <option value="2">提交</option>
                             </select>
@@ -439,7 +439,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="saveReturnForm()" data-dismiss="modal">保存退货单</button>
+                <button class="btn btn-success" onclick="saveReturnForm1()" data-dismiss="modal">保存结算单</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
@@ -448,13 +448,13 @@
 
 
 <!--修改退货单-->
-<form action="" id="yy" method="post">
+<form action="" id="yy1" method="post">
 <div class="modal fade" id="editModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:80%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt2" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe2">修改退货单</h3>
+                <h3 id="myModalLabe2">修改结算单</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table2">
@@ -493,7 +493,7 @@
 
                         <td>退货单状态:</td>
                         <td>
-                            <select id="return_state_id2" name="returnStateId" style="width: 50%;height: 20%">
+                            <select id="statement_state_id2" name="statementStateId" style="width: 50%;height: 20%">
                                 <option value="1">未提交</option>
                                 <option value="2">提交</option>
                             </select>
@@ -502,8 +502,8 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="updateReturnForm()" data-dismiss="modal">修改退货单</button>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">提交退货单</button>
+                <button class="btn btn-success" onclick="updateReturnForm1()" data-dismiss="modal">修改结算单</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">提交结算单</button>
             </div>
         </div>
     </div>
