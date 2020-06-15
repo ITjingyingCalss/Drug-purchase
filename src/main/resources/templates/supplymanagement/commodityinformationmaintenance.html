@@ -38,7 +38,7 @@
             var qualityLevelId=$("#qualityLevelId").val();
             var suppliers_id=$("#suppliers_id").val();
             var auditStatus=$("#auditStatus").val();
-
+            var price1=$("#price1").val();
             $.ajax({
                 url:"backSelect",
                 data:{
@@ -54,6 +54,7 @@
                     "tradeName":tradeName,
                     "qualityLevelId":qualityLevelId,
                     "suppliersid":suppliers_id,
+                    "latestRetailPrice":price1,
                     "auditStatus":auditStatus,
                     "pageNum":pageNum
                 },
@@ -69,16 +70,16 @@
                         v+='<td><input type="checkbox" name="del" value='+data[i].id+'></td>';
                         v+='<td>'+data[i].serialNumber+'</td>'
                         v+='<td>'+data[i].commonName+'</td>'
-                        v+='<td>'+data[i].dosageFormId+'</td>'
+                        v+='<td>'+data[i].durgsFrom.drugFrom+'</td>'
                         v+='<td>'+data[i].specification+'</td>'
                         v+='<td>'+data[i].unit+'</td>'
                         v+='<td>'+data[i].conversionFraction+'</td>'
                         v+='<td>'+data[i].enterprise.enterpriseName+'</td>';
                         v+='<td>'+data[i].tradeName+'</td>';
                         v+='<td>'+data[i].biddingPrice+'</td>';
-                        v+='<td>'+data[i].qualityLevelId+'</td>';
-                        v+='<td>'+data[i].drugCategoryId+'</td>'
-                        v+='<td>'+data[i].drugTransactionStatusId+'</td>'
+                        v+='<td>'+data[i].qualityLevel.level+'</td>';
+                        v+='<td>'+data[i].drugCategory.drugCategoryName+'</td>'
+                        v+='<td>'+data[i].drugTransactionStatus.drugTransactionExplain+'</td>'
                         v+='<td>'+data[i].suppliers.suppliername+'</td>'
                         v+='<td>'+auditStatus+'</td>'
                         v+='<td><a href="#" data-target="#editModal1" data-toggle="modal" onclick="saw('+data[i].id+')">查看</a></td>'
@@ -261,6 +262,21 @@
                 }
             })
         }
+        function setAllNo() {
+            var box = document.getElementById("boxid");
+            var loves = document.getElementsByName("del");
+            if(box.checked == false){
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = false;
+                }
+            }else{
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = true;
+                }
+            }
+        }
         //导出
         function Export() {
             var import1=$('input[name="del"]:checked').length;
@@ -273,7 +289,7 @@
                 $('input[name="del"]:checked').each(function () {
                     importId.push($(this).val())
                 })
-                window.location.href="export?importId="+importId;
+                window.location.href="export3?importId="+importId;
             }
         }
     </script>
@@ -352,7 +368,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">价格范围：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left">
+                <input class="form-control" style="width: 120px;float: left" id="price1"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">质量层次：</span>

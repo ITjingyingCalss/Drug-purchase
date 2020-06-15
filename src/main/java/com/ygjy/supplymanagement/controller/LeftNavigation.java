@@ -117,7 +117,7 @@ public class LeftNavigation {
         return "supplymanagement/returnorderprocessing";
     }
     /**
-     * 退货单处理
+     * 结算单处理
      * @return
      */
     @RequestMapping("/settlementdocprocessing")

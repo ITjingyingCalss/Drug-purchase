@@ -5,6 +5,7 @@ import com.ygjy.supplymanagement.utils.Dto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,4 +110,77 @@ public interface DrugsInformationDao {
      * 修改商品信息维护
      */
     int updateByPrimaryKeySelectives(DrugInformation drugInformation);
+    /**
+     * 退货单查询
+     */
+    List<DrugInformation> returnSelect(@Param("returnOrderNumber")String returnOrderNumber,
+                                       @Param("returnOrderName")String returnOrderName,
+                                       @Param("returnStateId")Integer returnStateId,
+                                       @Param("createReceiptsTime")Date createReceiptsTime,
+                                       @Param("submissionTime")Date submissionTime,
+                                       @Param("hospitalName")String hospitalName,
+                                       @Param("createReceiptsTimes")Date createReceiptsTimes,
+                                       @Param("submissionTimes")Date submissionTimes,
+                                       @Param("purchaseOrderNumber")String purchaseOrderNumber,
+                                       @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
+                                       @Param("commonName")String commonName,
+                                       @Param("serialNumber")String serialNumber,
+                                       @Param("dosageFormId")Integer dosageFormId,
+                                       @Param("specification")String specification,
+                                       @Param("unit")String unit,
+                                       @Param("conversionFraction")String conversionFraction,
+                                       @Param("drugCategoryId")Integer drugCategoryId,
+                                       @Param("enterpriseNameId")Integer enterpriseNameId,
+                                       @Param("tradeName") String tradeName,
+                                       @Param("qualityLevelId") Integer qualityLevelId);
+
+    /**
+     * 退货单状态查询
+     * @return
+     */
+    List<ReturnStatus> selectReturnStatus();
+    /**
+     * 结算单查询
+     */
+    List<DrugInformation> selectPurchaseOrder(@Param("statementNumber")String statementNumber,
+                                              @Param("statementName")String statementName,
+                                              @Param("hospitalName")String hospitalName,
+                                              @Param("createReceiptsTime")Date createReceiptsTime,
+                                              @Param("submissionTime")Date submissionTime,
+                                              @Param("statementStateId")Integer statementStateId,
+                                              @Param("purchaseOrderNumber")String purchaseOrderNumber,
+                                              @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
+                                              @Param("commonName")String commonName,
+                                              @Param("serialNumber")String serialNumber,
+                                              @Param("dosageFormId")Integer dosageFormId,
+                                              @Param("specification")String specification,
+                                              @Param("unit")String unit,
+                                              @Param("conversionFraction")String conversionFraction,
+                                              @Param("drugCategoryId")Integer drugCategoryId,
+                                              @Param("enterpriseNameId")Integer enterpriseNameId,
+                                              @Param("tradeName") String tradeName,
+                                              @Param("qualityLevelId") Integer qualityLevelId);
+
+    /**
+     * 结算状态查询
+     * @return
+     */
+    List<SettlementStatus> selectSettlementStatus();
+
+    /**
+     * 导出退货单
+     * @param items
+     * @return
+     */
+    List<DrugInformation> selectReturnExport(String[] items);
+    /**
+     * 导出结算单
+     * @param items
+     * @return
+     */
+    List<DrugInformation> selectSettlementExport(String[] items);
+    /**
+     * 确认退货
+     */
+    int updateByPrimaryKeyReturn(@Param("array") List<Integer> array);
 }

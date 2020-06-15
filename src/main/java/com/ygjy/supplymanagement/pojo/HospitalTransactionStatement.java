@@ -1,5 +1,8 @@
 package com.ygjy.supplymanagement.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -43,11 +46,15 @@ public class HospitalTransactionStatement implements Serializable {
     /**
      * 建单时间(年月日时分秒)
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createReceiptsTime;
 
     /**
      * 提交时间(年月日时分秒)
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date submissionTime;
 
     /**
@@ -195,23 +202,18 @@ public class HospitalTransactionStatement implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", statementNumber=").append(statementNumber);
-        sb.append(", statementName=").append(statementName);
-        sb.append(", hospitalId=").append(hospitalId);
-        sb.append(", contacts=").append(contacts);
-        sb.append(", phone=").append(phone);
-        sb.append(", creatReceiptsPerson=").append(creatReceiptsPerson);
-        sb.append(", createReceiptsTime=").append(createReceiptsTime);
-        sb.append(", submissionTime=").append(submissionTime);
-        sb.append(", remark=").append(remark);
-        sb.append(", statementStateId=").append(statementStateId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "HospitalTransactionStatement{" +
+                "id=" + id +
+                ", statementNumber='" + statementNumber + '\'' +
+                ", statementName='" + statementName + '\'' +
+                ", hospitalId=" + hospitalId +
+                ", contacts='" + contacts + '\'' +
+                ", phone='" + phone + '\'' +
+                ", creatReceiptsPerson='" + creatReceiptsPerson + '\'' +
+                ", createReceiptsTime=" + createReceiptsTime +
+                ", submissionTime=" + submissionTime +
+                ", remark='" + remark + '\'' +
+                ", statementStateId=" + statementStateId +
+                '}';
     }
 }

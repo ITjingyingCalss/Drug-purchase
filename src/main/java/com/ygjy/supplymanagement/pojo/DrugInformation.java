@@ -181,6 +181,82 @@ public class DrugInformation implements Serializable {
     private QualityLevel qualityLevel;
     private Enterprise enterprise;
     private EnterpriseDrugCatalog enterpriseDrugCatalog;
+    private HospitalTransactionDetails hospitalTransactionDetails;
+    private HospitalTransactionReturn hospitalTransactionReturn;
+    private Hospital hospital;
+    private PurchaseOrder purchaseOrder;
+    private PurchaseOrderDrugDetails purchaseOrderDrugDetails;
+    private ReturnStatus returnStatus;
+    private HospitalTransactionStatement hospitalTransactionStatement;
+    private SettlementStatus settlementStatus;
+
+    public HospitalTransactionStatement getHospitalTransactionStatement() {
+        return hospitalTransactionStatement;
+    }
+
+    public void setHospitalTransactionStatement(HospitalTransactionStatement hospitalTransactionStatement) {
+        this.hospitalTransactionStatement = hospitalTransactionStatement;
+    }
+
+    public SettlementStatus getSettlementStatus() {
+        return settlementStatus;
+    }
+
+    public void setSettlementStatus(SettlementStatus settlementStatus) {
+        this.settlementStatus = settlementStatus;
+    }
+
+    public ReturnStatus getReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(ReturnStatus returnStatus) {
+        this.returnStatus = returnStatus;
+    }
+
+    public PurchaseOrderDrugDetails getPurchaseOrderDrugDetails() {
+        return purchaseOrderDrugDetails;
+    }
+
+    public void setPurchaseOrderDrugDetails(PurchaseOrderDrugDetails purchaseOrderDrugDetails) {
+        this.purchaseOrderDrugDetails = purchaseOrderDrugDetails;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public HospitalTransactionDetails getHospitalTransactionDetails() {
+        return hospitalTransactionDetails;
+    }
+
+    public void setHospitalTransactionDetails(HospitalTransactionDetails hospitalTransactionDetails) {
+        this.hospitalTransactionDetails = hospitalTransactionDetails;
+    }
+
+    public HospitalTransactionReturn getHospitalTransactionReturn() {
+        return hospitalTransactionReturn;
+    }
+
+    public void setHospitalTransactionReturn(HospitalTransactionReturn hospitalTransactionReturn) {
+        this.hospitalTransactionReturn = hospitalTransactionReturn;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
 
     public int getSuppliersid() {
         return suppliersid;
@@ -579,6 +655,14 @@ public class DrugInformation implements Serializable {
                 ", qualityLevel=" + qualityLevel +
                 ", enterprise=" + enterprise +
                 ", enterpriseDrugCatalog=" + enterpriseDrugCatalog +
+                ", hospitalTransactionDetails=" + hospitalTransactionDetails +
+                ", hospitalTransactionReturn=" + hospitalTransactionReturn +
+                ", hospital=" + hospital +
+                ", purchaseOrder=" + purchaseOrder +
+                ", purchaseOrderDrugDetails=" + purchaseOrderDrugDetails +
+                ", returnStatus=" + returnStatus +
+                ", hospitalTransactionStatement=" + hospitalTransactionStatement +
+                ", settlementStatus=" + settlementStatus +
                 '}';
     }
 }

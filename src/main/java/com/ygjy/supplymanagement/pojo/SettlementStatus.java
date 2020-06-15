@@ -74,15 +74,10 @@ public class SettlementStatus implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", settlementState=").append(settlementState);
-        sb.append(", settlementExplain=").append(settlementExplain);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "SettlementStatus{" +
+                "id=" + id +
+                ", settlementState=" + settlementState +
+                ", settlementExplain='" + settlementExplain + '\'' +
+                '}';
     }
 }

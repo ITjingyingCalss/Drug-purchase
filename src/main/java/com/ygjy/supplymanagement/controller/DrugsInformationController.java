@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ygjy.supplymanagement.pojo.DrugInformation;
 import com.ygjy.supplymanagement.pojo.EnterpriseDrugCatalog;
+import com.ygjy.supplymanagement.pojo.HospitalTransactionDetails;
 import com.ygjy.supplymanagement.service.DrugsInformationService;
 import com.ygjy.supplymanagement.utils.Dto;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author: 赵林
@@ -181,5 +183,89 @@ public class DrugsInformationController {
     public String updateByPrimaryKeySelective(DrugInformation drugInformation){
         int i = drugsInformationService.updateByPrimaryKeySelectives(drugInformation);
         return JSON.toJSONString(i);
+    }
+    /**
+     * 退货单查询
+     */
+    @RequestMapping(value = "/returnSelect" ,produces = "application/json;charset=utf-8")
+    public String returnSelect(String returnOrderNumber, String returnOrderName, Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String purchaseOrderNumber, String nameOfPurchaseOrder, @RequestParam(value = "commonName",required = false)String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId,
+                               @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
+        PageHelper.startPage(pageNum,5);
+        if(dosageFormId!=null&&dosageFormId<=0){
+            dosageFormId=null;
+        }
+        if(drugCategoryId!=null&&drugCategoryId<=0){
+            drugCategoryId=null;
+        }
+        if(qualityLevelId!=null&&qualityLevelId<=0){
+            qualityLevelId=null;
+        }
+        if(enterpriseNameId!=null&&enterpriseNameId<=0){
+            enterpriseNameId=null;
+        }
+        if(returnStateId!=null&&returnStateId<=0){
+            returnStateId=null;
+        }
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss") ;
+//        Date date1=null;
+//        Date date2=null;
+//        try {
+//             date1 = sdf.parse(createReceiptsTime);
+//             date2 = sdf.parse(submissionTime);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        List<DrugInformation> drugInformations = drugsInformationService.returnSelect(returnOrderNumber, returnOrderName, returnStateId, createReceiptsTime, submissionTime, hospitalName, createReceiptsTimes, submissionTimes, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+        PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
+        return JSON.toJSONString(pageInfo);
+    }
+    /**
+     * 退货单状态查询
+     */
+    @RequestMapping(value = "/selectReturnStatus" ,produces = "application/json;charset=utf-8")
+    public String selectReturnStatus(){
+        Dto dto = drugsInformationService.selectReturnStatus();
+        return JSON.toJSONString(dto);
+    }
+    @RequestMapping(value = "/selectPurchaseOrder" ,produces = "application/json;charset=utf-8")
+    public String selectPurchaseOrder(String statementNumber,String statementName,String hospitalName,Date createReceiptsTime,Date submissionTime,Integer statementStateId,String purchaseOrderNumber,String nameOfPurchaseOrder,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,Integer qualityLevelId,
+                                      @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
+        PageHelper.startPage(pageNum,5);
+        if(dosageFormId!=null&&dosageFormId<=0){
+            dosageFormId=null;
+        }
+        if(drugCategoryId!=null&&drugCategoryId<=0){
+            drugCategoryId=null;
+        }
+        if(qualityLevelId!=null&&qualityLevelId<=0){
+            qualityLevelId=null;
+        }
+        if(enterpriseNameId!=null&&enterpriseNameId<=0){
+            enterpriseNameId=null;
+        }
+        if(statementStateId!=null&&statementStateId<=0){
+            statementStateId=null;
+        }
+        List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseOrder(statementNumber, statementName, hospitalName, createReceiptsTime, submissionTime, statementStateId, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+        PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
+        return JSON.toJSONString(pageInfo);
+    }
+    /**
+     * 结算单状态查询
+     */
+    @RequestMapping(value = "/selectSettlementStatus" ,produces = "application/json;charset=utf-8")
+    public String selectSettlementStatus(){
+        Dto dto = drugsInformationService.selectSettlementStatus();
+        return JSON.toJSONString(dto);
+    }
+    /**
+     * 确认退货
+     */
+    @RequestMapping(value = "/updateByPrimaryKeyReturn" ,produces = "application/json;charset=utf-8")
+    public int updateByPrimaryKeyReturn(@RequestParam("importId[]") Integer[] importId){
+        int result=0;
+        result += drugsInformationService.updateByPrimaryKeyReturn(Arrays.asList(importId));
+        System.out.println("共"+ importId.length+"条,成功"+result+"条");
+        return result;
     }
 }

@@ -54,7 +54,7 @@ public class DrugsExportController {
             content[i][0] = stu.getSerialNumber()+"";
             content[i][1] = stu.getCommonName()+"";
             content[i][2] = stu.getDurgsFrom().getDrugFrom()+"";
-            content[i][3] = stu.getSerialNumber()+"";
+            content[i][3] = stu.getSpecification()+"";
             content[i][4] = stu.getUnit()+"";
             content[i][5] = stu.getConversionFraction()+"";
             content[i][6] = stu.getEnterprise().getEnterpriseName()+"";
