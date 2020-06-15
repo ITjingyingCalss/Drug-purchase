@@ -32,4 +32,6 @@ public interface DrugInformationDao {
     int updataDrug(DrugInformation drugInformation);
     //删除
     int deleteDrug(Integer id);
+
+
 }
