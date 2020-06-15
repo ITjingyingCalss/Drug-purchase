@@ -250,7 +250,7 @@
 
 <div class="panel panel-info">
     <!-- Default panel contents -->
-    <div class="panel-heading">退货单维护</div>
+    <div class="panel-heading">添加退货单</div>
     <!-- Table -->
     <table class="table" >
         <tr>
@@ -288,9 +288,7 @@
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询退货单</button>
-       <!--<button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
-                data-target="#editModal">导出
-        </button>-->
+       <button type="button" class="btn btn-success btn-sm" onclick="exportAll()" >导出</button>
     </div>
 </div>
 <div class="box-body">
@@ -376,7 +374,7 @@
                     <li><a href="#">5</a></li>
                     <li>
                         <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&laquo;</span>
+                            <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 </ul>

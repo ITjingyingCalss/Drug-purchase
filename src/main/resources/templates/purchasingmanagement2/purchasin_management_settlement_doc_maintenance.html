@@ -3,7 +3,7 @@
     <!-- 页面meta -->
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="IE=edge">
-    <title>退货单维护</title>
+    <title>结算单维护</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -21,7 +21,7 @@
         }
     </script>
 
-<!--添加退货单-->
+<!--添加结算单-->
 <script type="text/javascript">
 
     var returnOrderNumber = $("#return_order_number").val();
@@ -40,6 +40,7 @@
 
         })
     }
+
 
     /*/!*批量删除*!/
     function xiaOnclick() {
@@ -89,24 +90,8 @@
             alert("请选择数据");
         }
     }*/
-
-
-    //导出
-    function importOne() {
-        var import1=$('input[name="del"]:checked').length;
-        if(import1==0){
-            alert("请至少选择一项导出");
-            return;
-        }
-        if(confirm("确定要导出吗?")){
-            var importId=[];
-            $('input[name="del"]:checked').each(function () {
-                importId.push($(this).val())
-            })
-            window.location.href="export?importId="+importId;
-        }
-    }
 </script>
+
 
 
 </head>
@@ -117,18 +102,18 @@
 <div class="panel panel-info">
 
     <!--退货单-->
-    <div class="panel-heading">退货单查看</div>
+    <div class="panel-heading">结算单查看</div>
     <table class="table" >
         <tr>
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单编号：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单编号：</span>
             </td>
             <td >
                 <input class="form-control" id="searchEntity_unitName1">
             </td>
 
 
-            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
+            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单名称：</span>
             </td>
             <td >
                 <input class="form-control" id="searchEntity_organizationalCode1">
@@ -188,7 +173,7 @@
             </td>
 
             <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单状态：</span>
+                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单状态：</span>
             </td>
             <td>
                 <select id="return_state_id1" name="returnStateId" style="width: 50%;height: 20%">
@@ -203,30 +188,27 @@
             保存退货单
         </button>
         <button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
-                data-target="#editModal">提交退货单
+                data-target="#editModal">提交结算单
         </button>
     </div>
 
     <!-- Default panel contents -->
-    <div class="panel-heading">退货药品查询</div>
+    <div class="panel-heading">结算药品查询</div>
     <!-- Table -->
-
-    <form action="" id="yy" method="post">
-
     <table class="table" >
         <tr>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
             </td>
             <td >
-                <input class="form-control" id="purchase_order_number" name="purchaseOrderNumber">
+                <input class="form-control" id="searchEntity_unitName">
             </td>
 
 
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
             </td>
             <td >
-                <input class="form-control" id="name_of_purchase_order" name="nameOfPurchaseOrder">
+                <input class="form-control" id="searchEntity_organizationalCode">
             </td>
         </tr>
 
@@ -235,9 +217,8 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
             </td>
             <td>
-                <select id="supplier_name" name="supplierMame" style="width: 50%;height: 20%">
-                    <option value="1">供货商1</option>
-                    <option value="2">供货商2</option>
+                <select style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
             </td>
@@ -245,9 +226,8 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
             </td>
             <td>
-                <select id="drug_category_name" name="drugCategoryName" style="width: 50%;height: 20%">
-                    <option value="1">非处方药</option>
-                    <option value="2">处方药</option>
+                <select style="width: 50%;height: 20%">
+                    <option value="0">全部</option>
                 </select>
                 <!-- <input class="form-control" id="" >-->
             </td>
@@ -257,13 +237,13 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
             </td>
             <td>
-                <input id="serial_number" name="serialNumber" class="form-control">
+                <input class="form-control">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">通用名：</span>
             </td>
             <td>
-                <input id="common_name" name="commonName" class="form-control">
+                <input class="form-control">
             </td>
         </tr>
         <tr>
@@ -271,13 +251,13 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
             </td>
             <td>
-                <input id="drug_from" name="drugFrom" class="form-control">
+                <input class="form-control">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
             </td>
             <td>
-                <input id="specification" name="specification" class="form-control">
+                <input class="form-control">
             </td>
         </tr>
         <tr>
@@ -285,13 +265,13 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">单位：</span>
             </td>
             <td>
-                <input id="unit" name="unit" class="form-control">
+                <input class="form-control">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">转换系数：</span>
             </td>
             <td>
-                <input id="conversion_fraction" name="conversionFraction" class="form-control">
+                <input class="form-control">
             </td>
         </tr>
         <tr>
@@ -299,13 +279,13 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
             </td>
             <td>
-                <input id="enterprise_name" name="enterpriseName" class="form-control">
+                <input class="form-control">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
             </td>
             <td>
-                <input id="trade_name" name="tradeName" class="form-control">
+                <input class="form-control">
             </td>
         </tr>
         <tr>
@@ -314,13 +294,7 @@
             </td>
             <td>
                 <select style="width: 50%;height: 20%">
-                    <option value="1">国家一类新药</option>
-                    <option value="2">国家科学进步奖</option>
-                    <option value="3">专利</option>
-                    <option value="4">原研</option>
-                    <option value="5">单独定价</option>
-                    <option value="6">优质优价</option>
-                    <option value="7">GMP</option>
+                    <option value="0">全部</option>
                 </select>
                 <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
             </td>
@@ -328,7 +302,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
             </td>
             <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                <input  id="receipt_time" name="receiptTime" style="width: 40%"><span style="color: #0E74B4">至</span><input style="width: 40%;">
+                <input style="width: 40%"><span style="color: #0E74B4">至</span><input style="width: 40%;">
             </td>
         </tr>
         <tr>
@@ -336,15 +310,14 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品批号：</span>
             </td>
             <td>
-                <input id="drug_batch_number" name="drugBatchNumber" class="form-control">
+                <input class="form-control">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货状态：</span>
             </td>
             <td>
                 <select style="width: 50%;height: 20%">
-                    <option value="1">未确认退货</option>
-                    <option value="2">已确认退货</option>
+                    <option value="0">全部</option>
                 </select>
                 <!-- <input class="form-control" id="" >-->
             </td>
@@ -354,16 +327,14 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">发票号或入库单号：</span>
             </td>
             <td>
-                <input id="Invoice_number" name="InvoiceNumber" class="form-control">
+                <input class="form-control">
             </td>
         </tr>
     </table>
-
-    </form>
-
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="importOne()"  >导出
+        <button type="button" class="btn btn-success btn-sm"  data-toggle="modal"
+                data-target="#editModal">导出
         </button>
     </div>
 </div>
@@ -408,13 +379,10 @@
                 <th class="sorting">质量层次</th>
                 <th class="sorting">入库时间</th>
                 <th class="sorting">药品批号</th>
-
                 <th class="sorting">退货状态</th>
                 <th class="sorting">发票号或入库单号</th>
-
-                <th class="sorting">详细</th>
                 <th class="sorting">修改</th>
-                <th class="sorting">删除</th>
+
             </tr>
             </thead>
             <tbody class="context">
@@ -437,13 +405,7 @@
                 <td>正常</td>
                 <td>正常</td>
                 <td>
-                    <a href="#">查看</a>
-                </td>
-                <td>
                     <a href="#">修改</a>
-                </td>
-                <td>
-                    <a href="#">删除</a>
                 </td>
             </tr>
             </tbody>
@@ -480,14 +442,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">退货单页面</h3>
+                <h3 id="myModalLabe">结算单页面</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table">
                     <tr>
-                        <td>退货单编号:</td>
+                        <td>结算单编号:</td>
                         <td><input id="return_order_number" name="returnOrderNumber" class="form-control"></td>
-                        <td>退货单名称:</td>
+                        <td>结算单名称:</td>
                         <td><input id="return_order_name" name="returnOrderName" class="form-control"></td>
                     </tr>
                     <tr>
@@ -516,13 +478,13 @@
                         <td>备注:</td>
                         <td><input id="remark" name="remark" class="form-control"></td>
 
-                        <td>退货单状态:</td>
+                        <td>结算单状态:</td>
                         <td><input id="return_state_id" name="returnStateId" class="form-control"></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="saveReturnForm()" data-dismiss="modal">保存退货单</button>
+                <button class="btn btn-success" onclick="saveReturnForm()" data-dismiss="modal">保存结算单</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
