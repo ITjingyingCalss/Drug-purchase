@@ -69,4 +69,14 @@ public interface UserMapper {
      * @return
      */
     List<User> queryUserList(String[] userId);
+
+    /**
+     * 验证表单属性合理性是否重复添加
+     * @param username
+     * @param password
+     * @param userEmail
+     * @param userPhone
+     * @return
+     */
+    User selectUserProperty(@Param("username") String username,@Param("password") String password,@Param("userEmail") String userEmail,@Param("userPhone") String userPhone);
 }

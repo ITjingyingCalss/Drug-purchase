@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.systemmanagement.dao.AddressTownMapper">
+  <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.AddressTown">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tcode" jdbcType="CHAR" property="tcode" />
+    <result column="tname" jdbcType="VARCHAR" property="tname" />
+    <result column="cityCode" jdbcType="CHAR" property="citycode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tcode, tname, cityCode
+  </sql>
+   <!-- 通过市code查询下属县-->
+    <select id="selectTownByCcode"  resultMap="BaseResultMap">
+        select 'true' as QUERYID,
+        <include refid="Base_Column_List" />
+        from address_town
+        where cityCode = #{ccode,jdbcType=VARCHAR}
+    </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from address_town
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from address_town
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.AddressTown">
+    insert into address_town (id, tcode, tname, 
+      cityCode)
+    values (#{id,jdbcType=INTEGER}, #{tcode,jdbcType=CHAR}, #{tname,jdbcType=VARCHAR}, 
+      #{citycode,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.AddressTown">
+    insert into address_town
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tcode != null">
+        tcode,
+      </if>
+      <if test="tname != null">
+        tname,
+      </if>
+      <if test="citycode != null">
+        cityCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tcode != null">
+        #{tcode,jdbcType=CHAR},
+      </if>
+      <if test="tname != null">
+        #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        #{citycode,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.AddressTown">
+    update address_town
+    <set>
+      <if test="tcode != null">
+        tcode = #{tcode,jdbcType=CHAR},
+      </if>
+      <if test="tname != null">
+        tname = #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null">
+        cityCode = #{citycode,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.AddressTown">
+    update address_town
+    set tcode = #{tcode,jdbcType=CHAR},
+      tname = #{tname,jdbcType=VARCHAR},
+      cityCode = #{citycode,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
