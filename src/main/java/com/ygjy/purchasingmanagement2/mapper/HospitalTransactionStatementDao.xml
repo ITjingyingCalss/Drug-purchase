@@ -12,20 +12,20 @@
     <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
     <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="return_state_id" jdbcType="INTEGER" property="returnStateId" />
+    <result column="statement_state_id" jdbcType="INTEGER" property="statementStateId" />
   </resultMap>
 
-  <!--添加退货单-->
+  <!--添加结算单-->
   <insert id="insert" parameterType="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionStatement">
     insert into hospital_transaction_statement (id, statement_number, statement_name,
       hospital_id, contacts, phone, 
       creat_receipts_person, create_receipts_time,
-      submission_time, remark, return_state_id
+      submission_time, remark, statement_state_id
       )
     values (#{id,jdbcType=INTEGER}, #{statementNumber,jdbcType=VARCHAR}, #{statementName,jdbcType=VARCHAR},
       #{hospitalId,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
       #{creatReceiptsPerson,jdbcType=VARCHAR}, now(),
-      #{submissionTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{returnStateId,jdbcType=INTEGER}
+      #{submissionTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{statementStateId,jdbcType=INTEGER}
       )
   </insert>
 
@@ -44,15 +44,16 @@
   </select>
 
   <!--更新-->
-  <update id="update" parameterType="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionStatement">
+  <update id="update1" parameterType="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionStatement">
 
     UPDATE `drugplatform`.`hospital_transaction_statement` SET `statement_number`=#{statementNumber},
       `statement_name`=#{statementName}, `hospital_id`=#{hospitalId}, `contacts`=#{contacts}, `phone`=#{phone},
       `creat_receipts_person`=#{creatReceiptsPerson}, `create_receipts_time`=#{createReceiptsTime},
-      `submission_time`=#{submissionTime},`remark`=#{remark}, `return_state_id`=#{returnStateId} WHERE (`id`=#{id});
+      `submission_time`=#{submissionTime},`remark`=#{remark}, `statement_state_id`=#{statementStateId} WHERE (`id`=#{id});
 
   </update>
 
+    <!--批量删除-->
   <delete id="deleteByKeys" parameterType="java.lang.Integer">
     delete from hospital_transaction_statement where id in
     <foreach collection="array" item="item" open="(" close=")" separator=",">
@@ -61,6 +62,7 @@
 
   </delete>
 
+    <!--条件查询-->
   <select id="selList" resultMap="BaseResultMap">
 
         select * from hospital_transaction_statement where 1 = 1
@@ -77,8 +79,8 @@
           and hospital_id like CONCAT ('%',#{hospitalId},'%')
         </if>
 
-        <if test="returnStateId != null and returnStateId != ''">
-          and return_state_id like CONCAT ('%',#{returnStateId},'%')
+        <if test="statementStateId != null and statementStateId != ''">
+          and statement_state_id like CONCAT ('%',#{statementStateId},'%')
         </if>
 
   </select>

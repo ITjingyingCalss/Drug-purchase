@@ -32,8 +32,8 @@ public interface HospitalTransactionReturnService {
    boolean removeByKeys(String[] ids);
 
    /*条件查询*/
-   List<HospitalTransactionReturn> selList(@Param("returnOrderNumber")String returnOrderNumber, @Param("returnOrderName")String returnOrderName,
-                                           @Param("hospitalId")Integer hospitalId, @Param("returnStateId") Integer returnStateId);
+   List<HospitalTransactionReturn> selList(@Param("returnOrderNumber") String returnOrderNumber, @Param("returnOrderName") String returnOrderName,
+                                           @Param("hospitalId") Integer hospitalId, @Param("returnStateId") Integer returnStateId);
 
 
 }

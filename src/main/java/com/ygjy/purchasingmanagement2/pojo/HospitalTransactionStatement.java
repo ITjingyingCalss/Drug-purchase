@@ -1,5 +1,8 @@
 package com.ygjy.purchasingmanagement2.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -43,11 +46,15 @@ public class HospitalTransactionStatement implements Serializable {
     /**
      * 建单时间(年月日时分秒)
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createReceiptsTime;
 
     /**
      * 提交时间(年月日时分秒)
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date submissionTime;
 
     /**
