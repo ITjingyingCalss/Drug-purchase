@@ -17,13 +17,23 @@
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="js/supervision/Drug_item_maintenance.js"></script>
-
-
     <script type="text/javascript">
-        function down(){
-            window.location.href="down";
-        }
+        //页面加载查询所有
+        $(function(){
+            url="selectPurchasingDrugs";
+            $.get(url,{},function (data) {
+                for (var i = 0;i<data.length;i++){
+                    console.log(data);
+                    $(".context").append('<tr><td>'+ data[i].id +'</td><td><input type="checkbox"></td><td>'+data[i].drugItemsNumber + '</td><td>' +data[i].commonName+ '</td><td>'
+                        +data[i].dosageFormId + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
+                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseNameId+ '</td><td>'+ data[i].tradeName+ '</td><td>'+ data[i].biddingPrice+ '</td><td>'+ data[i].drugCategoryId
+                        + '</td><td>'+ data[i].drugTransactionStatusId + '</td><td>'+ data[i].availabilityStatus
+                        + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectByItemsId( '+data[i].itemsId+')">查看'
+                        +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectByItemsId( '+data[i].itemsId+')"> 修改'
+                        +'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].itemsId+')">删除'+'</button></td></tr>')
+                }
+            })
+        });
     </script>
 
 </head>
@@ -178,6 +188,8 @@
             </thead>
             <tbody class="context">
             <tr>
+                <td>1</td>
+                <td><input type="checkbox"></td>
                 <td>00008</td>
                 <td>0.9%氯化钠</td>
                 <td>大输液</td>
@@ -188,8 +200,6 @@
                 <td>0.9%氯化钠</td>
                 <td>3.0</td>
                 <td>国家一类新药</td>
-                <td></td>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td>正常</td>

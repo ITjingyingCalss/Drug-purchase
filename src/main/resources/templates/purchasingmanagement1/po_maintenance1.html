@@ -12,25 +12,123 @@
     <link rel="stylesheet" href="js/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="js/angularjs/toaster.min.css">
-
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
+        //页面加载
        $(function () {
            url="selectPurchaseOrderAll";
            $.get(url,{},function (data) {
                for (var i = 0;i<data.length;i++){
                    $(".context").append('<tr><td>'+data[i].hospitalId+'</td><td>'+data[i].purchaseOrderNumber + '</td><td>' +data[i].nameOfPurchaseOrder+ '</td><td>'
-                       +data[i].createReceiptsTime + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
-                       + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseName+ '</td><td>'+ data[i].tradeName+ '</td><td>'
-                       + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevelId+ '</td><td>'+ data[i].drugCategory+ '</td><td>'+ data[i].drugTransactionStatusId
-                       + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')">查看'
-                       +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].serialNumber+')"> 修改'
-                       +'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
+                       +data[i].createReceiptsTime + '</td><td>'+ data[i].submissionTime+ '</td><td>'+ data[i].createReceiptsTime+ '</td><td>'
+                       + data[i].submissionTime+ '</td><td>'+ data[i].auditTime+ '</td><td>'+ data[i].purchaseState+ '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')">查看'
+                       +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')"> 修改'
+                       +'</button></td><td><button class="btn btn-danger btn-sm" onclick="deletePurchaseOrder('+data[i].id+')">删除'+'</button></td></tr>')
                }
            })
        })
+        //查看
+        function selectOne(id) {
+            url="selectOne";
+            $.get(url,{"id":id},function (data) {
+                console.log(data);
+                var id = $("#id").val(data.id);
+                var hospitalId = $("#hospitalId").val(data.hospitalId);
+                var hospitalName = $("#hospitalName").val(data.hospitalName);
+                var purchaseOrderNumber = $("#purchaseOrderNumber").val(data.purchaseOrderNumber);
+                var nameOfPurchaseOrder = $("#nameOfPurchaseOrder").val(data.nameOfPurchaseOrder);
+                var auditTime = $("#auditTime").val(data.auditTime);
+                var createReceiptsTime = $("#createReceiptsTime").val(data.createReceiptsTime);
+                var contacts = $("#contacts").val(data.contacts);
+                var phone = $("#phone").val(data.phone);
+                var purchaseState = $("#purchaseState").val(data.purchaseState);
+                var submissionTime = $("#submissionTime").val(data.submissionTime);
+                var remark = $("#remark").val(data.remark);
+                var auditPerson = $("#auditPerson").val(data.auditPerson);
+                var auditTime1 = $("#auditTime1").val(data.auditTime);
+                var auditOpinion = $("#auditOpinion").val(data.auditOpinion);
+            })
+        }
+        //修改
+        function save1() {
+            url="updatePurchaseOrder";
+            var id = $("#id").val();
+            var hospitalId = $("#hospitalId").val();
+            var hospitalName = $("#hospitalName").val();
+            var purchaseOrderNumber = $("#purchaseOrderNumber").val();
+            var nameOfPurchaseOrder = $("#nameOfPurchaseOrder").val();
+            var auditTime = $("#auditTime").val();
+            var createReceiptsTime = $("#createReceiptsTime").val();
+            var contacts = $("#contacts").val();
+            var phone = $("#phone").val();
+            var purchaseState = $("#purchaseState").val();
+            var submissionTime = $("#submissionTime").val();
+            var remark = $("#remark").val();
+            var auditPerson = $("#auditPerson").val();
+            var auditTime1 = $("#auditTime1").val();
+            var auditOpinion = $("#auditOpinion").val();
+            $.get(url,{"id":id,"hospitalId":hospitalId,"hospitalName":hospitalName,
+                "purchaseOrderNumber":purchaseOrderNumber,"nameOfPurchaseOrder":nameOfPurchaseOrder,
+                "auditTime":auditTime,"createReceiptsTime":createReceiptsTime,"contacts":contacts,
+                "phone":phone,"purchaseState":purchaseState,"submissionTime":submissionTime,
+                "remark":remark,"auditPerson":auditPerson,"auditTime1":auditTime1,"auditOpinion":auditOpinion},function (data) {
+                if (data==2){
+                    alert("修改成功")
+                    //$("#editModal1").modal('hide');
+                    window.location.reload();
+                } else{
+                    alert("修改失败,请检查网络...")
+                }
+            })
+        }
+
+        //删除
+        function deletePurchaseOrder(id) {
+            url="deletePurchaseOrder";
+            $.get(url,{"id":id},function (data) {
+                if (data>0){
+                    alert("删除成功")
+                    window.location.reload();
+                } else {
+                    alert("删除失败")
+                    window.location.reload();
+                }
+            })
+        }
+
+        //添加
+        function addPurchaseOrder() {
+            url="addPurchaseOrder";
+            var hospitalId = $("#hospitalId1").val();
+            var hospitalName = $("#hospitalName1").val();
+            var purchaseOrderNumber = $("#purchaseOrderNumber1").val();
+            var nameOfPurchaseOrder = $("#nameOfPurchaseOrder1").val();
+            var auditTime = $("#auditTime1").val();
+            var createReceiptsTime = $("#createReceiptsTime1").val();
+            var contacts = $("#contacts1").val();
+            var phone = $("#phone1").val();
+            var purchaseState = $("#purchaseState1").val();
+            var submissionTime = $("#submissionTime1").val();
+            var remark = $("#remark1").val();
+            var auditPerson = $("#auditPerson1").val();
+            var auditTime1 = $("#auditTime2").val();
+            var auditOpinion = $("#auditOpinion1").val();
+            $.get(url,{"hospitalId":hospitalId,"hospitalName":hospitalName,
+                "purchaseOrderNumber":purchaseOrderNumber,"nameOfPurchaseOrder":nameOfPurchaseOrder,
+                "auditTime":auditTime,"createReceiptsTime":createReceiptsTime,"contacts":contacts,
+                "phone":phone,"purchaseState":purchaseState,"submissionTime":submissionTime,
+                "remark":remark,"auditPerson":auditPerson,"auditTime1":auditTime1,"auditOpinion":auditOpinion},function (data) {
+                if (data==2){
+                    alert("添加成功")
+                    //$("#editModal1").modal('hide');
+                    window.location.reload();
+                } else{
+                    alert("添加失败,请检查网络...")
+                }
+            })
+        }
     </script>
 
 
@@ -76,7 +174,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
             </td>
             <td>
-                <input  style="width: 22%">--<input style="width: 22%">
+                <input  >
             </td>
         </tr>
         <tr>
@@ -102,7 +200,7 @@
                 <div class="form-group form-inline">
                     <div class="btn-group">
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                data-target="#editModal1">添加
+                                data-target="#editModal2">添加
                         </button>
                     </div>
                 </div>
@@ -128,7 +226,7 @@
             </tr>
             </thead>
             <tbody class="context">
-            <tr>
+            <!--<tr>
                 <td>XX村卫生室</td>
                 <td>005</td>
                 <td>XX村卫生室 2018-08-07 15:30:30</td>
@@ -147,7 +245,7 @@
                 <td>
                     <a href="#">删除</a>
                 </td>
-            </tr>
+            </tr>-->
             </tbody>
 
         </table>
@@ -187,73 +285,154 @@
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table">
                     <tr>
+                        <input type="hidden" id="id" name="id">
                         <td>医院编号:</td>
-                        <td><input id="idCad1" name="idCard" class="form-control"></td>
+                        <td><input id="hospitalId" name="hospitalId" class="form-control"></td>
                         <td>医院名称：</td>
-                        <td><input id="idard1" name="idCard" class="form-control"></td>
+                        <td><input id="hospitalName" name="hospitalName" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>采购单编号:</td>
                         <td>
-                            <input id="idad1" name="idCard" class="form-control">
+                            <input id="purchaseOrderNumber" name="purchaseOrderNumber" class="form-control">
                         </td>
                         <td>采购单名称:</td>
-                        <td><input id="idCard1" name="idCard" class="form-control"></td>
+                        <td><input id="nameOfPurchaseOrder" name="nameOfPurchaseOrder" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>供货时间:</td>
-                        <td width=""><input class="form-control">--<input></td>
+                        <td><input class="form-control" id="auditTime" name="auditTime"></td>
                         <td>建单时间:</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="createReceiptsTime" name="createReceiptsTime"></td>
                     </tr>
                     <tr>
                         <td>联系人:</td>
                         <td>
-                            <input class="form-control">
+                            <input class="form-control" id="contacts" name="contacts">
                         </td>
                         <td>联系电话:</td>
-                        <td><input class="form-control">
+                        <td><input class="form-control" id="phone" name="phone">
                         </td>
                     </tr>
                     <tr>
                         <td>采购单状态:</td>
                         <td>
-                            <input class="form-control">
+                            <input class="form-control" id="purchaseState" name="purchaseState">
                         </td>
                         <td>提交时间:</td>
-                        <td><input class="form-control">
+                        <td><input class="form-control" id="submissionTime" name="submissionTime">
                         </td>
                     </tr>
                     <tr>
                         <td>备注:</td>
                         <td>
-                            <input class="form-control">
+                            <input class="form-control" id="remark" name="remark">
                         </td>
                     </tr>
                     <tr>
                         <td>审核人:</td>
                         <td>
-                            <input class="form-control">
+                            <input class="form-control" id="auditPerson" name="auditPerson">
                         </td>
                         <td>审核时间:</td>
-                        <td><input class="form-control">
+                        <td><input class="form-control" id="auditTime1" name="auditTime1">
                         </td>
                     </tr>
                     <tr>
                         <td>审核意见:</td>
                         <td>
-                            <input class="form-control">
+                            <input class="form-control" id="auditOpinion" name="auditOpinion">
                         </td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" ng-click="save()" onclick="updataRegistrationOfCases()">保存采购单</button>
+                <button class="btn btn-success"  onclick="save1()">保存采购单</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
     </div>
 </div>
 <!-- 编辑窗口 -->
+
+<div class="modal fade" id="editModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h3 id="myModalLabe">添加采购单</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" id="id_table">
+                    <tr>
+                        <input type="hidden" id="id" name="id">
+                        <td>医院编号:</td>
+                        <td><input id="hospitalId1" name="hospitalId1" class="form-control"></td>
+                        <td>医院名称：</td>
+                        <td><input id="hospitalName1" name="hospitalName1" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>采购单编号:</td>
+                        <td>
+                            <input id="purchaseOrderNumber1" name="purchaseOrderNumber1" class="form-control">
+                        </td>
+                        <td>采购单名称:</td>
+                        <td><input id="nameOfPurchaseOrder1" name="nameOfPurchaseOrder1" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>供货时间:</td>
+                        <td><input class="form-control" id="auditTime1" name="auditTime1"></td>
+                        <td>建单时间:</td>
+                        <td><input class="form-control" id="createReceiptsTime1" name="createReceiptsTime1"></td>
+                    </tr>
+                    <tr>
+                        <td>联系人:</td>
+                        <td>
+                            <input class="form-control" id="contacts1" name="contacts1">
+                        </td>
+                        <td>联系电话:</td>
+                        <td><input class="form-control" id="phone1" name="phone1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>采购单状态:</td>
+                        <td>
+                            <input class="form-control" id="purchaseState1" name="purchaseState1">
+                        </td>
+                        <td>提交时间:</td>
+                        <td><input class="form-control" id="submissionTime1" name="submissionTime1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>备注:</td>
+                        <td>
+                            <input class="form-control" id="remark1" name="remark1">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>审核人:</td>
+                        <td>
+                            <input class="form-control" id="auditPerson1" name="auditPerson1">
+                        </td>
+                        <td>审核时间:</td>
+                        <td><input class="form-control" id="auditTime2" name="auditTime2">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>审核意见:</td>
+                        <td>
+                            <input class="form-control" id="auditOpinion1" name="auditOpinion1">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success"  onclick="addPurchaseOrder()">保存采购单</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
