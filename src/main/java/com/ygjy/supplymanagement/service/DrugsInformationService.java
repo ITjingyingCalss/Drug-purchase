@@ -4,6 +4,7 @@ import com.ygjy.supplymanagement.pojo.*;
 import com.ygjy.supplymanagement.utils.Dto;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,4 +82,38 @@ public interface DrugsInformationService {
      * @return
      */
     int updateByPrimaryKeySelectives(DrugInformation drugInformation);
+    /**
+     * 退货单查询
+     */
+    List<DrugInformation> returnSelect(String returnOrderNumber,String returnOrderName,Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId,String tradeName,Integer qualityLevelId);
+    /**
+     * 退货单状态查询
+     * @return
+     */
+    Dto selectReturnStatus();
+    /**
+     * 结算单查询
+     */
+    List<DrugInformation> selectPurchaseOrder(String statementNumber,String statementName,String hospitalName,Date createReceiptsTime,Date submissionTime,Integer statementStateId,String purchaseOrderNumber,String nameOfPurchaseOrder,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,Integer qualityLevelId);
+    /**
+     * 结算状态查询
+     * @return
+     */
+   Dto selectSettlementStatus();
+    /**
+     * 导出退货单
+     * @param items
+     * @return
+     */
+    List<DrugInformation> selectReturnExport(String[] items);
+    /**
+     * 导出结算单
+     * @param items
+     * @return
+     */
+    List<DrugInformation> selectSettlementExport(String[] items);
+    /**
+     * 确认退货
+     */
+    int updateByPrimaryKeyReturn(List<Integer> items);
 }

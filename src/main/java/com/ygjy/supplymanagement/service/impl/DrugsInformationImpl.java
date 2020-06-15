@@ -8,6 +8,7 @@ import com.ygjy.supplymanagement.utils.DtoUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -96,5 +97,43 @@ public class DrugsInformationImpl implements DrugsInformationService {
     public int updateByPrimaryKeySelectives(DrugInformation drugInformation) {
         int i = drugsInformationDao.updateByPrimaryKeySelectives(drugInformation);
         return i;
+    }
+
+    @Override
+    public List<DrugInformation> returnSelect(String returnOrderNumber, String returnOrderName, Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId) {
+        List<DrugInformation> drugInformations = drugsInformationDao.returnSelect(returnOrderNumber, returnOrderName, returnStateId, createReceiptsTime, submissionTime, hospitalName, createReceiptsTimes, submissionTimes, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+        return drugInformations;
+    }
+
+    @Override
+    public Dto selectReturnStatus() {
+        List<ReturnStatus> returnStatuses = drugsInformationDao.selectReturnStatus();
+        return DtoUtil.returnDataSuccess(returnStatuses);
+    }
+    @Override
+    public List<DrugInformation> selectPurchaseOrder(String statementNumber, String statementName, String hospitalName, Date createReceiptsTime, Date submissionTime, Integer statementStateId, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId) {
+        List<DrugInformation> drugInformations = drugsInformationDao.selectPurchaseOrder(statementNumber, statementName, hospitalName, createReceiptsTime, submissionTime, statementStateId, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+        return drugInformations;
+    }
+
+    @Override
+    public Dto selectSettlementStatus() {
+        List<SettlementStatus> settlementStatuses = drugsInformationDao.selectSettlementStatus();
+        return DtoUtil.returnDataSuccess(settlementStatuses);
+    }
+
+    @Override
+    public List<DrugInformation> selectReturnExport(String[] items) {
+        return drugsInformationDao.selectReturnExport(items);
+    }
+
+    @Override
+    public List<DrugInformation> selectSettlementExport(String[] items) {
+        return drugsInformationDao.selectSettlementExport(items);
+    }
+
+    @Override
+    public int updateByPrimaryKeyReturn(List<Integer> items) {
+        return drugsInformationDao.updateByPrimaryKeyReturn(items);
     }
 }

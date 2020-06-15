@@ -1,5 +1,8 @@
 package com.ygjy.supplymanagement.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -38,7 +41,9 @@ public class PurchaseOrder implements Serializable {
     /**
      * 建单时间(年月日时分秒)
      */
-    private Date createReceiptsTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createReceiptsTimes;
 
     /**
      * 最近修改时间(年月日时分秒)
@@ -48,7 +53,9 @@ public class PurchaseOrder implements Serializable {
     /**
      * 提交时间(年月日时分秒)
      */
-    private Date submissionTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date submissionTimes;
 
     /**
      * 备注
@@ -130,12 +137,24 @@ public class PurchaseOrder implements Serializable {
         this.phone = phone;
     }
 
-    public Date getCreateReceiptsTime() {
-        return createReceiptsTime;
+    public Date getCreateReceiptsTimes() {
+        return createReceiptsTimes;
     }
 
-    public void setCreateReceiptsTime(Date createReceiptsTime) {
-        this.createReceiptsTime = createReceiptsTime;
+    public void setCreateReceiptsTimes(Date createReceiptsTimes) {
+        this.createReceiptsTimes = createReceiptsTimes;
+    }
+
+    public Date getSubmissionTimes() {
+        return submissionTimes;
+    }
+
+    public void setSubmissionTimes(Date submissionTimes) {
+        this.submissionTimes = submissionTimes;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Date getLastModificationTime() {
@@ -146,13 +165,7 @@ public class PurchaseOrder implements Serializable {
         this.lastModificationTime = lastModificationTime;
     }
 
-    public Date getSubmissionTime() {
-        return submissionTime;
-    }
 
-    public void setSubmissionTime(Date submissionTime) {
-        this.submissionTime = submissionTime;
-    }
 
     public String getRemark() {
         return remark;
@@ -220,9 +233,9 @@ public class PurchaseOrder implements Serializable {
             && (this.getHospitalId() == null ? other.getHospitalId() == null : this.getHospitalId().equals(other.getHospitalId()))
             && (this.getContacts() == null ? other.getContacts() == null : this.getContacts().equals(other.getContacts()))
             && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
-            && (this.getCreateReceiptsTime() == null ? other.getCreateReceiptsTime() == null : this.getCreateReceiptsTime().equals(other.getCreateReceiptsTime()))
+            && (this.getCreateReceiptsTimes() == null ? other.getCreateReceiptsTimes() == null : this.getCreateReceiptsTimes().equals(other.getCreateReceiptsTimes()))
             && (this.getLastModificationTime() == null ? other.getLastModificationTime() == null : this.getLastModificationTime().equals(other.getLastModificationTime()))
-            && (this.getSubmissionTime() == null ? other.getSubmissionTime() == null : this.getSubmissionTime().equals(other.getSubmissionTime()))
+            && (this.getSubmissionTimes() == null ? other.getSubmissionTimes() == null : this.getSubmissionTimes().equals(other.getSubmissionTimes()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getPurchaseState() == null ? other.getPurchaseState() == null : this.getPurchaseState().equals(other.getPurchaseState()))
             && (this.getAuditPerson() == null ? other.getAuditPerson() == null : this.getAuditPerson().equals(other.getAuditPerson()))
@@ -241,9 +254,9 @@ public class PurchaseOrder implements Serializable {
         result = prime * result + ((getHospitalId() == null) ? 0 : getHospitalId().hashCode());
         result = prime * result + ((getContacts() == null) ? 0 : getContacts().hashCode());
         result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
-        result = prime * result + ((getCreateReceiptsTime() == null) ? 0 : getCreateReceiptsTime().hashCode());
+        result = prime * result + ((getCreateReceiptsTimes() == null) ? 0 : getCreateReceiptsTimes().hashCode());
         result = prime * result + ((getLastModificationTime() == null) ? 0 : getLastModificationTime().hashCode());
-        result = prime * result + ((getSubmissionTime() == null) ? 0 : getSubmissionTime().hashCode());
+        result = prime * result + ((getSubmissionTimes() == null) ? 0 : getSubmissionTimes().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getPurchaseState() == null) ? 0 : getPurchaseState().hashCode());
         result = prime * result + ((getAuditPerson() == null) ? 0 : getAuditPerson().hashCode());
@@ -255,27 +268,22 @@ public class PurchaseOrder implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", purchaseOrderNumber=").append(purchaseOrderNumber);
-        sb.append(", nameOfPurchaseOrder=").append(nameOfPurchaseOrder);
-        sb.append(", hospitalId=").append(hospitalId);
-        sb.append(", contacts=").append(contacts);
-        sb.append(", phone=").append(phone);
-        sb.append(", createReceiptsTime=").append(createReceiptsTime);
-        sb.append(", lastModificationTime=").append(lastModificationTime);
-        sb.append(", submissionTime=").append(submissionTime);
-        sb.append(", remark=").append(remark);
-        sb.append(", purchaseState=").append(purchaseState);
-        sb.append(", auditPerson=").append(auditPerson);
-        sb.append(", auditOpinion=").append(auditOpinion);
-        sb.append(", auditTime=").append(auditTime);
-        sb.append(", delState=").append(delState);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "PurchaseOrder{" +
+                "id=" + id +
+                ", purchaseOrderNumber='" + purchaseOrderNumber + '\'' +
+                ", nameOfPurchaseOrder='" + nameOfPurchaseOrder + '\'' +
+                ", hospitalId=" + hospitalId +
+                ", contacts='" + contacts + '\'' +
+                ", phone='" + phone + '\'' +
+                ", createReceiptsTimes=" + createReceiptsTimes +
+                ", lastModificationTime=" + lastModificationTime +
+                ", submissionTimes=" + submissionTimes +
+                ", remark='" + remark + '\'' +
+                ", purchaseState=" + purchaseState +
+                ", auditPerson='" + auditPerson + '\'' +
+                ", auditOpinion='" + auditOpinion + '\'' +
+                ", auditTime=" + auditTime +
+                ", delState=" + delState +
+                '}';
     }
 }

@@ -349,36 +349,31 @@ public class HospitalTransactionDetails implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", purchaseOrdersId=").append(purchaseOrdersId);
-        sb.append(", drugInformationId=").append(drugInformationId);
-        sb.append(", enterpriseId=").append(enterpriseId);
-        sb.append(", biddingPrice=").append(biddingPrice);
-        sb.append(", transactionPrice=").append(transactionPrice);
-        sb.append(", purchasedAmount=").append(purchasedAmount);
-        sb.append(", purchasedMoney=").append(purchasedMoney);
-        sb.append(", purchasedState=").append(purchasedState);
-        sb.append(", receiptAmount=").append(receiptAmount);
-        sb.append(", receiptMoney=").append(receiptMoney);
-        sb.append(",  invoiceNumber=").append(invoiceNumber);
-        sb.append(", drugBatchNumber=").append(drugBatchNumber);
-        sb.append(", drugValidity=").append(drugValidity);
-        sb.append(", receiptTime=").append(receiptTime);
-        sb.append(", returnOrderId=").append(returnOrderId);
-        sb.append(", returnsTheAmount=").append(returnsTheAmount);
-        sb.append(", returnsTheMoney=").append(returnsTheMoney);
-        sb.append(", reasonForReturn=").append(reasonForReturn);
-        sb.append(", returnStateId=").append(returnStateId);
-        sb.append(", finalSettlementId=").append(finalSettlementId);
-        sb.append(", finalSettlementAmount=").append(finalSettlementAmount);
-        sb.append(", finalSettlementMoney=").append(finalSettlementMoney);
-        sb.append(", settlementStateId=").append(settlementStateId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "HospitalTransactionDetails{" +
+                "id=" + id +
+                ", purchaseOrdersId=" + purchaseOrdersId +
+                ", drugInformationId=" + drugInformationId +
+                ", enterpriseId=" + enterpriseId +
+                ", biddingPrice=" + biddingPrice +
+                ", transactionPrice=" + transactionPrice +
+                ", purchasedAmount=" + purchasedAmount +
+                ", purchasedMoney=" + purchasedMoney +
+                ", purchasedState=" + purchasedState +
+                ", receiptAmount=" + receiptAmount +
+                ", receiptMoney=" + receiptMoney +
+                ", invoiceNumber='" + invoiceNumber + '\'' +
+                ", drugBatchNumber='" + drugBatchNumber + '\'' +
+                ", drugValidity='" + drugValidity + '\'' +
+                ", receiptTime=" + receiptTime +
+                ", returnOrderId=" + returnOrderId +
+                ", returnsTheAmount=" + returnsTheAmount +
+                ", returnsTheMoney=" + returnsTheMoney +
+                ", reasonForReturn='" + reasonForReturn + '\'' +
+                ", returnStateId=" + returnStateId +
+                ", finalSettlementId=" + finalSettlementId +
+                ", finalSettlementAmount=" + finalSettlementAmount +
+                ", finalSettlementMoney=" + finalSettlementMoney +
+                ", settlementStateId=" + settlementStateId +
+                '}';
     }
 }

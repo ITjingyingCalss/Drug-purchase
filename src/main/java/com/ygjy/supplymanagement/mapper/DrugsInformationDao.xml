@@ -92,6 +92,112 @@
             <id column="suppliers_id" jdbcType="INTEGER" property="suppliersid" />
             <result column="supplier_name" jdbcType="INTEGER" property="suppliername" />
         </association>
+        <association property="hospitalTransactionDetails" javaType="com.ygjy.supplymanagement.pojo.HospitalTransactionDetails">
+            <id column="hid" jdbcType="INTEGER" property="id" />
+            <result column="purchase_orders_id" jdbcType="INTEGER" property="purchaseOrdersId" />
+            <result column="drug_information_id" jdbcType="INTEGER" property="drugInformationId" />
+            <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+            <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
+            <result column="transaction_price" jdbcType="REAL" property="transactionPrice" />
+            <result column="purchased_amount" jdbcType="INTEGER" property="purchasedAmount" />
+            <result column="purchased_money" jdbcType="REAL" property="purchasedMoney" />
+            <result column="purchased_state" jdbcType="INTEGER" property="purchasedState" />
+            <result column="receipt_amount" jdbcType="INTEGER" property="receiptAmount" />
+            <result column="receipt_money" jdbcType="REAL" property="receiptMoney" />
+            <result column="Invoice_number" jdbcType="VARCHAR" property="invoiceNumber" />
+            <result column="drug_batch_number" jdbcType="VARCHAR" property="drugBatchNumber" />
+            <result column="drug_Validity" jdbcType="VARCHAR" property="drugValidity" />
+            <result column="receipt_time" jdbcType="TIMESTAMP" property="receiptTime" />
+            <result column="return_order_id" jdbcType="INTEGER" property="returnOrderId" />
+            <result column="returns_the_amount" jdbcType="INTEGER" property="returnsTheAmount" />
+            <result column="returns_the_money" jdbcType="REAL" property="returnsTheMoney" />
+            <result column="reason_for_return" jdbcType="VARCHAR" property="reasonForReturn" />
+            <result column="return_state_id" jdbcType="INTEGER" property="returnStateId" />
+            <result column="final_settlement _id" jdbcType="INTEGER" property="finalSettlementId" />
+            <result column="final_settlement _amount" jdbcType="INTEGER" property="finalSettlementAmount" />
+            <result column="final_settlement _money" jdbcType="REAL" property="finalSettlementMoney" />
+            <result column="settlement _state_id" jdbcType="INTEGER" property="settlementStateId" />
+        </association>
+        <association property="hospitalTransactionReturn" javaType="com.ygjy.supplymanagement.pojo.HospitalTransactionReturn">
+            <id column="gid" jdbcType="INTEGER" property="id" />
+            <result column="return_order_number" jdbcType="VARCHAR" property="returnOrderNumber" />
+            <result column="return_order_name" jdbcType="VARCHAR" property="returnOrderName" />
+            <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+            <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+            <result column="phone" jdbcType="VARCHAR" property="phone" />
+            <result column="creat_receipts_person" jdbcType="VARCHAR" property="creatReceiptsPerson" />
+            <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
+            <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
+            <result column="remark" jdbcType="VARCHAR" property="remark" />
+            <result column="return_state_id" jdbcType="INTEGER" property="returnStateId" />
+        </association>
+        <association property="hospital" javaType="com.ygjy.supplymanagement.pojo.Hospital">
+            <id column="kid" jdbcType="INTEGER" property="id" />
+            <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+            <result column="postal_address" jdbcType="VARCHAR" property="postalAddress" />
+            <result column="postal_Code" jdbcType="VARCHAR" property="postalCode" />
+            <result column="area" jdbcType="VARCHAR" property="area" />
+            <result column="hospital_level" jdbcType="VARCHAR" property="hospitalLevel" />
+            <result column="number_of_beds" jdbcType="INTEGER" property="numberOfBeds" />
+            <result column="make_money" jdbcType="REAL" property="makeMoney" />
+            <result column="hospital_telephone" jdbcType="VARCHAR" property="hospitalTelephone" />
+            <result column="hospital_fax" jdbcType="VARCHAR" property="hospitalFax" />
+            <result column="pharmacy_telephone" jdbcType="VARCHAR" property="pharmacyTelephone" />
+            <result column="hospital_type" jdbcType="VARCHAR" property="hospitalType" />
+            <result column="drug_revenue_last_year" jdbcType="VARCHAR" property="drugRevenueLastYear" />
+            <result column="business_income_last_year" jdbcType="VARCHAR" property="businessIncomeLastYear" />
+        </association>
+        <association property="purchaseOrder" javaType="com.ygjy.supplymanagement.pojo.PurchaseOrder">
+            <id column="oid" jdbcType="INTEGER" property="id" />
+            <result column="purchase_order_number" jdbcType="VARCHAR" property="purchaseOrderNumber" />
+            <result column="name_of_purchase_order" jdbcType="VARCHAR" property="nameOfPurchaseOrder" />
+            <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+            <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+            <result column="phone" jdbcType="VARCHAR" property="phone" />
+            <result column="create_receipts_times" jdbcType="TIMESTAMP" property="createReceiptsTimes" />
+            <result column="last_modification_time" jdbcType="TIMESTAMP" property="lastModificationTime" />
+            <result column="submission_times" jdbcType="TIMESTAMP" property="submissionTimes" />
+            <result column="remark" jdbcType="VARCHAR" property="remark" />
+            <result column="purchase_state" jdbcType="INTEGER" property="purchaseState" />
+            <result column="audit_person" jdbcType="VARCHAR" property="auditPerson" />
+            <result column="audit_opinion" jdbcType="VARCHAR" property="auditOpinion" />
+            <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+            <result column="del_state" jdbcType="INTEGER" property="delState" />
+        </association>
+        <association property="purchaseOrderDrugDetails" javaType="com.ygjy.supplymanagement.pojo.PurchaseOrderDrugDetails">
+            <id column="tid" jdbcType="INTEGER" property="id" />
+            <result column="purchase_order_id" jdbcType="INTEGER" property="purchaseOrderId" />
+            <result column="drug_information_id" jdbcType="INTEGER" property="drugInformationId" />
+            <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+            <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
+            <result column="transaction_price" jdbcType="REAL" property="transactionPrice" />
+            <result column="purchased_amount" jdbcType="INTEGER" property="purchasedAmount" />
+            <result column="purchased_money" jdbcType="REAL" property="purchasedMoney" />
+            <result column="purchase_orders_states_id" jdbcType="INTEGER" property="purchaseOrdersStatesId" />
+        </association>
+        <association property="returnStatus" javaType="com.ygjy.supplymanagement.pojo.ReturnStatus">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="return_of_state" jdbcType="INTEGER" property="returnOfState" />
+            <result column="return_of_explain" jdbcType="VARCHAR" property="returnOfExplain" />
+        </association>
+        <association property="hospitalTransactionStatement" javaType="com.ygjy.supplymanagement.pojo.HospitalTransactionStatement">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="statement_number" jdbcType="VARCHAR" property="statementNumber" />
+            <result column="statement_name" jdbcType="VARCHAR" property="statementName" />
+            <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+            <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+            <result column="phone" jdbcType="VARCHAR" property="phone" />
+            <result column="creat_receipts_person" jdbcType="VARCHAR" property="creatReceiptsPerson" />
+            <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
+            <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
+            <result column="remark" jdbcType="VARCHAR" property="remark" />
+            <result column="statement_state_id" jdbcType="INTEGER" property="statementStateId" />
+        </association>
+        <association property="settlementStatus" javaType="com.ygjy.supplymanagement.pojo.SettlementStatus">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="settlement _state" jdbcType="INTEGER" property="settlementState" />
+            <result column="settlement _explain" jdbcType="VARCHAR" property="settlementExplain" />
+        </association>
     </resultMap>
     <resultMap id="BaseResultMap2" type="com.ygjy.supplymanagement.pojo.DurgsFrom">
         <id column="durg_from_id" jdbcType="INTEGER" property="durgFromId" />
@@ -124,13 +230,23 @@
         <id column="suppliers_id" jdbcType="INTEGER" property="suppliersid" />
         <result column="supplier_name" jdbcType="INTEGER" property="suppliername" />
     </resultMap>
+    <resultMap id="BaseResultMap9" type="com.ygjy.supplymanagement.pojo.ReturnStatus">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="return_of_state" jdbcType="INTEGER" property="returnOfState" />
+        <result column="return_of_explain" jdbcType="VARCHAR" property="returnOfExplain" />
+    </resultMap>
+    <resultMap id="BaseResultMap10" type="com.ygjy.supplymanagement.pojo.SettlementStatus">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="settlement _state" jdbcType="INTEGER" property="settlementState" />
+        <result column="settlement _explain" jdbcType="VARCHAR" property="settlementExplain" />
+    </resultMap>
     <sql id="Base_Column_List">
     i.serial_number, i.common_name, i.dosage_form_id, i.specification, i.conversion_fraction,
     i.enterprise_name_id, i.trade_name, i.bidding_price, i.unit, i.common_name_pinyin,i. product_picture,
     i.approval_number, i.validity_of_approval_number, i.imported_drug, i.packaging_material,
     i.packing_unit, i.latest_retail_price, i.source_of_retail_price, i.quality_level_id,i.quality_level_description,
     i.drug_inspection_report, i.drug_inspection_report_number, i.validity_of_drug_inspection_report,
-    i.description_of_products, i.drug_category_id, i.drug_transaction_status_id, i.del_state,i.audit_status,i.`audit_status`
+    i.description_of_products, i.drug_category_id, i.drug_transaction_status_id, i.del_state,i.audit_status,i.id
   </sql>
     <!--药品品目模糊查询及全部查询-->
     <select id="getQuery" resultMap="BaseResultMap">
@@ -175,7 +291,7 @@
             and `trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
         </if>
         <if test="latestRetailPrice != null">
-            and `latest_retail_price` like CONCAT('%',#{latestRetailPrice,jdbcType=REAL},'%')
+            and i.`latest_retail_price` BETWEEN #{latestRetailPrice,jdbcType=REAL} and #{latestRetailPrice,jdbcType=REAL}
         </if>
         <if test="qualityLevelId != null">
             and `quality_level_id` like CONCAT('%',#{qualityLevelId,jdbcType=INTEGER},'%')
@@ -265,12 +381,16 @@
     <!--选择供货查询-->
     <select id="backSelect" resultMap="BaseResultMap">
         SELECT
-        i.`id` AS iid ,e.`id` AS eid,e.enterprise_name,f.id AS fid,r.`suppliers_id`,r.`supplier_name`,
+        i.`id` AS iid ,e.`id` AS eid,e.enterprise_name,f.id AS fid,r.`suppliers_id`,r.`supplier_name`,u.`drug_from`,l.`level`,s.`drug_transaction_explain`,c.`drug_category_name`,
         <include refid="Base_Column_List" />
         FROM drug_information i
         INNER JOIN `enterprise_drug_catalog` f ON i.`id`=f.`drug_information_id`
         INNER JOIN enterprise e ON e.`id`=f.`enterprise_id`
         INNER JOIN suppliers r ON r.`suppliers_id`=e.`suppliers_id`
+        INNER JOIN drug_category c ON c.`drug_category_Id`=i.`drug_category_id`
+        LEFT JOIN durgs_from u ON u.`durg_from_id`=i.`dosage_form_id`
+        INNER JOIN quality_level l ON  l.`qua_id`=i.`quality_level_id`
+        INNER JOIN drug_transaction_status s ON s.`drug_transaction_status`=i.`drug_transaction_status_id`
         <if test="commonName != null and commonName != ''">
             and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
         </if>
@@ -278,7 +398,7 @@
             and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
         </if>
         <if test="dosageFormId != null">
-            and i.`durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
+            and i.`dosage_form_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
         </if>
         <if test="specification != null and specification != ''">
             and specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
@@ -290,7 +410,7 @@
             and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
         </if>
         <if test="drugCategoryId != null">
-            and `drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+            and i.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
         </if>
         <if test="drugTransactionStatusId != null">
             and `drug_transaction_status_id` like CONCAT('%',#{drugTransactionStatusId,jdbcType=INTEGER},'%')
@@ -302,7 +422,7 @@
             and `trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
         </if>
         <if test="latestRetailPrice != null">
-            and `latest_retail_price` like CONCAT('%',#{latestRetailPrice,jdbcType=REAL},'%')
+            and i.`latest_retail_price` BETWEEN #{latestRetailPrice,jdbcType=REAL} and #{latestRetailPrice,jdbcType=REAL}
         </if>
         <if test="qualityLevelId != null">
             and `quality_level_id` like CONCAT('%',#{qualityLevelId,jdbcType=INTEGER},'%')
@@ -416,5 +536,222 @@
     </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-
+    <!--退货单处理-->
+    <select id="returnSelect" resultMap="BaseResultMap">
+        SELECT  i.`id` AS iid,m.`return_order_number`,m.`return_order_name`,h.`hospital_name`,m.`create_receipts_time`,m.`submission_time`,
+        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
+        ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
+        ,a.`final_settlement _amount`,a.`final_settlement _money`,a.`returns_the_amount`,a.`returns_the_money`,a.`reason_for_return`,
+        m.`return_state_id`,o.`create_receipts_times`,o.`submission_times`,a.`return_order_id`,l.`level`,l.`qua_id`,e.`enterprise_name`,e.`id` AS eid,d.`drug_from`
+        ,m.`return_state_id`,
+        <include refid="Base_Column_List" />
+        FROM drug_information i
+        INNER JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
+        INNER JOIN drug_category c ON c.`drug_category_Id`=i.`drug_category_id`
+        INNER JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
+        INNER JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        INNER JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
+        INNER JOIN hospital_transaction_details a ON a.`drug_information_id`=i.`id`
+        INNER JOIN hospital_transaction_return m ON m.`id`=a.`final_settlement _id`
+        INNER JOIN hospital h ON h.`id`=m.`hospital_id`
+        INNER JOIN purchase_order o ON o.`hospital_id`=h.`id`
+        WHERE i.`del_state`=0 AND m.`return_state_id`=1
+        <if test="returnOrderNumber != null and returnOrderNumber != ''">
+            and m.return_order_number like CONCAT('%',#{returnOrderNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="returnOrderName != null and returnOrderName != ''">
+            and m.return_order_name like CONCAT('%',#{returnOrderName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="returnStateId != null and returnStateId != ''">
+            and m.return_state_id like CONCAT('%',#{returnStateId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="createReceiptsTime != null and createReceiptsTime != ''">
+            and m.create_receipts_time BETWEEN #{createReceiptsTime}  AND #{submissionTime}
+        </if>
+        <if test="submissionTime != null and submissionTime != ''">
+            and m.submission_time BETWEEN #{createReceiptsTime}  AND #{submissionTime}
+        </if>
+        <if test="hospitalName != null and hospitalName != ''">
+            and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="createReceiptsTimes != null and createReceiptsTimes != ''">
+            and o.create_receipts_times BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
+        </if>
+        <if test="submissionTimes != null and submissionTimes != ''">
+            and o.submission_times BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
+        </if>
+        <if test="purchaseOrderNumber != null and purchaseOrderNumber != ''">
+            and o.purchase_order_number like CONCAT('%',#{purchaseOrderNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="nameOfPurchaseOrder != null and nameOfPurchaseOrder != ''">
+            and o.name_of_purchase_order like CONCAT('%',#{nameOfPurchaseOrder,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="commonName != null and commonName != ''">
+            and i.common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="serialNumber != null and serialNumber != ''">
+            and i.serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dosageFormId != null">
+            and i.`durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="specification != null and specification != ''">
+            and i.specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="unit != null and unit != ''">
+            and i.unit like CONCAT('%',#{unit,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="conversionFraction != null and conversionFraction != ''">
+            and i.conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="drugCategoryId != null">
+            and i.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="enterpriseNameId != null">
+            and i.`enterprise_name_id` like CONCAT('%',#{enterpriseNameId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="tradeName != null and tradeName != ''">
+            and i.`trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="qualityLevelId != null">
+            and i.`quality_level_id` like CONCAT('%',#{qualityLevelId,jdbcType=INTEGER},'%')
+        </if>
+    </select>
+    <!--退货状态查询-->
+    <select id="selectReturnStatus" resultMap="BaseResultMap9">
+        SELECT *FROM return_status
+    </select>
+    <!--结算单查询-->
+    <select id="selectPurchaseOrder" resultMap="BaseResultMap">
+        SELECT	 i.`id` AS iid,m.`statement_number`,m.`statement_name`,h.`hospital_name`,m.`create_receipts_time`,m.`submission_time`,
+        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
+        ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
+        ,a.`final_settlement _amount`,a.`final_settlement _money`,d.`durg_from_id`,d.`drug_from`,l.`qua_id`,l.`level`,e.`enterprise_name`,a.`final_settlement _id`,
+        <include refid="Base_Column_List" />
+        FROM drug_information i
+        INNER JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
+        INNER JOIN drug_category c ON c.`drug_category_Id`=i.`drug_category_id`
+        INNER JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
+        INNER JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        INNER JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
+        INNER JOIN hospital_transaction_details a ON a.`drug_information_id`=i.`id`
+        INNER JOIN hospital_transaction_statement m ON m.`id`=a.`final_settlement _id`
+        INNER JOIN hospital h ON h.`id`=m.`hospital_id`
+        INNER JOIN purchase_order o ON o.`hospital_id`=h.`id`
+        WHERE i.`del_state`=0 AND m.`statement_state_id`=2 AND a.`final_settlement _id`=1
+        <if test="statementNumber != null and statementNumber != ''">
+            and m.statement_number like CONCAT('%',#{statementNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="statementName != null and statementName != ''">
+            and m.statement_name like CONCAT('%',#{statementName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="hospitalName != null and hospitalName != ''">
+            and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=INTEGER},'%')
+        </if>
+        <if test="createReceiptsTime != null and createReceiptsTime != ''">
+            and m.create_receipts_time BETWEEN #{createReceiptsTime}  AND #{submissionTime}
+        </if>
+        <if test="submissionTime != null and submissionTime != ''">
+            and m..submission_time BETWEEN #{createReceiptsTime}  AND #{submissionTime}
+        </if>
+        <if test="statementStateId != null and statementStateId != ''">
+            and m.statement_state_id like CONCAT('%',#{statementStateId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="purchaseOrderNumber != null and purchaseOrderNumber != ''">
+            and o.purchase_order_number like CONCAT('%',#{purchaseOrderNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="nameOfPurchaseOrder != null and nameOfPurchaseOrder != ''">
+            and o.name_of_purchase_order like CONCAT('%',#{nameOfPurchaseOrder,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="commonName != null and commonName != ''">
+            and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="serialNumber != null and serialNumber != ''">
+            and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dosageFormId != null">
+            and `durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="specification != null and specification != ''">
+            and specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="unit != null and unit != ''">
+            and unit like CONCAT('%',#{unit,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="conversionFraction != null and conversionFraction != ''">
+            and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="drugCategoryId != null">
+            and i.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="enterpriseNameId != null">
+            and `enterprise_name_id` like CONCAT('%',#{enterpriseNameId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="tradeName != null and tradeName != ''">
+            and `trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="qualityLevelId != null">
+            and `quality_level_id` like CONCAT('%',#{qualityLevelId,jdbcType=INTEGER},'%')
+        </if>
+    </select>
+    <!--结算状态查询-->
+    <select id="selectSettlementStatus" resultMap="BaseResultMap10">
+         SELECT *FROM settlement_status
+    </select>
+    <!--导出退货单-->
+    <select id="selectReturnExport" resultMap="BaseResultMap">
+        SELECT  i.`id` AS iid,m.`return_order_number`,m.`return_order_name`,h.`hospital_name`,m.`create_receipts_time`,m.`submission_time`,
+        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` as price
+        ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
+        ,a.`final_settlement _amount`,a.`final_settlement _money`,a.`returns_the_amount`,a.`returns_the_money`,a.`reason_for_return`,n.`return_of_explain`,d.`durg_from_id`,d.`drug_from`,l.`qua_id`,l.`level`,e.`enterprise_name`,
+        m.`return_state_id`,o.`create_receipts_times`,o.`submission_times`,
+        <include refid="Base_Column_List" />
+        FROM drug_information i
+        INNER JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
+        INNER JOIN drug_category c ON c.`drug_category_Id`=i.`drug_category_id`
+        INNER JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
+        INNER JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        INNER JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
+        INNER JOIN hospital_transaction_details a ON a.`drug_information_id`=i.`id`
+        INNER JOIN hospital_transaction_return m ON m.`id`=a.`final_settlement _id`
+        INNER JOIN hospital h ON h.`id`=m.`hospital_id`
+        INNER JOIN purchase_order o ON o.`hospital_id`=h.`id`
+        INNER JOIN return_status n ON n.`return_of_state`=m.`return_state_id`
+        where i.`del_state`=0 AND m.`return_state_id`=2 and i.`id` in
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </select>
+    <!--导出结算单-->
+    <select id="selectSettlementExport" resultMap="BaseResultMap">
+        SELECT	 i.`id` AS iid,m.`statement_number`,m.`statement_name`,h.`hospital_name`,m.`create_receipts_time`,m.`submission_time`,
+        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
+        ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
+        ,a.`final_settlement _amount`,a.`final_settlement _money`,d.`durg_from_id`,d.`drug_from`,l.`qua_id`,l.`level`,e.`enterprise_name`,a.`final_settlement _id`,
+        <include refid="Base_Column_List" />
+        FROM drug_information i
+        INNER JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
+        INNER JOIN drug_category c ON c.`drug_category_Id`=i.`drug_category_id`
+        INNER JOIN drug_transaction_status s ON s.`id`=i.`drug_transaction_status_id`
+        INNER JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
+        INNER JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
+        INNER JOIN hospital_transaction_details a ON a.`drug_information_id`=i.`id`
+        INNER JOIN hospital_transaction_statement m ON m.`id`=a.`final_settlement _id`
+        INNER JOIN hospital h ON h.`id`=m.`hospital_id`
+        INNER JOIN purchase_order o ON o.`hospital_id`=h.`id`
+        WHERE i.`del_state`=0 AND m.`statement_state_id`=2 AND a.`final_settlement _id`=1 and i.`id` in
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </select>
+    <!--确认退货-->
+    <update id="updateByPrimaryKeyReturn" >
+        update hospital_transaction_details
+       set
+                `return_state_id` =2
+        where id in
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </update>
 </mapper>

@@ -239,26 +239,21 @@ public class Hospital implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", hospitalName=").append(hospitalName);
-        sb.append(", postalAddress=").append(postalAddress);
-        sb.append(", postalCode=").append(postalCode);
-        sb.append(", area=").append(area);
-        sb.append(", hospitalLevel=").append(hospitalLevel);
-        sb.append(", numberOfBeds=").append(numberOfBeds);
-        sb.append(", makeMoney=").append(makeMoney);
-        sb.append(", hospitalTelephone=").append(hospitalTelephone);
-        sb.append(", hospitalFax=").append(hospitalFax);
-        sb.append(", pharmacyTelephone=").append(pharmacyTelephone);
-        sb.append(", hospitalType=").append(hospitalType);
-        sb.append(", drugRevenueLastYear=").append(drugRevenueLastYear);
-        sb.append(", businessIncomeLastYear=").append(businessIncomeLastYear);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "Hospital{" +
+                "id=" + id +
+                ", hospitalName='" + hospitalName + '\'' +
+                ", postalAddress='" + postalAddress + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", area='" + area + '\'' +
+                ", hospitalLevel='" + hospitalLevel + '\'' +
+                ", numberOfBeds=" + numberOfBeds +
+                ", makeMoney=" + makeMoney +
+                ", hospitalTelephone='" + hospitalTelephone + '\'' +
+                ", hospitalFax='" + hospitalFax + '\'' +
+                ", pharmacyTelephone='" + pharmacyTelephone + '\'' +
+                ", hospitalType='" + hospitalType + '\'' +
+                ", drugRevenueLastYear='" + drugRevenueLastYear + '\'' +
+                ", businessIncomeLastYear='" + businessIncomeLastYear + '\'' +
+                '}';
     }
 }
