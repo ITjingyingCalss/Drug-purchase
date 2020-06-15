@@ -47,7 +47,7 @@ public class DrugItems implements Serializable {
     /**
      * 状态(0:正常 1：删除)
      */
-    private String state;
+    private Integer state;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -119,11 +119,11 @@ public class DrugItems implements Serializable {
         this.drugCategoryId = drugCategoryId;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

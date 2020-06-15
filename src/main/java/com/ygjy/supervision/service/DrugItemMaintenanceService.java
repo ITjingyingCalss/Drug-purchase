@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ygjy.pojo.DrugItems;
 import com.ygjy.pojo.DurgsFrom;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -20,5 +21,8 @@ public interface DrugItemMaintenanceService {
 
     Integer updateItemsState(Integer itemsId);
 
-    List<DrugItems> exportExcle();
+    List<DrugItems> exportExcle(DrugItems drugItems);
+
+    Integer multipartFileToFile(MultipartFile file) throws Exception;
+
 }

@@ -2051,6 +2051,66 @@ public class DrugInformationExample {
             addCriterion("audit_status not between", value1, value2, "auditStatus");
             return (Criteria) this;
         }
+
+        public Criteria andAvailabilityStatusIsNull() {
+            addCriterion("availability_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusIsNotNull() {
+            addCriterion("availability_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusEqualTo(Integer value) {
+            addCriterion("availability_status =", value, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusNotEqualTo(Integer value) {
+            addCriterion("availability_status <>", value, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusGreaterThan(Integer value) {
+            addCriterion("availability_status >", value, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("availability_status >=", value, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusLessThan(Integer value) {
+            addCriterion("availability_status <", value, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("availability_status <=", value, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusIn(List<Integer> values) {
+            addCriterion("availability_status in", values, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusNotIn(List<Integer> values) {
+            addCriterion("availability_status not in", values, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusBetween(Integer value1, Integer value2) {
+            addCriterion("availability_status between", value1, value2, "availabilityStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("availability_status not between", value1, value2, "availabilityStatus");
+            return (Criteria) this;
+        }
     }
 
     /**

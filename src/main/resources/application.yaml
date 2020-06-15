@@ -36,7 +36,7 @@ spring:
     #是否缓存preparedStatement
     poolPreparedStatements: true
 
-    url: jdbc:mysql://192.168.1.248:3306/drugplatform?characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/drugplatform?characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver

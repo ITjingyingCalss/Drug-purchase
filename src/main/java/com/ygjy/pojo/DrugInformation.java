@@ -1,5 +1,8 @@
 package com.ygjy.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -123,6 +126,8 @@ public class DrugInformation implements Serializable {
     /**
      * 药品检验报告有效期（年月日）
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date validityOfDrugInspectionReport;
 
     /**
@@ -149,6 +154,11 @@ public class DrugInformation implements Serializable {
      * 审核状态(0通过1不通过)
      */
     private Integer auditStatus;
+
+    /**
+     * 供货状态（0：正常，1：不正常）
+     */
+    private Integer availabilityStatus;
 
     private static final long serialVersionUID = 1L;
 
@@ -384,6 +394,14 @@ public class DrugInformation implements Serializable {
         this.auditStatus = auditStatus;
     }
 
+    public Integer getAvailabilityStatus() {
+        return availabilityStatus;
+    }
+
+    public void setAvailabilityStatus(Integer availabilityStatus) {
+        this.availabilityStatus = availabilityStatus;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -424,7 +442,8 @@ public class DrugInformation implements Serializable {
             && (this.getDrugCategoryId() == null ? other.getDrugCategoryId() == null : this.getDrugCategoryId().equals(other.getDrugCategoryId()))
             && (this.getDrugTransactionStatusId() == null ? other.getDrugTransactionStatusId() == null : this.getDrugTransactionStatusId().equals(other.getDrugTransactionStatusId()))
             && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()))
-            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()));
+            && (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus()))
+            && (this.getAvailabilityStatus() == null ? other.getAvailabilityStatus() == null : this.getAvailabilityStatus().equals(other.getAvailabilityStatus()));
     }
 
     @Override
@@ -460,6 +479,7 @@ public class DrugInformation implements Serializable {
         result = prime * result + ((getDrugTransactionStatusId() == null) ? 0 : getDrugTransactionStatusId().hashCode());
         result = prime * result + ((getDelState() == null) ? 0 : getDelState().hashCode());
         result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
+        result = prime * result + ((getAvailabilityStatus() == null) ? 0 : getAvailabilityStatus().hashCode());
         return result;
     }
 
@@ -498,6 +518,7 @@ public class DrugInformation implements Serializable {
         sb.append(", drugTransactionStatusId=").append(drugTransactionStatusId);
         sb.append(", delState=").append(delState);
         sb.append(", auditStatus=").append(auditStatus);
+        sb.append(", availabilityStatus=").append(availabilityStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

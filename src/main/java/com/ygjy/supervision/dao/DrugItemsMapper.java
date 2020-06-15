@@ -20,4 +20,6 @@ public interface DrugItemsMapper {
     /*
     * 添加药品品目*/
     int drugItemsAdd(DrugItems drugItems);
+
+    DrugItems findDrugItemsByDrugItems(DrugItems drugItems);
 }

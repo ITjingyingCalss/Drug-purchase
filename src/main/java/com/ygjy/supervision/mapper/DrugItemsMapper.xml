@@ -10,7 +10,7 @@
         <result column="unit" jdbcType="VARCHAR" property="unit" />
         <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
         <result column="drug_category_id" jdbcType="INTEGER" property="drugCategoryId" />
-        <result column="state" jdbcType="VARCHAR" property="state" />
+        <result column="state" jdbcType="INTEGER" property="state" />
     </resultMap>
     <sql id="Base_Column_List">
     items_id, drug_items_number, common_name, dosage_form_id, specification, unit, conversion_fraction, 
@@ -61,4 +61,26 @@
       select #{itemsId},#{drugItemsNumber},#{commonName},#{dosageFormId},#{specification},#{unit},#{conversionFraction},#{drugCategoryId},#{state} from DUAL
       where NOT EXISTS (SELECT * FROM drug_items where common_name = #{commonName} and dosage_form_id = #{dosageFormId} and specification=#{specification} and unit=#{unit} and conversion_fraction=#{conversionFraction})
     </insert>
+    <select id="findDrugItemsByDrugItems" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from drug_items
+        <where>
+            <if test="commonName!=null and commonName !=''">
+                and common_name = #{commonName}
+            </if>
+            <if test="dosageFormId!=0 and dosageFormId !=''">
+                and dosage_form_id = #{dosageFormId}
+            </if>
+            <if test="specification!=null and specification !=''">
+                and specification = #{specification}
+            </if>
+            <if test="unit!=null and unit !=''">
+                and unit = #{unit}
+            </if>
+            <if test="conversionFraction!=null and conversionFraction !=''">
+                and conversion_fraction = #{conversionFraction}
+            </if>
+        </where>
+    </select>
 </mapper>

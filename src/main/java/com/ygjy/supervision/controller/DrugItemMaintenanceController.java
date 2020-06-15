@@ -24,10 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/DrugItemMaintenanceController")
@@ -35,7 +32,7 @@ public class DrugItemMaintenanceController {
     @Autowired private DrugItemMaintenanceService drugItemMaintenanceService;
     /*
     * 加载全部药品品目信息
-    * @return List
+    * @return PageInfo
     * */
     @RequestMapping("/findAllDrugItems")
     public PageInfo findAllDrugItems (Integer pageNum,DrugItems formData){
@@ -44,6 +41,7 @@ public class DrugItemMaintenanceController {
     }
     /*
     * 查询剂型和药品类别
+    * @return map
     * */
     @RequestMapping("/findDrugFromAndDrugCategory")
     public Map findDrugFromAndDrugCategory (){
@@ -55,19 +53,17 @@ public class DrugItemMaintenanceController {
     * @return String
     * */
     @RequestMapping("/drugItemsAdd")
-    public String drugItemsAdd (DrugItems drugItems){
-        if (drugItems==null){
-            return "保存失败";
-        }else{
+    public Map drugItemsAdd (DrugItems drugItems){
+        Map map = new HashMap();
+        map.put("drugItems",drugItems);
             int i = drugItemMaintenanceService.drugItemsAdd(drugItems);
             if (i==1){
-                return "保存成功";
-            }else if (i==0){
-                return "保存失败,请尝试刷新页面重新操作";
-            }else {
-                return "保存失败";
+                map.put("value",i);
+                return map;
+            }else{
+                map.put("value","保存失败,请尝试刷新页面重新操作");
+                return map;
             }
-        }
     }
     /*
     * 根据ID查找药品品目信息
@@ -99,8 +95,8 @@ public class DrugItemMaintenanceController {
      * 导出文档
      * @return String*/
     @RequestMapping("/exportExcle")
-    public void exportExcle(HttpServletResponse response) throws IOException {
-        List<DrugItems> list = drugItemMaintenanceService.exportExcle();
+    public void exportExcle(HttpServletResponse response,DrugItems drugItems1) throws IOException {
+        List<DrugItems> list = drugItemMaintenanceService.exportExcle(drugItems1);
         List<DrugItemsVo> list_drugItemsVo = new ArrayList<>();
         Map map = this.findDrugFromAndDrugCategory();
         List<DurgsFrom> list_durgsFrom = (List<DurgsFrom>) map.get("list_durgsFrom");
@@ -190,91 +186,13 @@ public class DrugItemMaintenanceController {
     /*
     * 读取excle*/
     @RequestMapping("/readExcel")
-    public void multipartFileToFile(@RequestParam MultipartFile file) throws Exception {
+    public Integer multipartFileToFile(@RequestParam MultipartFile file) throws Exception {
+        if(file.isEmpty()){
+            return 0;
+        }else {
+            return drugItemMaintenanceService.multipartFileToFile(file);
+        }
 
-        File toFile = null;
-        if (file.equals("") || file.getSize() <= 0) {
-            file = null;
-        } else {
-            InputStream ins = null;
-            ins = file.getInputStream();
-            toFile = new File(file.getOriginalFilename());
-            OutputStream os = new FileOutputStream(toFile);
-            int bytesRead = 0;
-            byte[] buffer = new byte[8192];
-            while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
-                os.write(buffer, 0, bytesRead);
-            }
-            os.close();
-            ins.close();
-        }
-        readExcel(toFile);
-    }
-    private void readExcel( File file) throws IOException {
-        Workbook workbook = new HSSFWorkbook(new FileInputStream(file));
-        List<List<Object>> list = new LinkedList<List<Object>>();
-        Sheet sheet = workbook.getSheetAt(0);
-        Object value = null;
-        Row row = null;
-        Cell cell = null;
-        int counter = 0;
-        for (int i = sheet.getFirstRowNum(); counter < sheet
-                .getPhysicalNumberOfRows(); i++) {
-            row = sheet.getRow(i);
-            if (row == null) {
-                continue;
-            } else {
-                counter++;
-            }
-            List<Object> linked = new LinkedList<Object>();
-            for (int j = row.getFirstCellNum(); j <= row.getLastCellNum(); j++) {
-                cell = row.getCell(j);
-                if (cell == null) {
-                    value = "";
-                }else {
-                    value = cell.toString();
-                }
-                linked.add(value);
-            }
-            list.add(linked);
-        }
-        System.err.println(list);
-
-        Map map = findDrugFromAndDrugCategory();
-        for (int i =1;i<list.size();i++){
-            DrugItems drugItems = new DrugItems();
-           /* System.err.println(list.get(i).get(0));*/
-            if (list.get(i).get(0)!=null){
-                String commonName = (String) list.get(i).get(0);
-                drugItems.setCommonName(commonName);
-            }
-            if (list.get(i).get(1)!=null){
-                String dosageForm = (String) list.get(i).get(0);
-                List<DurgsFrom> list_durgsFrom = (List<DurgsFrom>) map.get("list_durgsFrom");
-                for (DurgsFrom durgsFrom: list_durgsFrom) {
-                    if (list.get(i).get(0).equals(durgsFrom.getDrugFrom())){
-                        drugItems.setDosageFormId(durgsFrom.getDurgFromId());
-                        break;
-                    }
-                }
-            }
-            if (list.get(i).get(2)!=null){
-                String commonName = (String) list.get(i).get(0);
-                drugItems.setCommonName(commonName);
-            }
-            if (list.get(i).get(3)!=null){
-                String commonName = (String) list.get(i).get(0);
-                drugItems.setCommonName(commonName);
-            }
-            if (list.get(i).get(4)!=null){
-                String commonName = (String) list.get(i).get(0);
-                drugItems.setCommonName(commonName);
-            }
-            if (list.get(i).get(5)!=null){
-                String commonName = (String) list.get(i).get(0);
-                drugItems.setCommonName(commonName);
-            }
-        }
     }
 }
 

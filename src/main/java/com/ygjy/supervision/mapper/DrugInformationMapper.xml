@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ygjy.supervision.dao.DrugInformationMapper">
+    <resultMap id="BaseResultMap" type="com.ygjy.pojo.DrugInformation">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+        <result column="common_name" jdbcType="VARCHAR" property="commonName" />
+        <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
+        <result column="specification" jdbcType="VARCHAR" property="specification" />
+        <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
+        <result column="enterprise_name_id" jdbcType="INTEGER" property="enterpriseNameId" />
+        <result column="trade_name" jdbcType="VARCHAR" property="tradeName" />
+        <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
+        <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <result column="common_name_pinyin" jdbcType="VARCHAR" property="commonNamePinyin" />
+        <result column="product_picture" jdbcType="VARCHAR" property="productPicture" />
+        <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+        <result column="validity_of_approval_number" jdbcType="VARCHAR" property="validityOfApprovalNumber" />
+        <result column="imported_drug" jdbcType="INTEGER" property="importedDrug" />
+        <result column="packaging_material" jdbcType="VARCHAR" property="packagingMaterial" />
+        <result column="packing_unit" jdbcType="VARCHAR" property="packingUnit" />
+        <result column="latest_retail_price" jdbcType="REAL" property="latestRetailPrice" />
+        <result column="source_of_retail_price" jdbcType="VARCHAR" property="sourceOfRetailPrice" />
+        <result column="quality_level_id" jdbcType="INTEGER" property="qualityLevelId" />
+        <result column="quality_level_description" jdbcType="VARCHAR" property="qualityLevelDescription" />
+        <result column="drug_inspection_report" jdbcType="INTEGER" property="drugInspectionReport" />
+        <result column="drug_inspection_report_number" jdbcType="VARCHAR" property="drugInspectionReportNumber" />
+        <result column="validity_of_drug_inspection_report" jdbcType="DATE" property="validityOfDrugInspectionReport" />
+        <result column="description_of_products" jdbcType="VARCHAR" property="descriptionOfProducts" />
+        <result column="drug_category_id" jdbcType="INTEGER" property="drugCategoryId" />
+        <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
+        <result column="del_state" jdbcType="INTEGER" property="delState" />
+        <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
+        <result column="availability_status" jdbcType="INTEGER" property="availabilityStatus" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, serial_number, common_name, dosage_form_id, specification, conversion_fraction,
+    enterprise_name_id, trade_name, bidding_price, unit, common_name_pinyin, product_picture,
+    approval_number, validity_of_approval_number, imported_drug, packaging_material,
+    packing_unit, latest_retail_price, source_of_retail_price, quality_level_id, quality_level_description,
+    drug_inspection_report, drug_inspection_report_number, validity_of_drug_inspection_report,
+    description_of_products, drug_category_id, drug_transaction_status_id, del_state,
+    audit_status,availability_status
+  </sql>
+    <select id="findAllDrugInformation" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from drug_information
+        <where>
+            del_state = 0
+            <if test="drugInformation.serialNumber!=null and drugInformation.serialNumber!=''">
+                and serial_number like "%"#{drugInformation.serialNumber}"%"
+            </if>
+            <if test="drugInformation.commonName!=null and drugInformation.commonName!=''">
+                and common_name like "%"#{drugInformation.commonName}"%"
+            </if>
+            <if test="drugInformation.dosageFormId!=null and drugInformation.dosageFormId!=0">
+                and dosage_form_id=#{drugInformation.dosageFormId}
+            </if>
+            <if test="drugInformation.specification!=null and drugInformation.specification!=''">
+                and specification like "%"#{specification}"%"
+            </if>
+            <if test="drugInformation.unit!=null and drugInformation.unit!=''">
+                and unit like "%"#{drugInformation.unit}"%"
+            </if>
+            <if test="drugInformation.conversionFraction!=null and drugInformation.conversionFraction!=''">
+                and conversion_fraction like "%"#{drugInformation.conversionFraction}"%"
+            </if>
+            <if test="drugInformation.enterpriseNameId!=null and drugInformation.enterpriseNameId!=0">
+                and enterprise_name_id=#{drugInformation.enterpriseNameId}
+            </if>
+            <if test="drugInformation.tradeName!=null and drugInformation.tradeName!=''">
+                and trade_name like "%"#{drugInformation.tradeName}"%"
+            </if>
+            <if test="startPrice!=null and startPrice!='' and endPrice!=null and endPrice!=''">
+                and latest_retail_price between #{startPrice} and #{endPrice}
+            </if>
+            <if test="drugInformation.qualityLevelId!=null and drugInformation.qualityLevelId!=0">
+                and quality_level_id=#{drugInformation.qualityLevelId}
+            </if>
+            <if test="drugInformation.drugCategoryId!=null and drugInformation.drugCategoryId!=0">
+                and drug_category_id=#{drugInformation.drugCategoryId}
+            </if>
+            <if test="drugInformation.drugTransactionStatusId!=null and drugInformation.drugTransactionStatusId!=0">
+                and drug_transaction_status_id=#{drugInformation.drugTransactionStatusId}
+            </if>
+        </where>
+    </select>
+    <select id="findDrugInformationCount" resultType="java.lang.Integer">
+        select count(*) from drug_information
+    </select>
+    <insert id="insertDrugInformation" parameterType="com.ygjy.pojo.DrugInformation">
+        insert into drug_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id!=null">
+                id,
+            </if>
+            <if test="serialNumber!=null">
+                serial_number,
+            </if>
+            <if test="commonName!=null">
+                common_name,
+            </if>
+            <if test="dosageFormId!=null">
+                dosage_form_id,
+            </if>
+            <if test="specification!=null">
+                specification,
+            </if>
+            <if test="conversionFraction!=null">
+                conversion_fraction,
+            </if>
+            <if test="enterpriseNameId!=null">
+                enterprise_name_id,
+            </if>
+            <if test="tradeName!=null">
+                trade_name,
+            </if>
+            <if test="biddingPrice!=null">
+                bidding_price,
+            </if>
+            <if test="unit!=null">
+                unit,
+            </if>
+            <if test="commonNamePinyin!=null">
+                common_name_pinyin,
+            </if>
+            <if test="productPicture!=null">
+                product_picture,
+            </if>
+            <if test="approvalNumber!=null">
+                approval_number,
+            </if>
+            <if test="validityOfApprovalNumber!=null">
+                validity_of_approval_number,
+            </if>
+            <if test="importedDrug!=null">
+                imported_drug,
+            </if>
+            <if test="packagingMaterial!=null">
+                packaging_material,
+            </if>
+            <if test="packingUnit!=null">
+                packing_unit,
+            </if>
+            <if test="latestRetailPrice!=null">
+                latest_retail_price,
+            </if>
+            <if test="sourceOfRetailPrice!=null">
+                source_of_retail_price,
+            </if>
+            <if test="qualityLevelId!=null">
+                quality_level_id,
+            </if>
+            <if test="qualityLevelDescription!=null">
+                quality_level_description,
+            </if>
+            <if test="drugInspectionReport!=null">
+                drug_inspection_report,
+            </if>
+            <if test="drugInspectionReportNumber!=null">
+                drug_inspection_report_number,
+            </if>
+            <if test="validityOfDrugInspectionReport!=null">
+                validity_of_drug_inspection_report,
+            </if>
+            <if test="descriptionOfProducts!=null">
+                description_of_products,
+            </if>
+            <if test="drugCategoryId!=null">
+                drug_category_id,
+            </if>
+            <if test="drugTransactionStatusId!=null">
+                drug_transaction_status_id,
+            </if>
+            <if test="delState!=null">
+                del_state,
+            </if>
+            <if test="auditStatus!=null">
+                audit_status,
+            </if>
+            <if test="availabilityStatus!=null">
+                availability_status
+            </if>
+        </trim>
+    select
+    <trim suffixOverrides=",">
+        <if test="id!=null">
+            #{id},
+        </if>
+        <if test="serialNumber!=null">
+            #{serialNumber},
+        </if>
+        <if test="commonName!=null">
+            #{commonName},
+        </if>
+        <if test="dosageFormId!=null">
+            #{dosageFormId},
+        </if>
+        <if test="specification!=null">
+            #{specification},
+        </if>
+        <if test="conversionFraction!=null">
+            #{conversionFraction},
+        </if>
+        <if test="enterpriseNameId!=null">
+            #{enterpriseNameId},
+        </if>
+        <if test="tradeName!=null">
+            #{tradeName},
+        </if>
+        <if test="biddingPrice!=null">
+            #{biddingPrice},
+        </if>
+        <if test="unit!=null">
+            #{unit},
+        </if>
+        <if test="commonNamePinyin!=null">
+            #{commonNamePinyin},
+        </if>
+        <if test="productPicture!=null">
+            #{productPicture},
+        </if>
+        <if test="approvalNumber!=null">
+            #{approvalNumber},
+        </if>
+        <if test="validityOfApprovalNumber!=null">
+            #{validityOfApprovalNumber},
+        </if>
+        <if test="importedDrug!=null">
+            #{importedDrug},
+        </if>
+        <if test="packagingMaterial!=null">
+            #{packagingMaterial},
+        </if>
+        <if test="packingUnit!=null">
+            #{packingUnit},
+        </if>
+        <if test="latestRetailPrice!=null">
+            #{latestRetailPrice},
+        </if>
+        <if test="sourceOfRetailPrice!=null">
+            #{sourceOfRetailPrice},
+        </if>
+        <if test="qualityLevelId!=null">
+            #{qualityLevelId},
+        </if>
+        <if test="qualityLevelDescription!=null">
+            #{qualityLevelDescription},
+        </if>
+        <if test="drugInspectionReport!=null">
+            #{drugInspectionReport},
+        </if>
+        <if test="drugInspectionReportNumber!=null">
+            #{drugInspectionReportNumber},
+        </if>
+        <if test="validityOfDrugInspectionReport!=null">
+            #{validityOfDrugInspectionReport},
+        </if>
+        <if test="descriptionOfProducts!=null">
+            #{descriptionOfProducts},
+        </if>
+        <if test="drugCategoryId!=null">
+            #{drugCategoryId},
+        </if>
+        <if test="drugTransactionStatusId!=null">
+            #{drugTransactionStatusId},
+        </if>
+        <if test="delState!=null">
+            #{delState},
+        </if>
+        <if test="auditStatus!=null">
+            #{auditStatus},
+        </if>
+        <if test="availabilityStatus!=null">
+            #{availabilityStatus},
+        </if>
+    </trim>
+     from DUAL
+    where NOT EXISTS (SELECT * FROM drug_information where common_name = #{commonName} and dosage_form_id = #{dosageFormId} and specification=#{specification} and unit=#{unit} and conversion_fraction=#{conversionFraction} and enterprise_name_id = #{enterpriseNameId} and trade_name = #{tradeName})
+    </insert>
+</mapper>

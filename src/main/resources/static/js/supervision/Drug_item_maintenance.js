@@ -1,6 +1,6 @@
 var dd;
 $(function(){
-    //加载全部药品品目信息
+    //加载全部药品品目信息和药品类别
     findDrugFromAndDrugCategory();
     fenye(1);
     console.log(dd)
@@ -25,7 +25,7 @@ function fenye(pageNum) {
     }else {
         var formData = $("#fuzzyFormId").serialize()+"&pageNum="+pageNum;
     }
-        console.log(formData);
+        //console.log(formData);
         $.ajax({
             type:"post",
             url:"DrugItemMaintenanceController/findAllDrugItems",
@@ -79,15 +79,15 @@ function findDrugItem(itemsId) {
         url:"DrugItemMaintenanceController/findItemsById",
         data:{"id":itemsId},
         success:function (data) {
-            $("input[name=itemsId]").val(data.itemsId);
-            $("span[id=drugItemsNumber]").html(data.drugItemsNumber);
-            $("input[name=commonName]").val(data.commonName);
-            $("select[name=dosageFormId]").val(data.dosageFormId);
-            $("input[name=specification]").val(data.specification);
-            $("input[name=unit]").val(data.unit);
-            $("input[name=conversionFraction]").val(data.conversionFraction);
-            $("select[name=drugCategoryId]").val(data.drugCategoryId);
-            $("select[name=state]").val(data.state);
+            $("#id_table input[name=itemsId]").val(data.itemsId);
+            $("#id_table span[id=drugItemsNumber]").html(data.drugItemsNumber);
+            $("#id_table input[name=commonName]").val(data.commonName);
+            $("#id_table select[name=dosageFormId]").val(data.dosageFormId);
+            $("#id_table input[name=specification]").val(data.specification);
+            $("#id_table input[name=unit]").val(data.unit);
+            $("#id_table input[name=conversionFraction]").val(data.conversionFraction);
+            $("#id_table select[name=drugCategoryId]").val(data.drugCategoryId);
+            $("#id_table select[name=state]").val(data.state);
 
         },
         error:function () {
@@ -102,7 +102,6 @@ function findDrugFromAndDrugCategory() {
         url:"DrugItemMaintenanceController/findDrugFromAndDrugCategory",
         async : false,
         success:function (data) {
-            console.log(data)
             var a = "<option value='0'>请选择</option>>";
             var b = "<option value='0'>请选择</option>>";
             for (var i=0;i<data.list_durgsFrom.length;i++){
@@ -111,6 +110,7 @@ function findDrugFromAndDrugCategory() {
             for (var i=0;i<data.list_drugCategory.length;i++){
                 b+="<option value='"+data.list_drugCategory[i].drugCategoryId+"'>"+data.list_drugCategory[i].drugCategoryName+"</option>"
             }
+            //添加模态框select
             $("#drugsFromId").empty();
             $("#drugCategory_id").empty();
             $("#drugsFromId").append(a);
@@ -121,8 +121,9 @@ function findDrugFromAndDrugCategory() {
 }
 //导出文档
 function exportExcle() {
+    var formData = $("#fuzzyFormId").serialize()
     if (confirm("确定导出文件吗？")){
-        location.href="DrugItemMaintenanceController/exportExcle";
+        location.href="DrugItemMaintenanceController/exportExcle?"+formData;
     }
 }
 //上传文件
@@ -138,9 +139,20 @@ function uploadfile() {
         processData : false, // 使数据不做处理
         contentType : false, // 不要设置Content-Type请求头
         success: function(data){
-            console.log(data);
-            if (data.status == 'ok') {
-                alert('上传成功！');
+            if (data == 0) {
+                $("#modalTitle").empty();
+                $("#modalBody").empty();
+                $("#editModal").modal("hide");
+                $("#modalTitle").html("失败提示信息");
+                $("#modalBody").append("<p style='color: red'>插入"+data+"条数据,请检查是否重复,正确填写文档</p>");
+                $("#modal").modal("show");
+            }else {
+                $("#modalTitle").empty();
+                $("#modalBody").empty();
+                $("#editModal").modal("hide");
+                $("#modalTitle").html("成功提示信息");
+                $("#modalBody").append("<p style='color: green'>插入"+data+"条数据</p>");
+                $("#modal").modal("show");
             }
         }
     });

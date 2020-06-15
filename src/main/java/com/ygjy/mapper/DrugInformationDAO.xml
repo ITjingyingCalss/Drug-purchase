@@ -31,6 +31,7 @@
     <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
     <result column="del_state" jdbcType="INTEGER" property="delState" />
     <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
+    <result column="availability_status" jdbcType="INTEGER" property="availabilityStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -97,7 +98,7 @@
     packing_unit, latest_retail_price, source_of_retail_price, quality_level_id, quality_level_description, 
     drug_inspection_report, drug_inspection_report_number, validity_of_drug_inspection_report, 
     description_of_products, drug_category_id, drug_transaction_status_id, del_state, 
-    audit_status
+    audit_status, availability_status
   </sql>
   <select id="selectByExample" parameterType="com.ygjy.pojo.DrugInformationExample" resultMap="BaseResultMap">
     select
@@ -148,8 +149,8 @@
       quality_level_description, drug_inspection_report, 
       drug_inspection_report_number, validity_of_drug_inspection_report, 
       description_of_products, drug_category_id, 
-      drug_transaction_status_id, del_state, audit_status
-      )
+      drug_transaction_status_id, del_state, audit_status, 
+      availability_status)
     values (#{id,jdbcType=INTEGER}, #{serialNumber,jdbcType=VARCHAR}, #{commonName,jdbcType=VARCHAR}, 
       #{dosageFormId,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, #{conversionFraction,jdbcType=VARCHAR}, 
       #{enterpriseNameId,jdbcType=INTEGER}, #{tradeName,jdbcType=VARCHAR}, #{biddingPrice,jdbcType=REAL}, 
@@ -160,8 +161,8 @@
       #{qualityLevelDescription,jdbcType=VARCHAR}, #{drugInspectionReport,jdbcType=INTEGER}, 
       #{drugInspectionReportNumber,jdbcType=VARCHAR}, #{validityOfDrugInspectionReport,jdbcType=DATE}, 
       #{descriptionOfProducts,jdbcType=VARCHAR}, #{drugCategoryId,jdbcType=INTEGER}, 
-      #{drugTransactionStatusId,jdbcType=INTEGER}, #{delState,jdbcType=INTEGER}, #{auditStatus,jdbcType=INTEGER}
-      )
+      #{drugTransactionStatusId,jdbcType=INTEGER}, #{delState,jdbcType=INTEGER}, #{auditStatus,jdbcType=INTEGER}, 
+      #{availabilityStatus,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ygjy.pojo.DrugInformation">
     insert into drug_information
@@ -253,6 +254,9 @@
       <if test="auditStatus != null">
         audit_status,
       </if>
+      <if test="availabilityStatus != null">
+        availability_status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -341,6 +345,9 @@
       </if>
       <if test="auditStatus != null">
         #{auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="availabilityStatus != null">
+        #{availabilityStatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -440,6 +447,9 @@
       <if test="record.auditStatus != null">
         audit_status = #{record.auditStatus,jdbcType=INTEGER},
       </if>
+      <if test="record.availabilityStatus != null">
+        availability_status = #{record.availabilityStatus,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -475,7 +485,8 @@
       drug_category_id = #{record.drugCategoryId,jdbcType=INTEGER},
       drug_transaction_status_id = #{record.drugTransactionStatusId,jdbcType=INTEGER},
       del_state = #{record.delState,jdbcType=INTEGER},
-      audit_status = #{record.auditStatus,jdbcType=INTEGER}
+      audit_status = #{record.auditStatus,jdbcType=INTEGER},
+      availability_status = #{record.availabilityStatus,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -567,6 +578,9 @@
       <if test="auditStatus != null">
         audit_status = #{auditStatus,jdbcType=INTEGER},
       </if>
+      <if test="availabilityStatus != null">
+        availability_status = #{availabilityStatus,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -599,7 +613,8 @@
       drug_category_id = #{drugCategoryId,jdbcType=INTEGER},
       drug_transaction_status_id = #{drugTransactionStatusId,jdbcType=INTEGER},
       del_state = #{delState,jdbcType=INTEGER},
-      audit_status = #{auditStatus,jdbcType=INTEGER}
+      audit_status = #{auditStatus,jdbcType=INTEGER},
+      availability_status = #{availabilityStatus,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

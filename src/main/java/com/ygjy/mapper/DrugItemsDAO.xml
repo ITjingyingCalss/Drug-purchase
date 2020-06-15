@@ -10,7 +10,7 @@
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
     <result column="drug_category_id" jdbcType="INTEGER" property="drugCategoryId" />
-    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
