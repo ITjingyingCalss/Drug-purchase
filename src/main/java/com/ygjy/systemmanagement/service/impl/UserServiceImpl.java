@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AddressTownMapper addressTownMapper;
 
+    @Autowired
+    private SuppliersMapper suppliersMapper;
     /**
      * 查询所有用户信息
      * @param userId
@@ -59,6 +61,29 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 插损所有供货商
+     * @param suppliersId
+     * @param supplierName
+     * @param supplierAddress
+     * @return
+     */
+    @Override
+    public List<Suppliers> findAllSuppliers(Integer suppliersId, String supplierName, String supplierAddress) {
+        return suppliersMapper.selectAllSuppliers(suppliersId,supplierName,supplierAddress);
+    }
+
+    /**
+     * 验证供货商信息合理性,是否有重复
+     * @param supplierPhone
+     * @param supplierEmail
+     * @return
+     */
+    @Override
+    public Suppliers findSuppliersProperty(String supplierPhone, String supplierEmail) {
+        return null;
+    }
+
+    /**
      * 更新用户状态,实现假删除
      * @param user
      * @return
@@ -75,18 +100,63 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean updateUserInfo(User user) {
+        int i = userMapper.updateByPrimaryKeySelective(user);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 更新供货商信息,假删除
+     * @param suppliers
+     * @return
+     */
+    @Override
+    public boolean updateSuppliers(Suppliers suppliers) {
+        int i = suppliersMapper.updateByPrimaryKeySelective(suppliers);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
      * 添加用户信息
      * @param user
      * @return
      */
     @Override
     public boolean addUserInfo(User user) {
-       /* UserRole userRole = new UserRole();
-        userRole.setUserId(user.getUserId());*/
+       UserRole userRole = new UserRole();
+        userRole.setUserId(user.getUserId());
        /* userRoleMapper.insert(userRole);*/
         user.setUserCreateTime(new Date());
         user.setUserState(0);
         int i = userMapper.insert(user);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 添加供货商信息
+     * @param suppliers
+     * @return
+     */
+    @Override
+    public boolean addSuppliers(Suppliers suppliers) {
+        int i = suppliersMapper.insert(suppliers);
         if (i > 0 ){
             return true;
         }else {
@@ -105,6 +175,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 删除供货商信息真删除
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean removeSuppliers(Integer id) {
+        return false;
+    }
+
+    /**
      * 通过用户Id批量导出
      * @param userId
      * @return
@@ -112,6 +192,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> queryUserList(String[] userId) {
         return userMapper.queryUserList(userId);
+    }
+
+    /**
+     * 批量导出供货商信息
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Suppliers> querySuppliersList(String[] id) {
+        return suppliersMapper.querySuppliersList(id);
     }
 
     /**

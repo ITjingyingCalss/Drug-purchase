@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.systemmanagement.dao.SuppliersMapper">
+  <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.Suppliers">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="suppliers_id" jdbcType="INTEGER" property="suppliersId" />
+    <result column="suppliers_status" jdbcType="VARCHAR" property="suppliersStatus" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+    <result column="supplier_phone" jdbcType="VARCHAR" property="supplierPhone" />
+    <result column="supplier_email" jdbcType="VARCHAR" property="supplierEmail" />
+    <result column="supplier_address" jdbcType="VARCHAR" property="supplierAddress" />
+    <result column="supplier_postcode" jdbcType="VARCHAR" property="supplierPostcode" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, suppliers_id, suppliers_status, supplier_name, supplier_phone, supplier_email, 
+    supplier_address, supplier_postcode
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from suppliers
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <!--查询所有供货商-->
+    <select id="selectAllSuppliers" resultMap="BaseResultMap">
+        select * from suppliers
+        <where>
+            <if test="suppliersId != null and suppliersId != ''">
+                and suppliers_id = #{suppliersId}
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                and supplier_name like CONCAT("%",#{supplierName},"%")
+            </if>
+            <if test="supplierAddress != null and supplierAddress != ''">
+                and supplier_address like CONCAT("%",#{supplierAddress},"%")
+            </if>
+        </where>
+    </select>
+    <!--批量导出供货商信息-->
+    <select id="querySuppliersList" resultMap="BaseResultMap">
+        select * from suppliers where id in
+        <foreach collection="array" item="item" separator="," open="(" close=")">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from suppliers
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.Suppliers">
+    insert into suppliers (id, suppliers_id, suppliers_status, 
+      supplier_name, supplier_phone, supplier_email, 
+      supplier_address, supplier_postcode)
+    values (#{id,jdbcType=INTEGER}, #{suppliersId,jdbcType=INTEGER}, #{suppliersStatus,jdbcType=VARCHAR}, 
+      #{supplierName,jdbcType=VARCHAR}, #{supplierPhone,jdbcType=VARCHAR}, #{supplierEmail,jdbcType=VARCHAR}, 
+      #{supplierAddress,jdbcType=VARCHAR}, #{supplierPostcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.Suppliers">
+    insert into suppliers
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="suppliersId != null">
+        suppliers_id,
+      </if>
+      <if test="suppliersStatus != null">
+        suppliers_status,
+      </if>
+      <if test="supplierName != null">
+        supplier_name,
+      </if>
+      <if test="supplierPhone != null">
+        supplier_phone,
+      </if>
+      <if test="supplierEmail != null">
+        supplier_email,
+      </if>
+      <if test="supplierAddress != null">
+        supplier_address,
+      </if>
+      <if test="supplierPostcode != null">
+        supplier_postcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="suppliersId != null">
+        #{suppliersId,jdbcType=INTEGER},
+      </if>
+      <if test="suppliersStatus != null">
+        #{suppliersStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPhone != null">
+        #{supplierPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierEmail != null">
+        #{supplierEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddress != null">
+        #{supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPostcode != null">
+        #{supplierPostcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.Suppliers">
+    update suppliers
+    <set>
+      <if test="suppliersId != null">
+        suppliers_id = #{suppliersId,jdbcType=INTEGER},
+      </if>
+      <if test="suppliersStatus != null">
+        suppliers_status = #{suppliersStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPhone != null">
+        supplier_phone = #{supplierPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierEmail != null">
+        supplier_email = #{supplierEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddress != null">
+        supplier_address = #{supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPostcode != null">
+        supplier_postcode = #{supplierPostcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.Suppliers">
+    update suppliers
+    set suppliers_id = #{suppliersId,jdbcType=INTEGER},
+      suppliers_status = #{suppliersStatus,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      supplier_phone = #{supplierPhone,jdbcType=VARCHAR},
+      supplier_email = #{supplierEmail,jdbcType=VARCHAR},
+      supplier_address = #{supplierAddress,jdbcType=VARCHAR},
+      supplier_postcode = #{supplierPostcode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

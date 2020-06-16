@@ -3,6 +3,7 @@ package com.ygjy.systemmanagement.controller;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ygjy.systemmanagement.pojo.Suppliers;
 import com.ygjy.systemmanagement.pojo.User;
 import com.ygjy.systemmanagement.service.UserService;
 import com.ygjy.systemmanagement.util.ExportExcel;
@@ -74,6 +75,15 @@ public class SystemManagementDataController {
 
     }
 
+    @RequestMapping(value = "findAllSuppliers",produces= {"application/json;charset=utf-8"})
+    public String findAllSuppliers(@RequestParam("suppliersId") Integer suppliersId,@RequestParam("supplierName") String supplierName,
+                                   @RequestParam("supplierAddress") String supplierAddress,@RequestParam(value="pageNum",required = false,defaultValue="1") Integer pageNum){
+        PageHelper.startPage(pageNum, 7);
+        List<Suppliers> allSuppliers = userService.findAllSuppliers(suppliersId, supplierName, supplierAddress);
+        PageInfo<Suppliers> pageInfo = new PageInfo<>(allSuppliers);
+        return JSON.toJSONString(pageInfo);
+    }
+
     /**
      * 通过省编码查询下属市
      * @param pcode
@@ -124,6 +134,27 @@ public class SystemManagementDataController {
         user.setSalt(message);
         user.setUserCreateTime(new Date());
         return JSON.toJSONString(userService.addUserInfo(user));
+    }
+
+    @RequestMapping(value = "addSuppliers")
+    public String addSuppliers(Suppliers suppliers){
+        return JSON.toJSONString(userService.addSuppliers(suppliers));
+    }
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "updateUserInfo")
+    public String updateUserInfo(User user){
+        user.setUserUpdateTime(new Date());
+        return JSON.toJSONString(userService.updateUserInfo(user));
+    }
+
+    @RequestMapping(value = "updateSuppliers")
+    public String updateSuppliers(Suppliers suppliers){
+        return JSON.toJSONString(userService.updateSuppliers(suppliers));
     }
 
     /**
@@ -177,10 +208,13 @@ public class SystemManagementDataController {
       String title = "用户信息";
       String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+".xlsx";
       if (ids != null && !"".equals(ids)){
-           String[] userId = ids.split(",");
-           List<User> userList = userService.queryUserList(userId);
+           String[] id = ids.split(",");
+           List<User> userList = userService.queryUserList(id);
            ExportExcel<User> exportExcel = new ExportExcel<>();
            exportExcel.export(title,head,userList,new FileOutputStream("G://upload/excel/"+fileName));
+          /*  List<Suppliers> suppliersList = userService.querySuppliersList(id);
+            ExportExcel<Suppliers> exportExcelSuppliers= new ExportExcel<>();
+          exportExcel.export(title,head,suppliersList,new FileOutputStream("G://upload/excel/"+fileName));*/
        }
         return "";
     }

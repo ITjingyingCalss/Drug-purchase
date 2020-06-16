@@ -1,6 +1,7 @@
 package com.ygjy.systemmanagement.service;
 
 import com.ygjy.systemmanagement.pojo.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -28,34 +29,6 @@ public interface UserService {
      * @return
      */
     User loginByUsername(String username);
-
-    /**
-     * 更新用户信息,假删除
-     * @param user
-     * @return
-     */
-    boolean updateUserStatus(User user);
-
-    /**
-     * 添加用户信息
-     * @param user
-     * @return
-     */
-    boolean addUserInfo(User user);
-
-    /**
-     * 通过用户Id真删除
-     * @param userId
-     * @return
-     */
-    boolean removeUserInfo(Integer userId);
-
-    /**
-     * 通过id查询用户信息批量导出
-     * @param userId
-     * @return
-     */
-    List<User> queryUserList(String[] userId);
 
     /**
      * 查询所有省
@@ -86,4 +59,97 @@ public interface UserService {
      * @return
      */
     User selectUserProperty(String username,String password,String userPhone,String userEmail);
+
+    /**
+     * 查询所有供货商
+     * @param suppliersId
+     * @param supplierName
+     * @param supplierAddress
+     * @return
+     */
+    List<Suppliers> findAllSuppliers(Integer suppliersId, String supplierName,String supplierAddress);
+
+    /**
+     * 验证供货商属性合理性,是否重复
+     * @param supplierPhone
+     * @param supplierEmail
+     * @return
+     */
+    Suppliers findSuppliersProperty(String supplierPhone,String supplierEmail);
+
+
+    /**
+     * 更新用户信息,假删除
+     * @param user
+     * @return
+     */
+    boolean updateUserStatus(User user);
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @return
+     */
+    boolean updateUserInfo(User user);
+
+    /**
+     * 修改供货商信息/假删除
+     * @param suppliers
+     * @return
+     */
+    boolean updateSuppliers(Suppliers suppliers);
+
+
+
+
+    /**
+     * 添加用户信息
+     * @param user
+     * @return
+     */
+    boolean addUserInfo(User user);
+
+    /**
+     * 添加供货商信息
+     * @param suppliers
+     * @return
+     */
+    boolean addSuppliers(Suppliers suppliers);
+
+
+
+
+    /**
+     * 通过用户Id真删除
+     * @param userId
+     * @return
+     */
+    boolean removeUserInfo(Integer userId);
+
+    /**
+     * 删除供货商id
+     * @param id
+     * @return
+     */
+    boolean removeSuppliers(Integer id);
+
+
+    /**
+     * 通过id查询用户信息批量导出
+     * @param userId
+     * @return
+     */
+    List<User> queryUserList(String[] userId);
+
+    /**
+     * 批量导出供货商信息
+     * @param id
+     * @return
+     */
+    List<Suppliers> querySuppliersList(String[] id);
+
+
+
+
+
 }
