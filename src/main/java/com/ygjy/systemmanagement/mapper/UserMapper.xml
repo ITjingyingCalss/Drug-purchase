@@ -99,7 +99,7 @@
             #{item,jdbcType=INTEGER}
            </foreach>
     </select>
-
+   <!-- 验证用户信息表单属性-->
     <select id="selectUserProperty" resultMap="BaseResultMap">
         select *
         from user
@@ -118,9 +118,9 @@
             </if>
         </where>
     </select>
-  <!--  根据用户id删除该条信息-->
+   <!--  根据用户id删除该条信息-->
     <delete id="deleteUserByUserId">
-        delete from user where user_id = #{userId}
+        delete from user where id = #{id}
     </delete>
     <!--  根据用户id删除该条信息,假删除-->
     <update id="updateUserStatus">
@@ -169,8 +169,9 @@
                 last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
-        and user_id = #{userId,jdbcType=INTEGER}
+        where
+        /*id = #{id,jdbcType=INTEGER}
+        and*/ user_id = #{userId,jdbcType=INTEGER}
   </update>
   <delete id="deleteByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.User">
     delete from user
