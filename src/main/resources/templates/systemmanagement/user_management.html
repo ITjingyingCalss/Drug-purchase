@@ -1,14 +1,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="IE=edge">
     <title>Title</title>
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="layui/layui.js"></script>
     <script src="js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="angularjs/angular.min.js"></script>
     <script type="text/javascript">
+        var result = null;
         $(function () {
-            readList();
+            reloadList();
         })
         layui.use(['laypage', 'layer','form','upload'], function() {
             var laypage = layui.laypage;
@@ -45,21 +49,22 @@
             });
         })
 
-        var result = null;
+
       /*  查询所有信息*/
-        function readList(pageNum) {
+        function reloadList(pageNum) {
             $("#tbody").empty();
             $("#page").empty();
             var userId = $("#userId").val();
             var userAccount = $("#userAccount").val();
             var contactAddress = $("#contactAddress").val();
+            var userState = 0;
             $.ajax({
                 url:"findUserAll",
                 data:{
                     "userId":userId,
                     "userAccount":userAccount,
                     "contactAddress":contactAddress,
-                    "userState":0,
+                    "userState":userState,
                     "pageNum":pageNum
                 },
                 type:"post",
@@ -128,7 +133,7 @@
 
         }
         /*修改页面弹出层*/
-        function editInformation(){
+        function editInformation(userId){
             layer.open({
                 type:1,
                 title:['修改用户信息','font-size:18px;'],
@@ -137,7 +142,35 @@
                 scrollbar:false,
                 content:$("#edit_add")
             })
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].userId = userId){
+                    $("#updateUserId").val(result[i].userId);
+                    $("#updateUserAccount").val(result[i].userAccount);
+                    $("#updateUserName").val(result[i].username);
+                    $("#updatePassword").val(result[i].password);
+                    $("#updateUserUnit").val(result[i].userUnit);
+                    $("#updateContactAddress").val(result[i].contactAddress);
+                    $("#updateContacts").val(result[i].contacts);
+                    $("#updateUserEmail").val(result[i].userEmail);
+                    $("#updateUserPhone").val(result[i].userPhone);
+                    break;
+                }
+            }
         }
+        function updateSave() {
+            var form = $("#edit_add").serialize();
+            $.ajax({
+               url:'updateUserInfo',
+               data:form,
+               dataType:'json',
+               type:'post',
+                async:false,
+               success:function (data) {
+                   location.reload();
+               }
+           })
+        }
+
         /*删除提示弹出框*/
         function removeInformation(userId) {
             layui.use('layer',function () {
@@ -230,6 +263,41 @@
         function down() {
             window.location.href="down";
         }
+
+        /*验证表单属性*/
+        function addProperty(a) {
+            var usernameCode = /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/;
+            var passwordCode = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+            var userEmailCode = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+            var userPhoneCode = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;;
+            var v = $($(a).parents("tr").find("td").children("label")).get(0);
+            var name = v.innerHTML;
+            var propertyName =  name.substring(0,name.length-1);
+            var parmars = {};
+            parmars[a.name] = a.value;
+            if (a.value == null || a.value == '') {
+             layer.alert(name + '不能为空');
+            }else{
+                if (usernameCode.test(a.value) || passwordCode.test(a.value) || userEmailCode.test(a.value) || userPhoneCode.test(a.value)) {
+                    $.ajax({
+                        url:'',
+                        type:'post',
+                        dataType:'json',
+                        async:false,
+                        data:parmars,
+                        success:function (data) {
+                            if (data == true){
+                                layer.alert(name + '可以使用')
+                            } else{
+                                layer.alert(name + '已经被使用')
+                            }
+                        }
+                    })
+                }else{
+                    layer.alert(name + '格式错误')
+                }
+            }
+        }
     </script>
     <style>
         body{
@@ -275,7 +343,7 @@
                 </div></li>
             </ul>
         </form>
-        <button class="layui-btn layui-btn-normal layui-btn-lg" id="find" onclick="readList()">查询</button>
+        <button class="layui-btn layui-btn-normal layui-btn-lg" id="find" onclick="reloadList()">查询</button>
     </div>
     <div class="healthBureau_ops layui-btn-group">
         <button class="layui-btn layui-btn-normal layui-btn-lg" onclick="addInformation()">添加</button>
@@ -326,11 +394,11 @@
                     <td><label class="layui-form-label">用户名称</label></td>
                     <td class="layui-input-block"><input class="layui-input" type="text" name="userAccount"></td>
                     <td><label class="layui-form-label">用户账号</label></td>
-                    <td class="layui-input-block"><input  class="layui-input" type="text" name="username" placeholder="8-16位数字加字母"></td>
+                    <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="username" placeholder="6至20位，以字母开头，字母，数字，减号，下划线"></td>
                 </tr>
                 <tr class="layui-form-item">
                     <td><label class="layui-form-label">用户密码</label></td>
-                    <td class="layui-input-block"><input class="layui-input" type="text" name="password" placeholder="8-16位数字加字母特殊符号"></td>
+                    <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="password" placeholder="最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符"></td>
                   <!--  <td><label class="layui-form-label">加密盐值</label></td>
                     <td class="layui-input-block"><input class="layui-input" type="text" name="salt" ></td>-->
                     <td><label class="layui-form-label">所在单位</label></td>
@@ -371,9 +439,9 @@
                 </tr>
                 <tr class="layui-form-item">
                     <td><label class="layui-form-label">联系电话</label></td>
-                    <td class="layui-input-block"><input placeholder="只能以13、15、18开头" class="layui-input" type="text" name="userPhone" ></td>
+                    <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="只能以13、15、18开头" class="layui-input" type="text" name="userPhone" ></td>
                     <td><label class="layui-form-label">邮箱</label></td>
-                    <td class="layui-input-block"><input placeholder="8-16位数字+@163.com" class="layui-input" type="text" name="userEmail" ></td>
+                    <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="8-16位数字+@163.com" class="layui-input" type="text" name="userEmail" ></td>
                 </tr>
             </table>
             <div class="modal-footer">
@@ -386,60 +454,66 @@
         <br>
         <table lay-even lay-skin="line" lay-size="lg">
             <tr class="layui-form-item">
+                <td><label class="layui-form-label">用户Id</label></td>
+                <td class="layui-input-block"><input class="layui-input"  type="text" id="updateUserId" name="userId"></td>
+                <input id="updateId" name="id" type="hidden">
+            </tr>
+            <tr class="layui-form-item">
                 <td><label class="layui-form-label">用户名称</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title"></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateUserAccount" name="userAccount"></td>
                 <td><label class="layui-form-label">用户账号</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" name="title" placeholder="8-16位数字加字母"></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" id="updateUserName" name="username" placeholder="6至20位，以字母开头，字母，数字，减号，下划线"></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">用户密码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" placeholder="8-16位数字加字母特殊符号"></td>
-                <td><label class="layui-form-label">加密盐值</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" id="updatePassword" name="password" placeholder="最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符"></td>
+                <!--  <td><label class="layui-form-label">加密盐值</label></td>
+                  <td class="layui-input-block"><input class="layui-input" type="text" name="salt" ></td>-->
+                <td><label class="layui-form-label">所在单位</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateUserUnit" name="userUnit" ></td>
             </tr>
             <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户状态</label></td>
-                <td class="layui-input-block">
-                    <select lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">正常</option>
-                        <option value="2">删除</option>
-                    </select>
-                </td>
-                <td><label class="layui-form-label">所在单位</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
+                <!-- <td><label class="layui-form-label">用户状态</label></td>
+                 <td class="layui-input-block">
+                     <select lay-verify="required" name="userState">
+                         <option value="0">请选择</option>
+                         <option value="1">正常</option>
+                         <option value="2">删除</option>
+                     </select>
+                 </td>-->
+
             </tr>
             <tr class="layui-form-item" ng-app = "myApp" ng-controller= "myController" data-ng-init = "list()">
                 <td><label class="layui-form-label">联系地址</label></td>
-                <td class="layui-input-block">
-                    <select class="province" name="province" id="updatesheng" lay-verify="required" ng-options="province.pcode as province.pname for province in provinces">
+                <!--<td class="layui-input-block">
+                    <select class="province" name="province" id="sheng" lay-verify="required" ng-change ="changeProvince()" ng-model = "selectProvince" ng-options="province.pcode as province.pname for province in provinces">
                         <option value="">请选择</option>
                     </select>
-                    <select class="city" name="city" id="updateshi" lay-verify="required" ng-options = " city.ccode as city.cname for city in citys">
+                    <select class="city" name="city" id="shi" lay-verify="required" ng-change="changeCity()"  ng-model = "selectCity" ng-options = " city.ccode as city.cname for city in citys">
                         <option value="">请选择</option>
                     </select>
-                    <select class="county" name="county" id="updatexian" lay-verify="required" ng-options="county.tcode as county.tname for county in countys">
+                    <select class="county" name="county" id="xian" lay-verify="required" ng-change="changeCounty()" ng-model = "selectCounty" ng-options="county.tcode as county.tname for county in countys">
                         <option value="">请选择</option>
                     </select>
                 </td>
-                <td><label class="layui-form-label">详细地址</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
+                <td><label class="layui-form-label">详细地址</label></td>-->
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateContactAddress" name="contactAddress" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">邮政编码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updatePostCode" name="postalCode" ></td>
                 <td><label class="layui-form-label">联系人</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input  class="layui-input" type="text" id="updateContacts" name="contacts" ></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">联系电话</label></td>
-                <td class="layui-input-block"><input placeholder="只能以13、15、18开头" class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="只能以13、15、18开头" class="layui-input" type="text" id="updateUserPhone" name="userPhone" ></td>
                 <td><label class="layui-form-label">邮箱</label></td>
-                <td class="layui-input-block"><input placeholder="8-16位数字+@163.com" class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="8-16位数字+@163.com" class="layui-input" type="text" id="updateUserEmail" name="userEmail" ></td>
             </tr>
         </table>
         <div class="modal-footer">
-            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px">提交</button>
+            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="updateSave()">提交</button>
             <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
         </div>
     </form>
