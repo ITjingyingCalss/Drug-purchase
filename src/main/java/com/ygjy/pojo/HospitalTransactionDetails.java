@@ -122,6 +122,11 @@ public class HospitalTransactionDetails implements Serializable {
      */
     private Integer settlementStateId;
 
+    /**
+     * 供货商id
+     */
+    private Integer suppliersId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -316,6 +321,53 @@ public class HospitalTransactionDetails implements Serializable {
         this.settlementStateId = settlementStateId;
     }
 
+    public Integer getSuppliersId() {
+        return suppliersId;
+    }
+
+    public void setSuppliersId(Integer suppliersId) {
+        this.suppliersId = suppliersId;
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        HospitalTransactionDetails other = (HospitalTransactionDetails) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getPurchaseOrdersId() == null ? other.getPurchaseOrdersId() == null : this.getPurchaseOrdersId().equals(other.getPurchaseOrdersId()))
+            && (this.getDrugInformationId() == null ? other.getDrugInformationId() == null : this.getDrugInformationId().equals(other.getDrugInformationId()))
+            && (this.getEnterpriseId() == null ? other.getEnterpriseId() == null : this.getEnterpriseId().equals(other.getEnterpriseId()))
+            && (this.getBiddingPrice() == null ? other.getBiddingPrice() == null : this.getBiddingPrice().equals(other.getBiddingPrice()))
+            && (this.getTransactionPrice() == null ? other.getTransactionPrice() == null : this.getTransactionPrice().equals(other.getTransactionPrice()))
+            && (this.getPurchasedAmount() == null ? other.getPurchasedAmount() == null : this.getPurchasedAmount().equals(other.getPurchasedAmount()))
+            && (this.getPurchasedMoney() == null ? other.getPurchasedMoney() == null : this.getPurchasedMoney().equals(other.getPurchasedMoney()))
+            && (this.getPurchasedState() == null ? other.getPurchasedState() == null : this.getPurchasedState().equals(other.getPurchasedState()))
+            && (this.getReceiptAmount() == null ? other.getReceiptAmount() == null : this.getReceiptAmount().equals(other.getReceiptAmount()))
+            && (this.getReceiptMoney() == null ? other.getReceiptMoney() == null : this.getReceiptMoney().equals(other.getReceiptMoney()))
+            && (this.getInvoiceNumber() == null ? other.getInvoiceNumber() == null : this.getInvoiceNumber().equals(other.getInvoiceNumber()))
+            && (this.getDrugBatchNumber() == null ? other.getDrugBatchNumber() == null : this.getDrugBatchNumber().equals(other.getDrugBatchNumber()))
+            && (this.getDrugValidity() == null ? other.getDrugValidity() == null : this.getDrugValidity().equals(other.getDrugValidity()))
+            && (this.getReceiptTime() == null ? other.getReceiptTime() == null : this.getReceiptTime().equals(other.getReceiptTime()))
+            && (this.getReturnOrderId() == null ? other.getReturnOrderId() == null : this.getReturnOrderId().equals(other.getReturnOrderId()))
+            && (this.getReturnsTheAmount() == null ? other.getReturnsTheAmount() == null : this.getReturnsTheAmount().equals(other.getReturnsTheAmount()))
+            && (this.getReturnsTheMoney() == null ? other.getReturnsTheMoney() == null : this.getReturnsTheMoney().equals(other.getReturnsTheMoney()))
+            && (this.getReasonForReturn() == null ? other.getReasonForReturn() == null : this.getReasonForReturn().equals(other.getReasonForReturn()))
+            && (this.getReturnStateId() == null ? other.getReturnStateId() == null : this.getReturnStateId().equals(other.getReturnStateId()))
+            && (this.getFinalSettlementId() == null ? other.getFinalSettlementId() == null : this.getFinalSettlementId().equals(other.getFinalSettlementId()))
+            && (this.getFinalSettlementAmount() == null ? other.getFinalSettlementAmount() == null : this.getFinalSettlementAmount().equals(other.getFinalSettlementAmount()))
+            && (this.getFinalSettlementMoney() == null ? other.getFinalSettlementMoney() == null : this.getFinalSettlementMoney().equals(other.getFinalSettlementMoney()))
+            && (this.getSettlementStateId() == null ? other.getSettlementStateId() == null : this.getSettlementStateId().equals(other.getSettlementStateId()))
+            && (this.getSuppliersId() == null ? other.getSuppliersId() == null : this.getSuppliersId().equals(other.getSuppliersId()));
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -344,6 +396,7 @@ public class HospitalTransactionDetails implements Serializable {
         result = prime * result + ((getFinalSettlementAmount() == null) ? 0 : getFinalSettlementAmount().hashCode());
         result = prime * result + ((getFinalSettlementMoney() == null) ? 0 : getFinalSettlementMoney().hashCode());
         result = prime * result + ((getSettlementStateId() == null) ? 0 : getSettlementStateId().hashCode());
+        result = prime * result + ((getSuppliersId() == null) ? 0 : getSuppliersId().hashCode());
         return result;
     }
 
@@ -364,7 +417,7 @@ public class HospitalTransactionDetails implements Serializable {
         sb.append(", purchasedState=").append(purchasedState);
         sb.append(", receiptAmount=").append(receiptAmount);
         sb.append(", receiptMoney=").append(receiptMoney);
-        sb.append(",  invoiceNumber=").append(invoiceNumber);
+        sb.append(", invoiceNumber=").append(invoiceNumber);
         sb.append(", drugBatchNumber=").append(drugBatchNumber);
         sb.append(", drugValidity=").append(drugValidity);
         sb.append(", receiptTime=").append(receiptTime);
@@ -377,6 +430,7 @@ public class HospitalTransactionDetails implements Serializable {
         sb.append(", finalSettlementAmount=").append(finalSettlementAmount);
         sb.append(", finalSettlementMoney=").append(finalSettlementMoney);
         sb.append(", settlementStateId=").append(settlementStateId);
+        sb.append(", suppliersId=").append(suppliersId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

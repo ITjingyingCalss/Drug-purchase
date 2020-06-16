@@ -21,4 +21,9 @@ public interface DrugInformationMapper {
     * 添加药品信息
     * return Integer*/
     Integer insertDrugInformation(DrugInformation drugInformation);
+    /*
+    * 查询数据库有没有该流水号
+    * return DrugInformation
+    */
+    DrugInformation findDrugInformationBySerialNumber(String serialNumber);
 }

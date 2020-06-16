@@ -5,6 +5,7 @@ import com.ygjy.pojo.DrugInformation;
 import com.ygjy.pojo.DrugItems;
 import com.ygjy.pojo.Enterprise;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -23,4 +24,6 @@ public interface DrugInformationMaintenanceService {
     Integer updateDrugInformationState(Integer id);
 
     List<DrugInformation> exportDrugInformationExcle(DrugInformation drugInformation,Float startPrice,Float endPrice);
+
+    Integer multipartFileToFile(MultipartFile file) throws Exception;
 }

@@ -302,6 +302,37 @@ function exportDrugInformationExcle() {
         location.href="DrugInformationMaintenance/exportDrugInformationExcle?"+formData;
     }
 }
+//导入数据
+function uploadDrugInformationFile() {
+    var formData = new FormData();
+    formData.append("file",$('#file')[0].files[0])
+    $.ajax({
+        url:'DrugInformationMaintenance/readExcel',
+        dataType:'json',
+        type:'POST',
+        async: false,
+        data: formData,
+        processData : false, // 使数据不做处理
+        contentType : false, // 不要设置Content-Type请求头
+        success: function(data){
+            if (data == 0) {
+                $("#modalTitle").empty();
+                $("#modalBody").empty();
+                $("#editModal").modal("hide");
+                $("#modalTitle").html("失败提示信息");
+                $("#modalBody").append("<p style='color: red'>插入"+data+"条数据,请检查是否重复,正确填写文档</p>");
+                $("#modal").modal("show");
+            }else {
+                $("#modalTitle").empty();
+                $("#modalBody").empty();
+                $("#editModal").modal("hide");
+                $("#modalTitle").html("成功提示信息");
+                $("#modalBody").append("<p style='color: green'>插入"+data+"条数据</p>");
+                $("#modal").modal("show");
+            }
+        }
+    });
+}
 //清除模态框数据
 function emptydata() {
     document.getElementById("addForm").reset();

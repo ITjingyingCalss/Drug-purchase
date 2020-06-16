@@ -26,6 +26,7 @@
     <result column="final_settlement _amount" jdbcType="INTEGER" property="finalSettlementAmount" />
     <result column="final_settlement _money" jdbcType="REAL" property="finalSettlementMoney" />
     <result column="settlement _state_id" jdbcType="INTEGER" property="settlementStateId" />
+    <result column="suppliers_id" jdbcType="INTEGER" property="suppliersId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -90,7 +91,7 @@
     purchased_amount, purchased_money, purchased_state, receipt_amount, receipt_money, 
      Invoice_number, drug_batch_number, drug_Validity, receipt_time, return_order_id, 
     returns_the_amount, returns_the_money, reason_for_return, return_state_id, `final_settlement _id`, 
-    `final_settlement _amount`, `final_settlement _money`, `settlement _state_id`
+    `final_settlement _amount`, `final_settlement _money`, `settlement _state_id`, suppliers_id
   </sql>
   <select id="selectByExample" parameterType="com.ygjy.pojo.HospitalTransactionDetailsExample" resultMap="BaseResultMap">
     select
@@ -139,7 +140,7 @@
       return_order_id, returns_the_amount, returns_the_money, 
       reason_for_return, return_state_id, `final_settlement _id`, 
       `final_settlement _amount`, `final_settlement _money`, 
-      `settlement _state_id`)
+      `settlement _state_id`, suppliers_id)
     values (#{id,jdbcType=INTEGER}, #{purchaseOrdersId,jdbcType=INTEGER}, #{drugInformationId,jdbcType=INTEGER}, 
       #{enterpriseId,jdbcType=INTEGER}, #{biddingPrice,jdbcType=REAL}, #{transactionPrice,jdbcType=REAL}, 
       #{purchasedAmount,jdbcType=INTEGER}, #{purchasedMoney,jdbcType=REAL}, #{purchasedState,jdbcType=INTEGER}, 
@@ -148,7 +149,7 @@
       #{returnOrderId,jdbcType=INTEGER}, #{returnsTheAmount,jdbcType=INTEGER}, #{returnsTheMoney,jdbcType=REAL}, 
       #{reasonForReturn,jdbcType=VARCHAR}, #{returnStateId,jdbcType=INTEGER}, #{finalSettlementId,jdbcType=INTEGER}, 
       #{finalSettlementAmount,jdbcType=INTEGER}, #{finalSettlementMoney,jdbcType=REAL}, 
-      #{settlementStateId,jdbcType=INTEGER})
+      #{settlementStateId,jdbcType=INTEGER}, #{suppliersId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ygjy.pojo.HospitalTransactionDetails">
     insert into hospital_transaction_details
@@ -225,6 +226,9 @@
       <if test="settlementStateId != null">
         `settlement _state_id`,
       </if>
+      <if test="suppliersId != null">
+        suppliers_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -298,6 +302,9 @@
       </if>
       <if test="settlementStateId != null">
         #{settlementStateId,jdbcType=INTEGER},
+      </if>
+      <if test="suppliersId != null">
+        #{suppliersId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -382,6 +389,9 @@
       <if test="record.settlementStateId != null">
         `settlement _state_id` = #{record.settlementStateId,jdbcType=INTEGER},
       </if>
+      <if test="record.suppliersId != null">
+        suppliers_id = #{record.suppliersId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -412,7 +422,8 @@
       `final_settlement _id` = #{record.finalSettlementId,jdbcType=INTEGER},
       `final_settlement _amount` = #{record.finalSettlementAmount,jdbcType=INTEGER},
       `final_settlement _money` = #{record.finalSettlementMoney,jdbcType=REAL},
-      `settlement _state_id` = #{record.settlementStateId,jdbcType=INTEGER}
+      `settlement _state_id` = #{record.settlementStateId,jdbcType=INTEGER},
+      suppliers_id = #{record.suppliersId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -489,6 +500,9 @@
       <if test="settlementStateId != null">
         `settlement _state_id` = #{settlementStateId,jdbcType=INTEGER},
       </if>
+      <if test="suppliersId != null">
+        suppliers_id = #{suppliersId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -516,7 +530,8 @@
       `final_settlement _id` = #{finalSettlementId,jdbcType=INTEGER},
       `final_settlement _amount` = #{finalSettlementAmount,jdbcType=INTEGER},
       `final_settlement _money` = #{finalSettlementMoney,jdbcType=REAL},
-      `settlement _state_id` = #{settlementStateId,jdbcType=INTEGER}
+      `settlement _state_id` = #{settlementStateId,jdbcType=INTEGER},
+      suppliers_id = #{suppliersId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

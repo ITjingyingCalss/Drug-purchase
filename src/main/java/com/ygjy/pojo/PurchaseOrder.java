@@ -1,5 +1,8 @@
 package com.ygjy.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -38,16 +41,22 @@ public class PurchaseOrder implements Serializable {
     /**
      * 建单时间(年月日时分秒)
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createReceiptsTime;
 
     /**
      * 最近修改时间(年月日时分秒)
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lastModificationTime;
 
     /**
      * 提交时间(年月日时分秒)
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date submissionTime;
 
     /**
@@ -73,12 +82,28 @@ public class PurchaseOrder implements Serializable {
     /**
      * 审核时间(年月日时分秒) 
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date auditTime;
 
     /**
      * 删除（1：删除，0：不删除）
      */
     private Integer delState;
+
+    /**
+     * 开始时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startTime;
+
+    /**
+     * 结束时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -202,6 +227,22 @@ public class PurchaseOrder implements Serializable {
         this.delState = delState;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -228,7 +269,9 @@ public class PurchaseOrder implements Serializable {
             && (this.getAuditPerson() == null ? other.getAuditPerson() == null : this.getAuditPerson().equals(other.getAuditPerson()))
             && (this.getAuditOpinion() == null ? other.getAuditOpinion() == null : this.getAuditOpinion().equals(other.getAuditOpinion()))
             && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
-            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()));
+            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()))
+            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
+            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
     }
 
     @Override
@@ -250,6 +293,8 @@ public class PurchaseOrder implements Serializable {
         result = prime * result + ((getAuditOpinion() == null) ? 0 : getAuditOpinion().hashCode());
         result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
         result = prime * result + ((getDelState() == null) ? 0 : getDelState().hashCode());
+        result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
+        result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
         return result;
     }
 
@@ -274,6 +319,8 @@ public class PurchaseOrder implements Serializable {
         sb.append(", auditOpinion=").append(auditOpinion);
         sb.append(", auditTime=").append(auditTime);
         sb.append(", delState=").append(delState);
+        sb.append(", startTime=").append(startTime);
+        sb.append(", endTime=").append(endTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

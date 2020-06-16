@@ -134,7 +134,7 @@ public class DrugItemMaintenanceController {
     }
     @RequestMapping("/downloadTemplate")
     public void downloadTemplate(HttpServletResponse response,String filenames) throws IOException {
-        String path = "D:\\工作文件\\项目\\Drug-purchase\\导入说明.xls";
+        String path = "D:\\工作文件\\项目\\Drug-purchase\\药品品目信息导入说明.xls";
         // path是指欲下载的文件的路径。
         File file = new File(path);
 // 取得文件名。
@@ -159,7 +159,7 @@ public class DrugItemMaintenanceController {
     }
     @RequestMapping("/downloadTemplate1")
     public void downloadTemplate1(HttpServletResponse response1,String filenames) throws IOException {
-        String path1 = "D:\\工作文件\\项目\\Drug-purchase\\药品品目.xls";
+        String path1 = "D:\\工作文件\\项目\\Drug-purchase\\药品品目信息模板.xls";
         String fileName = "药品品目信息模板"+System.currentTimeMillis()+".xls";
         // path是指欲下载的文件的路径。
         File file1 = new File(path1);

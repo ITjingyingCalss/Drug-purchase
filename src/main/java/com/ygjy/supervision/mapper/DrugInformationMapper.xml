@@ -279,4 +279,9 @@
      from DUAL
     where NOT EXISTS (SELECT * FROM drug_information where common_name = #{commonName} and dosage_form_id = #{dosageFormId} and specification=#{specification} and unit=#{unit} and conversion_fraction=#{conversionFraction} and enterprise_name_id = #{enterpriseNameId} and trade_name = #{tradeName})
     </insert>
+    <select id="findDrugInformationBySerialNumber" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from drug_information where serial_number = #{serialNumber}
+    </select>
 </mapper>

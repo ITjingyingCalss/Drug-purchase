@@ -79,7 +79,7 @@ public class DrugInformation implements Serializable {
     private String validityOfApprovalNumber;
 
     /**
-     * 是否进口药(1：是、0：否)
+     * 是否进口药(1：是、2：否)
      */
     private Integer importedDrug;
 

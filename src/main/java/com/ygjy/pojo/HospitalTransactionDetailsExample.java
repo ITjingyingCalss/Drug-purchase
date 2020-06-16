@@ -785,73 +785,73 @@ public class HospitalTransactionDetailsExample {
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberIsNull() {
-            addCriterion(" Invoice_number is null");
+        public Criteria andInvoiceNumberIsNull() {
+            addCriterion("invoice_number is null");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberIsNotNull() {
-            addCriterion(" Invoice_number is not null");
+        public Criteria andInvoiceNumberIsNotNull() {
+            addCriterion("invoice_number is not null");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberEqualTo(String value) {
-            addCriterion(" Invoice_number =", value, " invoiceNumber");
+        public Criteria andInvoiceNumberEqualTo(String value) {
+            addCriterion("invoice_number =", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberNotEqualTo(String value) {
-            addCriterion(" Invoice_number <>", value, " invoiceNumber");
+        public Criteria andInvoiceNumberNotEqualTo(String value) {
+            addCriterion("invoice_number <>", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberGreaterThan(String value) {
-            addCriterion(" Invoice_number >", value, " invoiceNumber");
+        public Criteria andInvoiceNumberGreaterThan(String value) {
+            addCriterion("invoice_number >", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberGreaterThanOrEqualTo(String value) {
-            addCriterion(" Invoice_number >=", value, " invoiceNumber");
+        public Criteria andInvoiceNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("invoice_number >=", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberLessThan(String value) {
-            addCriterion(" Invoice_number <", value, " invoiceNumber");
+        public Criteria andInvoiceNumberLessThan(String value) {
+            addCriterion("invoice_number <", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberLessThanOrEqualTo(String value) {
-            addCriterion(" Invoice_number <=", value, " invoiceNumber");
+        public Criteria andInvoiceNumberLessThanOrEqualTo(String value) {
+            addCriterion("invoice_number <=", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberLike(String value) {
-            addCriterion(" Invoice_number like", value, " invoiceNumber");
+        public Criteria andInvoiceNumberLike(String value) {
+            addCriterion("invoice_number like", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberNotLike(String value) {
-            addCriterion(" Invoice_number not like", value, " invoiceNumber");
+        public Criteria andInvoiceNumberNotLike(String value) {
+            addCriterion("invoice_number not like", value, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberIn(List<String> values) {
-            addCriterion(" Invoice_number in", values, " invoiceNumber");
+        public Criteria andInvoiceNumberIn(List<String> values) {
+            addCriterion("invoice_number in", values, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberNotIn(List<String> values) {
-            addCriterion(" Invoice_number not in", values, " invoiceNumber");
+        public Criteria andInvoiceNumberNotIn(List<String> values) {
+            addCriterion("invoice_number not in", values, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberBetween(String value1, String value2) {
-            addCriterion(" Invoice_number between", value1, value2, " invoiceNumber");
+        public Criteria andInvoiceNumberBetween(String value1, String value2) {
+            addCriterion("invoice_number between", value1, value2, "invoiceNumber");
             return (Criteria) this;
         }
 
-        public Criteria andinvoiceNumberNotBetween(String value1, String value2) {
-            addCriterion(" Invoice_number not between", value1, value2, " invoiceNumber");
+        public Criteria andInvoiceNumberNotBetween(String value1, String value2) {
+            addCriterion("invoice_number not between", value1, value2, "invoiceNumber");
             return (Criteria) this;
         }
 
@@ -1602,6 +1602,66 @@ public class HospitalTransactionDetailsExample {
 
         public Criteria andSettlementStateIdNotBetween(Integer value1, Integer value2) {
             addCriterion("`settlement _state_id` not between", value1, value2, "settlementStateId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdIsNull() {
+            addCriterion("suppliers_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdIsNotNull() {
+            addCriterion("suppliers_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdEqualTo(Integer value) {
+            addCriterion("suppliers_id =", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdNotEqualTo(Integer value) {
+            addCriterion("suppliers_id <>", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdGreaterThan(Integer value) {
+            addCriterion("suppliers_id >", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("suppliers_id >=", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdLessThan(Integer value) {
+            addCriterion("suppliers_id <", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdLessThanOrEqualTo(Integer value) {
+            addCriterion("suppliers_id <=", value, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdIn(List<Integer> values) {
+            addCriterion("suppliers_id in", values, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdNotIn(List<Integer> values) {
+            addCriterion("suppliers_id not in", values, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdBetween(Integer value1, Integer value2) {
+            addCriterion("suppliers_id between", value1, value2, "suppliersId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuppliersIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("suppliers_id not between", value1, value2, "suppliersId");
             return (Criteria) this;
         }
     }

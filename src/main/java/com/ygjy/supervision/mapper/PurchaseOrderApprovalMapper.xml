@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ygjy.supervision.dao.PurchaseOrderApprovalMapper">
+    <resultMap id="BaseResultMap" type="com.ygjy.pojo.PurchaseOrder">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="purchase_order_number" jdbcType="VARCHAR" property="purchaseOrderNumber" />
+        <result column="name_of_purchase_order" jdbcType="VARCHAR" property="nameOfPurchaseOrder" />
+        <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+        <result column="contacts" jdbcType="VARCHAR" property="contacts" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
+        <result column="last_modification_time" jdbcType="TIMESTAMP" property="lastModificationTime" />
+        <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="purchase_state" jdbcType="INTEGER" property="purchaseState" />
+        <result column="audit_person" jdbcType="VARCHAR" property="auditPerson" />
+        <result column="audit_opinion" jdbcType="VARCHAR" property="auditOpinion" />
+        <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
+        <result column="del_state" jdbcType="INTEGER" property="delState" />
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, purchase_order_number, name_of_purchase_order, hospital_id, contacts, phone,
+    create_receipts_time, last_modification_time, submission_time, remark, purchase_state,
+    audit_person, audit_opinion, audit_time, del_state, start_time, end_time
+  </sql>
+    <select id="findAllPurchaseOrder" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from purchase_order
+    <where>
+        del_state = 0
+        <if test="purchaseOrder.purchaseOrderNumber!=null and purchaseOrder.purchaseOrderNumber!=''">
+            and purchase_order_number like "%"#{purchaseOrder.purchaseOrderNumber}"%"
+        </if>
+        <if test="purchaseOrder.nameOfPurchaseOrder!=null and purchaseOrder.nameOfPurchaseOrder!=''">
+            and name_of_purchase_order like "%"#{purchaseOrder.nameOfPurchaseOrder}"%"
+        </if>
+        <if test="purchaseOrder.purchaseState!=null and purchaseOrder.purchaseState!=0">
+            and purchase_state like "%"#{purchaseOrder.purchaseState}"%"
+        </if>
+        <if test="purchaseOrder.hospitalId!=null and purchaseOrder.hospitalId!=0">
+            and hospital_id like "%"#{purchaseOrder.hospitalId}"%"
+        </if>
+        <if test="procurementStartTime!=null and procurementStartTime!='' and procurementEndTime!=null and procurementEndTime!=''">
+            and start_time between #{procurementStartTime} and #{procurementEndTime}
+        </if>
+    </where>
+    </select>
+    <select id="findCount" resultType="java.lang.Integer">
+        select count(*) from  purchase_order where del_state = 0
+    </select>
+
+</mapper>

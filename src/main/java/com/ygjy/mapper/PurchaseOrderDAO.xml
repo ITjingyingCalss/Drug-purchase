@@ -17,6 +17,8 @@
     <result column="audit_opinion" jdbcType="VARCHAR" property="auditOpinion" />
     <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
     <result column="del_state" jdbcType="INTEGER" property="delState" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +81,7 @@
   <sql id="Base_Column_List">
     id, purchase_order_number, name_of_purchase_order, hospital_id, contacts, phone, 
     create_receipts_time, last_modification_time, submission_time, remark, purchase_state, 
-    audit_person, audit_opinion, audit_time, del_state
+    audit_person, audit_opinion, audit_time, del_state, start_time, end_time
   </sql>
   <select id="selectByExample" parameterType="com.ygjy.pojo.PurchaseOrderExample" resultMap="BaseResultMap">
     select
@@ -125,13 +127,15 @@
       create_receipts_time, last_modification_time, 
       submission_time, remark, purchase_state, 
       audit_person, audit_opinion, audit_time, 
-      del_state)
+      del_state, start_time, end_time
+      )
     values (#{id,jdbcType=INTEGER}, #{purchaseOrderNumber,jdbcType=VARCHAR}, #{nameOfPurchaseOrder,jdbcType=VARCHAR}, 
       #{hospitalId,jdbcType=INTEGER}, #{contacts,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{createReceiptsTime,jdbcType=TIMESTAMP}, #{lastModificationTime,jdbcType=TIMESTAMP}, 
       #{submissionTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{purchaseState,jdbcType=INTEGER}, 
       #{auditPerson,jdbcType=VARCHAR}, #{auditOpinion,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP}, 
-      #{delState,jdbcType=INTEGER})
+      #{delState,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ygjy.pojo.PurchaseOrder">
     insert into purchase_order
@@ -181,6 +185,12 @@
       <if test="delState != null">
         del_state,
       </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -227,6 +237,12 @@
       </if>
       <if test="delState != null">
         #{delState,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -284,6 +300,12 @@
       <if test="record.delState != null">
         del_state = #{record.delState,jdbcType=INTEGER},
       </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -305,7 +327,9 @@
       audit_person = #{record.auditPerson,jdbcType=VARCHAR},
       audit_opinion = #{record.auditOpinion,jdbcType=VARCHAR},
       audit_time = #{record.auditTime,jdbcType=TIMESTAMP},
-      del_state = #{record.delState,jdbcType=INTEGER}
+      del_state = #{record.delState,jdbcType=INTEGER},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -355,6 +379,12 @@
       <if test="delState != null">
         del_state = #{delState,jdbcType=INTEGER},
       </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -373,7 +403,9 @@
       audit_person = #{auditPerson,jdbcType=VARCHAR},
       audit_opinion = #{auditOpinion,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=TIMESTAMP},
-      del_state = #{delState,jdbcType=INTEGER}
+      del_state = #{delState,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

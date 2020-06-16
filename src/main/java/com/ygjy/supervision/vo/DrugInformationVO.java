@@ -17,11 +17,11 @@ public class DrugInformationVO {
         this.commonName = commonName;
     }
 
-    public Integer getDosageFormId() {
+    public String getDosageFormId() {
         return dosageFormId;
     }
 
-    public void setDosageFormId(Integer dosageFormId) {
+    public void setDosageFormId(String dosageFormId) {
         this.dosageFormId = dosageFormId;
     }
 
@@ -49,11 +49,11 @@ public class DrugInformationVO {
         this.conversionFraction = conversionFraction;
     }
 
-    public Integer getEnterpriseNameId() {
+    public String getEnterpriseNameId() {
         return enterpriseNameId;
     }
 
-    public void setEnterpriseNameId(Integer enterpriseNameId) {
+    public void setEnterpriseNameId(String enterpriseNameId) {
         this.enterpriseNameId = enterpriseNameId;
     }
 
@@ -73,27 +73,27 @@ public class DrugInformationVO {
         this.biddingPrice = biddingPrice;
     }
 
-    public Integer getQualityLevelId() {
+    public String getQualityLevelId() {
         return qualityLevelId;
     }
 
-    public void setQualityLevelId(Integer qualityLevelId) {
+    public void setQualityLevelId(String qualityLevelId) {
         this.qualityLevelId = qualityLevelId;
     }
 
-    public Integer getDrugCategoryId() {
+    public String getDrugCategoryId() {
         return drugCategoryId;
     }
 
-    public void setDrugCategoryId(Integer drugCategoryId) {
+    public void setDrugCategoryId(String drugCategoryId) {
         this.drugCategoryId = drugCategoryId;
     }
 
-    public Integer getDrugTransactionStatusId() {
+    public String getDrugTransactionStatusId() {
         return drugTransactionStatusId;
     }
 
-    public void setDrugTransactionStatusId(Integer drugTransactionStatusId) {
+    public void setDrugTransactionStatusId(String drugTransactionStatusId) {
         this.drugTransactionStatusId = drugTransactionStatusId;
     }
 
@@ -108,7 +108,7 @@ public class DrugInformationVO {
     /**
      * 剂型表id
      */
-    private Integer dosageFormId;
+    private String dosageFormId;
     /**
      * 规格
      */
@@ -124,7 +124,7 @@ public class DrugInformationVO {
     /**
      * 生产企业名称
      */
-    private Integer enterpriseNameId;
+    private String enterpriseNameId;
     /**
      * 商品名
      */
@@ -136,13 +136,13 @@ public class DrugInformationVO {
     /**
      * 质量层次id
      */
-    private Integer qualityLevelId;
+    private String qualityLevelId;
     /**
      * 药品类别(1.处方药2.非处方药)
      */
-    private Integer drugCategoryId;
+    private String drugCategoryId;
     /**
      * 药品交易状态
      */
-    private Integer drugTransactionStatusId;
+    private String drugTransactionStatusId;
 }
