@@ -21,92 +21,57 @@
         }
     </script>
 
-<!--添加退货单-->
-<script type="text/javascript">
 
-    var returnOrderNumber = $("#return_order_number").val();
-    var returnOrderName = $("#return_order_name").val();
-    var hospitalId = $("#hospital_id").val();
-    var contacts = $("#contacts").val();
-    var phone = $("#phone").val();
-    var creatReceiptsPerson = $("#creat_receipts_person").val();
-    var createReceiptsTime = $("#create_receipts_time").val();
-    var submissionTime = $("#submission_time").val();
-    var remark = $("#remark").val();
-    var returnStateId = $("#return_state_id").val();
+    <!--导出到excel-->
+    <script type="text/javascript">
 
-    function saveReturnForm(){
-        $.ajax({
+        function exportAll() {
+            var formData = $("#fuzzyFormId").serialize()
+            if (confirm("确定导出文件吗？")){
+                location.href="exportAll?"+formData;
+            }
+        }
 
-        })
-    }
 
-    /*/!*批量删除*!/
-    function xiaOnclick() {
-        var clickpool = true;
-        $.each($(".checkboxxia"),function(index,item){
-            if($(item).prop("checked")==false)clickpool=false;
-        })
-        $("#checkboxMain").prop("checked",clickpool)
-    }
+    </script>
 
-    function mainOnclick() {
-        $.each($(".checkboxxia"),function(index,item){
-            $(item).prop("checked",$("#checkboxMain").prop("checked"));
-        })
-    }
 
-    function BatchDelete() {
-        var bool = false;
-        var list = new Array();
-        /!*var st="";*!/
-        $.each($("input[class='checkboxxia']:checkbox:checked"),function(index,item){
-            list.push($(item).val());
 
-            /!*st+=$(item).val()+",";*!/
+    <script type="text/javascript">
 
-            /!*console.log($(item).val());*!/
-            bool = true;
-        });
-
-        if(true){
+        function findDrugFromAndDrugCategory(){
             $.ajax({
-                type:"GET",
-                url:"removeByKeys",
-                dataType:"json",
-                data:{"list":list}, // 传输一个list集合包含所选框的id,,,,也可以传一个st到后台data:{"list":st},
-                success:function (result) {
-                    var b = result;
-                    if (result > 0){
-                        alert("删除成功!");
-                        window.location.reload();
-                    }else{
-                        alert("删除失败!");
+                url:"",
+                type:"post",
+                success:function () {
+                    var a ="<option value='0'>请选择</option>"//供货商
+                    var b ="<option value='0'>请选择</option>"//药品类别
+                    var c ="<option value='0'>请选择</option>"//剂型
+                    var d ="<option value='0'>请选择</option>"//质量层次
+
+                    for (var i=0;i<data.length;i++){
+                        a+="<option value='"+data[i].supplier_name+"'>"+data[i].supplierName+"</option>"
                     }
+                    for (var i=0;i<data.length;i++){
+                        b+="<option value='"+data[i].drug_category_id+"'>"+data[i].drugCategoryId+"</option>"
+                    }
+                    for (var i=0;i<data.length;i++){
+                        c+="<option value='"+data[i].drug_from+"'>"+data[i].drugFrom+"</option>"
+                    }
+                    for (var i=0;i<data.length;i++){
+                        d+="<option value='"+data[i].level+"'>"+data[i].level+"</option>"
+                    }
+                    /添加模态框select
+                    $("#drugsFromId").empty();
+                    $("#drugCategory_id").empty();
+                    $("#drugsFromId").append(a);
+                    $("#drugCategory_id").append(b);
+                    dd=data;
                 }
             })
-        }else {
-            alert("请选择数据");
         }
-    }*/
 
-
-    //导出
-    function importOne() {
-        var import1=$('input[name="del"]:checked').length;
-        if(import1==0){
-            alert("请至少选择一项导出");
-            return;
-        }
-        if(confirm("确定要导出吗?")){
-            var importId=[];
-            $('input[name="del"]:checked').each(function () {
-                importId.push($(this).val())
-            })
-            window.location.href="export?importId="+importId;
-        }
-    }
-</script>
+    </script>
 
 
 </head>
@@ -126,8 +91,6 @@
             <td >
                 <input class="form-control" id="searchEntity_unitName1">
             </td>
-
-
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
             </td>
             <td >
@@ -236,20 +199,17 @@
             </td>
             <td>
                 <select id="supplier_name" name="supplierMame" style="width: 50%;height: 20%">
-                    <option value="1">供货商1</option>
-                    <option value="2">供货商2</option>
+                    <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
             </td>
-            <td>
-                <select id="drug_category_name" name="drugCategoryName" style="width: 50%;height: 20%">
-                    <option value="1">非处方药</option>
-                    <option value="2">处方药</option>
+            <td style="white-space:nowrap">
+                <select class="num" id="drug_category_id" name="drugCategoryId" onblur="checkDrugCategory()" style="width:50%;height: 10%">
+                    <option value="0">请选择</option>
                 </select>
-                <!-- <input class="form-control" id="" >-->
             </td>
         </tr>
         <tr>
@@ -270,8 +230,10 @@
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
             </td>
-            <td>
-                <input id="drug_from" name="drugFrom" class="form-control">
+            <td style="white-space:nowrap">
+                <select class="num" id="drug_from" name="drugFrom" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                    <option value="0">请选择</option>
+                </select>
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
@@ -312,17 +274,10 @@
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">质量层次：</span>
             </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="1">国家一类新药</option>
-                    <option value="2">国家科学进步奖</option>
-                    <option value="3">专利</option>
-                    <option value="4">原研</option>
-                    <option value="5">单独定价</option>
-                    <option value="6">优质优价</option>
-                    <option value="7">GMP</option>
+            <td style="white-space:nowrap">
+                <select class="num" id="level" name="level" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                    <option value="0">请选择</option>
                 </select>
-                <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
@@ -376,7 +331,7 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="findDrugFromAndDrugCategory()"
                                 data-target="#editModal1">添加
                         </button>
                         <button type="button" class="btn btn-success btn-sm" onclick="BatchDelete()">
