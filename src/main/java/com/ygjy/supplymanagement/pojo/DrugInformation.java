@@ -189,7 +189,6 @@ public class DrugInformation implements Serializable {
     private ReturnStatus returnStatus;
     private HospitalTransactionStatement hospitalTransactionStatement;
     private SettlementStatus settlementStatus;
-
     public HospitalTransactionStatement getHospitalTransactionStatement() {
         return hospitalTransactionStatement;
     }

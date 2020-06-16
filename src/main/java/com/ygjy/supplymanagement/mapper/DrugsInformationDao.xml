@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-        <!DOCTYPE mapper
-                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ygjy.supplymanagement.dao.DrugsInformationDao">
     <resultMap id="BaseResultMap" type="com.ygjy.supplymanagement.pojo.DrugInformation">
         <id column="iid" jdbcType="INTEGER" property="id" />
@@ -260,30 +260,30 @@
         LEFT JOIN quality_level l ON l.`qua_id`=i.`quality_level_id`
         LEFT JOIN enterprise e ON e.`id`=i.`enterprise_name_id`
         WHERE i.`del_state`=0
-            <if test="commonName != null and commonName != ''">
-                and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="serialNumber != null and serialNumber != ''">
-                and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="dosageFormId != null">
-                and d.`durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
-            </if>
-            <if test="specification != null and specification != ''">
-                and specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="unit != null and unit != ''">
-                and unit like CONCAT('%',#{unit,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="conversionFraction != null and conversionFraction != ''">
-                and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
-            </if>
-            <if test="drugCategoryId != null">
-                and c.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
-            </if>
-            <if test="drugTransactionStatusId != null">
-                and `drug_transaction_status_id` like CONCAT('%',#{drugTransactionStatusId,jdbcType=INTEGER},'%')
-            </if>
+        <if test="commonName != null and commonName != ''">
+            and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="serialNumber != null and serialNumber != ''">
+            and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dosageFormId != null">
+            and d.`durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="specification != null and specification != ''">
+            and specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="unit != null and unit != ''">
+            and unit like CONCAT('%',#{unit,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="conversionFraction != null and conversionFraction != ''">
+            and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="drugCategoryId != null">
+            and c.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="drugTransactionStatusId != null">
+            and `drug_transaction_status_id` like CONCAT('%',#{drugTransactionStatusId,jdbcType=INTEGER},'%')
+        </if>
         <if test="enterpriseNameId != null">
             and `enterprise_name_id` like CONCAT('%',#{enterpriseNameId,jdbcType=INTEGER},'%')
         </if>
@@ -299,7 +299,7 @@
     </select>
     <!--条件查询-->
     <select id="getSelect" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-  SELECT
+        SELECT
         i.`id` AS iid ,c.`drug_category_Id` AS cid,s.`id` AS sid,e.`id` AS eid,d.`drug_from`,d.`note`,c.`drug_category_name`,s.`drug_transaction_explain`,s.`drug_transaction_status` ,d.`durg_from_id`,l.`qua_id`,l.`level`,e.enterprise_name,r.`suppliers_id`,r.`supplier_name`,
         <include refid="Base_Column_List" />
         FROM drug_information i
@@ -447,93 +447,93 @@
     </select>
     <!--修改商品信息维护-->
     <update id="updateByPrimaryKeySelectives" parameterType="com.ygjy.supplymanagement.pojo.DrugInformation">
-    update drug_information
-    <set>
-    <if test="serialNumber != null">
-        serial_number = #{serialNumber,jdbcType=VARCHAR},
-    </if>
-    <if test="commonName != null">
-        common_name = #{commonName,jdbcType=VARCHAR},
-    </if>
-    <if test="dosageFormId != null">
-        dosage_form_id = #{dosageFormId,jdbcType=INTEGER},
-    </if>
-    <if test="specification != null">
-        specification = #{specification,jdbcType=VARCHAR},
-    </if>
-    <if test="conversionFraction != null">
-        conversion_fraction = #{conversionFraction,jdbcType=VARCHAR},
-    </if>
-    <if test="enterpriseNameId != null">
-        enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER},
-    </if>
-    <if test="tradeName != null">
-        trade_name = #{tradeName,jdbcType=VARCHAR},
-    </if>
-    <if test="biddingPrice != null">
-        bidding_price = #{biddingPrice,jdbcType=REAL},
-    </if>
-    <if test="unit != null">
-        unit = #{unit,jdbcType=VARCHAR},
-    </if>
-    <if test="commonNamePinyin != null">
-        common_name_pinyin = #{commonNamePinyin,jdbcType=VARCHAR},
-    </if>
-    <if test="productPicture != null">
-        product_picture = #{productPicture,jdbcType=VARCHAR},
-    </if>
-    <if test="approvalNumber != null">
-        approval_number = #{approvalNumber,jdbcType=VARCHAR},
-    </if>
-    <if test="validityOfApprovalNumber != null">
-        validity_of_approval_number = #{validityOfApprovalNumber,jdbcType=VARCHAR},
-    </if>
-    <if test="importedDrug != null">
-        imported_drug = #{importedDrug,jdbcType=INTEGER},
-    </if>
-    <if test="packagingMaterial != null">
-        packaging_material = #{packagingMaterial,jdbcType=VARCHAR},
-    </if>
-    <if test="packingUnit != null">
-        packing_unit = #{packingUnit,jdbcType=VARCHAR},
-    </if>
-    <if test="latestRetailPrice != null">
-        latest_retail_price = #{latestRetailPrice,jdbcType=REAL},
-    </if>
-        <if test="sourceOfRetailPrice != null">
-            source_of_retail_price = #{sourceOfRetailPrice,jdbcType=VARCHAR},
-        </if>
-        <if test="qualityLevelId != null">
-            quality_level_id = #{qualityLevelId,jdbcType=INTEGER},
-        </if>
-        <if test="qualityLevelDescription != null">
-            quality_level_description = #{qualityLevelDescription,jdbcType=VARCHAR},
-        </if>
-        <if test="drugInspectionReport != null">
-            drug_inspection_report = #{drugInspectionReport,jdbcType=INTEGER},
-        </if>
-        <if test="drugInspectionReportNumber != null">
-            drug_inspection_report_number = #{drugInspectionReportNumber,jdbcType=VARCHAR},
-        </if>
-        <if test="validityOfDrugInspectionReport != null">
-            validity_of_drug_inspection_report = #{validityOfDrugInspectionReport,jdbcType=DATE},
-        </if>
-        <if test="descriptionOfProducts != null">
-            description_of_products = #{descriptionOfProducts,jdbcType=VARCHAR},
-        </if>
-        <if test="drugCategoryId != null">
-            drug_category_id = #{drugCategoryId,jdbcType=INTEGER},
-        </if>
-        <if test="drugTransactionStatusId != null">
-            drug_transaction_status_id = #{drugTransactionStatusId,jdbcType=INTEGER},
-        </if>
-        <if test="delState != null">
-            del_state = #{delState,jdbcType=INTEGER},
-        </if>
-        <if test="auditStatus != null">
-            audit_status = #{auditStatus,jdbcType=INTEGER},
-        </if>
-    </set>
+        update drug_information
+        <set>
+            <if test="serialNumber != null">
+                serial_number = #{serialNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="commonName != null">
+                common_name = #{commonName,jdbcType=VARCHAR},
+            </if>
+            <if test="dosageFormId != null">
+                dosage_form_id = #{dosageFormId,jdbcType=INTEGER},
+            </if>
+            <if test="specification != null">
+                specification = #{specification,jdbcType=VARCHAR},
+            </if>
+            <if test="conversionFraction != null">
+                conversion_fraction = #{conversionFraction,jdbcType=VARCHAR},
+            </if>
+            <if test="enterpriseNameId != null">
+                enterprise_name_id = #{enterpriseNameId,jdbcType=INTEGER},
+            </if>
+            <if test="tradeName != null">
+                trade_name = #{tradeName,jdbcType=VARCHAR},
+            </if>
+            <if test="biddingPrice != null">
+                bidding_price = #{biddingPrice,jdbcType=REAL},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="commonNamePinyin != null">
+                common_name_pinyin = #{commonNamePinyin,jdbcType=VARCHAR},
+            </if>
+            <if test="productPicture != null">
+                product_picture = #{productPicture,jdbcType=VARCHAR},
+            </if>
+            <if test="approvalNumber != null">
+                approval_number = #{approvalNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="validityOfApprovalNumber != null">
+                validity_of_approval_number = #{validityOfApprovalNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="importedDrug != null">
+                imported_drug = #{importedDrug,jdbcType=INTEGER},
+            </if>
+            <if test="packagingMaterial != null">
+                packaging_material = #{packagingMaterial,jdbcType=VARCHAR},
+            </if>
+            <if test="packingUnit != null">
+                packing_unit = #{packingUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="latestRetailPrice != null">
+                latest_retail_price = #{latestRetailPrice,jdbcType=REAL},
+            </if>
+            <if test="sourceOfRetailPrice != null">
+                source_of_retail_price = #{sourceOfRetailPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="qualityLevelId != null">
+                quality_level_id = #{qualityLevelId,jdbcType=INTEGER},
+            </if>
+            <if test="qualityLevelDescription != null">
+                quality_level_description = #{qualityLevelDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="drugInspectionReport != null">
+                drug_inspection_report = #{drugInspectionReport,jdbcType=INTEGER},
+            </if>
+            <if test="drugInspectionReportNumber != null">
+                drug_inspection_report_number = #{drugInspectionReportNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="validityOfDrugInspectionReport != null">
+                validity_of_drug_inspection_report = #{validityOfDrugInspectionReport,jdbcType=DATE},
+            </if>
+            <if test="descriptionOfProducts != null">
+                description_of_products = #{descriptionOfProducts,jdbcType=VARCHAR},
+            </if>
+            <if test="drugCategoryId != null">
+                drug_category_id = #{drugCategoryId,jdbcType=INTEGER},
+            </if>
+            <if test="drugTransactionStatusId != null">
+                drug_transaction_status_id = #{drugTransactionStatusId,jdbcType=INTEGER},
+            </if>
+            <if test="delState != null">
+                del_state = #{delState,jdbcType=INTEGER},
+            </if>
+            <if test="auditStatus != null">
+                audit_status = #{auditStatus,jdbcType=INTEGER},
+            </if>
+        </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
     <!--退货单处理-->
@@ -555,7 +555,7 @@
         INNER JOIN hospital_transaction_return m ON m.`id`=a.`final_settlement _id`
         INNER JOIN hospital h ON h.`id`=m.`hospital_id`
         INNER JOIN purchase_order o ON o.`hospital_id`=h.`id`
-        WHERE i.`del_state`=0 AND m.`return_state_id`=1
+        WHERE i.`del_state`=0 AND m.`return_state_id`=2 AND a.`return_state_id`=1
         <if test="returnOrderNumber != null and returnOrderNumber != ''">
             and m.return_order_number like CONCAT('%',#{returnOrderNumber,jdbcType=VARCHAR},'%')
         </if>
@@ -701,10 +701,11 @@
     <!--导出退货单-->
     <select id="selectReturnExport" resultMap="BaseResultMap">
         SELECT  i.`id` AS iid,m.`return_order_number`,m.`return_order_name`,h.`hospital_name`,m.`create_receipts_time`,m.`submission_time`,
-        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` as price
+        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
         ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
-        ,a.`final_settlement _amount`,a.`final_settlement _money`,a.`returns_the_amount`,a.`returns_the_money`,a.`reason_for_return`,n.`return_of_explain`,d.`durg_from_id`,d.`drug_from`,l.`qua_id`,l.`level`,e.`enterprise_name`,
-        m.`return_state_id`,o.`create_receipts_times`,o.`submission_times`,
+        ,a.`final_settlement _amount`,a.`final_settlement _money`,a.`returns_the_amount`,a.`returns_the_money`,a.`reason_for_return`,
+        m.`return_state_id`,o.`create_receipts_times`,o.`submission_times`,a.`return_order_id`,l.`level`,l.`qua_id`,e.`enterprise_name`,e.`id` AS eid,d.`drug_from`
+        ,m.`return_state_id`,
         <include refid="Base_Column_List" />
         FROM drug_information i
         INNER JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
@@ -716,8 +717,7 @@
         INNER JOIN hospital_transaction_return m ON m.`id`=a.`final_settlement _id`
         INNER JOIN hospital h ON h.`id`=m.`hospital_id`
         INNER JOIN purchase_order o ON o.`hospital_id`=h.`id`
-        INNER JOIN return_status n ON n.`return_of_state`=m.`return_state_id`
-        where i.`del_state`=0 AND m.`return_state_id`=2 and i.`id` in
+        WHERE i.`del_state`=0 AND m.`return_state_id`=2 AND a.`return_state_id`=1 and i.`id` in
         <foreach collection="array" item="items" open="(" separator="," close=")">
             #{items}
         </foreach>
@@ -747,9 +747,112 @@
     <!--确认退货-->
     <update id="updateByPrimaryKeyReturn" >
         update hospital_transaction_details
-       set
-                `return_state_id` =2
+        set
+        `return_state_id` =2
         where id in
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </update>
+    <!--确认结算-->
+    <update id="updateByPrimaryKeySettment">
+        UPDATE hospital_transaction_details
+        SET `final_settlement _id`=2
+        WHERE id in
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </update>
+    <!--采购单处理-->
+    <select id="selectPurchaseOrderProcessing" resultMap="BaseResultMap">
+        SELECT i.id AS iid,o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`create_receipts_times`,o.`submission_times`,
+        e.`enterprise_name`,s.`bidding_price`,s.`transaction_price`,s.`purchased_amount`,s.`purchased_money`,p.`purchase_orders_states_id`,f.`drug_from`,
+        <include refid="Base_Column_List" />
+        FROM hospital_transaction_details s
+        INNER JOIN drug_information i ON i.id=s.`drug_information_id`
+        INNER JOIN enterprise e ON e.id=i.`enterprise_name_id`
+        INNER JOIN purchase_order o ON o.id=s.`purchase_orders_id`
+        INNER JOIN hospital h ON h.id=o.`hospital_id`
+        INNER JOIN purchase_order_drug_details p ON p.`purchase_order_id`=o.`id`
+        INNER JOIN durgs_from f ON f.`durg_from_id`=i.`dosage_form_id`
+        WHERE o.`purchase_state`=2 AND i.`del_state`=0 AND p.`purchase_orders_states_id`=1
+        <if test="purchaseOrderNumber != null and purchaseOrderNumber != ''">
+            and o.`purchase_order_number like CONCAT('%',#{purchaseOrderNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="nameOfPurchaseOrder != null and nameOfPurchaseOrder != ''">
+            and o.`name_of_purchase_order` like CONCAT('%',#{nameOfPurchaseOrder,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="purchaseOrdersStatesId != null and purchaseOrdersStatesId != ''">
+            and p.purchase_orders_states_id like CONCAT('%',#{purchaseOrdersStatesId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="hospitalName != null and hospitalName != ''">
+            and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="createReceiptsTimes != null and createReceiptsTimes != ''">
+            and o.`create_receipts_times` BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
+        </if>
+        <if test="submissionTimes != null and submissionTimes != ''">
+            and o.`submission_times` BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
+        </if>
+        <if test="serialNumber != null and serialNumber != ''">
+            and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="commonName != null and commonName != ''">
+            and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dosageFormId != null">
+            and `durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="specification != null and specification != ''">
+            and specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="unit != null and unit != ''">
+            and unit like CONCAT('%',#{unit,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="conversionFraction != null and conversionFraction != ''">
+            and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="tradeName != null and tradeName != ''">
+            and `trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="enterpriseNameId != null">
+            and `enterprise_name_id` like CONCAT('%',#{enterpriseNameId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="drugCategoryId != null">
+            and i.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+        </if>
+    </select>
+    <!--采购单导出-->
+    <select id="selectPurchaseOrderProcessingExport" resultMap="BaseResultMap">
+        SELECT o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`create_receipts_times`,o.`submission_times`,
+        e.`enterprise_name`,s.`bidding_price`,s.`transaction_price`,s.`purchased_amount`,s.`purchased_money`,p.`purchase_orders_states_id`,f.`drug_from`,
+        <include refid="Base_Column_List" />
+        FROM hospital_transaction_details s
+        INNER JOIN drug_information i ON i.id=s.`drug_information_id`
+        INNER JOIN enterprise e ON e.id=i.`enterprise_name_id`
+        INNER JOIN purchase_order o ON o.id=s.`purchase_orders_id`
+        INNER JOIN hospital h ON h.id=o.`hospital_id`
+        INNER JOIN purchase_order_drug_details p ON p.`purchase_order_id`=o.`id`
+        INNER JOIN durgs_from f ON f.`durg_from_id`=i.`dosage_form_id`
+        WHERE o.`purchase_state`=2 AND i.`del_state`=0 AND p.`purchase_orders_states_id`=1 and i.id in
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </select>
+    <!--选择发货-->
+    <update id="updateReturnGoods">
+        UPDATE purchase_order_drug_details s
+        SET s.`purchase_orders_states_id`=2
+        WHERE s.`id` IN
+        <foreach collection="array" item="items" open="(" separator="," close=")">
+            #{items}
+        </foreach>
+    </update>
+    <!--无法供货-->
+    <update id="updateUnableToSupply">
+        UPDATE purchase_order_drug_details s
+        SET s.`purchase_orders_states_id`=4
+        WHERE s.`id` IN
         <foreach collection="array" item="items" open="(" separator="," close=")">
             #{items}
         </foreach>

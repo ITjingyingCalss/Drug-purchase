@@ -164,21 +164,16 @@ public class PurchaseOrderDrugDetails implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", purchaseOrderId=").append(purchaseOrderId);
-        sb.append(", drugInformationId=").append(drugInformationId);
-        sb.append(", enterpriseId=").append(enterpriseId);
-        sb.append(", biddingPrice=").append(biddingPrice);
-        sb.append(", transactionPrice=").append(transactionPrice);
-        sb.append(", purchasedAmount=").append(purchasedAmount);
-        sb.append(", purchasedMoney=").append(purchasedMoney);
-        sb.append(", purchaseOrdersStatesId=").append(purchaseOrdersStatesId);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
+        return "PurchaseOrderDrugDetails{" +
+                "id=" + id +
+                ", purchaseOrderId=" + purchaseOrderId +
+                ", drugInformationId=" + drugInformationId +
+                ", enterpriseId=" + enterpriseId +
+                ", biddingPrice=" + biddingPrice +
+                ", transactionPrice=" + transactionPrice +
+                ", purchasedAmount=" + purchasedAmount +
+                ", purchasedMoney=" + purchasedMoney +
+                ", purchaseOrdersStatesId=" + purchaseOrdersStatesId +
+                '}';
     }
 }
