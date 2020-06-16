@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @outher: Huangdebao
  * @Date: 2020/6/9 0009 下午 2:25
- * Desc: 添加退货单
+ * Desc: 添加结算单
  */
 @Controller
 public class HospitalTransactionStatementController {
@@ -25,7 +25,7 @@ public class HospitalTransactionStatementController {
     HospitalTransactionStatementService hospitalTransactionStatementService;
 
 
-    /*添加退货单*/
+    /*添加结算单*/
     @ResponseBody
     @RequestMapping("hospss1")
     public int insert(HospitalTransactionStatement hosp){

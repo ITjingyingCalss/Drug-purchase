@@ -1,6 +1,7 @@
 package com.ygjy.purchasingmanagement2.service;
 
 
+import com.ygjy.pojo.DrugItems;
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,5 +36,7 @@ public interface HospitalTransactionReturnService {
    List<HospitalTransactionReturn> selList(@Param("returnOrderNumber") String returnOrderNumber, @Param("returnOrderName") String returnOrderName,
                                            @Param("hospitalId") Integer hospitalId, @Param("returnStateId") Integer returnStateId);
 
+   /*导出*/
+   List<HospitalTransactionReturn> exportAll(HospitalTransactionReturn hospital);
 
 }

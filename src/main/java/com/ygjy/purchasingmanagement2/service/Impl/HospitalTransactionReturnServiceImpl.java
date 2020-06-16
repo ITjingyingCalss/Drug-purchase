@@ -52,7 +52,6 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 
     public boolean removeByKeys(String[] ids) {
 
-
         int result=hospitalTransactionReturnsDao.deleteByKeys(ids);
         if (result>0) {
             return true;
@@ -62,9 +61,17 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 
     }
 
+    /*条件查询*/
     @Override
     public List<HospitalTransactionReturn> selList(String returnOrderNumber, String returnOrderName, Integer hospitalId, Integer returnStateId) {
 
         return hospitalTransactionReturnsDao.selList(returnOrderNumber,returnOrderName, hospitalId, returnStateId);
     }
+
+    /*导出*/
+    @Override
+    public List<HospitalTransactionReturn> exportAll(HospitalTransactionReturn hospital) {
+        return hospitalTransactionReturnsDao.exportAll(hospital);
+    }
+
 }
