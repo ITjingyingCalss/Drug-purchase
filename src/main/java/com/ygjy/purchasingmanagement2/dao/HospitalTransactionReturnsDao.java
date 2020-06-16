@@ -33,4 +33,7 @@ public interface HospitalTransactionReturnsDao {
     /*条件查询*/
     List<HospitalTransactionReturn> selList(@Param("returnOrderNumber") String returnOrderNumber, @Param("returnOrderName") String returnOrderName,
                                             @Param("hospitalId") Integer hospitalId, @Param("returnStateId") Integer returnStateId);
+
+    /*导出*/
+    List<HospitalTransactionReturn> exportAll(HospitalTransactionReturn hospital);
 }

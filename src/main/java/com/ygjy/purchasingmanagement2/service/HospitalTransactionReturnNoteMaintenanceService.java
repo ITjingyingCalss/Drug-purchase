@@ -1,4 +1,4 @@
-package com.ygjy.purchasingmanagement2.dao;
+package com.ygjy.purchasingmanagement2.service;
 
 
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * HHospitalTransactionReturnNoteMaintenanceDao继承基类
+ * HospitalTransactionReturnNoteMaintenanceDao继承基类
  * 退货单维护页面
  */
 @Mapper
 @Repository
-public interface HospitalTransactionReturnNoteMaintenanceDao {
+public interface HospitalTransactionReturnNoteMaintenanceService {
 
     /*导出*/
     List<HospitalTransactionReturn> exportAll1(HospitalTransactionReturn hospital);

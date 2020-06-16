@@ -243,11 +243,25 @@
 
 
 
+    <!--导出到excel-->
+    <script type="text/javascript">
+
+        function exportAll() {
+            var formData = $("#fuzzyFormId").serialize()
+            if (confirm("确定导出文件吗？")){
+                location.href="exportAll?"+formData;
+            }
+        }
+
+    </script>
+
+
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="yaopin" ng-controller="registrationOfCasesController">
 <!-- .box-body -->
 <toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
 
+<form action="" id="fuzzyFormId" method="post">
 <div class="panel panel-info">
     <!-- Default panel contents -->
     <div class="panel-heading">添加退货单</div>
@@ -291,6 +305,7 @@
        <button type="button" class="btn btn-success btn-sm" onclick="exportAll()" >导出</button>
     </div>
 </div>
+</form>
 <div class="box-body">
     <!-- 数据表格 -->
     <div class="table-box">

@@ -36,6 +36,13 @@
 
   </select>
 
+    <!--导出-->
+    <select id="exportAll" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_return
+
+    </select>
+
   <!--修改回显-->
   <select id="htrSee" resultMap="BaseResultMap">
 
