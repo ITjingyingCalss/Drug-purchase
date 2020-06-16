@@ -24,9 +24,9 @@
                 for (var i = 0;i<data.length;i++){
                     console.log(data);
                     $(".context").append('<tr><td type="hidden">'+data[i].id+'</td><td>'+data[i].serialNumber + '</td><td>' +data[i].commonName+ '</td><td>'
-                    +data[i].dosageFormId + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
-                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseNameId+ '</td><td>'+ data[i].tradeName+ '</td><td>'
-                        + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevelId+ '</td><td>'+ data[i].drugCategoryId+ '</td><td>'+ data[i].drugTransactionStatusId
+                    +data[i].durgsFrom.drugFrom + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
+                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterprise.enterpriseName+ '</td><td>'+ data[i].tradeName+ '</td><td>'
+                        + data[i].biddingPrice+ '</td><td>'+ data[i].qualityLevel.level+ '</td><td>'+ data[i].drugCategory.drugCategoryName+ '</td><td>'+ data[i].drugTransactionStatusId
                         + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')">查看'+'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')"> 修改'+'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
                 }
             })

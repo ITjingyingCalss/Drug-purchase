@@ -33,12 +33,26 @@ public class PurchasingManagementController1 {
     }
 
     @ResponseBody
+    @RequestMapping("/selectPurchasingDrugs")//查询所有
+    public List<DrugInformation> selectPurchaseDrugAll() {
+        List<DrugInformation> drugInformations = drugInformationImpl.selectAll();
+        return drugInformations;
+    }
+
+
+    @ResponseBody
     @RequestMapping("/selectLike")//模糊查询
     public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice, Integer qualityLevelId, Integer drugCategoryId, Integer drugTransactionStatusId) {
         List<DrugInformation> drugInformations = drugInformationImpl.selectLike(serialNumber, commonName, dosageFormId, specification, unit, conversionFraction, enterpriseNameId, tradeName, biddingPrice, qualityLevelId, drugCategoryId, drugTransactionStatusId);
         return drugInformations;
     }
 
+    @ResponseBody
+    @RequestMapping("/selectLikePurchaseDrug")//模糊查询
+    public List<DrugInformation> selectLikePurchaseDrug(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice,  Integer drugCategoryId, Integer availabilityStatus,Integer drugTransactionStatusId) {
+        List<DrugInformation> drugInformations = drugInformationImpl.selectLike(serialNumber, commonName, dosageFormId, specification, unit, conversionFraction, enterpriseNameId, tradeName, biddingPrice,  drugCategoryId,availabilityStatus, drugTransactionStatusId);
+        return drugInformations;
+    }
     @ResponseBody
     @RequestMapping("/add")//添加药品
     public int addDrug(DrugInformation drugInformation) {
@@ -56,6 +70,13 @@ public class PurchasingManagementController1 {
     @ResponseBody
     @RequestMapping("/updateDrug")//药品修改
     public int  updateDrug(DrugInformation drugInformation){
+        int i = drugInformationImpl.updateDrug(drugInformation);
+        return i;
+    }
+
+    @ResponseBody
+    @RequestMapping("/updatePurchaseDrug")//药品修改
+    public int  updatePurchaseDrug(DrugInformation drugInformation){
         int i = drugInformationImpl.updateDrug(drugInformation);
         return i;
     }
