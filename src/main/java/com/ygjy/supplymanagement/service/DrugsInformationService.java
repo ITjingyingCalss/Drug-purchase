@@ -116,4 +116,28 @@ public interface DrugsInformationService {
      * 确认退货
      */
     int updateByPrimaryKeyReturn(List<Integer> items);
+    /**
+     * 确认结算
+     */
+    int updateByPrimaryKeySettment(@Param("array") List<Integer> array);
+    /**
+     * 采购单处理
+     * @return
+     */
+    List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Integer submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName);
+
+    /**
+     * 采购单导出
+     * @param items
+     * @return
+     */
+    List<DrugInformation> selectPurchaseOrderProcessingExport(String[] items);
+    /**
+     * 选择发货
+     */
+    int updateReturnGoods(@Param("array") List<Integer> array);
+    /**
+     * 无法供货
+     */
+    int updateUnableToSupply(@Param("array") List<Integer> array);
 }

@@ -183,4 +183,40 @@ public interface DrugsInformationDao {
      * 确认退货
      */
     int updateByPrimaryKeyReturn(@Param("array") List<Integer> array);
+    /**
+     * 确认结算
+     */
+    int updateByPrimaryKeySettment(@Param("array") List<Integer> array);
+
+    /**
+     * 采购单处理
+     * @return
+     */
+    List<DrugInformation> selectPurchaseOrderProcessing(@Param("purchaseOrderNumber")String purchaseOrderNumber,
+                                                        @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
+                                                        @Param("purchaseOrdersStatesId")Integer purchaseOrdersStatesId,
+                                                        @Param("hospitalName")String hospitalName,
+                                                        @Param("createReceiptsTimes")Date createReceiptsTimes,
+                                                        @Param("submissionTimes")Integer submissionTimes,
+                                                        @Param("commonName")String commonName,
+                                                        @Param("serialNumber")String serialNumber,
+                                                        @Param("dosageFormId")Integer dosageFormId,
+                                                        @Param("specification")String specification,
+                                                        @Param("unit")String unit,
+                                                        @Param("conversionFraction")String conversionFraction,
+                                                        @Param("drugCategoryId")Integer drugCategoryId,
+                                                        @Param("enterpriseNameId")Integer enterpriseNameId,
+                                                        @Param("tradeName") String tradeName);
+/**
+ * 采购单导出
+ */
+List<DrugInformation> selectPurchaseOrderProcessingExport(String[] items);
+/**
+ * 选择发货
+ */
+int updateReturnGoods(@Param("array") List<Integer> array);
+    /**
+     * 无法供货
+     */
+    int updateUnableToSupply(@Param("array") List<Integer> array);
 }

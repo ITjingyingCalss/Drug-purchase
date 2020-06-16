@@ -268,4 +268,54 @@ public class DrugsInformationController {
         System.out.println("共"+ importId.length+"条,成功"+result+"条");
         return result;
     }
+    /**
+     * 确认结算
+     */
+    @RequestMapping(value = "/updateByPrimaryKeySettment" ,produces = "application/json;charset=utf-8")
+    public int updateByPrimaryKeySettment(@RequestParam("importId[]") Integer[] importId){
+        int result=0;
+        result += drugsInformationService.updateByPrimaryKeySettment(Arrays.asList(importId));
+        System.out.println("共"+ importId.length+"条,成功"+result+"条");
+        return result;
+    }
+    @RequestMapping(value = "/selectPurchaseOrderProcessing" ,produces = "application/json;charset=utf-8")
+    public String selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Integer submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,
+                                      @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
+        PageHelper.startPage(pageNum,5);
+        if(dosageFormId!=null&&dosageFormId<=0){
+            dosageFormId=null;
+        }
+        if(drugCategoryId!=null&&drugCategoryId<=0){
+            drugCategoryId=null;
+        }
+        if(enterpriseNameId!=null&&enterpriseNameId<=0){
+            enterpriseNameId=null;
+        }
+        if(purchaseOrdersStatesId!=null&&purchaseOrdersStatesId<0){
+            purchaseOrdersStatesId=null;
+        }
+        List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,createReceiptsTimes,submissionTimes,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
+        PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
+        return JSON.toJSONString(pageInfo);
+    }
+    /**
+     * 选择发货
+     */
+    @RequestMapping(value = "/updateReturnGoods" ,produces = "application/json;charset=utf-8")
+    public int updateReturnGoods(@RequestParam("importId[]") Integer[] importId){
+        int result=0;
+        result += drugsInformationService.updateReturnGoods(Arrays.asList(importId));
+        System.out.println("共"+ importId.length+"条,成功"+result+"条");
+        return result;
+    }
+    /**
+     * 选择发货
+     */
+    @RequestMapping(value = "/updateUnableToSupply" ,produces = "application/json;charset=utf-8")
+    public int updateUnableToSupply(@RequestParam("importId[]") Integer[] importId){
+        int result=0;
+        result += drugsInformationService.updateUnableToSupply(Arrays.asList(importId));
+        System.out.println("共"+ importId.length+"条,成功"+result+"条");
+        return result;
+    }
 }

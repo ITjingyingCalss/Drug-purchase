@@ -136,4 +136,28 @@ public class DrugsInformationImpl implements DrugsInformationService {
     public int updateByPrimaryKeyReturn(List<Integer> items) {
         return drugsInformationDao.updateByPrimaryKeyReturn(items);
     }
+
+    @Override
+    public int updateByPrimaryKeySettment(List<Integer> array) {
+        return drugsInformationDao.updateByPrimaryKeySettment(array);
+    }
+    @Override
+    public List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber, String nameOfPurchaseOrder, Integer purchaseOrdersStatesId, String hospitalName, Date createReceiptsTimes, Integer submissionTimes, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName) {
+        return drugsInformationDao.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,createReceiptsTimes,submissionTimes,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
+    }
+
+    @Override
+    public List<DrugInformation> selectPurchaseOrderProcessingExport(String[] items) {
+        return drugsInformationDao.selectPurchaseOrderProcessingExport(items);
+    }
+
+    @Override
+    public int updateReturnGoods(List<Integer> array) {
+        return drugsInformationDao.updateReturnGoods(array);
+    }
+
+    @Override
+    public int updateUnableToSupply(List<Integer> array) {
+        return drugsInformationDao.updateUnableToSupply(array);
+    }
 }

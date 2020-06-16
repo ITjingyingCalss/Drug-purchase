@@ -234,6 +234,36 @@
                     window.location.href="export5?importId="+importId;
                 }
             }
+            function Settlement() {
+                var import1 = $('input[name="del"]:checked').length;
+                if (import1 == 0) {
+                    alert("请至少选择一项结算");
+                    return;
+                }
+                if (confirm("确定要结算吗?")) {
+                    var importId = [];
+                    $('input[name="del"]:checked').each(function () {
+                        importId.push($(this).val())
+                        $.ajax({
+                            url: "updateByPrimaryKeySettment",
+                            data: {
+                                "importId":importId
+                            },
+                            dataType: "json",
+                            type: "post",
+                            success: function (result) {
+                                console.log(result)
+                                if (result > 0) {
+                                    alert("结算成功，成功" + parseFloat(result) + "条,失败" + parseFloat(importId.length - result) + "条");
+                                    selectByEntity();
+                                } else {
+                                    alert("结算失败")
+                                }
+                            }
+                        })
+                    })
+                }
+            }
     </script>
 
 </head>
@@ -388,7 +418,7 @@
 <div class="box-body">
     <!-- 数据表格 -->
     <div style="padding-top: 10px">
-        <button class="btn btn-success btn-sm" onclick="" style="margin-left: 10px">确认结算</button>
+        <button class="btn btn-success btn-sm" onclick="Settlement()" style="margin-left: 10px">确认结算</button>
     </div>
     <div class="table-box">
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
