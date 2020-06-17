@@ -1,6 +1,6 @@
 package com.ygjy.purchasingmanagement1.service;
 
-import com.ygjy.pojo.DrugItems;
+import com.ygjy.purchasingmanagement1.pojo.DrugItems;
 
 import java.util.List;
 

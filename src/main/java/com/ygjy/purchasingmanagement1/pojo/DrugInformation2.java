@@ -1,7 +1,9 @@
 package com.ygjy.purchasingmanagement1.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ygjy.supplymanagement.pojo.PurchaseOrder;
 import com.ygjy.supplymanagement.pojo.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -129,6 +131,8 @@ public class DrugInformation2 implements Serializable {
     /**
      * 药品检验报告有效期（年月日）
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date validityOfDrugInspectionReport;
 
     /**

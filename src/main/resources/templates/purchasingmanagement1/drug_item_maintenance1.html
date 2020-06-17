@@ -23,8 +23,8 @@
                 for (var i = 0;i<data.length;i++){
                     console.log(data);
                     $(".context").append('<tr><td>'+data[i].drugItemsNumber + '</td><td>' +data[i].commonName+ '</td><td>'
-                        +data[i].dosageFormId + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
-                        + data[i].conversionFraction+ '</td><td>'+ data[i].drugCategoryId+ '</td><td>'+ data[i].state
+                        +data[i].durgsFrom.drugFrom + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
+                        + data[i].conversionFraction+ '</td><td>'+ data[i].drugCategory.drugCategoryName+ '</td><td>'+ data[i].state
                         + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectByItemsId( '+data[i].itemsId+')">查看'
                         +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectByItemsId( '+data[i].itemsId+')"> 修改'
                         +'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].itemsId+')">删除'+'</button></td></tr>')
@@ -66,10 +66,11 @@
             $.get(url,{"itemsId":itemsId},function (data) {
                 if (data != null){
                     alert("药品详细信息");
+                    alert(data.dosageFormId);
                     $("#itemsId").val(data.itemsId);
                     $("#drugItemsNumber1").val(data.drugItemsNumber);
                     $("#commonName1").val(data.commonName);//通用名
-                    $("#dosageFormId1").val(data.dosageFormId);//剂型id
+                    $("#dosageFormId1").val(data.dosageFormId);//剂型
                     $("#specification1").val(data.specification);//规格
                     $("#unit1").val(data.unit);
                     $("#conversionFraction1").val(data.conversionFraction);
@@ -214,6 +215,8 @@
             <td>
                 <select style="width: 50%;height: 20%" id="drugCategoryId">
                     <option value="0">请选择</option>
+                    <option value="1">处方药</option>
+                    <option value="2">非处方药</option>
                 </select>
                <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
             </td>
@@ -339,17 +342,31 @@
                     <tr>
                         <td>剂型:</td>
                         <td>
-                            <!--<select style="width:50%;height: 10%" id="dosageFormId1" name="dosageFormId1">
+                            <select style="width:50%;height: 10%" id="dosageFormId1" name="dosageFormId1">
                                 <option value="0">请选择</option>
-                                <option value="1">注射剂</option>
-                                <option value="2">口服剂</option>
-                                <option value="3">糖浆剂</option>
-                                <option value="4">颗粒剂</option>
-                                <option value="5">喷雾剂</option>
-                                <option value="6">凝胶剂</option>
-                                <option value="7">吸入剂</option>
-                            </select>-->
-                            <input id="dosageFormId1" name="dosageFormId1" class="form-control">
+                                <option value="1">片剂</option>
+                                <option value="2">丸剂</option>
+                                <option value="3">硬胶囊剂</option>
+                                <option value="4">软胶囊剂</option>
+                                <option value="5">口服液</option>
+                                <option value="6">口服溶液剂</option>
+                                <option value="7">糖浆剂</option>
+                                <option value="8">混悬剂</option>
+                                <option value="9">口服酊剂</option>
+                                <option value="10">煎膏剂</option>
+                                <option value="11">颗粒剂</option>
+                                <option value="12">散剂</option>
+                                <option value="13">吸入剂</option>
+                                <option value="14">干混悬剂</option>
+                                <option value="15">合剂</option>
+                                <option value="16">注射液</option>
+                                <option value="17">粉针剂</option>
+                                <option value="18">外用酊剂类</option>
+                                <option value="19">凝胶剂</option>
+                                <option value="20">喷雾剂</option>
+                                <option value="21">滴剂</option>
+                            </select>
+                            <!--<input id="dosageFormId1" name="dosageFormId1" class="form-control">-->
                         </td>
                         <td>规格:</td>
                         <td><input id="specification1" name="specification1" class="form-control"></td>
@@ -363,16 +380,12 @@
                     <tr>
                         <td>药品类别:</td>
                         <td>
-                            <!--<select style="width:50%;height: 10%" id="drugCategoryId1" name="drugCategoryId1">
+                            <select style="width:50%;height: 10%" id="drugCategoryId1" name="drugCategoryId1">
                                 <option value="0">请选择</option>
-                                <option value="1">儿童用药</option>
-                                <option value="2">营养治疗药</option>
-                                <option value="3">中成药</option>
-                                <option value="4">中西成药</option>
-                                <option value="5">感冒药</option>
-                                <option value="6">退烧药</option>
-                            </select>-->
-                            <input class="form-control" id="drugCategoryId1" name="drugCategoryId1">
+                                <option value="1">处方药</option>
+                                <option value="2">非处方药</option>
+                            </select>
+                            <!--<input class="form-control" id="drugCategoryId1" name="drugCategoryId1">-->
                         </td>
                         <td>状态:</td>
                         <td><!--<select style="width:50%;height: 10%" id="state" name="state">
@@ -410,17 +423,31 @@
                     <tr>
                         <td>剂型:</td>
                         <td>
-                            <!--<select style="width:50%;height: 10%" id="dosageFormId1" name="dosageFormId1">
+                            <select style="width:50%;height: 10%" id="dosageFormId2" name="dosageFormId2">
                                 <option value="0">请选择</option>
-                                <option value="1">注射剂</option>
-                                <option value="2">口服剂</option>
-                                <option value="3">糖浆剂</option>
-                                <option value="4">颗粒剂</option>
-                                <option value="5">喷雾剂</option>
-                                <option value="6">凝胶剂</option>
-                                <option value="7">吸入剂</option>
-                            </select>-->
-                            <input id="dosageFormId2" name="dosageFormId2" class="form-control">
+                                <option value="1">片剂</option>
+                                <option value="2">丸剂</option>
+                                <option value="3">硬胶囊剂</option>
+                                <option value="4">软胶囊剂</option>
+                                <option value="5">口服液</option>
+                                <option value="6">口服溶液剂</option>
+                                <option value="7">糖浆剂</option>
+                                <option value="8">混悬剂</option>
+                                <option value="9">口服酊剂</option>
+                                <option value="10">煎膏剂</option>
+                                <option value="11">颗粒剂</option>
+                                <option value="12">散剂</option>
+                                <option value="13">吸入剂</option>
+                                <option value="14">干混悬剂</option>
+                                <option value="15">合剂</option>
+                                <option value="16">注射液</option>
+                                <option value="17">粉针剂</option>
+                                <option value="18">外用酊剂类</option>
+                                <option value="19">凝胶剂</option>
+                                <option value="20">喷雾剂</option>
+                                <option value="21">滴剂</option>
+                            </select>
+                            <!--<input id="dosageFormId2" name="dosageFormId2" class="form-control">-->
                         </td>
                         <td>规格:</td>
                         <td><input id="specification2" name="specification2" class="form-control"></td>
@@ -434,16 +461,12 @@
                     <tr>
                         <td>药品类别:</td>
                         <td>
-                            <!--<select style="width:50%;height: 10%" id="drugCategoryId1" name="drugCategoryId1">
+                            <select style="width:50%;height: 10%" id="drugCategoryId2" name="drugCategoryId2">
                                 <option value="0">请选择</option>
-                                <option value="1">儿童用药</option>
-                                <option value="2">营养治疗药</option>
-                                <option value="3">中成药</option>
-                                <option value="4">中西成药</option>
-                                <option value="5">感冒药</option>
-                                <option value="6">退烧药</option>
-                            </select>-->
-                            <input class="form-control" id="drugCategoryId2" name="drugCategoryId2">
+                                <option value="1">处方药</option>
+                                <option value="2">非处方药</option>
+                            </select>
+                            <!--<input class="form-control" id="drugCategoryId2" name="drugCategoryId2">-->
                         </td>
                         <td>状态:</td>
                         <td><!--<select style="width:50%;height: 10%" id="state" name="state">

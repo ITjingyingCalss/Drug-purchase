@@ -1,7 +1,8 @@
 package com.ygjy.purchasingmanagement1.controller;
 
 import com.ygjy.pojo.DrugInformation;
-import com.ygjy.pojo.DrugItems;
+import com.ygjy.purchasingmanagement1.pojo.DrugItems;
+import com.ygjy.purchasingmanagement1.pojo.DrugInformation2;
 import com.ygjy.purchasingmanagement1.service.impl.DrugInformationImpl;
 import com.ygjy.purchasingmanagement1.service.impl.DrugItemsImpl;
 import com.ygjy.util.ExcelUtil;
@@ -27,56 +28,56 @@ public class PurchasingManagementController1 {
 
     @ResponseBody
     @RequestMapping("/selectAll")//查询所有
-    public List<DrugInformation> selectAll() {
-        List<DrugInformation> drugInformations = drugInformationImpl.selectAll();
+    public List<DrugInformation2> selectAll() {
+        List<DrugInformation2> drugInformations = drugInformationImpl.selectAll();
         return drugInformations;
     }
 
     @ResponseBody
     @RequestMapping("/selectPurchasingDrugs")//查询所有
-    public List<DrugInformation> selectPurchaseDrugAll() {
-        List<DrugInformation> drugInformations = drugInformationImpl.selectAll();
+    public List<DrugInformation2> selectPurchaseDrugAll() {
+        List<DrugInformation2> drugInformations = drugInformationImpl.selectAll();
         return drugInformations;
     }
 
 
     @ResponseBody
     @RequestMapping("/selectLike")//模糊查询
-    public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice, Integer qualityLevelId, Integer drugCategoryId, Integer drugTransactionStatusId) {
-        List<DrugInformation> drugInformations = drugInformationImpl.selectLike(serialNumber, commonName, dosageFormId, specification, unit, conversionFraction, enterpriseNameId, tradeName, biddingPrice, qualityLevelId, drugCategoryId, drugTransactionStatusId);
+    public List<DrugInformation2> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice, Integer qualityLevelId, Integer drugCategoryId, Integer drugTransactionStatusId) {
+        List<DrugInformation2> drugInformations = drugInformationImpl.selectLike(serialNumber, commonName, dosageFormId, specification, unit, conversionFraction, enterpriseNameId, tradeName, biddingPrice, qualityLevelId, drugCategoryId, drugTransactionStatusId);
         return drugInformations;
     }
 
     @ResponseBody
     @RequestMapping("/selectLikePurchaseDrug")//模糊查询
-    public List<DrugInformation> selectLikePurchaseDrug(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice,  Integer drugCategoryId, Integer availabilityStatus,Integer drugTransactionStatusId) {
-        List<DrugInformation> drugInformations = drugInformationImpl.selectLike(serialNumber, commonName, dosageFormId, specification, unit, conversionFraction, enterpriseNameId, tradeName, biddingPrice,  drugCategoryId,availabilityStatus, drugTransactionStatusId);
+    public List<DrugInformation2> selectLikePurchaseDrug(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice,  Integer drugCategoryId, Integer availabilityStatus,Integer drugTransactionStatusId) {
+        List<DrugInformation2> drugInformations = drugInformationImpl.selectLike(serialNumber, commonName, dosageFormId, specification, unit, conversionFraction, enterpriseNameId, tradeName, biddingPrice,  drugCategoryId,availabilityStatus, drugTransactionStatusId);
         return drugInformations;
     }
     @ResponseBody
     @RequestMapping("/add")//添加药品
-    public int addDrug(DrugInformation drugInformation) {
+    public int addDrug(DrugInformation2 drugInformation) {
         int i = drugInformationImpl.addDrug(drugInformation);
         return i;
     }
 
     @ResponseBody
     @RequestMapping("/selectById")//Id查询
-    public DrugInformation selectById(Integer id){
-        DrugInformation drugInformation = drugInformationImpl.selectById(id);
+    public DrugInformation2 selectById(Integer id){
+        DrugInformation2 drugInformation = drugInformationImpl.selectById(id);
         return drugInformation;
     }
 
     @ResponseBody
     @RequestMapping("/updateDrug")//药品修改
-    public int  updateDrug(DrugInformation drugInformation){
+    public int  updateDrug(DrugInformation2 drugInformation){
         int i = drugInformationImpl.updateDrug(drugInformation);
         return i;
     }
 
     @ResponseBody
     @RequestMapping("/updatePurchaseDrug")//药品修改
-    public int  updatePurchaseDrug(DrugInformation drugInformation){
+    public int  updatePurchaseDrug(DrugInformation2 drugInformation){
         int i = drugInformationImpl.updateDrug(drugInformation);
         return i;
     }
@@ -94,7 +95,7 @@ public class PurchasingManagementController1 {
         String message = "";
 
         //获取数据
-        List<DrugInformation> list = drugInformationImpl.selectAll();
+        List<DrugInformation2> list = drugInformationImpl.selectAll();
 
         //excel标题
         String[] title = {"序号","流水号","通用名","剂型","规格","转换系数","生产企业","商品名","中标价","单位","通用名拼音","产品照片","批准文号","批准文号有效期","是否进口药","包装材质","包装单位","最新零售价","零售价出处","质量层次编号","质量层次说明","有无药检报告","药检报告编号","药检报告有效期","产品说明","药品类别","药品交易状态","显示状态","审核状态"};
@@ -108,7 +109,7 @@ public class PurchasingManagementController1 {
         String [][] content = new String[list.size()][];//5 5
         for (int i = 0; i < list.size(); i++) {
             content[i] = new String[title.length];
-            DrugInformation stu = list.get(i);
+            DrugInformation2 stu = list.get(i);
             content[i][0] = stu.getId()+"";
             content[i][1] = stu.getSerialNumber()+"";
             content[i][2] = stu.getCommonName()+"";

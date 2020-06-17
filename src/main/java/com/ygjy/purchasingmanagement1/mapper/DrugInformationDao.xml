@@ -31,7 +31,7 @@
         <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
         <result column="del_state" jdbcType="INTEGER" property="delState" />
         <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
-        <result column="availability_status" jdbcType="INTEGER" property="availabilityStatus"/>
+
         <association property="durgsFrom" javaType="com.ygjy.supplymanagement.pojo.DurgsFrom">
             <id column="durg_from_id" jdbcType="INTEGER" property="durgFromId" />
             <result column="drug_from" jdbcType="VARCHAR" property="drugFrom" />
@@ -208,14 +208,27 @@
   </sql>
     <!-- 查询所有 -->
     <select id="selectAll" resultMap="BaseResultMap">
-        select d.id, serial_number,common_name,m.drug_from,specification,unit,conversion_fraction,e.enterprise_name,trade_name,bidding_price,y.drug_category_name,level ,drug_transaction_status_id,s.supplier_name,availability_status
-        from drug_information d,suppliers s,durgs_from m,enterprise e,drug_category y,quality_level q where d.dosage_form_id = m.durg_from_id and d.enterprise_name_id = e.id
-and d.drug_category_id = y.drug_category_Id and s.suppliers_id = e.suppliers_id and  d.quality_level_id = q.qua_id and d.del_state = 0
+        select d.id, serial_number,common_name,m.drug_from,specification,unit,conversion_fraction,e.enterprise_name,trade_name,bidding_price,y.drug_category_name,level ,drug_transaction_explain,s.supplier_name,availability_status
+        from drug_information d,suppliers s,durgs_from m,enterprise e,drug_category y,quality_level q,drug_transaction_status t
+        where d.dosage_form_id = m.durg_from_id
+        and d.enterprise_name_id = e.id
+        and d.drug_category_id = y.drug_category_Id
+        and s.suppliers_id = e.suppliers_id
+        and  d.quality_level_id = q.qua_id
+        and d.drug_transaction_status_id = t.drug_transaction_status
+        and d.del_state = 0
     </select>
     <!--模糊查询-->
     <select id="selectLike" resultMap="BaseResultMap">
-        select * from drug_information
+        select d.id, serial_number,common_name,m.drug_from,specification,unit,conversion_fraction,e.enterprise_name,trade_name,bidding_price,y.drug_category_name,level ,drug_transaction_explain,s.supplier_name,availability_status
+        from drug_information d ,suppliers s,durgs_from m,enterprise e,drug_category y,quality_level q,drug_transaction_status t
         <where>
+            d.dosage_form_id = m.durg_from_id
+            and d.enterprise_name_id = e.id
+            and d.drug_category_id = y.drug_category_Id
+            and s.suppliers_id = e.suppliers_id
+            and  d.quality_level_id = q.qua_id
+            and d.drug_transaction_status_id = t.drug_transaction_status
             <if test="serialNumber!=null and serialNumber!=0">
                 and serial_number like CONCAT ('%',#{serialNumber},'%')
             </if>
@@ -252,7 +265,7 @@ and d.drug_category_id = y.drug_category_Id and s.suppliers_id = e.suppliers_id 
             <if test="drugTransactionStatusId!=null and drugTransactionStatusId!= 0 ">
                 and drug_transaction_status_id like CONCAT ('%',#{drugTransactionStatusId},'%')
             </if>
-            and del_state = 0
+            and d.del_state = 0
         </where>
     </select>
 
@@ -271,7 +284,15 @@ and d.drug_category_id = y.drug_category_Id and s.suppliers_id = e.suppliers_id 
     </insert>
     <!--流水号查询-->
     <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select * from drug_information where id = #{id,jdbcType=INTEGER}
+        select d.id, serial_number,d.dosage_form_id,d.drug_category_id,approval_number,drug_transaction_status_id,quality_level_id,enterprise_name_id,durg_from_id,validity_of_approval_number,imported_drug,packaging_material,packing_unit,latest_retail_price,source_of_retail_price,quality_level_description,drug_inspection_report,drug_inspection_report_number,validity_of_drug_inspection_report,description_of_products,common_name,m.drug_from,specification,unit,conversion_fraction,e.enterprise_name,trade_name,bidding_price,y.drug_category_name,level ,drug_transaction_explain,s.supplier_name,availability_status
+        from drug_information d,suppliers s,durgs_from m,enterprise e,drug_category y,quality_level q,drug_transaction_status t
+        where d.dosage_form_id = m.durg_from_id
+        and d.enterprise_name_id = e.id
+        and d.drug_category_id = y.drug_category_Id
+        and s.suppliers_id = e.suppliers_id
+        and  d.quality_level_id = q.qua_id
+        and d.drug_transaction_status_id = t.drug_transaction_status
+        and d.id = #{id,jdbcType=INTEGER}
     </select>
     <!--修改药品-->
     <update id="updataDrug" parameterType="com.ygjy.pojo.DrugInformation">
