@@ -253,9 +253,33 @@
                 })
             }
         }
+        //下载模板
         function xia() {
             window.location.href="export7";
         }
+        //上传
+       function upload() {
+           var form = document.getElementById("queryForm");
+           var formData = new FormData(form);
+           formData.get("file");
+           $.ajax({
+               url:"user/upload",
+               data:formData,
+               type:"post",
+               dataType:"json",
+               processData: false,
+               contentType: false,
+               success:function (result) {
+                   if(result>0){
+                       alert("导入发货清单成功");
+                       location.reload();
+                   }else{
+                       alert("导入发货清单失败")
+                   }
+
+               }
+           })
+       }
     </script>
 
 </head>
@@ -454,6 +478,7 @@
             </tbody>
 
         </table>
+        <form action="" method="post" id="queryForm" >
         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -469,14 +494,22 @@
                     <div class="modal-body" style="text-align: center">
                         <input type="file" name="file" id="file">
                     </div>
+                    <!--<form enctype="multipart/form-data" id="batchUpload"  action="user/upload" method="post" class="form-horizontal">-->
+                        <!--<button class="btn btn-success btn-xs" id="uploadEventBtn" style="height:26px;"  type="button" >选择文件</button>-->
+                        <!--<input type="file" name="file"  style="width:300px;height:0px;" id="uploadEventFile">-->
+                        <!--<input id="uploadEventPath"  disabled="disabled"  type="text" >-->
+                    <!--</form>-->
+
                     <div class="modal-footer">
-                        <button class="btn btn-success" onclick="uploadfile()">导入</button>
+                        <button type="button" class="btn btn-success" onclick="upload()">导入</button>
+                        <!--<button type="button" class="btn btn-success btn-sm"  onclick="user.uploadBtn()" >上传</button>-->
                         <button class="btn btn-warning" onclick="">查看导入失败结果</button>
                         <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
         <!--数据列表/-->
         <!--分页工具条展示-->
         <div style="text-align: center">

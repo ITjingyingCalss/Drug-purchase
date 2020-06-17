@@ -219,4 +219,42 @@ int updateReturnGoods(@Param("array") List<Integer> array);
      * 无法供货
      */
     int updateUnableToSupply(@Param("array") List<Integer> array);
+    /**
+     * 采购单导入
+     */
+    int insertPurchaseorder(PurchaseOrder purchaseOrder);
+    /**
+     * 药品信息导入
+     * @param drugInformation
+     * @return
+     */
+    int insertDruginformation(DrugInformation drugInformation);
+
+    /**
+     * 条件查询采购状态
+     * @param id
+     * @return
+     */
+    PurchaseOrderDrugDetails selectPurchaseOrders(Integer id);
+
+    /**
+     * 采购单明细表导入
+     * @param purchaseOrderDrugDetails
+     * @return
+     */
+    int insert(PurchaseOrderDrugDetails purchaseOrderDrugDetails);
+
+    /**
+     * 医院明细表添加
+     * @param hospitalTransactionDetails
+     * @return
+     */
+    int insertHospitalTransactionDetail(HospitalTransactionDetails hospitalTransactionDetails);
+
+    /**
+     * 医院添加
+     * @param hospital
+     * @return
+     */
+    int insertHospitalName(Hospital hospital);
 }
