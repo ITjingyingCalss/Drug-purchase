@@ -8,14 +8,12 @@
     <script src="js/jQuery/jquery-2.2.3.min.js"></script>
     <script type="text/javascript">
         var result = null;
-        $(function () {
-            reloadList();
-        })
-        layui.use(['laypage', 'layer','form','upload'], function() {
+        layui.use(['laypage', 'layer','form','upload','util'], function() {
             var laypage = layui.laypage;
             layer = layui.layer;
             var $ = layui.jquery
-                ,upload = layui.upload;
+            ,upload = layui.upload;
+            var util = layui.util;
             //自定义样式
             laypage.render({
                 elem: 'demo2'
@@ -31,6 +29,65 @@
                     console.log(res);
                 }
             });
+            $(function () {
+                reloadList();
+            });
+            /*  查询所有信息*/
+            function reloadList(pageNum) {
+                $("#tbody").empty();
+                $("#page").empty();
+                var suppliersId = $("#findSuppliersId").val();
+                var supplierName = $("#findSupplierName").val();
+                var supplierAddress = $("#findSupplierAddress").val();
+                $.ajax({
+                    url:"findAllSuppliers",
+                    data:{
+                        "suppliersId":suppliersId,
+                        "supplierName":supplierName,
+                        "supplierAddress":supplierAddress,
+                        "pageNum":pageNum
+                    },
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        result = data.list;
+                        var v = "";
+                        var suppliersStatus = "";
+                        var style = "";
+                        for (var i = 0; i < data.list.length; i++) {
+                            if (data.list[i].suppliersStatus == 0) {
+                                suppliersStatus = "开业";
+                                style = "";
+                            }else if (data.list[i].suppliersStatus == 1){
+                                suppliersStatus = "关闭";
+                                style = "layui-btn-disabled";
+                            }
+                            v += "<tr>";
+                            v += '<td><input type="checkbox" value="'+data.list[i].id+'" name="chose" /></td>'
+                            v += "<td>"+data.list[i].suppliersId+"</td>"
+                            v += '<td><button class="layui-btn '+style+' layui-btn-sm" >'+suppliersStatus+'</button></td>';
+                            v += "<td>"+data.list[i].supplierName+"</td>"
+                            v += "<td>"+data.list[i].supplierPhone+"</td>"
+                            v += "<td>"+data.list[i].supplierAddress+"</td>"
+                            v += "<td>"+data.list[i].supplierEmail+"</td>"
+                            v += "<td>"+data.list[i].supplierAddress+"</td>"
+                            v += "<td>"+data.list[i].supplierPostcode+"</td>"
+                            v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data.list[i].id+')">修改</button></td>';
+                            v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data.list[i].id+')">删除</button></td>';
+                            v += "</tr>";
+                        }
+                        $("#tbody").append(v);
+                        var up = data.hasPreviousPage?data.prePage:1;
+                        var down = data.hasNextPage?data.nextPage:data.lastPage;
+                        var p = '<button type="button" onclick="reloadList(1)" class="layui-btn  layui-btn-normal layui-btn-sm">首页</button>';
+                        p += '<button type="button" onclick="reloadList('+up+')" class="layui-btn  layui-btn-normal layui-btn-sm">上一页</button>';
+                        p += '<button type="button" onclick="reloadList('+down+')" class="layui-btn  layui-btn-normal layui-btn-sm">下一页</button>';
+                        p += '<button type="button" onclick="reloadList('+data.lastPage+')" class="layui-btn  layui-btn-normal layui-btn-sm">尾页</button>';
+                        $("#page").append(p);
+                    }
+                })
+            }
+
         })
         layui.use(['upload'], function() {
             var laypage = layui.laypage
@@ -47,53 +104,7 @@
         })
 
 
-        /*  查询所有信息*/
-        function reloadList(pageNum) {
-            $("#tbody").empty();
-            $("#page").empty();
-            var suppliersId = $("#findSuppliersId").val();
-            var supplierName = $("#findSupplierName").val();
-            var supplierAddress = $("#findSupplierAddress").val();
-            $.ajax({
-                url:"findAllSuppliers",
-                data:{
-                    "suppliersId":suppliersId,
-                    "supplierName":supplierName,
-                    "supplierAddress":supplierAddress,
-                    "pageNum":pageNum
-                },
-                type:"post",
-                dataType:"json",
-                success:function (data) {
-                    result = data.list;
-                    var v = "";
-                    for (var i = 0; i < data.list.length; i++) {
-                        var suppliersStatus = data.list[i].suppliersStatus == 0?'开业':'关闭';
-                        v += "<tr>";
-                        v += '<td><input type="checkbox" value="'+data.list[i].userId+'" name="chose" /></td>'
-                        v += "<td>"+data.list[i].suppliersId+"</td>"
-                        v += "<td>"+suppliersStatus+"</td>"
-                        v += "<td>"+data.list[i].supplierName+"</td>"
-                        v += "<td>"+data.list[i].supplierPhone+"</td>"
-                        v += "<td>"+data.list[i].supplierAddress+"</td>"
-                        v += "<td>"+data.list[i].supplierEmail+"</td>"
-                        v += "<td>"+data.list[i].supplierAddress+"</td>"
-                        v += "<td>"+data.list[i].supplierPostcode+"</td>"
-                        v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data.list[i].userId+')">修改</button></td>';
-                        v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data.list[i].userId+')">删除</button></td>';
-                        v += "</tr>";
-                    }
-                    $("#tbody").append(v);
-                    var up = data.hasPreviousPage?data.prePage:1;
-                    var down = data.hasNextPage?data.nextPage:data.lastPage;
-                    var p = '<button type="button" onclick="reloadList(1)" class="layui-btn  layui-btn-normal layui-btn-sm">首页</button>';
-                    p += '<button type="button" onclick="reloadList('+up+')" class="layui-btn  layui-btn-normal layui-btn-sm">上一页</button>';
-                    p += '<button type="button" onclick="reloadList('+down+')" class="layui-btn  layui-btn-normal layui-btn-sm">下一页</button>';
-                    p += '<button type="button" onclick="reloadList('+data.lastPage+')" class="layui-btn  layui-btn-normal layui-btn-sm">尾页</button>';
-                    $("#page").append(p);
-                }
-            })
-        }
+
 
         /*添加页面弹出层*/
         function addInformation() {
@@ -136,6 +147,13 @@
                 scrollbar:false,
                 content:$("#edit_add")
             })
+            $("#updateSuppliersId").val("");
+            $("#updateSupplierName").val("");
+            $("#updateSuppliersStatus").val("");
+            $("#updateSupplierPhone").val("");
+            $("#updateSupplierPostcode").val("");
+            $("#updateSupplierAddress").val("");
+            $("#updateSupplierEmail").val("");
             for (var i = 0; i < result.length; i++) {
                 if (result[i].id = id){
                     $("#updateSuppliersId").val(result[i].suppliersId);

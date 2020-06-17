@@ -6,19 +6,305 @@
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="layui/layui.js"></script>
     <script src="js/jQuery/jquery-2.2.3.min.js"></script>
-    <!--<script>
-        layui.use(['laypage', 'layer'], function() {
+    <script type="text/javascript">
+        var result = null;
+        $(function () {
+            reloadList();
+        })
+        layui.use(['laypage', 'layer','form','upload'], function() {
             var laypage = layui.laypage;
             layer = layui.layer;
+            var $ = layui.jquery
+                ,upload = layui.upload;
             //自定义样式
             laypage.render({
                 elem: 'demo2'
                 , count: 100
                 , theme: '#1E9FFF'
             });
+            upload.render({
+                elem: '#uploadFile'
+                ,url: 'http://localhost:8080/uploadFile' //自己的上传接口
+                ,accept: 'file' //普通文件
+                ,done: function(res){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }
+            });
         })
-    </script>-->
-    <script src="js/systemmanagement/js/pagelist.js"></script>
+        layui.use(['upload'], function() {
+            var laypage = layui.laypage
+                ,upload = layui.upload;
+            upload.render({
+                elem: '#uploadFile'
+                ,url: 'http://localhost:8080/uploadFile' //自己的上传接口
+                ,accept: 'file' //普通文件
+                ,done: function(res){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }
+            });
+        })
+
+
+        /*  查询所有信息*/
+        function reloadList(pageNum) {
+            $("#tbody").empty();
+            $("#page").empty();
+            var userId = $("#userId").val();
+            var userAccount = $("#userAccount").val();
+            var contactAddress = $("#contactAddress").val();
+            var userState = 0;
+            $.ajax({
+                url:"findUserAll",
+                data:{
+                    "userId":userId,
+                    "userAccount":userAccount,
+                    "contactAddress":contactAddress,
+                    "userState":userState,
+                    "pageNum":pageNum
+                },
+                type:"post",
+                dataType:"json",
+                success:function (data) {
+                    result = data.list;
+                    var v = "";
+                    for (var i = 0; i < data.list.length; i++) {
+                        v += "<tr>";
+                        v += '<td><input type="checkbox" value="'+data.list[i].userId+'" name="chose" /></td>'
+                        v += "<td>"+data.list[i].userAccount+"</td>"
+                        v += "<td>"+data.list[i].role.roleDescription+"</td>"
+                        v += "<td>"+data.list[i].username+"</td>"
+                        v += "<td>"+data.list[i].userUnit+"</td>"
+                        v += "<td>"+data.list[i].contactAddress+"</td>"
+                        v += "<td>"+data.list[i].postalCode+"</td>"
+                        v += "<td>"+data.list[i].contacts+"</td>"
+                        v += "<td>"+data.list[i].userPhone+"</td>"
+                        v += "<td>"+data.list[i].userEmail+"</td>"
+                        /*                        v += '<td><button class="layui-btn  layui-btn-normal layui-btn-sm" onclick="lookInformation('+data[i].userId+')">查看</button></td>';*/
+                        v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data.list[i].userId+')">修改</button></td>';
+                        v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data.list[i].userId+')">删除</button></td>';
+                        v += "</tr>";
+                    }
+                    $("#tbody").append(v);
+                    var up = data.hasPreviousPage?data.prePage:1;
+                    var down = data.hasNextPage?data.nextPage:data.lastPage;
+                    var p = '<button type="button" onclick="reloadList(1)" class="layui-btn  layui-btn-normal layui-btn-sm">首页</button>';
+                    p += '<button type="button" onclick="reloadList('+up+')" class="layui-btn  layui-btn-normal layui-btn-sm">上一页</button>';
+                    p += '<button type="button" onclick="reloadList('+down+')" class="layui-btn  layui-btn-normal layui-btn-sm">下一页</button>';
+                    p += '<button type="button" onclick="reloadList('+data.lastPage+')" class="layui-btn  layui-btn-normal layui-btn-sm">尾页</button>';
+                    $("#page").append(p);
+                }
+            })
+        }
+
+        /*添加页面弹出层*/
+        function addInformation() {
+            layer.open({
+                //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                type:1,
+                title:['添加用户','font-size:18px;'],
+                area:['50%','65%'],
+                anim:5,
+                scrollbar: false,
+                content:$("#form_add")
+            })
+        }
+        function addSave() {
+            var form = $("#form_add").serialize();
+            form += "&userState = 0";
+            $.ajax({
+                url:'addUserInfo',
+                data:form,
+                dataTYpe:'json',
+                type:'post',
+                traditional: true,
+                async:false,
+                success:function (result) {
+                    location.reload();
+                    layer.alert("添加成功")
+                },error:function () {
+                    layer.alert("添加失败")
+                }
+            })
+
+        }
+        /*修改页面弹出层*/
+        function editInformation(userId){
+            layer.open({
+                type:1,
+                title:['修改用户信息','font-size:18px;'],
+                area:['60%','65%'],
+                anim:5,
+                scrollbar:false,
+                content:$("#edit_add")
+            })
+            $("#updateUserId").val("");
+            $("#updateUserAccount").val("");
+            $("#updateUserName").val("");
+            $("#updatePassword").val("");
+            $("#updateUserUnit").val("");
+            $("#updateContactAddress").val("");
+            $("#updateContacts").val("");
+            $("#updateUserEmail").val("");
+            $("#updateUserPhone").val("");
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].userId = userId){
+                    $("#updateUserId").val(result[i].userId);
+                    $("#updateUserAccount").val(result[i].userAccount);
+                    $("#updateUserName").val(result[i].username);
+                    $("#updatePassword").val(result[i].password);
+                    $("#updateUserUnit").val(result[i].userUnit);
+                    $("#updateContactAddress").val(result[i].contactAddress);
+                    $("#updateContacts").val(result[i].contacts);
+                    $("#updateUserEmail").val(result[i].userEmail);
+                    $("#updateUserPhone").val(result[i].userPhone);
+                    break;
+                }
+            }
+        }
+        function updateSave() {
+            var form = $("#edit_add").serialize();
+            $.ajax({
+                url:'updateUserInfo',
+                data:form,
+                dataType:'json',
+                type:'post',
+                async:false,
+                success:function (data) {
+                    location.reload();
+                }
+            })
+        }
+
+        /*删除提示弹出框*/
+        function removeInformation(userId) {
+            layui.use('layer',function () {
+                var layer = layui.layer;
+                layer.msg('确定要删除吗?',{
+                    time:2000,
+                    btn:['确定','取消'],
+                    yes:function (index) {
+                        console.log(userId);
+                        $.ajax({
+                            url:"updateUserSave",
+                            type:"post",
+                            dataType:"json",
+                            async:false,
+                            data:{
+                                "userId":userId,
+                                "userState":1
+                            },
+                            success:function(data){
+                                console.log(data);
+                                layer.msg(data.msg);
+                                location.reload();
+                            },error:function (data) {
+                                $.message('错误',data.msg);
+                            }
+                        })
+                        layer.close(index);
+                    }
+                })
+
+            })
+        }
+        //查询省市县
+        var app = angular.module('myApp',[]);
+        app.controller("myController",['$scope','$http',function($scope,$http){
+            /*查询所有省*/
+            $http({
+                method:'get',
+                url:'findProvince',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (provinces) {
+                $scope.provinces = provinces;
+                $("#updatesheng").val(provinces);
+            }).error(function (data) {
+
+            });
+            /*查询所有市*/
+            $scope.changeProvince = function(){
+                $http({
+                    method:'get',
+                    url:'findCityByPcode',
+                    params:{"pcode":$scope.selectProvince},
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (citys) {
+                    $scope.citys = citys;
+                    $("#shi").val(citys);
+                    $("#updateshi").val(citys);
+                }).error(function (data) {
+
+                });
+            }
+            /*查询县*/
+            $scope.changeCity = function () {
+                $http({
+                    method:'get',
+                    url:'findCountyByCcode',
+                    params:{"ccode":$scope.selectCity},
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).success(function (countys) {
+                    $scope.countys = countys;
+                    $("#xian").val(countys);
+                    $("#updatexian").val(countys);
+                }).error(function (data) {
+
+                })
+            }
+
+
+        }])
+        function downExcel() {
+            var v = document.getElementsByName("chose");
+            var array = new Array();
+            for (var i = 0; i < v.length; i++) {
+                if (v[i].checked){
+                    array.push(v[i].value);
+                }
+            }
+            window.location.href="outputUserExcel?ids="+array.toString();
+        }
+        function down() {
+            window.location.href="down";
+        }
+
+        /*验证表单属性*/
+        function addProperty(a) {
+            var usernameCode = /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/;
+            var passwordCode = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+            var userEmailCode = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+            var userPhoneCode = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;;
+            var v = $($(a).parents("tr").find("td").children("label")).get(0);
+            var name = v.innerHTML;
+            var propertyName =  name.substring(0,name.length-1);
+            var parmars = {};
+            parmars[a.name] = a.value;
+            if (a.value == null || a.value == '') {
+                layer.alert(name + '不能为空');
+            }else{
+                if (usernameCode.test(a.value) || passwordCode.test(a.value) || userEmailCode.test(a.value) || userPhoneCode.test(a.value)) {
+                    $.ajax({
+                        url:'',
+                        type:'post',
+                        dataType:'json',
+                        async:false,
+                        data:parmars,
+                        success:function (data) {
+                            if (data == true){
+                                layer.alert(name + '可以使用')
+                            } else{
+                                layer.alert(name + '已经被使用')
+                            }
+                        }
+                    })
+                }else{
+                    layer.alert(name + '格式错误')
+                }
+            }
+        }
+    </script>
     <style>
         body{
             padding: 0;
@@ -37,6 +323,7 @@
             margin-right: 100px;
         }
     </style>
+
 </head>
 <body>
 <div class="healthBureau" style="padding: 15px;">
@@ -63,7 +350,7 @@
                 </div></li>
             </ul>
         </form>
-        <button class="layui-btn layui-btn-normal layui-btn-lg" id="find" onclick="readList()">查询</button>
+        <button class="layui-btn layui-btn-normal layui-btn-lg" id="find" onclick="reloadList()">查询</button>
     </div>
     <div class="healthBureau_ops layui-btn-group">
         <button class="layui-btn layui-btn-normal layui-btn-lg" onclick="addInformation()">添加</button>
@@ -99,72 +386,73 @@
             </tbody>
         </table>
     </div>
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-        <!--  <legend>自定义主题 - 颜色随意定义</legend>-->
-    </fieldset>
-    <div id="demo2"></div>
+    <div id="page">
+    </div>
+
     <!-- 添加表单-->
     <form class="" id="form_add" style="display: none" >
         <br>
         <table lay-even lay-skin="line" lay-size="lg">
             <tr class="layui-form-item">
+                <td><label class="layui-form-label">用户Id</label></td>
+                <td class="layui-input-block"><input class="layui-input"  type="text" name="userId"></td>
+            </tr>
+            <tr class="layui-form-item">
                 <td><label class="layui-form-label">用户名称</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title"></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="userAccount"></td>
                 <td><label class="layui-form-label">用户账号</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" name="title" placeholder="8-16位数字加字母"></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="username" placeholder="6至20位，以字母开头，字母，数字，减号，下划线"></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">用户密码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" placeholder="8-16位数字加字母特殊符号"></td>
-                <td><label class="layui-form-label">加密盐值</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
-            </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户状态</label></td>
-                <td class="layui-input-block">
-                    <select lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">正常</option>
-                        <option value="2">删除</option>
-                    </select>
-                </td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="password" placeholder="最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符"></td>
+                <!--  <td><label class="layui-form-label">加密盐值</label></td>
+                  <td class="layui-input-block"><input class="layui-input" type="text" name="salt" ></td>-->
                 <td><label class="layui-form-label">所在单位</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="userUnit" ></td>
             </tr>
             <tr class="layui-form-item">
+                <!-- <td><label class="layui-form-label">用户状态</label></td>
+                 <td class="layui-input-block">
+                     <select lay-verify="required" name="userState">
+                         <option value="0">请选择</option>
+                         <option value="1">正常</option>
+                         <option value="2">删除</option>
+                     </select>
+                 </td>-->
+
+            </tr>
+            <tr class="layui-form-item" ng-app = "myApp" ng-controller= "myController" data-ng-init = "list()">
                 <td><label class="layui-form-label">联系地址</label></td>
-                <td class="layui-input-block">
-                    <select lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">北京</option>
+                <!--<td class="layui-input-block">
+                    <select class="province" name="province" id="sheng" lay-verify="required" ng-change ="changeProvince()" ng-model = "selectProvince" ng-options="province.pcode as province.pname for province in provinces">
+                        <option value="">请选择</option>
                     </select>
-                    <select lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">北京市</option>
+                    <select class="city" name="city" id="shi" lay-verify="required" ng-change="changeCity()"  ng-model = "selectCity" ng-options = " city.ccode as city.cname for city in citys">
+                        <option value="">请选择</option>
                     </select>
-                    <select  lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">海淀区</option>
+                    <select class="county" name="county" id="xian" lay-verify="required" ng-change="changeCounty()" ng-model = "selectCounty" ng-options="county.tcode as county.tname for county in countys">
+                        <option value="">请选择</option>
                     </select>
                 </td>
-                <td><label class="layui-form-label">详细地址</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
+                <td><label class="layui-form-label">详细地址</label></td>-->
+                <td class="layui-input-block"><input class="layui-input" type="text" id="addContactAddress" name="contactAddress" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">邮政编码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="postalCode" ></td>
                 <td><label class="layui-form-label">联系人</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input  class="layui-input" type="text" name="contacts" ></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">联系电话</label></td>
-                <td class="layui-input-block"><input placeholder="只能以13、15、18开头" class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="只能以13、15、18开头" class="layui-input" type="text" name="userPhone" ></td>
                 <td><label class="layui-form-label">邮箱</label></td>
-                <td class="layui-input-block"><input placeholder="8-16位数字+@163.com" class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="8-16位数字+@163.com" class="layui-input" type="text" name="userEmail" ></td>
             </tr>
         </table>
         <div class="modal-footer">
-            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px">提交</button>
+            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="addSave()">提交</button>
             <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
         </div>
     </form>
@@ -173,63 +461,66 @@
         <br>
         <table lay-even lay-skin="line" lay-size="lg">
             <tr class="layui-form-item">
+                <td><label class="layui-form-label">用户Id</label></td>
+                <td class="layui-input-block"><input class="layui-input"  type="text" id="updateUserId" name="userId"></td>
+                <input id="updateId" name="id" type="hidden">
+            </tr>
+            <tr class="layui-form-item">
                 <td><label class="layui-form-label">用户名称</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title"></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateUserAccount" name="userAccount"></td>
                 <td><label class="layui-form-label">用户账号</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" name="title" placeholder="8-16位数字加字母"></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" id="updateUserName" name="username" placeholder="6至20位，以字母开头，字母，数字，减号，下划线"></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">用户密码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" placeholder="8-16位数字加字母特殊符号"></td>
-                <td><label class="layui-form-label">加密盐值</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
-            </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户状态</label></td>
-                <td class="layui-input-block">
-                    <select lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">正常</option>
-                        <option value="2">删除</option>
-                    </select>
-                </td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" id="updatePassword" name="password" placeholder="最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符"></td>
+                <!--  <td><label class="layui-form-label">加密盐值</label></td>
+                  <td class="layui-input-block"><input class="layui-input" type="text" name="salt" ></td>-->
                 <td><label class="layui-form-label">所在单位</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateUserUnit" name="userUnit" ></td>
             </tr>
             <tr class="layui-form-item">
+                <!-- <td><label class="layui-form-label">用户状态</label></td>
+                 <td class="layui-input-block">
+                     <select lay-verify="required" name="userState">
+                         <option value="0">请选择</option>
+                         <option value="1">正常</option>
+                         <option value="2">删除</option>
+                     </select>
+                 </td>-->
+
+            </tr>
+            <tr class="layui-form-item" ng-app = "myApp" ng-controller= "myController" data-ng-init = "list()">
                 <td><label class="layui-form-label">联系地址</label></td>
-                <td class="layui-input-block">
-                    <select lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">北京</option>
+                <!--<td class="layui-input-block">
+                    <select class="province" name="province" id="sheng" lay-verify="required" ng-change ="changeProvince()" ng-model = "selectProvince" ng-options="province.pcode as province.pname for province in provinces">
+                        <option value="">请选择</option>
                     </select>
-                    <select lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">北京市</option>
+                    <select class="city" name="city" id="shi" lay-verify="required" ng-change="changeCity()"  ng-model = "selectCity" ng-options = " city.ccode as city.cname for city in citys">
+                        <option value="">请选择</option>
                     </select>
-                    <select  lay-verify="required">
-                        <option value="0">请选择</option>
-                        <option value="1">海淀区</option>
+                    <select class="county" name="county" id="xian" lay-verify="required" ng-change="changeCounty()" ng-model = "selectCounty" ng-options="county.tcode as county.tname for county in countys">
+                        <option value="">请选择</option>
                     </select>
                 </td>
-                <td><label class="layui-form-label">详细地址</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
+                <td><label class="layui-form-label">详细地址</label></td>-->
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateContactAddress" name="contactAddress" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">邮政编码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updatePostCode" name="postalCode" ></td>
                 <td><label class="layui-form-label">联系人</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input  class="layui-input" type="text" id="updateContacts" name="contacts" ></td>
             </tr>
             <tr class="layui-form-item">
                 <td><label class="layui-form-label">联系电话</label></td>
-                <td class="layui-input-block"><input placeholder="只能以13、15、18开头" class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="只能以13、15、18开头" class="layui-input" type="text" id="updateUserPhone" name="userPhone" ></td>
                 <td><label class="layui-form-label">邮箱</label></td>
-                <td class="layui-input-block"><input placeholder="8-16位数字+@163.com" class="layui-input" type="text" name="title" ></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="8-16位数字+@163.com" class="layui-input" type="text" id="updateUserEmail" name="userEmail" ></td>
             </tr>
         </table>
         <div class="modal-footer">
-            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px">提交</button>
+            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="updateSave()">提交</button>
             <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
         </div>
     </form>

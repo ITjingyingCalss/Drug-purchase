@@ -1,14 +1,428 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>角色管理</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="layui/layui.js"></script>
+    <script src="js/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript">
+        var result = null;
+        layui.use(['laypage', 'layer','form','upload','laydate','util'], function() {
+            var laydate = layui.laydate;
+            var laypage = layui.laypage;
+            layer = layui.layer;
+            var $ = layui.jquery;
+            upload = layui.upload;
+            var util = layui.util;
+            //自定义样式
+            laypage.render({
+                elem: 'demo2'
+                , count: 100
+                , theme: '#1E9FFF'
+            });
+            upload.render({
+                elem: '#uploadFile'
+                ,url: 'http://localhost:8080/uploadFile' //自己的上传接口
+                ,accept: 'file' //普通文件
+                ,done: function(res){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }
+            });
+            //自定义日期选择器颜色
+            laydate.render({
+                elem: '#test30'
+                ,theme: '#393D49'
+            });
+           /* 打开页面加载数据*/
+            $(function () {
+                reloadList();
+            });
+            /*  查询所有信息*/
+            function reloadList() {
+                $("#tbody").empty();
+                $("#page").empty();
+                var suppliersId = $("#findSuppliersId").val();
+                var supplierName = $("#findSupplierName").val();
+                var supplierAddress = $("#findSupplierAddress").val();
+                $.ajax({
+                    url:"findAllRole",
+                    data:{
+                        "suppliersId":suppliersId,
+                        "supplierName":supplierName,
+                        "supplierAddress":supplierAddress
+                    },
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        result = data;
+                        var v = "";
+                        var roleStatus = "";
+                        var style = "";
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].roleStatus == 0) {
+                                roleStatus = "有效";
+                                style = "";
+                            }else if (data[i].roleStatus == 1){
+                                roleStatus = "失效";
+                                style = "layui-btn-disabled";
+                            }
+                            v += "<tr>";
+                            v += '<td><input type="checkbox" value="'+data[i].id+'" name="chose" /></td>'
+                            v += "<td>"+data[i].roleId+"</td>"
+                            v += "<td>"+data[i].roleName+"</td>"
+                            v += "<td>"+data[i].roleDescription+"</td>"
+                            v += '<td><button class="layui-btn '+style+' layui-btn-sm" >'+roleStatus+'</button></td>';
+                            v += "<td>"+util.toDateString(data[i].roleCreateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
+                            v += "<td>"+util.toDateString(data[i].roleUpdateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
+                            v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data[i].id+')">修改</button></td>';
+                            v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data[i].id+')">删除</button></td>';
+                            v += "</tr>";
+                        }
+                        $("#tbody").append(v);
+                    }
+                })
+            }
+
+        })
+        layui.use(['upload'], function() {
+            var laypage = layui.laypage
+                ,upload = layui.upload;
+            upload.render({
+                elem: '#uploadFile'
+                ,url: 'http://localhost:8080/uploadFile' //自己的上传接口
+                ,accept: 'file' //普通文件
+                ,done: function(res){
+                    layer.msg('上传成功');
+                    console.log(res);
+                }
+            });
+        })
+
+
+
+        /*添加页面弹出层*/
+        function addInformation() {
+            layer.open({
+                //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                type:1,
+                title:['添加角色','font-size:18px;'],
+                area:['30%','60%'],
+                anim:5,
+                scrollbar: false,
+                content:$("#form_add")
+            })
+        }
+        /*添加保存*/
+        function addSave() {
+            var form = $("#form_add").serialize();
+            form += "&roleStatus=0";
+            $.ajax({
+                url:'addRolenfo',
+                data:form,
+                dataTYpe:'json',
+                type:'post',
+                traditional: true,
+                async:false,
+                success:function (result) {
+                    location.reload();
+                    layer.alert("添加成功")
+                },error:function () {
+                    layer.alert("添加失败")
+                }
+            })
+
+        }
+        /*修改页面弹出层*/
+        function editInformation(id){
+            layer.open({
+                type:1,
+                title:['修改供货商信息','font-size:18px;'],
+                area:['30%','60%'],
+                anim:5,
+                scrollbar:false,
+                content:$("#edit_add")
+            })
+                $("#updateId").val("");
+                $("#updateRoleId").val("");
+                $("#updateRoleName").val("");
+                $("#updateRoleDescription").val("");
+                $("#updateRoleStatus").val("");
+                $("#updateRoleUpdateTime").val("");
+                $("#updateRoleCreateTime").val("");
+            for (var i = 0; i < result.length; i++) {
+                if (result[i].id = id){
+                    $("#updateId").val(result[i].id);
+                    $("#updateRoleId").val(result[i].roleId);
+                    $("#updateRoleName").val(result[i].roleName);
+                    $("#updateRoleDescription").val(result[i].roleDescription);
+                    $("#updateRoleStatus").val(result[i].roleStatus);
+                    $("#updateRoleUpdateTime").val(result[i].roleUpdateTime);
+                    $("#updateRoleCreateTime").val(result[i].roleCreateTime);
+                    break;
+                }
+            }
+        }
+        /*修改保存*/
+        function updateSave() {
+            var form = $("#edit_add").serialize();
+            $.ajax({
+                url:'updateRoleInfo',
+                data:form,
+                dataType:'json',
+                type:'post',
+                async:false,
+                success:function (data) {
+                    location.reload();
+                }
+            })
+        }
+        /*删除提示弹出框*/
+        function removeInformation(id) {
+            layui.use('layer',function () {
+                var layer = layui.layer;
+                layer.msg('确定要删除吗?',{
+                    time:2000,
+                    btn:['确定','取消'],
+                    yes:function (index) {
+                        console.log(id);
+                        $.ajax({
+                            url:"updateSuppliers",
+                            type:"post",
+                            dataType:"json",
+                            async:false,
+                            data:{
+                                "id":id,
+                                "suppliersStatus":1
+                            },
+                            success:function(data){
+                                console.log(data);
+                                layer.msg(data.msg);
+                                location.reload();
+                            },error:function (data) {
+                                $.message('错误',data.msg);
+                            }
+                        })
+                        layer.close(index);
+                    }
+                })
+
+            })
+        }
+        /* //查询省市县
+         var app = angular.module('myApp',[]);
+         app.controller("myController",['$scope','$http',function($scope,$http){
+             /!*查询所有省*!/
+             $http({
+                 method:'get',
+                 url:'findProvince',
+                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+             }).success(function (provinces) {
+                 $scope.provinces = provinces;
+                 $("#updatesheng").val(provinces);
+             }).error(function (data) {
+
+             });
+             /!*查询所有市*!/
+             $scope.changeProvince = function(){
+                 $http({
+                     method:'get',
+                     url:'findCityByPcode',
+                     params:{"pcode":$scope.selectProvince},
+                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                 }).success(function (citys) {
+                     $scope.citys = citys;
+                     $("#shi").val(citys);
+                     $("#updateshi").val(citys);
+                 }).error(function (data) {
+
+                 });
+             }
+             /!*查询县*!/
+             $scope.changeCity = function () {
+                 $http({
+                     method:'get',
+                     url:'findCountyByCcode',
+                     params:{"ccode":$scope.selectCity},
+                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                 }).success(function (countys) {
+                     $scope.countys = countys;
+                     $("#xian").val(countys);
+                     $("#updatexian").val(countys);
+                 }).error(function (data) {
+
+                 })
+             }
+
+
+         }])*/
+        /*导出Excel*/
+        function downExcel() {
+            var v = document.getElementsByName("chose");
+            var array = new Array();
+            for (var i = 0; i < v.length; i++) {
+                if (v[i].checked){
+                    array.push(v[i].value);
+                }
+            }
+            window.location.href="outputUserExcel?ids="+array.toString();
+        }
+        /*下载*/
+        function down() {
+            window.location.href="down";
+        }
+        /*验证表单属性*/
+        /*function addProperty(a) {
+            var supplierEmailCode = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*!/;
+            var supplierPhoneCode = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;;
+            var v = $($(a).parents("tr").find("td").children("label")).get(0);
+            var name = v.innerHTML;
+            var propertyName =  name.substring(0,name.length-1);
+            var parmars = {};
+            parmars[a.name] = a.value;
+            if (a.value == null || a.value == '') {
+                layer.alert(name + '不能为空');
+            }else{
+                if (supplierEmailCode.test(a.value) || supplierPhoneCode.test(a.value)) {
+                    $.ajax({
+                        url:'',
+                        type:'post',
+                        dataType:'json',
+                        async:false,
+                        data:parmars,
+                        success:function (data) {
+                            if (data == true){
+                                layer.alert(name + '可以使用')
+                            } else{
+                                layer.alert(name + '已经被使用')
+                            }
+                        }
+                    })
+                }else{
+                    layer.alert(name + '格式错误')
+                }
+            }
+        }*/
+    </script>
+    <style>
+        body{
+            padding: 0;
+            margin: 0;
+        }
+        .li-style li{
+            float: left;
+            list-style: none;
+        }
+        .healthBureau_ops{
+            margin-right:1000px;
+            float: left;
+            height: 50px;
+        }
+        #find{
+            float: right;
+            margin-right: 100px;
+        }
+    </style>
 </head>
 <body>
 <div>
-    <h1>
-        这里是数据字典管理
-    </h1>
+    <div class="healthBureau_ops ">
+        <button class="layui-btn layui-btn-radius layui-btn-normal layui-btn-lg" onclick="addInformation()">添加</button>
+       <!-- <button class="layui-btn layui-btn-radius layui-btn-warm layui-btn-lg" onclick="editInformation('+data[i].id+')">编辑</button>
+        <button class="layui-btn layui-btn-radius layui-btn-danger layui-btn-lg" lay-event="del" onclick="removeInformation('+data[i].id+')">删除</button>-->
+    </div>
+    <div class="page_head">
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th type="checkbox"></th>
+                <th>角色ID</th>
+                <th>角色名称</th>
+                <th>角色描述</th>
+                <th>角色状态</th>
+                <th>创建时间</th>
+                <th>更新时间</th>
+                <th>编辑</th>
+                <th>删除</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 添加表单-->
+    <form class="" id="form_add" style="display: none" >
+        <br>
+        <table lay-even lay-skin="line" lay-size="lg">
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">角色ID</label></td>
+                <td class="layui-input-block"><input class="layui-input"  type="text" name="roleId"></td>
+            </tr>
+            <div class="layui-input-inline"></div>
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">角色名称</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="roleName" ></td>
+            </tr>
+            <div class="layui-input-inline"></div>
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">角色描述</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="roleDescription" ></td>
+            </tr>
+            <div class="layui-input-inline"></div>
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">创建时间</label></td>
+                <td><input type="text" class="layui-input" id="test30" placeholder="yyyy-MM-dd" name="roleCreateTime"></td>
+            </tr>
+        </table>
+        <div class="modal-footer">
+            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="addSave()">提交</button>
+            <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
+        </div>
+    </form>
+    <!-- 修改表单-->
+    <form class="" id="edit_add" style="display: none" >
+        <br>
+        <table lay-even lay-skin="line" lay-size="lg">
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">角色ID</label></td>
+                <td class="layui-input-block"><input class="layui-input"  type="text" id="updateRoleId" name="roleId"></td>
+                <input id="updateId" name="id" type="hidden">
+            </tr>
+            <div class="layui-input-inline"></div>
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">角色名称</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateRoleName" name="roleName" ></td>
+            </tr>
+            <div class="layui-input-inline"></div>
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">角色描述</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" id="updateRoleDescription" name="roleDescription" ></td>
+            </tr>
+            <td><label class="layui-form-label">供货商状态</label></td>
+            <td class="layui-input-block">
+                <select lay-verify="required" name="roleStatus" id="updateRoleStatus">
+                    <option value="">----请选择状态----</option>
+                    <option value="0">有效</option>
+                    <option value="1">失效</option>
+                </select>
+            </td>
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">创建时间</label></td>
+                <td><input type="text" class="layui-input" id="updateRoleCreateTime" placeholder="yyyy-MM-dd" name="roleCreateTime"></td>
+            </tr>
+            <div class="layui-input-inline"></div>
+            <tr class="layui-form-item">
+                <td><label class="layui-form-label">修改时间</label></td>
+                <td><input type="text" class="layui-input" id="updateRoleUpdateTime" placeholder="yyyy-MM-dd" name="roleUpdateTime"></td>
+            </tr>
+        </table>
+        <div class="modal-footer">
+            <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="addSave()">提交</button>
+            <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
+        </div>
+    </form>
 </div>
 </body>
 </html>
