@@ -17,6 +17,7 @@
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
     <!--引入自己的js-->
     <script src="js/supervision/purchase_order_approval.js"></script>
+    <script src="js/supervision/checkBox.js"></script>
 
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -84,7 +85,7 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-success btn-sm" >提交审核结果</button>
+                        <button type="button" onclick="submitAuditResults()" class="btn btn-success btn-sm" >提交审核结果</button>
                     </div>
                 </div>
             </div>
@@ -95,7 +96,7 @@
             <thead>
             <tr>
                 <th>序号</th>
-                <th>选择</th>
+                <th><input id="checkAll" onchange="checkAll()" type="checkbox">选择</th>
                 <th class="sorting_asc">审核结果</th>
                 <th class="sorting">审核意见</th>
                 <th class="sorting">医院名称</th>
@@ -113,7 +114,7 @@
             <tbody class="context">
             <tr>
                 <td>1</td>
-                <td><input type="checkbox"></td>
+                <td><input onchange="checkOne()" type="checkbox"></td>
                 <td>
                     <select>
                         <option value="0">请选择</option>
@@ -165,43 +166,38 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">编辑药品品目</h3>
+                <h3 id="myModalLabe">采购单审核</h3>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table">
                     <tr>
-                        <td>品目号:</td>
-                        <td></td>
-                        <td>通用名:</td>
-                        <td><input id="organizationalCode1" name="organizationalCode" class="form-control"></td>
+                        <td>采购单编号:</td>
+                        <td><span id="purchaseOrderNumber"></span> </td>
+                        <td>医院名称:</td>
+                        <td><span id="hospital"></span></td>
                     </tr>
                     <tr>
-                        <td>剂型:</td>
+                        <td>采购单名称:</td>
                         <td>
-                            <select style="width:50%;height: 10%">
-                                <option value="0">请选择</option>
-                            </select>
+                            <span id="nameOfPurchaseOrder"></span>
                         </td>
-                        <td>规格:</td>
-                        <td><input id="idCard1" name="idCard" class="form-control"></td>
+                        <td>采购单状态:</td>
+                        <td><span id="purchaseState"></span> </td>
                     </tr>
                     <tr>
-                        <td>单位:</td>
-                        <td width=""><input class="form-control"></td>
-                        <td>转换系数:</td>
-                        <td><input class="form-control"></td>
+                        <td>开始时间:</td>
+                        <td><span id="startTime"></span> </td>
+                        <td>结束时间:</td>
+                        <td><span id="endTime"></span> </td>
                     </tr>
                     <tr>
-                        <td>药品类别:</td>
+                        <td>建单时间:</td>
                         <td>
-                            <select style="width:50%;height: 10%">
-                                <option value="0">请选择</option>
-                            </select>
+                            <span id="createReceiptsTime"></span>
                         </td>
-                        <td>状态:</td>
-                        <td><select style="width:50%;height: 10%">
-                            <option value="0">请选择</option>
-                        </select>
+                        <td>提交时间:</td>
+                        <td>
+                            <span id="submissionTime"></span>
                         </td>
                     </tr>
                 </table>

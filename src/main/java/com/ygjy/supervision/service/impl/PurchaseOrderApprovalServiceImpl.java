@@ -20,6 +20,7 @@ public class PurchaseOrderApprovalServiceImpl implements PurchaseOrderApprovalSe
     @Autowired private PurchaseOrderApprovalMapper purchaseOrderApprovalMapper;
     @Autowired private HospitalDAO hospitalDAO;
     @Autowired private PurchaseOrdersStatesDAO purchaseOrdersStatesDAO;
+    @Autowired private PurchaseOrderDAO purchaseOrderDAO;
     @Override
     public PageInfo findAllPurchaseOrder(PurchaseOrder purchaseOrder,String procurementStartTime,String procurementEndTime,Integer pageNum){
         PageHelper.startPage(pageNum,5);
@@ -37,5 +38,22 @@ public class PurchaseOrderApprovalServiceImpl implements PurchaseOrderApprovalSe
         map.put("hospitalList",hospitalList);
         map.put("purchaseOrdersStatesList",purchaseOrdersStatesList);
         return map;
+    }
+
+    @Override
+    public Integer submitAuditResults(List<Integer> ids, List<Integer> purchaseStateS, List<String> auditOpinionS) {
+        int sum = 0;
+        for (int i=0;i<ids.size();i++){
+            PurchaseOrder purchaseOrder = purchaseOrderDAO.selectByPrimaryKey(ids.get(i));
+            purchaseOrder.setPurchaseState(purchaseStateS.get(i));
+            purchaseOrder.setAuditOpinion(auditOpinionS.get(i));
+            sum+=purchaseOrderDAO.updateByPrimaryKeySelective(purchaseOrder);
+        }
+        return sum;
+    }
+
+    @Override
+    public PurchaseOrder findOne(Integer id) {
+        return purchaseOrderDAO.selectByPrimaryKey(id);
     }
 }

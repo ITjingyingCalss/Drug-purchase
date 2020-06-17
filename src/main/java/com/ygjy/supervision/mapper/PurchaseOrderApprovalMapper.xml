@@ -38,10 +38,10 @@
             and name_of_purchase_order like "%"#{purchaseOrder.nameOfPurchaseOrder}"%"
         </if>
         <if test="purchaseOrder.purchaseState!=null and purchaseOrder.purchaseState!=0">
-            and purchase_state like "%"#{purchaseOrder.purchaseState}"%"
+            and purchase_state = #{purchaseOrder.purchaseState}
         </if>
         <if test="purchaseOrder.hospitalId!=null and purchaseOrder.hospitalId!=0">
-            and hospital_id like "%"#{purchaseOrder.hospitalId}"%"
+            and hospital_id = #{purchaseOrder.hospitalId}
         </if>
         <if test="procurementStartTime!=null and procurementStartTime!='' and procurementEndTime!=null and procurementEndTime!=''">
             and start_time between #{procurementStartTime} and #{procurementEndTime}

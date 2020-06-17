@@ -27,6 +27,16 @@
             window.location.href="down";
         }
     </script>
+    <script type="text/javascript">
+        function sleep(d){
+            for(var t = Date.now();Date.now() - t <= d;);
+        }
+        function xiazai(){
+            window.location.href="DrugInformationMaintenance/downloadTemplate?filenames=药品信息导入说明";
+            sleep(2000);
+            window.location.href="DrugInformationMaintenance/downloadTemplate1?filenames=药品信息模板";
+        }
+    </script>
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <!-- .box-body -->
@@ -134,7 +144,7 @@
         </table>
         <div style="text-align: center;padding-top: 10px">
             <button type="button" class="btn btn-success btn-sm" onclick="fenye()">查询</button>
-            <button class="btn btn-success btn-sm" onclick="exportDrugInformationExcle()">导出</button>
+            <button type="button" class="btn btn-success btn-sm" onclick="exportDrugInformationExcle()">导出</button>
         </div>
     </div>
 </form>
@@ -477,7 +487,7 @@
                 <h3 id="myModalLabel1">药品信息导入</h3>
             </div>
             <div style="text-align: center">
-                下载模板文件<a href="#">点击下载药品信息导入模板</a>
+                下载模板文件<a href="JavaScript:xiazai()">点击下载药品信息导入模板</a>
             </div>
             <div style="text-align: center;color: red">提示：请下载后在模板文件中录入药品信息,在下面的“选择文件”中选择要导入的文件,点击“导入”</div>
             <div style="text-align: center;color: red">注意：请下载模板文件后切勿修改excel的单元格格式,导入文件单元格格式必须为文本。</div>
@@ -485,7 +495,7 @@
                 <input type="file" name="file" id="file">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="uploadfile()">导入</button>
+                <button class="btn btn-success" onclick="uploadDrugInformationFile()">导入</button>
                 <button class="btn btn-warning" onclick="">查看导入失败结果</button>
                 <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
