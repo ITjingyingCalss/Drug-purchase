@@ -142,6 +142,15 @@
                 scrollbar:false,
                 content:$("#edit_add")
             })
+            $("#updateUserId").val("");
+            $("#updateUserAccount").val("");
+            $("#updateUserName").val("");
+            $("#updatePassword").val("");
+            $("#updateUserUnit").val("");
+            $("#updateContactAddress").val("");
+            $("#updateContacts").val("");
+            $("#updateUserEmail").val("");
+            $("#updateUserPhone").val("");
             for (var i = 0; i < result.length; i++) {
                 if (result[i].userId = userId){
                     $("#updateUserId").val(result[i].userId);
