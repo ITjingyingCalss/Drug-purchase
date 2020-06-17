@@ -38,7 +38,7 @@ public class DeliveryListExportController {
     public String export(HttpServletRequest request, HttpServletResponse response, String[] importId) throws Exception {
         String message="";
         String fileName = "发货清单表"+System.currentTimeMillis()+".xls";
-
+        Workbook workbook = null;
         try {
             fileName= URLEncoder.encode(fileName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -47,7 +47,7 @@ public class DeliveryListExportController {
         try {
             //创建工作薄
             FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            Workbook workbook = new HSSFWorkbook();
+         workbook = new HSSFWorkbook();
             Sheet sheet = workbook.createSheet();
             Sheet sheet2 = workbook.createSheet();
             Row row1 = sheet.createRow(0);
@@ -78,9 +78,15 @@ public class DeliveryListExportController {
             Cell cell10 = row1.createCell(9);
             cell10.setCellValue("生产企业");
             Cell cell11 = row1.createCell(10);
-            cell11.setCellValue("采购状态");
-
-
+            cell11.setCellValue("中标价");
+            Cell cell15 = row1.createCell(11);
+            cell15.setCellValue("交易价");
+            Cell cell16 = row1.createCell(12);
+            cell16.setCellValue("采购量");
+            Cell cell17 = row1.createCell(13);
+            cell17.setCellValue("采购金额");
+            Cell cell18 = row1.createCell(14);
+            cell18.setCellValue("医院名称");
             workbook.createSheet();
             workbook.createSheet();
             //注意工作表的名字是不能重复的不然就报错啦
@@ -101,15 +107,15 @@ public class DeliveryListExportController {
         }
 
         //创建HSSFWorkbook
-//        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(workbook, title, content, null);
-
+//        HSSFWorkbook wb = ExcelUtil.getHSSFWorkbook(workbook.toString(), title, content, null);
+;
         //响应到客户端
         try {
             this.setResponseHeader(response, fileName);
             OutputStream os = response.getOutputStream();
-//            wb.write(os);
-//            os.flush();
-//            os.close();
+            workbook.write(os);
+            os.flush();
+            os.close();
             message = "SUCCESS";
         } catch (Exception e) {
             e.printStackTrace();

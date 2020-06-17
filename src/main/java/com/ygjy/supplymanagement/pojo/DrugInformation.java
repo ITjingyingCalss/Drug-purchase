@@ -614,6 +614,8 @@ public class DrugInformation implements Serializable {
         return result;
     }
 
+
+
     @Override
     public String toString() {
         return "DrugInformation{" +

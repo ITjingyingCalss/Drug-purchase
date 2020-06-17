@@ -160,4 +160,36 @@ public class DrugsInformationImpl implements DrugsInformationService {
     public int updateUnableToSupply(List<Integer> array) {
         return drugsInformationDao.updateUnableToSupply(array);
     }
+
+    @Override
+    public int insertPurchaseorder(PurchaseOrder purchaseOrder) {
+        int i = drugsInformationDao.insertPurchaseorder(purchaseOrder);
+        return i;
+    }
+
+    @Override
+    public int insertDruginformation(DrugInformation drugInformation) {
+        int i = drugsInformationDao.insertDruginformation(drugInformation);
+        return i;
+    }
+
+    @Override
+    public PurchaseOrderDrugDetails selectPurchaseOrders(Integer id) {
+        return drugsInformationDao.selectPurchaseOrders(id);
+    }
+
+    @Override
+    public int insert(PurchaseOrderDrugDetails purchaseOrderDrugDetails) {
+        return drugsInformationDao.insert(purchaseOrderDrugDetails);
+    }
+
+    @Override
+    public int insertHospitalTransactionDetail(HospitalTransactionDetails hospitalTransactionDetails) {
+        return drugsInformationDao.insertHospitalTransactionDetail(hospitalTransactionDetails);
+    }
+
+    @Override
+    public int insertHospitalName(Hospital hospital) {
+        return drugsInformationDao.insertHospitalName(hospital);
+    }
 }
