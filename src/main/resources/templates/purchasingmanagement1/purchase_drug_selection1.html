@@ -25,9 +25,9 @@
                 for (var i = 0;i<data.length;i++){
                     console.log(data);
                     $(".context").append('<tr><td>'+ data[i].id +'</td><td><input class="mm" type="checkbox"></td><td>'+data[i].serialNumber + '</td><td>' +data[i].commonName+ '</td><td>'
-                        +data[i].dosageFormId + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
-                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseNameId+ '</td><td>'+ data[i].tradeName+ '</td><td>'+ data[i].biddingPrice+ '</td><td>'+ data[i].drugCategoryId
-                        + '</td><td>'+ data[i].drugTransactionStatusId + '</td><td>'+ 1 + '</td><td>'+ data[i].availabilityStatus
+                        +data[i].durgsFrom.drugFrom + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
+                        + data[i].conversionFraction+ '</td><td>'+ data[i].enterprise.enterpriseName+ '</td><td>'+ data[i].tradeName+ '</td><td>'+ data[i].biddingPrice+ '</td><td>'+ data[i].drugCategory.drugCategoryName
+                        + '</td><td>'+ data[i].drugTransactionStatus.drugTransactionExplain + '</td><td>'+ data[i].suppliers.suppliername + '</td><td>'+ data[i].availabilityStatus
                         + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')">查看'
                         +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')"> 修改'
                         +'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
@@ -62,16 +62,15 @@
                 function (data) {
                     for (var i = 0;i<data.length;i++){
                         $(".context").append('<tr><td>'+ data[i].id +'</td><td><input class="mm" type="checkbox"></td><td>'+data[i].serialNumber + '</td><td>' +data[i].commonName+ '</td><td>'
-                            +data[i].dosageFormId + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
-                            + data[i].conversionFraction+ '</td><td>'+ data[i].enterpriseNameId+ '</td><td>'+ data[i].tradeName+ '</td><td>'+ data[i].biddingPrice+ '</td><td>'+ data[i].drugCategoryId
-                            + '</td><td>'+ data[i].drugTransactionStatusId + '</td><td>'+ 1 + '</td><td>'+ data[i].availabilityStatus
+                            +data[i].durgsFrom.drugFrom + '</td><td>'+ data[i].specification+ '</td><td>'+ data[i].unit+ '</td><td>'
+                            + data[i].conversionFraction+ '</td><td>'+ data[i].enterprise.enterpriseName+ '</td><td>'+ data[i].tradeName+ '</td><td>'+ data[i].biddingPrice+ '</td><td>'+ data[i].drugCategory.drugCategoryName
+                            + '</td><td>'+ data[i].drugTransactionStatus.drugTransactionExplain + '</td><td>'+ data[i].suppliers.suppliername + '</td><td>'+ data[i].availabilityStatus
                             + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')">查看'
                             +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].id+')"> 修改'
-                            +'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].itemsId+')">删除'+'</button></td></tr>')
+                            +'</button></td><td><button class="btn btn-danger btn-sm" onclick="remove('+data[i].id+')">删除'+'</button></td></tr>')
                     }
                 })
         }
-
         //查看
         function selectById(id) {
             url="selectById";
@@ -200,7 +199,28 @@
             </td>
             <td>
                 <select id="dosageFormId" style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
+                    <<option value="0">请选择</option>
+                    <option value="1">片剂</option>
+                    <option value="2">丸剂</option>
+                    <option value="3">硬胶囊剂</option>
+                    <option value="4">软胶囊剂</option>
+                    <option value="5">口服液</option>
+                    <option value="6">口服溶液剂</option>
+                    <option value="7">糖浆剂</option>
+                    <option value="8">混悬剂</option>
+                    <option value="9">口服酊剂</option>
+                    <option value="10">煎膏剂</option>
+                    <option value="11">颗粒剂</option>
+                    <option value="12">散剂</option>
+                    <option value="13">吸入剂</option>
+                    <option value="14">干混悬剂</option>
+                    <option value="15">合剂</option>
+                    <option value="16">注射液</option>
+                    <option value="17">粉针剂</option>
+                    <option value="18">外用酊剂类</option>
+                    <option value="19">凝胶剂</option>
+                    <option value="20">喷雾剂</option>
+                    <option value="21">滴剂</option>
                 </select>
             </td>
             <td style="text-align: right">
@@ -229,7 +249,17 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
             </td>
             <td>
-                <input class="form-control" id="enterpriseNameId">
+                <select style="width:50%;height: 10%" id="enterpriseNameId" name="enterpriseNameId">
+                    <option value="0">请选择</option>
+                    <option value="1">哈药六厂有限公司</option>
+                    <option value="2">六神有限公司</option>
+                    <option value="3">神州有限公司</option>
+                    <option value="4">花露水有限公司</option>
+                    <option value="5">无神有限公司</option>
+                    <option value="6">口服溶液剂</option>
+                    <option value="7">九州有限公司</option>
+                </select>
+               <!-- <input class="form-control" id="enterpriseNameId">-->
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
@@ -243,7 +273,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">价格范围：</span>
             </td>
             <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                <input style="width: 23%" id="biddingPrice">
+                <input  id="biddingPrice">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
@@ -251,6 +281,8 @@
             <td>
                 <select style="width: 50%;height: 20%" id="drugCategoryId">
                     <option value="0">请选择</option>
+                    <option value="1">处方药</option>
+                    <option value="2">非处方药</option>
                 </select>
             </td>
         </tr>
@@ -261,6 +293,8 @@
             <td>
                 <select style="width: 50%;height: 20%" id="availabilityStatus">
                     <option value="0">请选择</option>
+                    <option value="1">正常</option>
+                    <option value="2">不正常</option>
                 </select>
                 <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
             </td>
@@ -270,6 +304,8 @@
             <td>
                 <select style="width: 50%;height: 20%" id="drugTransactionStatusId">
                     <option value="0">请选择</option>
+                    <option value="1">正常</option>
+                    <option value="2">取消交易</option>
                 </select>
                 <!-- <input class="form-control" id="" >-->
             </td>
@@ -397,13 +433,32 @@
                     <tr>
                         <td>剂型:</td>
                         <td>
-                            <input id="dosageFormId1" name="dosageFormId1" class="form-control"></td>
-                        <!--<select style="width:50%;height: 10%" id="dosageFormId1" name="dosageFormId">
-                            <option value="0">请选择</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>-->
+                            <!--<input id="dosageFormId1" name="dosageFormId1" class="form-control">-->
+                            <select style="width:50%;height: 10%" id="dosageFormId1" name="dosageFormId1">
+                                <option value="0">请选择</option>
+                                <option value="1">片剂</option>
+                                <option value="2">丸剂</option>
+                                <option value="3">硬胶囊剂</option>
+                                <option value="4">软胶囊剂</option>
+                                <option value="5">口服液</option>
+                                <option value="6">口服溶液剂</option>
+                                <option value="7">糖浆剂</option>
+                                <option value="8">混悬剂</option>
+                                <option value="9">口服酊剂</option>
+                                <option value="10">煎膏剂</option>
+                                <option value="11">颗粒剂</option>
+                                <option value="12">散剂</option>
+                                <option value="13">吸入剂</option>
+                                <option value="14">干混悬剂</option>
+                                <option value="15">合剂</option>
+                                <option value="16">注射液</option>
+                                <option value="17">粉针剂</option>
+                                <option value="18">外用酊剂类</option>
+                                <option value="19">凝胶剂</option>
+                                <option value="20">喷雾剂</option>
+                                <option value="21">滴剂</option>
+                            </select>
+                        </td>
                         <td>规格:</td>
                         <td><input id="specification1" name="specification1" class="form-control"></td>
                     </tr>
@@ -415,7 +470,18 @@
                     </tr>
                     <tr>
                         <td>生产企业名称</td>
-                        <td><input class="form-control" id="enterpriseNameId1" name="enterpriseNameId1"></td>
+                        <td><!--<input class="form-control" id="enterpriseNameId1" name="enterpriseNameId1">-->
+                            <select style="width:50%;height: 10%" id="enterpriseNameId1" name="enterpriseNameId1">
+                                <option value="0">请选择</option>
+                                <option value="1">哈药六厂有限公司</option>
+                                <option value="2">六神有限公司</option>
+                                <option value="3">神州有限公司</option>
+                                <option value="4">花露水有限公司</option>
+                                <option value="5">无神有限公司</option>
+                                <option value="6">口服溶液剂</option>
+                                <option value="7">九州有限公司</option>
+                            </select>
+                        </td>
                         <td>商品名</td>
                         <td><input class="form-control" id="tradeName1" name="tradeName1"></td>
                     </tr>
@@ -449,10 +515,17 @@
                     <tr>
                         <td>质量层次</td>
                         <td>
-                            <input class="form-control" id="qualityLevelId1" name="qualityLevelId1">
-                            <!--<select style="width:50%;height: 10%" id="qualityLevelId1" name="qualityLevelId">
+                            <!--<input class="form-control" id="qualityLevelId1" name="qualityLevelId1">-->
+                            <select style="width:50%;height: 10%" id="qualityLevelId1" name="qualityLevelId">
                                 <option value="0">请选择</option>
-                            </select>-->
+                                <option value="1">国家一类新药</option>
+                                <option value="2">国家科学进步奖</option>
+                                <option value="3">专利</option>
+                                <option value="4">原研</option>
+                                <option value="5">单独定价</option>
+                                <option value="6">优质优价</option>
+                                <option value="7">GMP</option>
+                            </select>
                         </td>
                         <td>质量层次说明</td>
                         <td>
@@ -473,10 +546,12 @@
                         <td><input class="form-control" id="validityOfDrugInspectionReport1" name="validityOfDrugInspectionReport1"></td>
                         <td>药品交易状态:</td>
                         <td>
-                            <input class="form-control" id="drugTransactionStatusId1" name="drugTransactionStatusId1">
-                            <!--<select style="width:50%;height: 10%" id="drugTransactionStatusId1" name="drugTransactionStatusId">
+                            <!--<input class="form-control" id="drugTransactionStatusId1" name="drugTransactionStatusId1">-->
+                            <select style="width:50%;height: 10%" id="drugTransactionStatusId1" name="drugTransactionStatusId">
                                 <option value="0">请选择</option>
-                             </select>-->
+                                <option value="1">正常</option>
+                                <option value="2">取消交易</option>
+                             </select>
                         </td>
                     </tr>
                     <tr>

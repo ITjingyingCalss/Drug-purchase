@@ -1,6 +1,6 @@
 package com.ygjy.purchasingmanagement1.service.impl;
 
-import com.ygjy.pojo.DrugItems;
+import com.ygjy.purchasingmanagement1.pojo.DrugItems;
 import com.ygjy.purchasingmanagement1.dao.DrugItemsDao;
 import com.ygjy.purchasingmanagement1.service.DrugItemsService;
 import org.springframework.beans.factory.annotation.Autowired;

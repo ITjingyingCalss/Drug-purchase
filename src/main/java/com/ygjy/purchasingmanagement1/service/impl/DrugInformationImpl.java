@@ -2,6 +2,7 @@ package com.ygjy.purchasingmanagement1.service.impl;
 
 import com.ygjy.pojo.DrugInformation;
 import com.ygjy.purchasingmanagement1.dao.DrugInformationDao;
+import com.ygjy.purchasingmanagement1.pojo.DrugInformation2;
 import com.ygjy.purchasingmanagement1.service.DrugInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,28 +17,28 @@ public class DrugInformationImpl implements DrugInformationService {
     DrugInformationDao drugInformationDao;
 
     @Override
-    public List<DrugInformation> selectAll() {
+    public List<DrugInformation2> selectAll() {
         return drugInformationDao.selectAll();
     }
 
     @Override
-    public List<DrugInformation> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice, Integer qualityLevelId, Integer drugCategoryId, Integer drugTransactionStatusId) {
+    public List<DrugInformation2> selectLike(Integer serialNumber, String commonName, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer enterpriseNameId, String tradeName, Double biddingPrice, Integer qualityLevelId, Integer drugCategoryId, Integer drugTransactionStatusId) {
         return drugInformationDao.selectLike(serialNumber,commonName,dosageFormId, specification, unit,conversionFraction, enterpriseNameId, tradeName, biddingPrice, qualityLevelId,  drugCategoryId, drugTransactionStatusId);
     }
 
     @Override
-    public int addDrug(DrugInformation drugInformation) {
+    public int addDrug(DrugInformation2 drugInformation) {
         int i = drugInformationDao.addDrug(drugInformation);
         return i;
     }
 
     @Override
-    public DrugInformation selectById(Integer id) {
+    public DrugInformation2 selectById(Integer id) {
         return drugInformationDao.selectById(id);
     }
 
     @Override
-    public int updateDrug(DrugInformation drugInformation) {
+    public int updateDrug(DrugInformation2 drugInformation) {
         return drugInformationDao.updataDrug(drugInformation);
     }
 

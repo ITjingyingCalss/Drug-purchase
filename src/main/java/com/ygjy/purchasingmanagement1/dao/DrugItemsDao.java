@@ -1,6 +1,6 @@
 package com.ygjy.purchasingmanagement1.dao;
 
-import com.ygjy.pojo.DrugItems;
+import com.ygjy.purchasingmanagement1.pojo.DrugItems;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
