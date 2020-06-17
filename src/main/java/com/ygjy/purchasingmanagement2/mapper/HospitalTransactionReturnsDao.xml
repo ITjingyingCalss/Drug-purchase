@@ -30,11 +30,11 @@
   </insert>
 
   <!--查询所有到页面-->
-  <select id="list" resultMap="BaseResultMap">
+<!--  <select id="list" resultMap="BaseResultMap">
 
         select * from hospital_transaction_return
 
-  </select>
+  </select>-->
 
     <!--导出-->
     <select id="exportAll" resultMap="BaseResultMap">
@@ -68,9 +68,12 @@
 
   </delete>
 
-  <select id="selList" resultMap="BaseResultMap">
+  <select id="list" resultMap="BaseResultMap">
 
-        select * from hospital_transaction_return where 1 = 1
+        select id, return_order_number, return_order_name,
+      hospital_id, contacts, phone,
+      creat_receipts_person, create_receipts_time,
+      submission_time, remark, return_state_id from hospital_transaction_return where 1=1
 
         <if test="returnOrderNumber != null and returnOrderNumber != ''">
             and return_order_number like CONCAT ('%',#{returnOrderNumber},'%')

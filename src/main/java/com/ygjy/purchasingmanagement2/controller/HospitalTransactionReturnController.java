@@ -1,23 +1,22 @@
 package com.ygjy.purchasingmanagement2.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.ygjy.pojo.DrugCategory;
-import com.ygjy.pojo.DrugItems;
-import com.ygjy.pojo.DurgsFrom;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionReturnService;
 import com.ygjy.purchasingmanagement2.vo.HospitalTransactionReturnVo;
-import com.ygjy.supervision.vo.DrugItemsVo;
+
+import com.ygjy.supplymanagement.pojo.DrugInformation;
 import com.ygjy.util.ExportExcel;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -35,10 +34,10 @@ import java.util.Map;
  * @Date: 2020/6/9 0009 下午 2:25
  * Desc: 添加退货单
  */
-@Controller
+@RestController
 public class HospitalTransactionReturnController {
 
-    @Autowired
+    @Resource
     HospitalTransactionReturnService hospitalTransactionReturnService;
 
 
@@ -57,12 +56,22 @@ public class HospitalTransactionReturnController {
 
     /*查询所有到页面*/
     @ResponseBody
-    @RequestMapping("lists")
-    public List<HospitalTransactionReturn> list(HospitalTransactionReturn htrLis){
+    @RequestMapping(value = "lists" , produces = "application/json;charset=utf-8")
+    public String list(String returnOrderNumber,String returnOrderName,
+                                                Integer returnStateId,
+                                                String contacts,
+                                                String phone,
+                                                String creatReceiptsPerson,
+                                                String createReceiptsTime,
+                                                String submissionTime,
+                                                String remark,
+                                                Integer hospitalId,
+                                                @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
+        PageHelper.startPage(pageNum,5);
+        List<HospitalTransactionReturn> list1 = hospitalTransactionReturnService.list(returnOrderNumber, returnOrderName, returnStateId, contacts, phone, creatReceiptsPerson, createReceiptsTime, submissionTime,remark,hospitalId);
+        PageInfo<HospitalTransactionReturn> pageInfo = new PageInfo<>(list1);
+        return JSON.toJSONString(pageInfo);
 
-        List<HospitalTransactionReturn> list1 = hospitalTransactionReturnService.list(htrLis);
-
-        return list1;
     }
 
     /*修改回显*/
@@ -111,14 +120,14 @@ public class HospitalTransactionReturnController {
 
 
     /*条件查询*/
-    @ResponseBody
+/*    @ResponseBody
     @RequestMapping("sele")
     public List<HospitalTransactionReturn> selList (String returnOrderNumber,String returnOrderName,Integer hospitalId,Integer returnStateId){
 
         List<HospitalTransactionReturn> select = hospitalTransactionReturnService.selList(returnOrderNumber,returnOrderName,hospitalId,returnStateId);
 
         return select;
-    }
+    }*/
 
     /*
      * 导出文档

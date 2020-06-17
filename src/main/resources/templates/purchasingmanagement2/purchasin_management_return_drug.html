@@ -23,7 +23,7 @@
 
 
     <!--导出到excel-->
-    <script type="text/javascript">
+<!--    <script type="text/javascript">
 
         function exportAll() {
             var formData = $("#fuzzyFormId").serialize()
@@ -32,44 +32,88 @@
             }
         }
 
-
-    </script>
-
+    </script>-->
 
 
     <script type="text/javascript">
+        var qian;
+        var hou;
+        $(function () {
+            selectByEntity();
+        })
+        //查询
+        function selectByEntity(pageNum){
 
-        function findDrugFromAndDrugCategory(){
+            $("#tbody").empty();
+
+            var purchaseOrderNumber=$("#purchase_order_number").val();
+            var nameOfPurchaseOrder=$("#name_of_purchase_order").val();
+            var supplierMame=$("#supplier_name").val();
+            var drugCategoryId=$("#drug_category_id").val();
+            var serialNumber=$("#serial_number").val();
+            var commonName=$("#common_name").val();
+            var drugFrom=$("#drug_from").val();
+            var specification=$("#specification").val();
+            var unit=$("#unit").val();
+            var conversionFraction=$("#conversion_fraction").val();
+            var enterpriseName=$("#enterprise_name").val();
+            var tradeName=$("#trade_name").val();
+            var level=$("#level").val();
+            var createReceiptsTime=$("#create_receipts_time").val();/*建单时间  /  入库时间*/
+            var submissionTime=$("#submission_time").val();/*提交时间    /   出库时间*/
+            var drugBatchNumber=$("#drug_batch_number").val()
+            var returnOfState=$("#return_of_state").val();//退货状态表
+            var InvoiceNumber=$("#Invoice_number").val();//发票
             $.ajax({
-                url:"",
+                url:"seletedrugs",
+                data:{
+                    "purchaseOrderNumber":purchaseOrderNumber,
+                    "nameOfPurchaseOrder":nameOfPurchaseOrder,
+                    "supplierMame":supplierMame,
+                    "drugCategoryId":drugCategoryId,
+                    "serialNumber":serialNumber,
+                    "commonName":commonName,
+                    "drugFrom":drugFrom,
+                    "specification":specification,
+                    "unit":unit,
+                    "conversionFraction":conversionFraction,
+                    "enterpriseName":enterpriseName,
+                    "tradeName":tradeName,
+                    "level":level,
+                    //"createReceiptsTime":createReceiptsTime,
+                    //"submissionTime":submissionTime,
+                    "drugBatchNumber":drugBatchNumber,
+                    "returnOfState":returnOfState,
+                    "InvoiceNumber":InvoiceNumber,
+                    "pageNum":pageNum
+                },
                 type:"post",
-                success:function () {
-                    var a ="<option value='0'>请选择</option>"//供货商
-                    var b ="<option value='0'>请选择</option>"//药品类别
-                    var c ="<option value='0'>请选择</option>"//剂型
-                    var d ="<option value='0'>请选择</option>"//质量层次
+                dataType:"json",
+                success:function (listss) {
+                    console.log(listss);
+                    page = listss;
+                    var ss = "";
+                    for (var i = 0; i < listss.list.length; i++) {
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + list1.list[i].id + "></td><td>"
+                            + list1.list[i].returnOrderNumber + "</td><td>"
+                            + list1.list[i].returnOrderName + "</td><td>"
+                            + list1.list[i].hospitalId + "</td><td>"
+                            + list1.list[i].contacts + "</td><td>"
+                            + list1.list[i].phone + "</td><td>"
+                            + list1.list[i].creatReceiptsPerson + "</td><td>"
+                            + list1.list[i].createReceiptsTime + "</td><td>"
+                            + list1.list[i].submissionTime + "</td><td>"
+                            + list1.list[i].remark + "</td><td>"
+                            + (list1.list[i].returnStateId == 1 ? "未提交" : "提交") + "</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee(" + list1.list[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
 
-                    for (var i=0;i<data.length;i++){
-                        a+="<option value='"+data[i].supplier_name+"'>"+data[i].supplierName+"</option>"
+                        $("#tbody").append(ss);
+                        qian = listss.pageNum == 1 ? 1 : listss.pageNum - 1;
+                        hou = listss.pageNum == listss.pages ? listss.pages : listss.pageNum + 1;
                     }
-                    for (var i=0;i<data.length;i++){
-                        b+="<option value='"+data[i].drug_category_id+"'>"+data[i].drugCategoryId+"</option>"
-                    }
-                    for (var i=0;i<data.length;i++){
-                        c+="<option value='"+data[i].drug_from+"'>"+data[i].drugFrom+"</option>"
-                    }
-                    for (var i=0;i<data.length;i++){
-                        d+="<option value='"+data[i].level+"'>"+data[i].level+"</option>"
-                    }
-                    /添加模态框select
-                    $("#drugsFromId").empty();
-                    $("#drugCategory_id").empty();
-                    $("#drugsFromId").append(a);
-                    $("#drugCategory_id").append(b);
-                    dd=data;
                 }
             })
         }
+
 
     </script>
 
@@ -89,7 +133,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单编号：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_unitName1">
+                <input class="form-control" id="fbv">
             </td>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货单名称：</span>
             </td>
@@ -231,7 +275,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
             </td>
             <td style="white-space:nowrap">
-                <select class="num" id="drug_from" name="drugFrom" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                <select  id="drug_from" name="drugFrom" onblur="checkDosageForm()" style="width:50%;height: 10%">
                     <option value="0">请选择</option>
                 </select>
             </td>
@@ -281,9 +325,9 @@
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
-            </td>
+            </td><!--purchase_order采购表  建单时间   提交时间-->
             <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                <input  id="receipt_time" name="receiptTime" style="width: 40%"><span style="color: #0E74B4">至</span><input style="width: 40%;">
+                <input  id="create_receipts_time" name="createReceiptsTime" style="width: 40%"><span style="color: #0E74B4">至</span><input id="submission_time" name="submissionTime" style="width: 40%;">
             </td>
         </tr>
         <tr>
@@ -297,7 +341,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货状态：</span>
             </td>
             <td>
-                <select style="width: 50%;height: 20%">
+                <select id="return_of_state" name="returnOfState" style="width: 50%;height: 20%">
                     <option value="1">未确认退货</option>
                     <option value="2">已确认退货</option>
                 </select>
@@ -334,9 +378,9 @@
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="findDrugFromAndDrugCategory()"
                                 data-target="#editModal1">添加
                         </button>
-                        <button type="button" class="btn btn-success btn-sm" onclick="BatchDelete()">
+                        <!--<button type="button" class="btn btn-success btn-sm" onclick="BatchDelete()">
                             删除
-                        </button>
+                        </button>-->
                         <button type="button" class="btn btn-success btn-sm" >保存退货量
                         </button>
                     </div>
@@ -348,6 +392,7 @@
         <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
             <thead>
             <tr>
+                <th><input type="checkbox" id="checkboxMain" onclick="mainOnclick()" value=''></th>
                 <th class="sorting_asc">采购单编号</th>
                 <th class="sorting_asc">采购单名称</th>
                 <th class="sorting">供货商</th>
@@ -363,16 +408,13 @@
                 <th class="sorting">质量层次</th>
                 <th class="sorting">入库时间</th>
                 <th class="sorting">药品批号</th>
-
                 <th class="sorting">退货状态</th>
                 <th class="sorting">发票号或入库单号</th>
-
-                <th class="sorting">详细</th>
                 <th class="sorting">修改</th>
                 <th class="sorting">删除</th>
             </tr>
             </thead>
-            <tbody class="context">
+            <tbody class="context" id="tbody">
             <tr>
                 <td>00008</td>
                 <td>0.</td>
@@ -392,10 +434,7 @@
                 <td>正常</td>
                 <td>正常</td>
                 <td>
-                    <a href="#">查看</a>
-                </td>
-                <td>
-                    <a href="#">修改</a>
+                    <a href="#" data-target="#editModal1" data-toggle="modal">修改</a>
                 </td>
                 <td>
                     <a href="#">删除</a>
@@ -410,17 +449,17 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a href="#" aria-label="Previous">
+                        <a href="#" aria-label="Previous" onclick="selectByEntity(qian)">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <li><a href="#" onclick="selectByEntity(1)">1</a></li>
+                    <li><a href="#" onclick="selectByEntity(2)">2</a></li>
+                    <li><a href="#" onclick="selectByEntity(3)">3</a></li>
+                    <li><a href="#" onclick="selectByEntity(4)">4</a></li>
+                    <li><a href="#" onclick="selectByEntity(5)">5</a></li>
                     <li>
-                        <a href="#" aria-label="Next">
+                        <a href="#" aria-label="Next" onclick="selectByEntity(hou)">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -438,46 +477,146 @@
                 <h3 id="myModalLabe">退货单页面</h3>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered table-striped" id="id_table">
+                <table class="table" >
                     <tr>
-                        <td>退货单编号:</td>
-                        <td><input id="return_order_number" name="returnOrderNumber" class="form-control"></td>
-                        <td>退货单名称:</td>
-                        <td><input id="return_order_name" name="returnOrderName" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td>医院id:</td>
-                        <td><input id="hospital_id" name="hospitalId" class="form-control"></td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
+                        </td>
+                        <td >
+                            <input class="form-control" id="purchase_order_number2" name="purchaseOrderNumber">
+                        </td>
 
-                        <td>联系人:</td>
-                        <td><input id="contacts" name="contacts" class="form-control">
+
+                        <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
+                        </td>
+                        <td >
+                            <input class="form-control" id="name_of_purchase_order2" name="nameOfPurchaseOrder">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
+                        </td>
+                        <td>
+                            <select id="supplier_name2" name="supplierMame" style="width: 50%;height: 20%">
+                                <option value="0">请选择</option>
+                            </select>
+                            <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
+                        </td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
+                        </td>
+                        <td style="white-space:nowrap">
+                            <select class="num" id="drug_category_id2" name="drugCategoryId" onblur="checkDrugCategory()" style="width:50%;height: 10%">
+                                <option value="0">请选择</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
-                        <td>联系电话:</td>
-                        <td><input id="phone" name="phone" class="form-control"></td>
-
-                        <td>建单人:</td>
-                        <td><input id="creat_receipts_person" name="creatReceiptsPerson" class="form-control"></td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
+                        </td>
+                        <td>
+                            <input id="serial_number2" name="serialNumber" class="form-control">
+                        </td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">通用名：</span>
+                        </td>
+                        <td>
+                            <input id="common_name2" name="commonName" class="form-control">
+                        </td>
                     </tr>
                     <tr>
-                        <td>建单时间:</td>
-                        <td><input id="create_receipts_time" name="createReceiptsTime" class="form-control"></td>
-
-                        <td>提交时间:</td>
-                        <td><input id="submission_time" name="submissionTime" class="form-control"></td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
+                        </td>
+                        <td style="white-space:nowrap">
+                            <select  id="drug_from2" name="drugFrom" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                                <option value="0">请选择</option>
+                            </select>
+                        </td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
+                        </td>
+                        <td>
+                            <input id="specification2" name="specification" class="form-control">
+                        </td>
                     </tr>
                     <tr>
-                        <td>备注:</td>
-                        <td><input id="remark" name="remark" class="form-control"></td>
-
-                        <td>退货单状态:</td>
-                        <td><input id="return_state_id" name="returnStateId" class="form-control"></td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">单位：</span>
+                        </td>
+                        <td>
+                            <input id="unit2" name="unit" class="form-control">
+                        </td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">转换系数：</span>
+                        </td>
+                        <td>
+                            <input id="conversion_fraction2" name="conversionFraction" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
+                        </td>
+                        <td>
+                            <input id="enterprise_name2" name="enterpriseName" class="form-control">
+                        </td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
+                        </td>
+                        <td>
+                            <input id="trade_name2" name="tradeName" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">质量层次：</span>
+                        </td>
+                        <td style="white-space:nowrap">
+                            <select class="num" id="level2" name="level" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                                <option value="0">请选择</option>
+                            </select>
+                        </td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
+                        </td><!--purchase_order采购表  建单时间   提交时间-->
+                        <td style="word-break: keep-all;white-space: nowrap;width: 32%">
+                            <input  id="create_receipts_time2" name="submissionTimes" style="width: 40%"><span style="color: #0E74B4">至</span><input id="submission_time2" name="serialNumber" style="width: 40%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品批号：</span>
+                        </td>
+                        <td>
+                            <input id="drug_batch_number2" name="drugBatchNumber" class="form-control">
+                        </td>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货状态：</span>
+                        </td>
+                        <td>
+                            <select id="return_of_state2" name="returnOfState" style="width: 50%;height: 20%">
+                                <option value="1">未确认退货</option>
+                                <option value="2">已确认退货</option>
+                            </select>
+                            <!-- <input class="form-control" id="" >-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">发票号或入库单号：</span>
+                        </td>
+                        <td>
+                            <input id="Invoice_number2" name="InvoiceNumber" class="form-control">
+                        </td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="saveReturnForm()" data-dismiss="modal">保存退货单</button>
+                <button class="btn btn-success" onclick="saveDrugForm()" data-dismiss="modal">保存退货药品</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
