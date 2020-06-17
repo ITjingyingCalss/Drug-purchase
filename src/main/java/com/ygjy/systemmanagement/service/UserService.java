@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface UserService {
 
+/**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询/
     /**
      * 通过用户Id,用户名称,用户地址查找用户信息
      * @param userId
@@ -29,6 +30,18 @@ public interface UserService {
      * @return
      */
     User loginByUsername(String username);
+
+    /***
+     * 查询所有角色
+     * @return
+     */
+    List<Role> findRoleAll();
+
+    /**
+     * 查询所有权限
+     * @return
+     */
+    List<Jurisdiction> findJurisdictionAll();
 
     /**
      * 查询所有省
@@ -77,7 +90,7 @@ public interface UserService {
      */
     Suppliers findSuppliersProperty(String supplierPhone,String supplierEmail);
 
-
+/**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新*/
     /**
      * 更新用户信息,假删除
      * @param user
@@ -99,9 +112,21 @@ public interface UserService {
      */
     boolean updateSuppliers(Suppliers suppliers);
 
+    /**
+     * 通过id更新角色信息
+     * @param role
+     * @return
+     */
+    boolean updateRoleInfo(Role role);
 
+    /**
+     * 通过id修改权限
+     * @param jurisdiction
+     * @return
+     */
+    boolean updateJurisdiction(Jurisdiction jurisdiction);
 
-
+/**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加*/
     /**
      * 添加用户信息
      * @param user
@@ -116,9 +141,21 @@ public interface UserService {
      */
     boolean addSuppliers(Suppliers suppliers);
 
+    /**
+     * 添加角色信息
+     * @param role
+     * @return
+     */
+    boolean addRole(Role role);
 
+    /**
+     * 添加新权限
+     * @param jurisdiction
+     * @return
+     */
+    boolean addJurisdiction(Jurisdiction jurisdiction);
 
-
+/**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除*/
     /**
      * 通过用户Id真删除
      * @param userId
@@ -133,6 +170,21 @@ public interface UserService {
      */
     boolean removeSuppliers(Integer id);
 
+    /**
+     * 通过id删除角色
+     * @param id
+     * @return
+     */
+    boolean reomoveRoleInfo(Integer id);
+
+    /**
+     * 通过id删除权限
+     * @param id
+     * @return
+     */
+    boolean removeJurisdiction(Integer id);
+
+/**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**导出**/
 
     /**
      * 通过id查询用户信息批量导出

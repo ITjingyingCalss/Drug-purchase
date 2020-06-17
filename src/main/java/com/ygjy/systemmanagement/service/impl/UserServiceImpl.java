@@ -38,7 +38,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private SuppliersMapper suppliersMapper;
-    /**
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private JurisdictionMapper jurisdictionMapper;
+/**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询/
+
+     /**
      * 查询所有用户信息
      * @param userId
      * @param userAccount
@@ -58,6 +66,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public User loginByUsername(String username) {
         return userMapper.loginByUsername(username);
+    }
+
+    /**
+     * 查询所有角色
+     * @return
+     */
+    @Override
+    public List<Role> findRoleAll() {
+        return roleMapper.selectRoleAll();
+    }
+
+    /**
+     * 查询所有权限
+     * @return
+     */
+    @Override
+    public List<Jurisdiction> findJurisdictionAll() {
+        return jurisdictionMapper.selectJurisdictionAll();
     }
 
     /**
@@ -82,7 +108,7 @@ public class UserServiceImpl implements UserService {
     public Suppliers findSuppliersProperty(String supplierPhone, String supplierEmail) {
         return null;
     }
-
+/**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新*/
     /**
      * 更新用户状态,实现假删除
      * @param user
@@ -130,6 +156,36 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 更新角色信息
+     * @param role
+     * @return
+     */
+    @Override
+    public boolean updateRoleInfo(Role role) {
+        int i = roleMapper.updateByPrimaryKeySelective(role);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 更新权限信息
+     * @param jurisdiction
+     * @return
+     */
+    @Override
+    public boolean updateJurisdiction(Jurisdiction jurisdiction) {
+        int i = jurisdictionMapper.updateByPrimaryKey(jurisdiction);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+/**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加*/
+    /**
      * 添加用户信息
      * @param user
      * @return
@@ -165,6 +221,36 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 添加角色信息
+     * @param role
+     * @return
+     */
+    @Override
+    public boolean addRole(Role role) {
+        int i = roleMapper.insert(role);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 添加新权限
+     * @param jurisdiction
+     * @return
+     */
+    @Override
+    public boolean addJurisdiction(Jurisdiction jurisdiction) {
+        int i = jurisdictionMapper.insert(jurisdiction);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+/**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除*/
+    /**
      * 根据用户Id实现真删除
      * @param userId
      * @return
@@ -182,6 +268,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean removeSuppliers(Integer id) {
         return false;
+    }
+
+    /**
+     * 通过id删除角色
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean reomoveRoleInfo(Integer id) {
+        int i = roleMapper.deleteByPrimaryKey(id);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeJurisdiction(Integer id) {
+        int i = jurisdictionMapper.deleteByPrimaryKey(id);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     /**
