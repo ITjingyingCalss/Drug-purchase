@@ -59,29 +59,61 @@
     </script>
 
 
-    <!--查询所有到页面-->
+    <!--查询+模糊查询 到页面-->
     <script type="text/javascript">
 
+        var page;
+        var qian;
+        var hou;
         $(function () {
+            selectByEntity();
+        })
+
+        function selectByEntity(pageNum) {
+
+            /*清除页面*/
+            $("#tbody").empty();
+
+            var returnOrderNumber = $("#return_order_number3").val();
+            var returnOrderName = $("#return_order_name3").val();
+            var hospitalId = $("#hospital_id3").val();
+            var returnStateId = $("#return_state_id3").val();
+
             $.ajax({
                 url:"lists",
                 type:"post",
+                data:{
+                    "returnOrderNumber":returnOrderNumber,
+                    "returnOrderName":returnOrderName,
+                    "hospitalId":hospitalId,
+                    "returnStateId":returnStateId,
+                    "pageNum":pageNum
+                },
                 dataType:"json",
                 success:function (list1) {
+                    console.log(list1);
+                    page=list1;
                     var ss = "";
-                    for (var i = 0; i < list1.length; i++) {
-                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + list1[i].id + "></td><td>"+ list1[i].returnOrderNumber +"</td><td>"+ list1[i].returnOrderName +"</td><td>"
-                            + list1[i].hospitalId +"</td><td>"+ list1[i].contacts +"</td><td>"
-                            + list1[i].phone +"</td><td>"+ list1[i].creatReceiptsPerson +"</td><td>"
-                            + list1[i].createReceiptsTime +"</td><td>"+ list1[i].submissionTime +"</td><td>"
-                            + list1[i].remark +"</td><td>"
-                            + (list1[i].returnStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ list1[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
+                    for (var i = 0; i < list1.list.length; i++) {
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + list1.list[i].id + "></td><td>"
+                            + list1.list[i].returnOrderNumber +"</td><td>"
+                            + list1.list[i].returnOrderName +"</td><td>"
+                            + list1.list[i].hospitalId +"</td><td>"
+                            + list1.list[i].contacts +"</td><td>"
+                            + list1.list[i].phone +"</td><td>"
+                            + list1.list[i].creatReceiptsPerson +"</td><td>"
+                            + list1.list[i].createReceiptsTime +"</td><td>"
+                            + list1.list[i].submissionTime +"</td><td>"
+                            + list1.list[i].remark +"</td><td>"
+                            + (list1.list[i].returnStateId==1?"未提交":"提交") +"</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee("+ list1.list[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
 
-                        $("#dataList").append(ss);
+                        $("#tbody").append(ss);
+                        qian=list1.pageNum==1?1:list1.pageNum-1;
+                        hou=list1.pageNum==list1.pages?list1.pages:list1.pageNum+1;
                     }
                 }
             })
-        })
+        }
 
         /*批量删除*/
         function xiaOnclick() {
@@ -127,8 +159,6 @@
                         }
                     }
                 })
-            }else {
-                alert("请选择数据");
             }
         }
 
@@ -196,7 +226,7 @@
 
 
     <!--退货单查询-->
-    <script type="text/javascript">
+<!--    <script type="text/javascript">
 
         function selectByEntity(){
 
@@ -207,7 +237,7 @@
             var returnOrderName = $("#return_order_name3").val();
             var hospitalId = $("#hospital_id3").val();
             var returnStateId = $("#return_state_id3").val();
-            
+
             $.ajax({
                 url:"sele",
                 type:"post",
@@ -239,7 +269,7 @@
                 }
             })
         }
-    </script>
+    </script>-->
 
 
 
@@ -281,7 +311,6 @@
                 <input class="form-control" id="return_order_name3" name="returnOrderName">
             </td>
         </tr>
-
         <tr>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">医院编号：</span>
@@ -301,7 +330,7 @@
         </tr>
     </table>
     <div style="text-align: center;padding-top: 10px">
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询退货单</button>
+        <button type="button" class="btn btn-success btn-sm" onclick="selectByEntity()">查询退货单</button>
        <button type="button" class="btn btn-success btn-sm" onclick="exportAll()" >导出</button>
     </div>
 </div>
@@ -354,23 +383,21 @@
                 <th class="sorting">修改</th>
             </tr>
             </thead>
-            <!--<tbody class="context">
+            <tbody class="context" id="tbody">
             <tr>
                 <td>00008</td>
                 <td>0.9%氯化钠</td>
                 <td>大输液</td>
-                <td>1000玻瓶</td>
+                <td>1000ml（玻瓶）</td>
                 <td>瓶</td>
                 <td>1</td>
-                <td>3</td>
-                <td>3</td>
-                <td>3</td>
-                <td>3</td>
+                <td></td>
+                <td>正常</td>
                 <td>
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="updateSee("+ list[i].id +")"data-target="#editModal2">修改</button>
+                    <a href="#" data-target="#editModal1" data-toggle="modal">查看</a>
                 </td>
             </tr>
-            </tbody>-->
+            </tbody>
         </table>
         <!--数据列表/-->
         <!--分页工具条展示-->
@@ -378,17 +405,17 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a href="#" aria-label="Previous">
+                        <a href="#" aria-label="Previous" onclick="selectByEntity(qian)">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <li><a href="#" onclick="selectByEntity(1)">1</a></li>
+                    <li><a href="#" onclick="selectByEntity(2)">2</a></li>
+                    <li><a href="#" onclick="selectByEntity(3)">3</a></li>
+                    <li><a href="#" onclick="selectByEntity(4)">4</a></li>
+                    <li><a href="#" onclick="selectByEntity(5)">5</a></li>
                     <li>
-                        <a href="#" aria-label="Next">
+                        <a href="#" aria-label="Next" onclick="selectByEntity(hou)">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
