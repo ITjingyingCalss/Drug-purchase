@@ -21,7 +21,17 @@ public interface HospitalTransactionReturnService {
    int insert(HospitalTransactionReturn hosp);
 
    /*查询所有到页面*/
-   List<HospitalTransactionReturn> list(HospitalTransactionReturn htrList);
+   List<HospitalTransactionReturn> list(String returnOrderNumber,
+                                        String returnOrderName,
+                                        Integer returnStateId,
+                                        String contacts,
+                                        String phone,
+                                        String creatReceiptsPerson,
+                                        String createReceiptsTime,
+                                        String submissionTime,
+                                        String remark,
+                                        Integer hospitalId);
+
 
    /*修改回显*/
    HospitalTransactionReturn htrSee(Integer id);
@@ -32,10 +42,10 @@ public interface HospitalTransactionReturnService {
    /*批量删除*/
    boolean removeByKeys(String[] ids);
 
-   /*条件查询*/
+   /*条件查询*//*
    List<HospitalTransactionReturn> selList(@Param("returnOrderNumber") String returnOrderNumber, @Param("returnOrderName") String returnOrderName,
                                            @Param("hospitalId") Integer hospitalId, @Param("returnStateId") Integer returnStateId);
-
+*/
    /*导出*/
    List<HospitalTransactionReturn> exportAll(HospitalTransactionReturn hospital);
 

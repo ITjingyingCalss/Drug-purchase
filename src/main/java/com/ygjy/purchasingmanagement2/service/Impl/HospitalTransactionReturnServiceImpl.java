@@ -30,9 +30,20 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 
     /*查询全部到页面*/
     @Override
-    public List<HospitalTransactionReturn> list(HospitalTransactionReturn htrList) {
+    public List<HospitalTransactionReturn> list(String returnOrderNumber,
+                                                String returnOrderName,
+                                                Integer returnStateId,
+                                                String contacts,
+                                                String phone,
+                                                String creatReceiptsPerson,
+                                                String createReceiptsTime,
+                                                String submissionTime,
+                                                String remark,
+                                                Integer hospitalId) {
 
-        return hospitalTransactionReturnsDao.list(htrList);
+        List<HospitalTransactionReturn> list = hospitalTransactionReturnsDao.list(returnOrderNumber, returnOrderName, returnStateId, contacts, phone, creatReceiptsPerson, createReceiptsTime, submissionTime,remark,hospitalId);
+
+        return list;
     }
 
     /*修改回显*/
@@ -61,12 +72,12 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 
     }
 
-    /*条件查询*/
+/*    *//*条件查询*//*
     @Override
     public List<HospitalTransactionReturn> selList(String returnOrderNumber, String returnOrderName, Integer hospitalId, Integer returnStateId) {
 
         return hospitalTransactionReturnsDao.selList(returnOrderNumber,returnOrderName, hospitalId, returnStateId);
-    }
+    }*/
 
     /*导出*/
     @Override
