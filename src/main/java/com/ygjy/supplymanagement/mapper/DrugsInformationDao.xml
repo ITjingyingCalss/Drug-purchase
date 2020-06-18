@@ -777,7 +777,7 @@
     <!--采购单处理-->
     <select id="selectPurchaseOrderProcessing" resultMap="BaseResultMap">
         SELECT i.id AS iid,o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`create_receipts_times`,o.`submission_times`,
-        e.`enterprise_name`,s.`bidding_price`,s.`transaction_price`,s.`purchased_amount`,s.`purchased_money`,p.`purchase_orders_states_id`,f.`drug_from`,
+        e.`enterprise_name`,p.`bidding_price`,p.`transaction_price`,p.`purchased_amount`,p.`purchased_money`,p.`purchase_orders_states_id`,p.`purchase_orders_states_id`,f.`drug_from`,
         <include refid="Base_Column_List" />
         FROM hospital_transaction_details s
         INNER JOIN drug_information i ON i.id=s.`drug_information_id`
@@ -799,12 +799,18 @@
         <if test="hospitalName != null and hospitalName != ''">
             and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%')
         </if>
-        <if test="createReceiptsTimes != null and createReceiptsTimes != ''">
-            and o.`create_receipts_times` BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
+        <if test="createReceiptsTimes != null">
+            and date(o.create_receipts_times) <![CDATA[>=]]>date(#{createReceiptsTimes,jdbcType=TIMESTAMP})
         </if>
-        <if test="submissionTimes != null and submissionTimes != ''">
-            and o.`submission_times` BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
+        <if test="submissionTimes != null ">
+            and date(o.submission_times) <![CDATA[<=]]> date(#{submissionTimes,jdbcType=TIMESTAMP})
         </if>
+        <!--<if test="createReceiptsTimes !=null and createReceiptsTimes !=''">-->
+            <!--AND o.create_receipts_times >= TO_DATE(#{createReceiptsTimes},'yyyy-mm-dd')-->
+        <!--</if>-->
+        <!--<if test="submissionTimes !=null and submissionTimes !=''">-->
+            <!--AND TO_DATE(#{submissionTimes},'yyyy-mm-dd') >= o.submission_times-->
+        <!--</if>-->
         <if test="serialNumber != null and serialNumber != ''">
             and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
         </if>
@@ -884,6 +890,12 @@
             <if test="nameOfPurchaseOrder != null">
                 name_of_purchase_order,
             </if>
+            <if test="hospitalId != null">
+                hospital_id,
+            </if>
+            <if test="purchaseState != null">
+                purchase_state,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -894,6 +906,12 @@
             </if>
             <if test="nameOfPurchaseOrder != null">
                 #{nameOfPurchaseOrder,jdbcType=VARCHAR},
+            </if>
+            <if test="hospitalId != null">
+                #{hospitalId,jdbcType=INTEGER},
+            </if>
+            <if test="purchaseState != null">
+                #{purchaseState,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -991,7 +1009,6 @@
             <if test="purchasedMoney != null">
                 purchased_money,
             </if>
-
             <if test="purchaseOrdersStatesId != null">
                 purchase_orders_states_id,
             </if>
@@ -1179,7 +1196,7 @@
         </trim>
     </insert>
     <!--医院添加-->
-    <insert id="insertHospitalName" parameterType="com.ygjy.pojo.Hospital" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertHospitalName" parameterType="com.ygjy.supplymanagement.pojo.Hospital" useGeneratedKeys="true" keyProperty="id">
         <selectKey keyProperty="id" resultType="Integer" order="AFTER">
             select LAST_INSERT_ID();
         </selectKey>
@@ -1273,4 +1290,66 @@
             </if>
         </trim>
     </insert>
+    <!--按采购单查询-->
+    <select id="selectPurchaseToOrder" resultMap="BaseResultMap">
+           SELECT i.id AS iid,o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`create_receipts_times`,o.`submission_times`,
+        e.`enterprise_name`,p.`bidding_price`,p.`transaction_price`,p.`purchased_amount`,p.`purchased_money`,p.`purchase_orders_states_id`,p.`purchase_orders_states_id`,f.`drug_from`,n.`suppliers_id`,n.`supplier_name`,
+        <include refid="Base_Column_List" />
+        FROM hospital_transaction_details s
+        INNER JOIN drug_information i ON i.id=s.`drug_information_id`
+        INNER JOIN enterprise e ON e.id=i.`enterprise_name_id`
+        INNER JOIN purchase_order o ON o.id=s.`purchase_orders_id`
+        INNER JOIN hospital h ON h.id=o.`hospital_id`
+        INNER JOIN purchase_order_drug_details p ON p.`purchase_order_id`=o.`id`
+        INNER JOIN durgs_from f ON f.`durg_from_id`=i.`dosage_form_id`
+        INNER JOIN suppliers n ON n.`suppliers_id`=e.`suppliers_id`
+        <if test="purchaseOrderNumber != null and purchaseOrderNumber != ''">
+            and o.`purchase_order_number like CONCAT('%',#{purchaseOrderNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="nameOfPurchaseOrder != null and nameOfPurchaseOrder != ''">
+            and o.`name_of_purchase_order` like CONCAT('%',#{nameOfPurchaseOrder,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="purchaseOrdersStatesId != null and purchaseOrdersStatesId != ''">
+            and p.purchase_orders_states_id like CONCAT('%',#{purchaseOrdersStatesId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="hospitalName != null and hospitalName != ''">
+            and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="createReceiptsTimes != null">
+            and date(o.create_receipts_times) <![CDATA[>=]]>date(#{createReceiptsTimes,jdbcType=TIMESTAMP})
+        </if>
+        <if test="submissionTimes != null ">
+            and date(o.submission_times) <![CDATA[<=]]> date(#{submissionTimes,jdbcType=TIMESTAMP})
+        </if>
+        <if test="serialNumber != null and serialNumber != ''">
+            and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="commonName != null and commonName != ''">
+            and common_name like CONCAT('%',#{commonName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="dosageFormId != null">
+            and `durg_from_id` like CONCAT('%',#{dosageFormId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="specification != null and specification != ''">
+            and specification like CONCAT('%',#{specification,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="unit != null and unit != ''">
+            and unit like CONCAT('%',#{unit,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="conversionFraction != null and conversionFraction != ''">
+            and conversion_fraction like CONCAT('%',#{conversionFraction,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="tradeName != null and tradeName != ''">
+            and `trade_name` like CONCAT('%',#{tradeName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="enterpriseNameId != null">
+            and `enterprise_name_id` like CONCAT('%',#{enterpriseNameId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="drugCategoryId != null">
+            and i.`drug_category_id` like CONCAT('%',#{drugCategoryId,jdbcType=INTEGER},'%')
+        </if>
+        <if test="suppliersid != null">
+            and n.suppliers_id like CONCAT('%',#{suppliersid,jdbcType=INTEGER},'%')
+        </if>
+    </select>
 </mapper>

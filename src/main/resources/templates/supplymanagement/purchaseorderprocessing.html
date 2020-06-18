@@ -21,6 +21,8 @@
         var qian;
         var hou;
         $(function () {
+            //1.重写查询所有数据方法
+            //2.查询前判断日期敏感类型是否为空，或为null防止空指针
             selectByEntity();
         })
         //查询
@@ -48,8 +50,8 @@
                     "nameOfPurchaseOrder":nameOfPurchaseOrder,
                     "purchaseOrdersStatesId":purchaseOrdersStatesId,
                     "hospitalName":hospitalName,
-                    // "createReceiptsTimes":createReceiptsTimes,
-                    // "submissionTimes":submissionTimes,
+                    "createReceiptsTimes":createReceiptsTimes,
+                    "submissionTimes":submissionTimes,
                     "serialNumber":serialNumber,
                     "commonName":commonName,
                     "dosageFormId":dosageFormId,
@@ -70,7 +72,7 @@
                         var data=result.list;
                         var purchaseOrdersStatesId=data[i].purchaseOrderDrugDetails.purchaseOrdersStatesId;
                         if(purchaseOrdersStatesId==1){
-                                purchaseOrdersStatesId="未确认送货";
+                            purchaseOrdersStatesId="未确认送货";
                         }
                         if(purchaseOrdersStatesId==2){
                             purchaseOrdersStatesId="已发货";
@@ -84,14 +86,26 @@
                         if(purchaseOrdersStatesId==5){
                             purchaseOrdersStatesId="到期无法供货";
                         }
+                        var date=data[i].purchaseOrder.createReceiptsTimes;
+                        var date2=data[i].purchaseOrder.submissionTimes;
+                        var s2=new Date(date2);
+                        var s=new Date(date);
+                        year=s.getFullYear();
+                        month=s.getMonth()+1;
+                        day=s.getDate();
+                        time=year+'-'+getzf(month)+'-'+getzf(day);
+                        year1=s2.getFullYear();
+                        month1=s2.getMonth()+1;
+                        day1=s2.getDate();
+                        time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
                         v+='<tr>';
                         v+='<td>'+(i+1)+'</td>'
                         v+='<td><input type="checkbox" name="del" value='+data[i].id+'></td>';
                         v+='<td>'+data[i].purchaseOrder.purchaseOrderNumber+'</td>'
                         v+='<td>'+data[i].purchaseOrder.nameOfPurchaseOrder+'</td>'
                         v+='<td>'+data[i].hospital.hospitalName+'</td>'
-                        v+='<td>'+data[i].purchaseOrder.createReceiptsTimes+'</td>'
-                        v+='<td>'+data[i].purchaseOrder.submissionTimes+'</td>'
+                        v+='<td>'+time+'</td>'
+                        v+='<td>'+time2+'</td>'
                         v+='<td>'+data[i].serialNumber+'</td>'
                         v+='<td>'+data[i].commonName+'</td>';
                         v+='<td>'+data[i].tradeName+'</td>';
@@ -280,6 +294,12 @@
                }
            })
        }
+       function getzf(num) {
+           if(parseInt(num)<10){
+               num='0'+num;
+           }
+           return num;
+       }
     </script>
 
 </head>
@@ -330,7 +350,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTimes"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTimes">
+                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTimes" ><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTimes">
             </td>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
             </td>

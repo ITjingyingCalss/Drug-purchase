@@ -18,8 +18,208 @@
 
 
     <script type="text/javascript">
-        function down(){
-            window.location.href="down";
+        $(function () {
+            selectByEntity();
+        })
+        function selectByEntity(){
+            $("#tbody").empty();
+            var purchaseOrderNumber=$("#purchaseOrderNumber").val();
+            var nameOfPurchaseOrder=$("#nameOfPurchaseOrder").val();
+            var purchaseOrdersStatesId=$("#purchaseOrdersStatesId").val();
+            var hospitalName=$("#hospitalName").val();
+            var createReceiptsTimes=$("#createReceiptsTimes").val();
+            var submissionTimes=$("#submissionTimes").val();
+            var serialNumber=$("#serialNumber").val();
+            var commonName=$("#commonName").val();
+            var dosageFormId=$("#dosageFormId").val();
+            var specification=$("#specification").val();
+            var unit=$("#unit").val();
+            var conversionFraction=$("#conversionFraction").val();
+            var tradeName=$("#tradeName").val();
+            var enterpriseNameId=$("#enterpriseNameId").val();
+            var drugCategoryId=$("#drugCategoryId").val();
+            $.ajax({
+                url:"selectPurchaseOrderProcessing",
+                data:{
+                    "purchaseOrderNumber":purchaseOrderNumber,
+                    "nameOfPurchaseOrder":nameOfPurchaseOrder,
+                    "purchaseOrdersStatesId":purchaseOrdersStatesId,
+                    "hospitalName":hospitalName,
+                    "createReceiptsTimes":createReceiptsTimes,
+                    "submissionTimes":submissionTimes,
+                    "serialNumber":serialNumber,
+                    "commonName":commonName,
+                    "dosageFormId":dosageFormId,
+                    "specification":specification,
+                    "unit":unit,
+                    "conversionFraction":conversionFraction,
+                    "tradeName":tradeName,
+                    "enterpriseNameId":enterpriseNameId,
+                    "drugCategoryId":drugCategoryId,
+                    "pageNum":pageNum
+                },
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    console.log(result);
+                    var v = "";
+                    for(var i=0;i<result.list.length;i++){
+                        var data=result.list;
+                        var purchaseOrdersStatesId=data[i].purchaseOrderDrugDetails.purchaseOrdersStatesId;
+                        if(purchaseOrdersStatesId==1){
+                            purchaseOrdersStatesId="未确认送货";
+                        }
+                        if(purchaseOrdersStatesId==2){
+                            purchaseOrdersStatesId="已发货";
+                        }
+                        if(purchaseOrdersStatesId==3){
+                            purchaseOrdersStatesId="已入库";
+                        }
+                        if(purchaseOrdersStatesId==4){
+                            purchaseOrdersStatesId="无法供货";
+                        }
+                        if(purchaseOrdersStatesId==5){
+                            purchaseOrdersStatesId="到期无法供货";
+                        }
+                        var date=data[i].purchaseOrder.createReceiptsTimes;
+                        var date2=data[i].purchaseOrder.submissionTimes;
+                        var s2=new Date(date2);
+                        var s=new Date(date);
+                        year=s.getFullYear();
+                        month=s.getMonth()+1;
+                        day=s.getDate();
+                        time=year+'-'+getzf(month)+'-'+getzf(day);
+                        year1=s2.getFullYear();
+                        month1=s2.getMonth()+1;
+                        day1=s2.getDate();
+                        time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
+                        v+='<tr>';
+                        v+='<td>'+(i+1)+'</td>'
+                        v+='<td><input type="checkbox" name="del" value='+data[i].id+'></td>';
+                        v+='<td>'+data[i].purchaseOrder.purchaseOrderNumber+'</td>'
+                        v+='<td>'+data[i].purchaseOrder.nameOfPurchaseOrder+'</td>'
+                        v+='<td>'+data[i].hospital.hospitalName+'</td>'
+                        v+='<td>'+time+'</td>'
+                        v+='<td>'+time2+'</td>'
+                        v+='<td>'+data[i].serialNumber+'</td>'
+                        v+='<td>'+data[i].commonName+'</td>';
+                        v+='<td>'+data[i].tradeName+'</td>';
+                        v+='<td>'+data[i].durgsFrom.drugFrom+'</td>';
+                        v+='<td>'+data[i].specification+'</td>';
+                        v+='<td>'+data[i].unit+'</td>'
+                        v+='<td>'+data[i].conversionFraction+'</td>'
+                        v+='<td>'+data[i].enterprise.enterpriseName+'</td>'
+                        v+='<td>'+data[i].hospitalTransactionDetails.biddingPrice+'</td>'
+                        v+='<td>'+data[i].hospitalTransactionDetails.transactionPrice+'</td>'
+                        v+='<td>'+data[i].hospitalTransactionDetails.purchasedAmount+'</td>'
+                        v+='<td>'+data[i].hospitalTransactionDetails.purchasedMoney+'</td>'
+                        v+='<td>'+data[i].enterprise.enterpriseName+'</td>'
+                        v+='<td>'+purchaseOrdersStatesId+'</td>'
+                        v+='<td><a href="#" data-target="#editModal1" data-toggle="modal" onclick="saw('+data[i].id+')">查看</a></td>'
+                        v+='</tr>';
+                    }
+                    // $("#tbody").append(v);
+                    qian=result.pageNum==1?1:result.pageNum-1;
+                    hou=result.pageNum==result.pages?result.pages:result.pageNum+1;
+                }
+            })
+        }
+        // 剂型
+        $.ajax({
+            url:"selectDurgsFrom",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#dosageFormId").empty();
+                $("#dosageFormId").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#dosageFormId").prepend('<option value="' + list[i].durgFromId + '">' + list[i].drugFrom + '</option>')
+                }
+            }
+        })
+        // 药品类别
+        $.ajax({
+            url:"selectdrugcategory",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#drugCategoryId").empty();
+                $("#drugCategoryId").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#drugCategoryId").prepend('<option value="' + list[i].drugCateGoryId + '">' + list[i].drugCategoryName + '</option>')
+                }
+            }
+        })
+        //企业表查询
+        $.ajax({
+            url:"enterPrise",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#enterpriseNameId").empty();
+                $("#enterpriseNameId").prepend('<option value="0" >请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#enterpriseNameId").prepend('<option value="' + list[i].id + '">' + list[i].enterpriseName + '</option>')
+                }
+            }
+        })
+        //供货商
+        $.ajax({
+            url:"supplierSelect",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#suppliersid").empty();
+                $("#suppliersid").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.data.length;i++){
+                    var list=result.data;
+                    $("#suppliersid").prepend('<option value="' + list[i].suppliersid + '">' + list[i].suppliername + '</option>')
+                }
+            }
+        })
+        //全选/全不选
+        function setAllNo() {
+            var box = document.getElementById("boxid");
+            var loves = document.getElementsByName("del");
+            if(box.checked == false){
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = false;
+                }
+            }else{
+                for (var i = 0; i < loves.length; i++)
+                {
+                    loves[i].checked = true;
+                }
+            }
+        }
+        // 导出
+        function Export() {
+            var import1=$('input[name="del"]:checked').length;
+            if(import1==0){
+                alert("请至少选择一项导出");
+                return;
+            }
+            if(confirm("确定要导出吗?")){
+                var importId=[];
+                $('input[name="del"]:checked').each(function () {
+                    importId.push($(this).val())
+                })
+                window.location.href="export6?importId="+importId;
+            }
+        }
+        function getzf(num) {
+            if(parseInt(num)<10){
+                num='0'+num;
+            }
+            return num;
         }
     </script>
 
@@ -37,12 +237,12 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_unitName">
+                <input class="form-control" id="purchaseOrderNumber">
             </td>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_organizationalCode">
+                <input class="form-control" id="nameOfPurchaseOrder">
             </td>
         </tr>
         <tr>
@@ -50,40 +250,47 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购状态：</span>
             </td>
             <td>
-                <select style="width: 30%;height: 20%">
-                    <option value="0">请选择</option>
+                <select style="width: 30%;height: 20%" id="purchaseOrdersStatesId">
+                    <option value="-1">请选择</option>
+                    <option value="1">未确认送货</option>
+                    <option value="2">已发货</option>
+                    <option value="3">已入库</option>
+                    <option value="4">无法供货</option>
+                    <option value="5">到期无法供货</option>
                 </select>
                 <!-- <input class="form-control" id="" >-->
             </td>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购医院：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity">
+                <input class="form-control" id="hospitalName">
             </td>
         </tr>
         <tr>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_orgai">
+                <select style="width: 30%;height: 20%" id="suppliersid">
+                    <option value="0">请选择</option>
+                </select>
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left">
+                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTimes"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTimes">
             </td>
         </tr>
         <tr>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_organi">
+                <input class="form-control" id="serialNumber">
             </td>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">通用名：</span>
             </td>
             <td >
-                <input class="form-control" id="searchEntity_organis" style="float: left"><label style="float: left" class="btn-success">按拼音首字母</label>
+                <input class="form-control" id="commonName" style="float: left"><label style="float: left" class="btn-success">按拼音首字母</label>
             </td>
         </tr>
         <tr>
@@ -91,7 +298,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
             </td>
             <td>
-                <select style="width: 30%;height: 20%">
+                <select style="width: 30%;height: 20%" id="dosageFormId">
                     <option value="0">请选择</option>
                 </select>
             </td>
@@ -99,7 +306,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
             </td>
             <td>
-                <input class="form-control">
+                <input class="form-control" id="specification">
             </td>
         </tr>
         <tr>
@@ -107,13 +314,13 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">单位：</span>
             </td>
             <td>
-                <input class="form-control">
+                <input class="form-control" id="unit">
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">转换系数：</span>
             </td>
             <td>
-                <input class="form-control">
+                <input class="form-control" id="conversionFraction">
             </td>
         </tr>
         <tr>
@@ -121,13 +328,15 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
             </td>
             <td>
-                <input class="form-control">
+                <select style="width: 30%;height: 20%" id="enterpriseNameId">
+                    <option value="0">请选择</option>
+                </select>
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
             </td>
             <td>
-                <input class="form-control">
+                <input class="form-control" id="tradeName">
             </td>
         </tr>
         <tr>
@@ -135,7 +344,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
             </td>
             <td>
-                <select style="width: 30%;height: 20%">
+                <select style="width: 30%;height: 20%" id="drugCategoryId">
                     <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
@@ -144,7 +353,7 @@
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+        <button class="btn btn-success btn-sm" onclick="Export()">导出</button>
     </div>
 </div>
 <div class="box-body">
@@ -172,11 +381,9 @@
                 <th class="sorting">结算量</th>
                 <th class="sorting">结算金额</th>
                 <th class="sorting">详细</th>
-                <th class="sorting">修改</th>
-                <th class="sorting">删除</th>
             </tr>
             </thead>
-            <tbody class="context">
+            <tbody class="context" id="tbody">
             <tr>
                 <td>1</td>
                 <td>崔庙镇卫生室</td>

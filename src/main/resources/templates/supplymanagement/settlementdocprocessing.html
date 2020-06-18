@@ -84,14 +84,26 @@
                         for (var i = 0; i < result.list.length; i++) {
                             var data = result.list;
                             var settlementstate=data[i].settlementStatus.settlementState=1?"未确认结算":"已确认结算";
+                            var date=data[i].hospitalTransactionStatement.createReceiptsTime;
+                            var date2=data[i].hospitalTransactionStatement.submissionTime;
+                            var s2=new Date(date2);
+                            var s=new Date(date);
+                            year=s.getFullYear();
+                            month=s.getMonth()+1;
+                            day=s.getDate();
+                            time=year+'-'+getzf(month)+'-'+getzf(day);
+                            year1=s2.getFullYear();
+                            month1=s2.getMonth()+1;
+                            day1=s2.getDate();
+                            time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
                             v += '<tr>';
                             v += '<td>' + (i + 1) + '</td>';
                             v += '<td><input type="checkbox" name="del" value=' + data[i].id + '></td>';
                             v += '<td>' + data[i].hospitalTransactionStatement.statementNumber + '</td>'
                             v += '<td>' + data[i].hospitalTransactionStatement.statementName + '</td>'
                             v += '<td>' + data[i].hospital.hospitalName + '</td>'
-                            v += '<td>' + data[i].hospitalTransactionStatement.createReceiptsTime + '</td>'
-                            v += '<td>' + data[i].hospitalTransactionStatement.submissionTime + '</td>'
+                            v += '<td>' +time + '</td>'
+                            v += '<td>' +time2 + '</td>'
                             v += '<td>' + data[i].purchaseOrder.purchaseOrderNumber + '</td>'
                             v += '<td>' + data[i].purchaseOrder.nameOfPurchaseOrder + '</td>'
                             v += '<td>' + data[i].serialNumber + '</td>'
@@ -263,6 +275,12 @@
                         })
                     })
                 }
+            }
+            function getzf(num) {
+                if(parseInt(num)<10){
+                    num='0'+num;
+                }
+                return num;
             }
     </script>
 

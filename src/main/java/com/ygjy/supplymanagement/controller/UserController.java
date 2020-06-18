@@ -2,8 +2,9 @@ package com.ygjy.supplymanagement.controller;
 
 import com.ygjy.supplymanagement.pojo.*;
 import com.ygjy.supplymanagement.service.DrugsInformationService;
+import com.ygjy.supplymanagement.utils.Execel;
 import com.ygjy.systemmanagement.service.UserService;
-import com.ygjy.util.Execel;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,13 +78,17 @@ public class UserController{
                 drugInformation.setConversionFraction(list1.get(j).getConversionFraction());
                 drugInformation.setEnterpriseNameId(list1.get(j).getEnterpriseNameId());
                 drugInformation.setDrugInspectionReport(2);
+
+                int r2=drugsInformationService.insertDruginformation(drugInformation);
                 //医院添加
                 hospital.setHospitalName(list1.get(j).getHospital().getHospitalName());
-                int r2=drugsInformationService.insertDruginformation(drugInformation);
-                int r1=drugsInformationService.insertPurchaseorder(purchaseOrder);
-                int r3=drugsInformationService.insert(purchaseOrderDrugDetails);
-                int h4=drugsInformationService.insertHospitalTransactionDetail(hospitalTransactionDetails);
                 int h5=drugsInformationService.insertHospitalName(hospital);
+                //采购单添加
+                purchaseOrder.setHospitalId(hospital.getId());
+                purchaseOrder.setPurchaseOrderNumber(list1.get(j).getPurchaseOrder().getPurchaseOrderNumber());
+                purchaseOrder.setNameOfPurchaseOrder(list1.get(j).getPurchaseOrder().getNameOfPurchaseOrder());
+                purchaseOrder.setPurchaseState(2);
+                int r1=drugsInformationService.insertPurchaseorder(purchaseOrder);
                 // 采购单药品明细添加
                 purchaseOrderDrugDetails.setBiddingPrice(list1.get(j).getPurchaseOrderDrugDetails().getBiddingPrice());
                 purchaseOrderDrugDetails.setTransactionPrice(list1.get(j).getPurchaseOrderDrugDetails().getTransactionPrice());
@@ -92,16 +97,13 @@ public class UserController{
                 purchaseOrderDrugDetails.setPurchaseOrderId(purchaseOrder.getId());
                 purchaseOrderDrugDetails.setDrugInformationId(drugInformation.getId());
                 purchaseOrderDrugDetails.setEnterpriseId(list1.get(j).getEnterpriseNameId());
+                System.out.println(list1.get(j).getPurchaseOrderDrugDetails().getBiddingPrice());
+                int r3=drugsInformationService.insert(purchaseOrderDrugDetails);
                 //医院交易明细添加
                 hospitalTransactionDetails.setPurchaseOrdersId(purchaseOrder.getId());
                 hospitalTransactionDetails.setDrugInformationId(drugInformation.getId());
                 hospitalTransactionDetails.setEnterpriseId(list1.get(j).getEnterpriseNameId());
-
-                //采购单添加
-                purchaseOrder.setHospitalId(hospital.getId());
-                purchaseOrder.setPurchaseOrderNumber(list1.get(j).getPurchaseOrder().getPurchaseOrderNumber());
-                purchaseOrder.setNameOfPurchaseOrder(list1.get(j).getPurchaseOrder().getNameOfPurchaseOrder());
-                purchaseOrder.setPurchaseState(2);
+                int h4=drugsInformationService.insertHospitalTransactionDetail(hospitalTransactionDetails);
                 if (r1==1&&r2==1&&r3==1&&h4==1&&h5==1)result++;
             }
 
