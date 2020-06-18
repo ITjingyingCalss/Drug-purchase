@@ -17,7 +17,16 @@
         <result column="audit_opinion" jdbcType="VARCHAR" property="auditOpinion" />
         <result column="audit_time" jdbcType="VARCHAR" property="auditTime" />
         <result column="del_state" jdbcType="VARCHAR" property="delState" />
-        <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+        <result column="start_time" jdbcType="VARCHAR" property="startTime" />
+        <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+        <association property="hospital" javaType="com.ygjy.supplymanagement.pojo.Hospital">
+            <result column="id" jdbcType="INTEGER" property="id" />
+            <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+        </association>
+        <association property="purchaseStatus" javaType="com.ygjy.supplymanagement.pojo.PurchaseStatus">
+            <result column="purchased_state" jdbcType="VARCHAR" property="purchasedState" />
+            <result column="purchased_explain" jdbcType="VARCHAR" property="purchasedExplain" />
+        </association>
     </resultMap>
     <sql id="Base_Column_List">
     id, purchase_order_number, name_of_purchase_order, hospital_id, contacts, phone,create_receipts_time,
@@ -25,11 +34,18 @@
   </sql>
     <!-- 查询所有 -->
     <select id="selectPurchaseOrder" resultMap="BaseResultMap">
-        select * from purchase_order where del_state = 0
+        select p.id ,hospital_name ,purchase_order_number,name_of_purchase_order,start_time,end_time,create_receipts_time,submission_time,audit_time,purchased_explain
+        from purchase_order p
+        LEFT JOIN hospital h ON p.hospital_id = h.id
+        LEFT JOIN purchase_status s ON s.purchased_state = p.purchase_state
+        where p.del_state = 0
     </select>
     <!--模糊查询-->
     <select id="selectLikePurchaseOrder" resultMap="BaseResultMap">
-        select * from purchase_order
+        select p.id,hospital_name ,purchase_order_number,name_of_purchase_order,start_time,end_time,create_receipts_time,submission_time,audit_time,purchased_explain
+        from purchase_order p
+        LEFT JOIN hospital h ON p.hospital_id = h.id
+        LEFT JOIN purchase_status s ON s.purchased_state = p.purchase_state
         <where>
             <if test="purchaseOrderNumber!=null and purchaseOrderNumber!=''">
                 and purchase_order_number like CONCAT ('%',#{purchaseOrderNumber},'%')

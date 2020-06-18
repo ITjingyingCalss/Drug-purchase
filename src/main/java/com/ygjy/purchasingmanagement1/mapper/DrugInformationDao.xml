@@ -31,7 +31,6 @@
         <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
         <result column="del_state" jdbcType="INTEGER" property="delState" />
         <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
-
         <association property="durgsFrom" javaType="com.ygjy.supplymanagement.pojo.DurgsFrom">
             <id column="durg_from_id" jdbcType="INTEGER" property="durgFromId" />
             <result column="drug_from" jdbcType="VARCHAR" property="drugFrom" />
@@ -81,7 +80,7 @@
             <result column="company_profile" jdbcType="VARCHAR" property="companyProfile" />
             <result column="remark" jdbcType="VARCHAR" property="remark" />
             <result column="del_state" jdbcType="INTEGER" property="delState" />
-        </association>
+            <result column="suppliers_id" jdbcType="INTEGER" property="suppliersId" />        </association>
         <association property="enterpriseDrugCatalog" javaType="com.ygjy.supplymanagement.pojo.EnterpriseDrugCatalog">
             <id column="fid" jdbcType="INTEGER" property="id" />
             <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />

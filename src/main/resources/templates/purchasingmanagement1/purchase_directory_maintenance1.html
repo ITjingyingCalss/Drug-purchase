@@ -17,6 +17,97 @@
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
 
+    <script type="text/javascript">
+
+        $(function () {
+            url="selectAllHospitalPurchasingDrugs";
+            $.get(url,{},function (data) {
+                console.log(data);
+                for (var i = 0;i<data.length;i++){
+                    $(".context").append('<tr><td>'+ data[i].hospitalTransactionDetails.id +'</td><td><input class="mm" type="checkbox"></td><td>'+data[i].drugInformation2.serialNumber + '</td><td>' +data[i].drugInformation2.commonName+ '</td><td>'
+                        +data[i].durgsFrom.drugFrom + '</td><td>'+ data[i].drugInformation2.specification+ '</td><td>'+ data[i].drugInformation2.unit+ '</td><td>'
+                        + data[i].drugInformation2.conversionFraction+ '</td><td>'+ data[i].enterprise.enterpriseName+ '</td><td>'+ data[i].drugInformation2.tradeName+ '</td><td>'+ data[i].drugInformation2.biddingPrice+ '</td><td>'+ data[i].drugCategory.drugCategoryName
+                        + '</td><td>'+ data[i].drugTransactionStatus.drugTransactionExplain + '</td><td>'+ data[i].suppliers.suppliername + '</td><td>'+ data[i].hospital.hospitalName
+                        + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectBySerialNumber( '+data[i].drugInformation2.serialNumber+')">查看'
+                        +'</button></td></tr>')
+                }
+            })
+        })
+        //模糊查
+        function selectByEntity() {
+            var serialNumber = $("#serialNumber").val();
+            var commonName = $("#commonName").val();
+            var dosageFormId = $("#dosageFormId").val();
+            if(dosageFormId==0)dosageFormId=null;
+            var specification = $("#specification").val();
+            var unit = $("#unit").val();
+            var conversionFraction = $("#conversionFraction").val();
+            var enterpriseNameId = $("#enterpriseNameId").val();
+            if(enterpriseNameId==0)enterpriseNameId=null;
+            var tradeName = $("#tradeName").val();
+            var biddingPrice = $("#biddingPrice").val();
+            var drugCategoryId = $("#drugCategoryId").val();
+            if(drugCategoryId==0)drugCategoryId=null;
+            var availabilityStatus = $("#availabilityStatus").val();
+            if(availabilityStatus==0)availabilityStatus==null;
+            var drugTransactionStatusId = $("#drugTransactionStatusId").val();
+            if(drugTransactionStatusId==0)drugTransactionStatusId=null;
+            url="selectLikeHospitalPurchasingDrug";
+            $.get(url,{"serialNumber":serialNumber,"commonName":commonName,"dosageFormId":dosageFormId,
+                "specification":specification,"unit":unit,"conversionFraction":conversionFraction,
+                "enterpriseNameId":enterpriseNameId,"tradeName":tradeName,"biddingPrice":biddingPrice,
+                "drugCategoryId":drugCategoryId,"availabilityStatus":availabilityStatus,"drugTransactionStatusId":drugTransactionStatusId},function (data) {
+                for (var i = 0;i<data.length;i++){
+                    $(".context").append('<tr><td>'+ data[i].hospitalTransactionDetails.id +'</td><td><input class="mm" type="checkbox"></td><td>'+data[i].drugInformation2.serialNumber + '</td><td>' +data[i].drugInformation2.commonName+ '</td><td>'
+                        +data[i].durgsFrom.drugFrom + '</td><td>'+ data[i].drugInformation2.specification+ '</td><td>'+ data[i].drugInformation2.unit+ '</td><td>'
+                        + data[i].drugInformation2.conversionFraction+ '</td><td>'+ data[i].enterprise.enterpriseName+ '</td><td>'+ data[i].drugInformation2.tradeName+ '</td><td>'+ data[i].drugInformation2.biddingPrice+ '</td><td>'+ data[i].drugCategory.drugCategoryName
+                        + '</td><td>'+ data[i].drugTransactionStatus.drugTransactionExplain + '</td><td>'+ data[i].suppliers.suppliername + '</td><td>'+ data[i].hospital.hospitalName
+                        + '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectById( '+data[i].drugInformation2.serialNumber+')">查看'
+                        +'</button></td></tr>')
+                }
+            })
+        }
+
+        //查看
+        function selectBySerialNumber(serialNumber) {
+            url="selectBySerialNumber";
+            $.get(url,{"serialNumber":serialNumber},function (data) {
+                if (data != null){
+                    console.log(data);
+                    alert("药品详细信息");
+                    console.log(serialNumber)
+                    $("#id").val(data.id);
+                    $("#serialNumber1").val(data.serialNumber);
+                    $("#commonName1").val(data.commonName);//通用名
+                    $("#dosageFormId1").val(data.durgFromId);//剂型
+                    $("#specification1").val(data.specification);//规格
+                    $("#unit1").val(data.unit);
+                    $("#conversionFraction1").val(data.conversionFraction);
+                    $("#enterpriseNameId1").val(data.enterpriseNameId);
+                    $("#tradeName1").val(data.tradeName);
+                    $("#biddingPrice1").val(data.biddingPrice);
+                    $("#approvalNumber1").val(data.approvalNumber);
+                    $("input[name='importedDrug'][value='"+data.importedDrug+"']").prop("checked",true);
+                    $("#validityOfApprovalNumber1").val(data.validityOfApprovalNumber);
+                    $("#packagingMaterial1").val(data.packagingMaterial);
+                    $("#packingUnit1").val(data.packingUnit);
+                    $("#latestRetailPrice1").val(data.latestRetailPrice);
+                    $("#sourceOfRetailPrice1").val(data.sourceOfRetailPrice);
+                    $("#qualityLevelId1").val(data.qualityLevelId);
+                    $("#qualityLevelDescription1").val(data.qualityLevelDescription);
+                    $("input[name='drugInspectionReport'][value='"+data.drugInspectionReport+"']").prop("checked",true);
+                    $("#drugInspectionReportNumber1").val(data.drugInspectionReportNumber);
+                    $("#validityOfDrugInspectionReport1").val(data.validityOfDrugInspectionReport);
+                    $("#drugTransactionStatusId1").val(data.drugTransactionStatusId);
+                    $("#descriptionOfProducts1").val(data.descriptionOfProducts);
+                    $("#drugCategoryId1").val(data.drugCategoryId);
+                }else{
+                    alert("请检查网络")
+                }
+            })
+        }
+    </script>
+
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-controller="PurchasingManagementController1">
 <!-- .box-body -->
@@ -45,7 +136,7 @@
             </td>
             <td>
                 <select id="dosageFormId" style="width: 50%;height: 20%">
-                    <<option value="0">请选择</option>
+                    <option value="0">请选择</option>
                     <option value="1">片剂</option>
                     <option value="2">丸剂</option>
                     <option value="3">硬胶囊剂</option>
@@ -159,7 +250,7 @@
     </table>
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+        <button class="btn btn-success btn-sm" >导出</button>
     </div>
 </div>
 <div class="box-body">
@@ -199,14 +290,12 @@
                 <th class="sorting">药品类别</th>
                 <th class="sorting">药品交易状态</th>
                 <th class="sorting">供货商</th>
-                <th class="sorting">供货状态</th>
+                <th class="sorting">采购医院</th>
                 <th class="sorting">详细</th>
-                <th class="sorting">修改</th>
-                <th class="sorting">删除</th>
             </tr>
             </thead>
             <tbody class="context">
-            <tr>
+            <!--<tr>
                 <td>00008</td>
                 <td>0.9%氯化钠</td>
                 <td>大输液</td>
@@ -231,7 +320,7 @@
                 <td>
                     <a href="#">删除</a>
                 </td>
-            </tr>
+            </tr>-->
             </tbody>
 
         </table>
@@ -271,99 +360,145 @@
             <div class="modal-body">
                 <table class="table table-bordered table-striped" id="id_table">
                     <tr>
+                        <input type="hidden" id="id" name="id">
                         <td>流水号:</td>
-                        <td></td>
+                        <td><input id="serialNumber1" name="serialNumber1" class="form-control"></td>
                         <td>通用名:</td>
-                        <td><input id="organizationalCode1" name="organizationalCode" class="form-control"></td>
+                        <td><input id="commonName1" name="commonName1" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>剂型:</td>
                         <td>
-                            <select style="width:50%;height: 10%">
+                            <!--<input id="dosageFormId1" name="dosageFormId1" class="form-control">-->
+                            <select style="width:50%;height: 10%" id="dosageFormId1" name="dosageFormId">
                                 <option value="0">请选择</option>
+                                <option value="1">片剂</option>
+                                <option value="2">丸剂</option>
+                                <option value="3">硬胶囊剂</option>
+                                <option value="4">软胶囊剂</option>
+                                <option value="5">口服液</option>
+                                <option value="6">口服溶液剂</option>
+                                <option value="7">糖浆剂</option>
+                                <option value="8">混悬剂</option>
+                                <option value="9">口服酊剂</option>
+                                <option value="10">煎膏剂</option>
                             </select>
                         </td>
                         <td>规格:</td>
-                        <td><input id="idCard1" name="idCard" class="form-control"></td>
+                        <td><input id="specification1" name="specification1" class="form-control"></td>
                     </tr>
                     <tr>
                         <td>单位:</td>
-                        <td width=""><input class="form-control"></td>
+                        <td><input class="form-control" id="unit1" name="unit1"></td>
                         <td>转换系数:</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="conversionFraction1" name="conversionFraction1"></td>
                     </tr>
                     <tr>
                         <td>生产企业名称</td>
-                        <td><input class="form-control"></td>
+                        <td>
+                            <select style="width:50%;height: 10%" id="enterpriseNameId1" name="enterpriseNameId1">
+                                <option value="0">请选择</option>
+                                <option value="1">哈药六厂有限公司</option>
+                                <option value="2">六神有限公司</option>
+                                <option value="3">神州有限公司</option>
+                                <option value="4">花露水有限公司</option>
+                                <option value="5">无神有限公司</option>
+                                <option value="6">口服溶液剂</option>
+                                <option value="7">九州有限公司</option>
+                            </select>
+                        </td>
                         <td>商品名</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="tradeName1" name="tradeName1"></td>
                     </tr>
                     <tr>
                         <td>中标价格</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="biddingPrice1" name="biddingPrice1"></td>
                         <td>批准文号</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="approvalNumber1" name="approvalNumber1"></td>
                     </tr>
                     <tr>
                         <td>是否进口药</td>
-                        <td style="word-break: keep-all;white-space: nowrap">
-                            <input type="radio" value="0" style="width: 15px;height: 15px" name="importedDrug"><span>是</span>
-                            <input type="radio" value="1" style="width: 15px;height: 15px" name="importedDrug"><span>否</span>
+                        <td style="word-break: keep-all;white-space: nowrap" >
+                            <input id="is" type="radio" value="1" style="width: 15px;height: 15px" name="importedDrug"><span>是</span>
+                            <input id="no" type="radio" value="2" style="width: 15px;height: 15px" name="importedDrug"><span>否</span>
                         </td>
                         <td>批准文号有效期</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="validityOfApprovalNumber1" name="validityOfApprovalNumber1"></td>
                     </tr>
                     <tr>
                         <td>包装材质</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="packagingMaterial1" name="packagingMaterial1"></td>
                         <td>包装单位</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="packingUnit1" name="packingUnit"></td>
                     </tr>
                     <tr>
                         <td>最新零售价</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="latestRetailPrice1" name="latestRetailPrice1"></td>
                         <td>零售价出处</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="sourceOfRetailPrice1" name="sourceOfRetailPrice1"></td>
                     </tr>
                     <tr>
                         <td>质量层次</td>
                         <td>
-                            <select style="width:50%;height: 10%">
+                            <!--<input class="form-control" id="qualityLevelId1" name="qualityLevelId1">-->
+                            <select style="width:50%;height: 10%" id="qualityLevelId1" name="qualityLevelId">
                                 <option value="0">请选择</option>
+                                <option value="1">国家一类新药</option>
+                                <option value="2">国家科学进步奖</option>
+                                <option value="3">专利</option>
+                                <option value="4">原研</option>
+                                <option value="5">单独定价</option>
+                                <option value="6">优质优价</option>
+                                <option value="7">GMP</option>
                             </select>
                         </td>
                         <td>质量层次说明</td>
                         <td>
-                            <input class="form-control">
+                            <input class="form-control" id="qualityLevelDescription1" name="qualityLevelDescription1">
                         </td>
                     </tr>
                     <tr>
                         <td>有无药检报告</td>
                         <td style="word-break: keep-all;white-space: nowrap">
-                            <input type="radio" value="1" style="width: 15px;height: 15px" name="importedDrug"><span>有</span>
-                            <input type="radio" value="0" style="width: 15px;height: 15px" name="importedDrug"><span>无</span>
+                            <input type="radio" value="1" style="width: 15px;height: 15px" name="drugInspectionReport"><span>有</span>
+                            <input type="radio" value="0" style="width: 15px;height: 15px" name="drugInspectionReport"><span>无</span>
                         </td>
                         <td>药检报告编号</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="drugInspectionReportNumber1" name="drugInspectionReportNumber1"></td>
                     </tr>
                     <tr>
                         <td>药品检验报告有效期:</td>
-                        <td><input class="form-control"></td>
+                        <td><input class="form-control" id="validityOfDrugInspectionReport1" name="validityOfDrugInspectionReport1"></td>
                         <td>药品交易状态:</td>
-                        <td><select style="width:50%;height: 10%">
-                            <option value="0">请选择</option>
-                        </select>
+                        <td>
+                            <!--<input class="form-control" id="drugTransactionStatusId1" name="drugTransactionStatusId1">-->
+                            <select style="width:50%;height: 10%" id="drugTransactionStatusId1" name="drugTransactionStatusId">
+                                <option value="0">请选择</option>
+                                <option value="1">正常</option>
+                                <option value="2">取消交易</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>药品类别:</td>
+                        <td>
+                            <!--<input class="form-control" id="drugTransactionStatusId1" name="drugTransactionStatusId1">-->
+                            <select style="width:50%;height: 10%" id="drugCategoryId1" name="drugCategoryId1">
+                                <option value="0">请选择</option>
+                                <option value="1">处方药</option>
+                                <option value="2">非处方药</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td>产品说明：</td>
                         <!--<td><input type="text" style="border: none;overflow: hidden;height: 200%;width: 225%"></td>-->
-                        <td colspan="3"><textarea style="height: 100%;width: 100%"></textarea></td>
+                        <td colspan="3"><textarea style="height: 100%;width: 100%" id="descriptionOfProducts1" name="descriptionOfProducts1"></textarea></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" ng-click="save()" onclick="updataRegistrationOfCases()">保存</button>
+                <button class="btn btn-success"  onclick="save()" >保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>

@@ -19,11 +19,13 @@
         //页面加载
        $(function () {
            url="selectPurchaseOrderAll";
+
            $.get(url,{},function (data) {
+               console.log(data);
                for (var i = 0;i<data.length;i++){
-                   $(".context").append('<tr><td>'+data[i].hospitalId+'</td><td>'+data[i].purchaseOrderNumber + '</td><td>' +data[i].nameOfPurchaseOrder+ '</td><td>'
-                       +data[i].createReceiptsTime + '</td><td>'+ data[i].submissionTime+ '</td><td>'+ data[i].createReceiptsTime+ '</td><td>'
-                       + data[i].submissionTime+ '</td><td>'+ data[i].auditTime+ '</td><td>'+ data[i].purchaseState+ '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')">查看'
+                   $(".context").append('<tr><td>'+data[i].hospital.hospitalName+'</td><td>'+data[i].purchaseOrderNumber + '</td><td>' +data[i].nameOfPurchaseOrder+ '</td><td>'
+                       +data[i].startTime + '</td><td>'+ data[i].endTime+ '</td><td>'+ data[i].createReceiptsTime+ '</td><td>'
+                       + data[i].submissionTime+ '</td><td>'+ data[i].auditTime+ '</td><td>'+ data[i].purchaseStatus.purchasedExplain+ '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')">查看'
                        +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')"> 修改'
                        +'</button></td><td><button class="btn btn-danger btn-sm" onclick="deletePurchaseOrder('+data[i].id+')">删除'+'</button></td></tr>')
                }
@@ -41,9 +43,9 @@
             $.get(url,{"purchaseOrderNumber":purchaseOrderNumber,"nameOfPurchaseOrder":nameOfPurchaseOrder,
                 "purchaseState":purchaseState,"submissionTime":submissionTime,"hospitalId":hospitalId},function (data) {
                 for (var i = 0;i<data.length;i++){
-                    $(".context").append('<tr><td>'+data[i].hospitalId+'</td><td>'+data[i].purchaseOrderNumber + '</td><td>' +data[i].nameOfPurchaseOrder+ '</td><td>'
-                        +data[i].createReceiptsTime + '</td><td>'+ data[i].submissionTime+ '</td><td>'+ data[i].createReceiptsTime+ '</td><td>'
-                        + data[i].submissionTime+ '</td><td>'+ data[i].auditTime+ '</td><td>'+ data[i].purchaseState+ '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')">查看'
+                    $(".context").append('<tr><td>'+data[i].hospital.hospitalName+'</td><td>'+data[i].purchaseOrderNumber + '</td><td>' +data[i].nameOfPurchaseOrder+ '</td><td>'
+                        +data[i].startTime + '</td><td>'+ data[i].endTime+ '</td><td>'+ data[i].createReceiptsTime+ '</td><td>'
+                        + data[i].submissionTime+ '</td><td>'+ data[i].auditTime+ '</td><td>'+ data[i].purchaseStatus.purchasedExplain+ '</td><td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')">查看'
                         +'</button></td><td><button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editModal1" onclick="selectOne( '+data[i].id+')"> 修改'
                         +'</button></td><td><button class="btn btn-danger btn-sm" onclick="deletePurchaseOrder('+data[i].id+')">删除'+'</button></td></tr>')
                 }
@@ -56,7 +58,7 @@
                 console.log(data);
                 var id = $("#id").val(data.id);
                 var hospitalId = $("#hospitalId").val(data.hospitalId);
-                var hospitalName = $("#hospitalName").val(data.hospitalName);
+                var hospitalName = $("#hospitalName").val(data.hospital.hospitalName);
                 var purchaseOrderNumber = $("#purchaseOrderNumber").val(data.purchaseOrderNumber);
                 var nameOfPurchaseOrder = $("#nameOfPurchaseOrder").val(data.nameOfPurchaseOrder);
                 var auditTime = $("#auditTime").val(data.auditTime);
