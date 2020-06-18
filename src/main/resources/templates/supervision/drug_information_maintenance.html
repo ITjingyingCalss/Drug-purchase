@@ -21,6 +21,7 @@
     <script src="js/supervision/drug_information_maintenance.js"></script>
     <script src="js/supervision/check_drug_item.js"></script>
     <script src="js/supervision/check_drug_information.js"></script>
+    <script src="js/supervision/select_box.js"></script>
 
     <script type="text/javascript">
         function down(){
@@ -157,7 +158,7 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
-                        <button type="button" onclick="findQualityLevelAndDrugTradingStatus()" class="btn btn-success btn-sm" data-toggle="modal"
+                        <button type="button" onclick="emptydata()" class="btn btn-success btn-sm" data-toggle="modal"
                                 data-target="#editModal1">添加
                         </button>
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
@@ -263,7 +264,7 @@
                     <tr>
                         <td>剂型:</td>
                         <td style="white-space:nowrap">
-                            <select id="dosageFormId" name="dosageFormId" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                            <select id="drugsFromId" name="dosageFormId" onblur="checkDosageForm()" style="width:50%;height: 10%">
                                 <option value="0">请选择</option>
                             </select>
                             <span id="dosageForm"></span>
@@ -297,8 +298,8 @@
                     <tr>
                         <td>是否进口药</td>
                         <td style="word-break: keep-all;white-space: nowrap">
-                            <input type="radio" id="yes1" onblur="checkImportedDrug()" value="1" style="width: 15px;height: 15px" name="importedDrug"><span>是</span>
-                            <input type="radio" id="no1" onblur="checkImportedDrug()" value="2" style="width: 15px;height: 15px" name="importedDrug"><span>否</span>
+                            <input type="radio" id="yes1" onblur="checkImportedDrug()" value="1" style="width: 15px;height: 15px" name="importedDrug">是
+                            <input type="radio" id="no1" onblur="checkImportedDrug()" value="2" style="width: 15px;height: 15px" name="importedDrug">否
                             <span id="importedDrug"></span>
                         </td>
                         <td>批准文号有效期</td>
@@ -330,8 +331,8 @@
                     <tr>
                         <td>有无药检报告</td>
                         <td style="word-break: keep-all;white-space: nowrap">
-                            <input type="radio" id="yes2" onblur="checkDrugInspectionReport()" value="1" style="width: 15px;height: 15px" name="drugInspectionReport"><span>有</span>
-                            <input type="radio" id="no2" onblur="checkDrugInspectionReport()" value="2" style="width: 15px;height: 15px" name="drugInspectionReport"><span>无</span>
+                            <input type="radio" id="yes2" onblur="checkDrugInspectionReport()" value="1" style="width: 15px;height: 15px" name="drugInspectionReport">有
+                            <input type="radio" id="no2" onblur="checkDrugInspectionReport()" value="2" style="width: 15px;height: 15px" name="drugInspectionReport">无
                             <span id="drugInspectionReport"></span>
                         </td>
                         <td>药检报告编号</td>
@@ -378,7 +379,7 @@
                 <h3 id="myModalLabe2">药品信息</h3>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered table-striped" id="id_table">
+                <table class="table table-bordered table-striped">
                     <tr>
                         <td>流水号:</td>
                         <td></td>
@@ -388,7 +389,7 @@
                     <tr>
                         <td>剂型:</td>
                         <td>
-                            <select disabled="disabled" id="drugsFromId" style="width:50%;height: 10%">
+                            <select disabled="disabled" style="width:50%;height: 10%">
                                 <option value="0">请选择</option>
                             </select>
                         </td>
@@ -416,8 +417,8 @@
                     <tr>
                         <td>是否进口药</td>
                         <td style="word-break: keep-all;white-space: nowrap">
-                            <input readonly="readonly" type="radio" value="0" style="width: 15px;height: 15px" name="importedDrug"><span>是</span>
-                            <input readonly="readonly" type="radio" value="1" style="width: 15px;height: 15px" name="importedDrug"><span>否</span>
+                            <input readonly="readonly" type="radio" value="0" style="width: 15px;height: 15px" name="importedDrug"><p>是</p>
+                            <input readonly="readonly" type="radio" value="1" style="width: 15px;height: 15px" name="importedDrug"><p>否</p>
                         </td>
                         <td>批准文号有效期</td>
                         <td><input readonly="readonly" class="form-control"></td>
@@ -449,8 +450,8 @@
                     <tr>
                         <td>有无药检报告</td>
                         <td style="word-break: keep-all;white-space: nowrap">
-                            <input readonly="readonly" type="radio" value="1" style="width: 15px;height: 15px" name="importedDrug"><span>有</span>
-                            <input readonly="readonly" type="radio" value="0" style="width: 15px;height: 15px" name="importedDrug"><span>无</span>
+                            <input readonly="readonly" type="radio" value="1" style="width: 15px;height: 15px" name="importedDrug"><p>有</p>
+                            <input readonly="readonly" type="radio" value="0" style="width: 15px;height: 15px" name="importedDrug"><p>无</p>
                         </td>
                         <td>药检报告编号</td>
                         <td><input readonly="readonly" class="form-control"></td>

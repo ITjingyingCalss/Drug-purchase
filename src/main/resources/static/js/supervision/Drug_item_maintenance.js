@@ -95,30 +95,7 @@ function findDrugItem(itemsId) {
         }
     })
 }
-//查询剂型和药品类别
-function findDrugFromAndDrugCategory() {
-    $.ajax({
-        type:"post",
-        url:"DrugItemMaintenanceController/findDrugFromAndDrugCategory",
-        async : false,
-        success:function (data) {
-            var a = "<option value='0'>请选择</option>>";
-            var b = "<option value='0'>请选择</option>>";
-            for (var i=0;i<data.list_durgsFrom.length;i++){
-                a+="<option value='"+data.list_durgsFrom[i].durgFromId+"'>"+data.list_durgsFrom[i].drugFrom+"</option>"
-            }
-            for (var i=0;i<data.list_drugCategory.length;i++){
-                b+="<option value='"+data.list_drugCategory[i].drugCategoryId+"'>"+data.list_drugCategory[i].drugCategoryName+"</option>"
-            }
-            //添加模态框select
-            $("#drugsFromId").empty();
-            $("#drugCategory_id").empty();
-            $("#drugsFromId").append(a);
-            $("#drugCategory_id").append(b);
-            dd=data;
-        }
-    })
-}
+
 //导出文档
 function exportExcle() {
     var formData = $("#fuzzyFormId").serialize()

@@ -15,9 +15,11 @@
 
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/WdatePicker.js"></script>
     <!--引入自己的js-->
     <script src="js/supervision/purchase_order_approval.js"></script>
     <script src="js/supervision/checkBox.js"></script>
+    <script src="js/supervision/select_box.js"></script>
 
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -56,7 +58,10 @@
                     <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
                 </td>
                 <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                    <input name="procurementStartTime" style="width: 23%"><span style="color: #0E74B4">至</span><input name="procurementEndTime" style="width: 23%;">
+                    <input style="width: 23%" type='text' id="start-time" name="procurementStartTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"/>
+                    <span style="color: #0E74B4">至</span>
+                    <input style="width: 23%" type='text' id="end-time" name="procurementEndTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"/>
+                    <!--<input name="procurementStartTime" style="width: 23%"><span style="color: #0E74B4">至</span><input name="procurementEndTime" style="width: 23%;">-->
                 </td>
             </tr>
             <tr>
@@ -203,7 +208,6 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" ng-click="save()" onclick="updataRegistrationOfCases()">保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>

@@ -120,69 +120,6 @@ function fenye(pageNum) {
         }
     })
 }
-//查询剂型和药品类别
-function findDrugFromAndDrugCategory() {
-    $.ajax({
-        type:"post",
-        url:"DrugItemMaintenanceController/findDrugFromAndDrugCategory",
-        async : false,
-        success:function (data) {
-            var a = "<option value='0'>请选择</option>>";
-            for (var i=0;i<data.list_durgsFrom.length;i++){
-                a+="<option value='"+data.list_durgsFrom[i].durgFromId+"'>"+data.list_durgsFrom[i].drugFrom+"</option>"
-            }
-            //添加模态框select
-            $("#dosageFormId").empty();
-            $("#dosageFormId").append(a);
-            dd=data;
-        }
-    })
-}
-//查询质量层次和药品交易状态
-function findQualityLevelAndDrugTradingStatus() {
-    //清空模态框里面的数据
-    emptydata();
-    findDrugFromAndDrugCategory();
-    findAllEnterprise();
-    $.ajax({
-        type:"post",
-        url:"DrugInformationMaintenance/findQualityLevelAndDrugTradingStatus",
-        async : false,
-        success:function (data) {
-            console.log(data);
-            //添加模态框select
-            $("#qualityLevelId").empty();
-            $("#drugTransactionStatusId").empty();
-            $("#qualityLevelId").append("<option value='0'>请选择</option>");
-            $("#drugTransactionStatusId").append("<option value='0'>请选择</option>>");
-            for (var i=0;i<data.list_qualityLevel.length;i++){
-                $("#qualityLevelId").append("<option value='"+data.list_qualityLevel[i].quaId+"'>"+data.list_qualityLevel[i].level+"</option>")
-            }
-            for (var i=0;i<data.list_drugTransactionStatus.length;i++){
-                $("#drugTransactionStatusId").append("<option value='"+data.list_drugTransactionStatus[i].id+"'>"+data.list_drugTransactionStatus[i].drugTransactionExplain+"</option>")
-            }
-
-            cc=data;
-        }
-    })
-}
-//查出所有企业信息
-function findAllEnterprise() {
-    $.ajax({
-        type:"post",
-        url:"DrugInformationMaintenance/findAllEnterprise",
-        async : false,
-        success:function (data) {
-            //console.log(data);
-            bb=data;
-            $("#enterpriseNameId").empty();
-            $("#enterpriseNameId").append("<option value='0'>请选择</option>");
-            for (var i=0;i<bb.length;i++){
-                $("#enterpriseNameId").append("<option value='"+bb[i].id+"'>"+bb[i].enterpriseName+"</option>")
-            }
-        }
-    })
-}
 //添加保存修改药品信息
 function saveDrugInformation() {
     checkCommonName();checkDosageForm();checkSpecification();chenkUnit();checkConversionFraction();checkEnterpriseName();
@@ -336,6 +273,9 @@ function uploadDrugInformationFile() {
 //清除模态框数据
 function emptydata() {
     document.getElementById("addForm").reset();
+    $("#editModal1 span").html('');
+    //$("#editModal1").removeData('bs.modal');
+    findQualityLevelAndDrugTradingStatus();
 };
 //刷新
 function refresh() {

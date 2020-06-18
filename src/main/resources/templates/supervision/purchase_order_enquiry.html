@@ -15,15 +15,11 @@
 
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/WdatePicker.js"></script>
 
-    <script src="js/supervision/Drug_item_maintenance.js"></script>
-
-
-    <script type="text/javascript">
-        function down(){
-            window.location.href="down";
-        }
-    </script>
+    <!--引入自己的js-->
+    <script src="js/supervision/select_box.js"></script>
+    <script src="js/supervision/purchase_order_enquiry.js"></script>
 
 </head>
 <body class="hold-transition skin-red sidebar-mini">
@@ -52,7 +48,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单状态：</span>
             </td>
             <td>
-                <select style="width: 50%;height: 20%">
+                <select name="purchaseState" style="width: 50%;height: 20%">
                     <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
@@ -61,7 +57,9 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购医院：</span>
             </td>
             <td>
-                <input class="form-control">
+                <select id="hospitalId" style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
             </td>
         </tr>
         <tr>
@@ -69,13 +67,15 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
             </td>
             <td>
-                <input class="form-control">
+                <select id="suppliers_id" style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
             </td>
             <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                <input style="width: 23%"><span style="color: #0E74B4">至</span><input style="width: 23%;">
+                <input style="width: 23%" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="color: #0E74B4">至</span><input style="width: 23%;" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
             </td>
         </tr>
         <tr>
@@ -96,7 +96,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
             </td>
             <td>
-                <select id="durgfrom" style="width: 50%;height: 20%">
+                <select id="drugsFromId" style="width: 50%;height: 20%">
                     <option value="0">请选择</option>
                 </select>
             </td>
@@ -126,7 +126,9 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
             </td>
             <td>
-                <input class="form-control">
+                <select id="enterpriseNameId" style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
+                </select>
             </td>
             <td style="text-align: right">
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
@@ -140,7 +142,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">质量层次：</span>
             </td>
             <td>
-                <select style="width: 50%;height: 20%">
+                <select id="qualityLevelId" style="width: 50%;height: 20%">
                     <option value="0">请选择</option>
                 </select>
             </td>
@@ -148,7 +150,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
             </td>
             <td>
-                <select style="width: 50%;height: 20%">
+                <select id="drugCategory_id" style="width: 50%;height: 20%">
                     <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->

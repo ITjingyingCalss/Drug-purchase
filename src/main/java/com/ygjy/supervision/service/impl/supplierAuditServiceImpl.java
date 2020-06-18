@@ -29,5 +29,10 @@ public class supplierAuditServiceImpl implements SupplierAuditService {
         }
         return sum;
     }
+
+    @Override
+    public DrugInformation findOne(Integer id) {
+        return drugInformationDAO.selectByPrimaryKey(id);
+    }
 }
 

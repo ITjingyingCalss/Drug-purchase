@@ -2,6 +2,7 @@ package com.ygjy.supervision.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.ygjy.pojo.DrugInformation;
+import com.ygjy.pojo.PurchaseOrder;
 import com.ygjy.pojo.Suppliers;
 import com.ygjy.supervision.service.SupplierAuditService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,9 @@ public class SupplierAuditController {
         /*System.err.println(auditOpinionS);
         System.err.println(purchaseStateS);*/
         return supplierAuditServiceimpl.submitAuditResults(ids,purchaseStateS);
+    }
+    @RequestMapping("findOne")
+    public DrugInformation findOne(@RequestParam("id")Integer id){
+        return supplierAuditServiceimpl.findOne(id);
     }
 }

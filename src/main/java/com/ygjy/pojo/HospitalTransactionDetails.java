@@ -1,5 +1,8 @@
 package com.ygjy.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -75,6 +78,8 @@ public class HospitalTransactionDetails implements Serializable {
     /**
      * 入库时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date receiptTime;
 
     /**

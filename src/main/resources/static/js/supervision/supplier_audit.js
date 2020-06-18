@@ -1,4 +1,4 @@
-var bb;var cc;var dd;
+var bb;var cc;var dd;var ee;
 $(function () {
     findDrugFromAndDrugCategory();
     findQualityLevelAndDrugTradingStatus();
@@ -8,95 +8,7 @@ $(function () {
     //fenye();
 })
 
-//查询剂型和药品类别
-function findDrugFromAndDrugCategory() {
-    $.ajax({
-        type:"post",
-        url:"DrugItemMaintenanceController/findDrugFromAndDrugCategory",
-        async : false,
-        success:function (data) {
-            var a = "<option value='0'>请选择</option>>";
-            var b = "<option value='0'>请选择</option>>";
-            for (var i=0;i<data.list_durgsFrom.length;i++){
-                a+="<option value='"+data.list_durgsFrom[i].durgFromId+"'>"+data.list_durgsFrom[i].drugFrom+"</option>"
-            }
-            for (var i=0;i<data.list_drugCategory.length;i++){
-                b+="<option value='"+data.list_drugCategory[i].drugCategoryId+"'>"+data.list_drugCategory[i].drugCategoryName+"</option>"
-            }
-            //添加模态框select
-            $("#drugsFromId").empty();
-            $("#drugCategory_id").empty();
-            $("#drugsFromId").append(a);
-            $("#drugCategory_id").append(b);
-            dd=data;
-        }
-    })
-}
-//查询质量层次和药品交易状态
-function findQualityLevelAndDrugTradingStatus() {
-    //清空模态框里面的数据
-    /*emptydata();
-    findDrugFromAndDrugCategory();
-    findAllEnterprise();*/
-    $.ajax({
-        type:"post",
-        url:"DrugInformationMaintenance/findQualityLevelAndDrugTradingStatus",
-        async : false,
-        success:function (data) {
-            console.log(data);
-            //添加模态框select
-            $("#qualityLevelId").empty();
-            $("#drugTransactionStatusId").empty();
-            $("#qualityLevelId").append("<option value='0'>请选择</option>");
-            $("#drugTransactionStatusId").append("<option value='0'>请选择</option>>");
-            for (var i=0;i<data.list_qualityLevel.length;i++){
-                $("#qualityLevelId").append("<option value='"+data.list_qualityLevel[i].quaId+"'>"+data.list_qualityLevel[i].level+"</option>")
-            }
-            for (var i=0;i<data.list_drugTransactionStatus.length;i++){
-                $("#drugTransactionStatusId").append("<option value='"+data.list_drugTransactionStatus[i].id+"'>"+data.list_drugTransactionStatus[i].drugTransactionExplain+"</option>")
-            }
 
-            cc=data;
-        }
-    })
-}
-//查出所有企业信息
-function findAllEnterprise() {
-    $.ajax({
-        type:"post",
-        url:"DrugInformationMaintenance/findAllEnterprise",
-        async : false,
-        success:function (data) {
-            //console.log(data);
-            bb=data;
-            $("#enterpriseNameId").empty();
-            $("#enterpriseNameId").append("<option value='0'>请选择</option>");
-            for (var i=0;i<bb.length;i++){
-                $("#enterpriseNameId").append("<option value='"+bb[i].id+"'>"+bb[i].enterpriseName+"</option>")
-            }
-        }
-    })
-}
-function findSupplier() {
-    //供货商
-    $.ajax({
-        url:"supplierSelect",
-        data:{},
-        type:"post",
-        dataType:"json",
-        success:function (result) {
-            $("#suppliers_id").empty();
-            $("#suppliers_id").append('<option value="0">请选择</option>')
-            for(var i=0;i<result.data.length;i++){
-                var list=result.data;
-                $("#suppliers_id").append('<option value="' + list[i].suppliersid + '">' + list[i].suppliername + '</option>')
-            }
-        }
-    })
-}
-//查询
-var qian;
-var hou;
 //查询
 function selectByEntity(pageNum){
     $("#tbody").empty();
@@ -159,7 +71,7 @@ function selectByEntity(pageNum){
                     v+='<td>'+data[i].qualityLevel.level+'</td>';
                     v+='<td>'+data[i].drugCategory.drugCategoryName+'</td>'
                     v+='<td>'+data[i].drugTransactionStatus.drugTransactionExplain+'</td>'
-                    v+='<td><a href="#" data-target="#editModal1" data-toggle="modal" onclick="saw('+data[i].id+')">查看</a></td>'
+                    v+='<td><a href="#" data-target="#editModal1" data-toggle="modal" onclick="findOne('+data[i].id+')">查看</a></td>'
                     v+='</tr>';
                 }
             }
@@ -175,9 +87,9 @@ function selectByEntity(pageNum){
     })
 }
 //商品信息查看
-function saw(id) {
+function findOne(id) {
     $.ajax({
-        url:"getSelect",
+        url:"supplierAuditController/findOne",
         data:{
             "id":id
         },
@@ -185,23 +97,56 @@ function saw(id) {
         dataType:"json",
         success:function (result) {
             console.log(result);
-            var data=result.data;
+            var data=result;
             $("#serialNumber").val(data.serialNumber);
             $("#commonName").val(data.commonName);
-            $("#dosageFormId").val(data.durgsFrom.drugFrom);
+            for (var i=0;i<dd.list_durgsFrom.length;i++){
+                if (data.dosageFormId==dd.list_durgsFrom[i].durgFromId){
+                    $("#dosageFormId").val(dd.list_durgsFrom[i].drugFrom);
+                    break;
+                }
+            }
             $("#specifications").val(data.specification);
             $("#units").val(data.unit);
             $("#conversionFraction").val(data.conversionFraction);
-            $("#enterpriseNames").val(data.enterprise.enterpriseName);
+            for (var j=0;j<bb.length;j++){
+
+                if (bb[j].id==data.enterpriseNameId){
+                    $("#enterpriseNames").val(bb[j].enterpriseName);
+                    for (var n=0;n<ee.length;n++){
+                        if (ee[n].suppliersid==bb[j].id)
+                            $("#suppliername").val(ee[n].suppliername);
+                            }
+                    break;
+                }
+            }
             $("#tradeNames").val(data.tradeName);
             $("#biddingPrice").val(data.biddingPrice);
-            $("#qualityLevelIds").val(data.qualityLevel.level);
-            $("#drugCategoryId").val(data.drugCategory.drugCategoryName);
-            $("#drugTransactionStatusIds").val(data.drugTransactionStatus.drugTransactionExplain);
+            for (var k=0;k<cc.list_qualityLevel.length;k++){
+                if (cc.list_qualityLevel[k].quaId==data.qualityLevelId){
+                    $("#qualityLevelIds").val(cc.list_qualityLevel[k].level);
+                    break;
+                }
+            }
+            for (var l=0;l<dd.list_drugCategory.length;l++){
+                if (dd.list_drugCategory[l].drugCategoryId==data.drugCategoryId){
+                    $("#drugCategoryId").val(dd.list_drugCategory[l].drugCategoryName);
+                    break;
+                }
+            }
+            for (var m=0;m<cc.list_drugTransactionStatus.length;m++){
+                if (cc.list_drugTransactionStatus[m].id==data.drugTransactionStatusId){
+                    $("#drugTransactionStatusIds").val(cc.list_drugTransactionStatus[m].drugTransactionExplain);
+                    break;
+                }
+            }
             $("#common_name_pinyin").val(data.commonNamePinyin);
             $("#source_of_retail_price").val(data.sourceOfRetailPrice);
-            $("#suppliername").val(data.suppliers.suppliername);
-            $("#auditStatu").val(data.auditStatus);
+            if (data.auditStatus==0){
+                $("#auditStatu").val("审核通过");
+            }else {
+                $("#auditStatu").val("审核不通过");
+            }
         }
     })
 }

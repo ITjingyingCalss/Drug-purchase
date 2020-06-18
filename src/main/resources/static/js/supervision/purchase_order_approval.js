@@ -1,4 +1,4 @@
-var aa; var bb;
+var aa; var ff;
 //全局加载
 $(function () {
     //查询采购单状态和医院名称
@@ -32,6 +32,9 @@ function fenye(pageNum) {
                         break;
                     }
                 }
+                if (k==aa.length){
+                    a+="<td></td>";
+                }
                 a+='<td>'+value[i].purchaseOrderNumber+'</td>';
                 a+='<td>'+value[i].nameOfPurchaseOrder+'</td>';
                 a+='<td>'+value[i].startTime+'</td>';
@@ -43,9 +46,9 @@ function fenye(pageNum) {
                 }else {
                     a+='<td>'+value[i].auditTime+'</td>';
                 }
-                for (var j=1;j<bb.length;j++){
-                    if (value[i].purchaseState==bb[j].id){
-                        a+='<td>'+bb[j].purchaseOrdersExplain+'</td>';
+                for (var j=1;j<ff.length;j++){
+                    if (value[i].purchaseState==ff[j].id){
+                        a+='<td>'+ff[j].purchaseOrdersExplain+'</td>';
                         break;
                     }
                 }
@@ -64,32 +67,7 @@ function fenye(pageNum) {
         }
     });
 }
-//查询采购单状态和医院
-function findHospitalAndPurchaseOrderStatus() {
 
-    $.ajax({
-        type: "post",
-        url: "PurchaseOrderApprovalController/findHospitalAndPurchaseOrderStatus",
-        async:false,
-        success:function (data) {
-            aa=data.hospitalList;
-            bb=data.purchaseOrdersStatesList;
-            var a = "<option value='0'>请选择</option>";
-            for (var i=0;i<aa.length;i++){
-                a+="<option value='"+aa[i].id+"'>"+aa[i].hospitalName+"</option>";
-            }
-            $("#hospitalId").empty();
-            $("#hospitalId").append(a);
-            var b = "<option value='0'>请选择</option>";
-            for (var i=1;i<bb.length;i++){
-                b+="<option value='"+bb[i].id+"'>"+bb[i].purchaseOrdersExplain+"</option>";
-            }
-            $(".table select[name=purchaseState]").empty();
-            $(".table select[name=purchaseState]").append(b);
-            console.log(data);
-        }
-    });
-}
 //提交审核结果
 function submitAuditResults() {
     var ids = [];
@@ -149,9 +127,10 @@ function findOne(id) {
             }
             $("#purchaseOrderNumber").html(data.purchaseOrderNumber);
             $("#nameOfPurchaseOrder").html(data.nameOfPurchaseOrder);
-            for (var i=0;i<bb.length;i++){
-                if (data.purchaseState==bb[i].id){
-                    $("#purchaseState").html(bb[i].purchaseOrdersExplain);
+            for (var i=0;i<ff.length;i++){
+                if (data.purchaseState==ff[i].id){
+                    $("#purchaseState").html(ff[i].purchaseOrdersExplain);
+                    break;
                 }
             }
             $("#startTime").html(data.startTime);

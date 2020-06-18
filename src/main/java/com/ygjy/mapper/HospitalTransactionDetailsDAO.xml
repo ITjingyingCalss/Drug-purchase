@@ -13,7 +13,7 @@
     <result column="purchased_state" jdbcType="INTEGER" property="purchasedState" />
     <result column="receipt_amount" jdbcType="INTEGER" property="receiptAmount" />
     <result column="receipt_money" jdbcType="REAL" property="receiptMoney" />
-    <result column=" Invoice_number" jdbcType="VARCHAR" property=" invoiceNumber" />
+    <result column="invoice_number" jdbcType="VARCHAR" property="invoiceNumber" />
     <result column="drug_batch_number" jdbcType="VARCHAR" property="drugBatchNumber" />
     <result column="drug_Validity" jdbcType="VARCHAR" property="drugValidity" />
     <result column="receipt_time" jdbcType="TIMESTAMP" property="receiptTime" />
@@ -89,7 +89,7 @@
   <sql id="Base_Column_List">
     id, purchase_orders_id, drug_information_id, enterprise_id, bidding_price, transaction_price, 
     purchased_amount, purchased_money, purchased_state, receipt_amount, receipt_money, 
-     Invoice_number, drug_batch_number, drug_Validity, receipt_time, return_order_id, 
+    invoice_number, drug_batch_number, drug_Validity, receipt_time, return_order_id, 
     returns_the_amount, returns_the_money, reason_for_return, return_state_id, `final_settlement _id`, 
     `final_settlement _amount`, `final_settlement _money`, `settlement _state_id`, suppliers_id
   </sql>
@@ -135,7 +135,7 @@
     insert into hospital_transaction_details (id, purchase_orders_id, drug_information_id, 
       enterprise_id, bidding_price, transaction_price, 
       purchased_amount, purchased_money, purchased_state, 
-      receipt_amount, receipt_money,  Invoice_number, 
+      receipt_amount, receipt_money, invoice_number, 
       drug_batch_number, drug_Validity, receipt_time, 
       return_order_id, returns_the_amount, returns_the_money, 
       reason_for_return, return_state_id, `final_settlement _id`, 
@@ -144,7 +144,7 @@
     values (#{id,jdbcType=INTEGER}, #{purchaseOrdersId,jdbcType=INTEGER}, #{drugInformationId,jdbcType=INTEGER}, 
       #{enterpriseId,jdbcType=INTEGER}, #{biddingPrice,jdbcType=REAL}, #{transactionPrice,jdbcType=REAL}, 
       #{purchasedAmount,jdbcType=INTEGER}, #{purchasedMoney,jdbcType=REAL}, #{purchasedState,jdbcType=INTEGER}, 
-      #{receiptAmount,jdbcType=INTEGER}, #{receiptMoney,jdbcType=REAL}, #{ invoiceNumber,jdbcType=VARCHAR}, 
+      #{receiptAmount,jdbcType=INTEGER}, #{receiptMoney,jdbcType=REAL}, #{invoiceNumber,jdbcType=VARCHAR}, 
       #{drugBatchNumber,jdbcType=VARCHAR}, #{drugValidity,jdbcType=VARCHAR}, #{receiptTime,jdbcType=TIMESTAMP}, 
       #{returnOrderId,jdbcType=INTEGER}, #{returnsTheAmount,jdbcType=INTEGER}, #{returnsTheMoney,jdbcType=REAL}, 
       #{reasonForReturn,jdbcType=VARCHAR}, #{returnStateId,jdbcType=INTEGER}, #{finalSettlementId,jdbcType=INTEGER}, 
@@ -187,8 +187,8 @@
       <if test="receiptMoney != null">
         receipt_money,
       </if>
-      <if test=" invoiceNumber != null">
-         Invoice_number,
+      <if test="invoiceNumber != null">
+        invoice_number,
       </if>
       <if test="drugBatchNumber != null">
         drug_batch_number,
@@ -264,8 +264,8 @@
       <if test="receiptMoney != null">
         #{receiptMoney,jdbcType=REAL},
       </if>
-      <if test=" invoiceNumber != null">
-        #{ invoiceNumber,jdbcType=VARCHAR},
+      <if test="invoiceNumber != null">
+        #{invoiceNumber,jdbcType=VARCHAR},
       </if>
       <if test="drugBatchNumber != null">
         #{drugBatchNumber,jdbcType=VARCHAR},
@@ -350,8 +350,8 @@
       <if test="record.receiptMoney != null">
         receipt_money = #{record.receiptMoney,jdbcType=REAL},
       </if>
-      <if test="record. invoiceNumber != null">
-         Invoice_number = #{record. invoiceNumber,jdbcType=VARCHAR},
+      <if test="record.invoiceNumber != null">
+        invoice_number = #{record.invoiceNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.drugBatchNumber != null">
         drug_batch_number = #{record.drugBatchNumber,jdbcType=VARCHAR},
@@ -410,7 +410,7 @@
       purchased_state = #{record.purchasedState,jdbcType=INTEGER},
       receipt_amount = #{record.receiptAmount,jdbcType=INTEGER},
       receipt_money = #{record.receiptMoney,jdbcType=REAL},
-       Invoice_number = #{record. invoiceNumber,jdbcType=VARCHAR},
+      invoice_number = #{record.invoiceNumber,jdbcType=VARCHAR},
       drug_batch_number = #{record.drugBatchNumber,jdbcType=VARCHAR},
       drug_Validity = #{record.drugValidity,jdbcType=VARCHAR},
       receipt_time = #{record.receiptTime,jdbcType=TIMESTAMP},
@@ -461,8 +461,8 @@
       <if test="receiptMoney != null">
         receipt_money = #{receiptMoney,jdbcType=REAL},
       </if>
-      <if test=" invoiceNumber != null">
-         Invoice_number = #{ invoiceNumber,jdbcType=VARCHAR},
+      <if test="invoiceNumber != null">
+        invoice_number = #{invoiceNumber,jdbcType=VARCHAR},
       </if>
       <if test="drugBatchNumber != null">
         drug_batch_number = #{drugBatchNumber,jdbcType=VARCHAR},
@@ -518,7 +518,7 @@
       purchased_state = #{purchasedState,jdbcType=INTEGER},
       receipt_amount = #{receiptAmount,jdbcType=INTEGER},
       receipt_money = #{receiptMoney,jdbcType=REAL},
-       Invoice_number = #{ invoiceNumber,jdbcType=VARCHAR},
+      invoice_number = #{invoiceNumber,jdbcType=VARCHAR},
       drug_batch_number = #{drugBatchNumber,jdbcType=VARCHAR},
       drug_Validity = #{drugValidity,jdbcType=VARCHAR},
       receipt_time = #{receiptTime,jdbcType=TIMESTAMP},

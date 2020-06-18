@@ -12,4 +12,6 @@ public interface SupplierAuditService {
     PageInfo findAllAudit(DrugInformation drugInformation, Suppliers suppliers);
 
     Integer submitAuditResults(List<Integer> ids, List<Integer> purchaseStateS);
+
+    DrugInformation findOne(Integer id);
 }
