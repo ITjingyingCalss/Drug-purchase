@@ -100,19 +100,18 @@ public class DrugsInformationImpl implements DrugsInformationService {
     }
 
     @Override
-    public List<DrugInformation> returnSelect(String returnOrderNumber, String returnOrderName, Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId) {
-        List<DrugInformation> drugInformations = drugsInformationDao.returnSelect(returnOrderNumber, returnOrderName, returnStateId, createReceiptsTime, submissionTime, hospitalName, createReceiptsTimes, submissionTimes, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+    public List<DrugInformation> returnSelect(String returnOrderNumber, String returnOrderName, Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date startTime, Date endTime, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId) {
+        List<DrugInformation> drugInformations = drugsInformationDao.returnSelect(returnOrderNumber, returnOrderName, returnStateId, createReceiptsTime, submissionTime, hospitalName, startTime, endTime, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
         return drugInformations;
     }
-
     @Override
     public Dto selectReturnStatus() {
         List<ReturnStatus> returnStatuses = drugsInformationDao.selectReturnStatus();
         return DtoUtil.returnDataSuccess(returnStatuses);
     }
     @Override
-    public List<DrugInformation> selectPurchaseOrder(String statementNumber, String statementName, String hospitalName, Date createReceiptsTime, Date submissionTime, Integer statementStateId, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId) {
-        List<DrugInformation> drugInformations = drugsInformationDao.selectPurchaseOrder(statementNumber, statementName, hospitalName, createReceiptsTime, submissionTime, statementStateId, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+    public List<DrugInformation> selectPurchaseOrder(String statementNumber, String statementName, String hospitalName, Date startTime, Date endTime, Integer statementStateId, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId) {
+        List<DrugInformation> drugInformations = drugsInformationDao.selectPurchaseOrder(statementNumber, statementName, hospitalName, startTime, endTime, statementStateId, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
         return drugInformations;
     }
 
@@ -142,8 +141,8 @@ public class DrugsInformationImpl implements DrugsInformationService {
         return drugsInformationDao.updateByPrimaryKeySettment(array);
     }
     @Override
-    public List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber, String nameOfPurchaseOrder, Integer purchaseOrdersStatesId, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName) {
-        return drugsInformationDao.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,createReceiptsTimes,submissionTimes,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
+    public List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber, String nameOfPurchaseOrder, Integer purchaseOrdersStatesId, String hospitalName, Date startTime, Date endTime, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName) {
+        return drugsInformationDao.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,startTime,endTime,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
     }
 
     @Override
@@ -191,5 +190,11 @@ public class DrugsInformationImpl implements DrugsInformationService {
     @Override
     public int insertHospitalName(Hospital hospital) {
         return drugsInformationDao.insertHospitalName(hospital);
+    }
+
+    @Override
+    public List<DrugInformation> selectPurchaseToOrder(String purchaseOrderNumber, String nameOfPurchaseOrder, Integer purchaseOrdersStatesId, String hospitalName, Date createTime, Date subTime, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer suppliersid) {
+        return drugsInformationDao.selectPurchaseToOrder(purchaseOrderNumber,nameOfPurchaseOrder, purchaseOrdersStatesId,hospitalName,createTime,subTime,commonName,serialNumber,
+                dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName,suppliersid);
     }
 }

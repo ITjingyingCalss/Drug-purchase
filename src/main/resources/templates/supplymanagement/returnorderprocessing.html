@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="css/style.css">
     <style>
         #s td{
-           background-color:orange;
+            background-color:orange;
         }
     </style>
     <link rel="stylesheet" href="../angularjs/toaster.min.css">
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/WdatePicker.js"></script>
     <script type="text/javascript">
         var qian;
         var hou;
@@ -34,6 +35,9 @@
         })
         //查询
         function selectByEntity(pageNum){
+             purchasedAmount=0;
+             purchasedMoney=0;
+             c=0;
             $("#tbody").empty();
             var returnOrderNumber=$("#returnOrderNumber").val();
             var returnOrderName=$("#returnOrderName").val();
@@ -41,8 +45,8 @@
             var createReceiptsTime=$("#createReceiptsTime").val();
             var submissionTime=$("#submissionTime").val();
             var hospitalName=$("#hospitalName").val();
-            var createReceiptsTimes=$("#createReceiptsTimes").val();
-            var submissionTimes=$("#submissionTimes").val();
+            var startTime=$("#startTime").val();
+            var endTime=$("#endTime").val();
             var purchaseOrderNumber=$("#purchaseOrderNumber").val();
             var nameOfPurchaseOrder=$("#nameOfPurchaseOrder").val();
             var serialNumber=$("#serialNumber").val();
@@ -65,8 +69,8 @@
                     // "createReceiptsTime":createReceiptsTime,
                     // "submissionTime":submissionTime,
                     "hospitalName":hospitalName,
-                    // "createReceiptsTimes":createReceiptsTimes,
-                    // "submissionTimes":submissionTimes,
+                    "startTime":startTime,
+                    "endTime":endTime,
                     "purchaseOrderNumber":purchaseOrderNumber,
                     "nameOfPurchaseOrder":nameOfPurchaseOrder,
                     "serialNumber":serialNumber,
@@ -88,8 +92,8 @@
                     var v = "";
                     for(var i=0;i<result.list.length;i++){
                         var data=result.list;
-                        var date=data[i].purchaseOrder.createReceiptsTimes;
-                        var date2=data[i].purchaseOrder.submissionTimes;
+                        var date=data[i].purchaseOrder.createReceiptsTime;
+                        var date2=data[i].purchaseOrder.submissionTime;
                         var s2=new Date(date2);
                         var s=new Date(date);
                         year=s.getFullYear();
@@ -328,7 +332,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货时间：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTime" name="createReceiptsTime"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTime" name="submissionTime">
+                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
             </td>
         </tr>
         <tr>
@@ -341,7 +345,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTimes" name="createReceiptsTimes"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTimes" name="submissionTimes">
+                <input class="form-control" style="width: 120px;float: left" id="startTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="endTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
             </td>
         </tr>
         <tr>

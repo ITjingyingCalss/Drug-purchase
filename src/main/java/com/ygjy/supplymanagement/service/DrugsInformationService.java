@@ -85,7 +85,7 @@ public interface DrugsInformationService {
     /**
      * 退货单查询
      */
-    List<DrugInformation> returnSelect(String returnOrderNumber,String returnOrderName,Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId,String tradeName,Integer qualityLevelId);
+    List<DrugInformation> returnSelect(String returnOrderNumber,String returnOrderName,Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date startTime, Date endTime, String purchaseOrderNumber, String nameOfPurchaseOrder, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId,String tradeName,Integer qualityLevelId);
     /**
      * 退货单状态查询
      * @return
@@ -94,7 +94,7 @@ public interface DrugsInformationService {
     /**
      * 结算单查询
      */
-    List<DrugInformation> selectPurchaseOrder(String statementNumber,String statementName,String hospitalName,Date createReceiptsTime,Date submissionTime,Integer statementStateId,String purchaseOrderNumber,String nameOfPurchaseOrder,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,Integer qualityLevelId);
+    List<DrugInformation> selectPurchaseOrder(String statementNumber,String statementName,String hospitalName,Date startTime,Date endTime,Integer statementStateId,String purchaseOrderNumber,String nameOfPurchaseOrder,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,Integer qualityLevelId);
     /**
      * 结算状态查询
      * @return
@@ -124,7 +124,7 @@ public interface DrugsInformationService {
      * 采购单处理
      * @return
      */
-    List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Date submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName);
+    List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder,Integer purchaseOrdersStatesId,String hospitalName,Date startTime,Date endTime,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName);
 
     /**
      * 采购单导出
@@ -175,4 +175,27 @@ public interface DrugsInformationService {
      * @return
      */
     int insertHospitalName(Hospital hospital);
+
+    /**
+     * 按采购单查询
+     * @param purchaseOrderNumber
+     * @param nameOfPurchaseOrder
+     * @param purchaseOrdersStatesId
+     * @param hospitalName
+     * @param createTime
+     * @param subTime
+     * @param commonName
+     * @param serialNumber
+     * @param dosageFormId
+     * @param specification
+     * @param unit
+     * @param conversionFraction
+     * @param drugCategoryId
+     * @param enterpriseNameId
+     * @param tradeName
+     * @param suppliersid
+     * @return
+     */
+    List<DrugInformation> selectPurchaseToOrder(String purchaseOrderNumber,String nameOfPurchaseOrder,Integer purchaseOrdersStatesId,String hospitalName,Date createTime,Date subTime,String commonName,String serialNumber,
+                                                Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,Integer suppliersid);
 }

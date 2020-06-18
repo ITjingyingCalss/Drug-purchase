@@ -189,7 +189,7 @@ public class DrugsInformationController {
      * 退货单查询
      */
     @RequestMapping(value = "/returnSelect" ,produces = "application/json;charset=utf-8")
-    public String returnSelect(String returnOrderNumber, String returnOrderName, Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String purchaseOrderNumber, String nameOfPurchaseOrder, @RequestParam(value = "commonName",required = false)String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId,
+    public String returnSelect(String returnOrderNumber, String returnOrderName, Integer returnStateId, Date createReceiptsTime, Date submissionTime, String hospitalName, Date startTime, Date endTime, String purchaseOrderNumber, String nameOfPurchaseOrder, @RequestParam(value = "commonName",required = false)String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer qualityLevelId,
                                @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
         PageHelper.startPage(pageNum,5);
         if(dosageFormId!=null&&dosageFormId<=0){
@@ -216,7 +216,7 @@ public class DrugsInformationController {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-        List<DrugInformation> drugInformations = drugsInformationService.returnSelect(returnOrderNumber, returnOrderName, returnStateId, createReceiptsTime, submissionTime, hospitalName, createReceiptsTimes, submissionTimes, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+        List<DrugInformation> drugInformations = drugsInformationService.returnSelect(returnOrderNumber, returnOrderName, returnStateId, createReceiptsTime, submissionTime, hospitalName, startTime, endTime, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
         PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
         return JSON.toJSONString(pageInfo);
     }
@@ -229,7 +229,7 @@ public class DrugsInformationController {
         return JSON.toJSONString(dto);
     }
     @RequestMapping(value = "/selectPurchaseOrder" ,produces = "application/json;charset=utf-8")
-    public String selectPurchaseOrder(String statementNumber,String statementName,String hospitalName,Date createReceiptsTime,Date submissionTime,Integer statementStateId,String purchaseOrderNumber,String nameOfPurchaseOrder,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,Integer qualityLevelId,
+    public String selectPurchaseOrder(String statementNumber,String statementName,String hospitalName,Date startTime,Date endTime,Integer statementStateId,String purchaseOrderNumber,String nameOfPurchaseOrder,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,Integer qualityLevelId,
                                       @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
         PageHelper.startPage(pageNum,5);
         if(dosageFormId!=null&&dosageFormId<=0){
@@ -247,7 +247,7 @@ public class DrugsInformationController {
         if(statementStateId!=null&&statementStateId<=0){
             statementStateId=null;
         }
-        List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseOrder(statementNumber, statementName, hospitalName, createReceiptsTime, submissionTime, statementStateId, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
+        List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseOrder(statementNumber, statementName, hospitalName, startTime, endTime, statementStateId, purchaseOrderNumber, nameOfPurchaseOrder, commonName, serialNumber, dosageFormId, specification, unit, conversionFraction, drugCategoryId, enterpriseNameId, tradeName, qualityLevelId);
         PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
         return JSON.toJSONString(pageInfo);
     }
@@ -280,7 +280,7 @@ public class DrugsInformationController {
         return result;
     }
     @RequestMapping(value = "/selectPurchaseOrderProcessing" ,produces = "application/json;charset=utf-8")
-    public String selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Date submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,
+    public String selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date startTime,Date endTime,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,
                                       @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
         PageHelper.startPage(pageNum,5);
         if(dosageFormId!=null&&dosageFormId<=0){
@@ -295,10 +295,10 @@ public class DrugsInformationController {
         if(purchaseOrdersStatesId!=null&&purchaseOrdersStatesId<0){
             purchaseOrdersStatesId=null;
         }
-        if(createReceiptsTimes!=null){
-            createReceiptsTimes=null;
+        if(startTime!=null){
+            startTime=null;
         }
-        List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,createReceiptsTimes,submissionTimes,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
+        List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,startTime,endTime,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
         PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
         return JSON.toJSONString(pageInfo);
     }
@@ -329,5 +329,50 @@ public class DrugsInformationController {
         result += drugsInformationService.updateUnableToSupply(Arrays.asList(importId));
         System.out.println("共"+ importId.length+"条,成功"+result+"条");
         return result;
+    }
+
+    /**
+     * 按采购单查询
+     * @param purchaseOrderNumber
+     * @param nameOfPurchaseOrder
+     * @param purchaseOrdersStatesId
+     * @param hospitalName
+     * @param
+     * @param
+     * @param commonName
+     * @param serialNumber
+     * @param dosageFormId
+     * @param specification
+     * @param unit
+     * @param conversionFraction
+     * @param drugCategoryId
+     * @param enterpriseNameId
+     * @param tradeName
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/selectPurchaseToOrder" ,produces = "application/json;charset=utf-8")
+    public String selectPurchaseToOrder(String purchaseOrderNumber, String nameOfPurchaseOrder, Integer purchaseOrdersStatesId, String hospitalName, Date createTime, Date subTime, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName, Integer suppliersid,
+                                                @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
+        PageHelper.startPage(pageNum,5);
+        if(dosageFormId!=null&&dosageFormId<=0){
+            dosageFormId=null;
+        }
+        if(drugCategoryId!=null&&drugCategoryId<=0){
+            drugCategoryId=null;
+        }
+        if(enterpriseNameId!=null&&enterpriseNameId<=0){
+            enterpriseNameId=null;
+        }
+        if(purchaseOrdersStatesId!=null&&purchaseOrdersStatesId<0){
+            purchaseOrdersStatesId=null;
+        }
+       if(suppliersid!=null&&suppliersid<=0){
+           suppliersid=null;
+       }
+        List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseToOrder(purchaseOrderNumber,nameOfPurchaseOrder, purchaseOrdersStatesId,hospitalName,createTime,subTime,commonName,serialNumber,
+                dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName,suppliersid);
+        PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
+        return JSON.toJSONString(pageInfo);
     }
 }

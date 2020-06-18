@@ -21,6 +21,7 @@
     <script src="leftnav/js/jquery-2.2.3.min.js"></script>
     <script src="leftnav/js/jquery.slimscroll.min.js"></script>
     <script type="text/javascript" src="leftnav/js/left-side-menu.js"></script>
+    <script src="js/WdatePicker.js"></script>
     <script type="text/javascript">
         $(function(){
             $(".lsm-sidebar-item li a").on("click",function(){
@@ -57,36 +58,36 @@
                             <li class="lsm-sidebar-item">
                                 <a href="javascript:;"><i class="my-icon lsm-sidebar-icon "></i><span>药品目录查询</span><i class="my-icon lsm-sidebar-more"></i></a>
                                 <ul>
-                                    <li><a  data-src="/drugcategory"><span>药品品目查询</span></a></li>
-                                    <li><a data-src="/druginformation"><span>药品信息查询</span></a></li>
+                                    <li><a  href="/drugcategory" target="iframe"><span>药品品目查询</span></a></li>
+                                    <li><a href="/druginformation" target="iframe"><span>药品信息查询</span></a></li>
                                 </ul>
                             </li>
                             <li class="lsm-sidebar-item">
                                 <a href="javascript:;"><i class="my-icon lsm-sidebar-icon "></i><span>商品管理</span><i class="my-icon lsm-sidebar-more"></i></a>
                                 <ul>
-                                    <li><a data-src="/drugselection"><span>选择供货商</span></a></li>
-                                    <li><a data-src="/cancelsupplier"><span>取消供货商</span></a></li>
-                                    <li><a data-src="/commodityinformationmaintenance"><span>商品信息维护</span></a></li>
+                                    <li><a href="/drugselection" target="iframe"><span>选择供货商</span></a></li>
+                                    <li><a href="/cancelsupplier" target="iframe"><span>取消供货商</span></a></li>
+                                    <li><a href="/commodityinformationmaintenance" target="iframe"><span>商品信息维护</span></a></li>
                                 </ul>
                             </li>
                             <li class="lsm-sidebar-item">
                                 <a href="javascript:;"><i class="my-icon lsm-sidebar-icon "></i><span>采购单处理</span><i class="my-icon lsm-sidebar-more"></i></a>
                                 <ul>
-                                    <li><a data-src="/purchaseorderprocessing"><span>采购单处理</span></a></li>
+                                    <li><a href="/purchaseorderprocessing" target="iframe"><span>采购单处理</span></a></li>
                                 </ul>
                             </li>
                             <li class="lsm-sidebar-item">
                                 <a href="javascript:;"><i class="my-icon lsm-sidebar-icon "></i><span>交易查询统计</span><i class="my-icon lsm-sidebar-more"></i></a>
                                 <ul>
-                                    <li><a data-src="/purchaseorderquery"><span>按采购单查询</span></a></li>
-                                    <li><a data-src="/bysupplier"><span>按供货商查询</span></a></li>
-                                    <li><a data-src="/bypurchasinghospital"><span>按采购医院查询</span></a></li>
-                                    <li><a data-src="/Inquirybytradingdrugs"><span>按交易药品查询</span></a></li>
-                                    <li><a data-src="/drugtransactiondetails"><span>查询药品交易明细</span></a></li>
+                                    <li><a href="/purchaseorderquery" target="iframe"><span>按采购单查询</span></a></li>
+                                    <li><a href="/bysupplier" target="iframe"><span>按供货商查询</span></a></li>
+                                    <li><a href="/bypurchasinghospital" target="iframe"><span>按采购医院查询</span></a></li>
+                                    <li><a href="/Inquirybytradingdrugs" target="iframe"><span>按交易药品查询</span></a></li>
+                                    <li><a href="/drugtransactiondetails" target="iframe"><span>查询药品交易明细</span></a></li>
                                 </ul>
                             </li>
-                            <li><a data-src="/returnorderprocessing"><span>退货单处理</span></a></li>
-                            <li><a data-src="/settlementdocprocessing"><span>结算单处理</span></a></li>
+                            <li><a href="/returnorderprocessing" target="iframe"><span>退货单处理</span></a></li>
+                            <li><a href="/settlementdocprocessing"  target="iframe"><span>结算单处理</span></a></li>
                         </ul>
                     </li>
                     <li class="lsm-sidebar-item">
@@ -158,7 +159,7 @@
 </div>
 <!-- 右侧内容 -->
 <div class="main_right" style="width:calc(100% - 240px);height:calc(100% - 80px)">
-    <iframe frameborder="0" scrolling="no" style="width: 100%;height: 100%" src="" id=""></iframe>
+    <iframe frameborder="0" scrolling="no" style="width: 100%;height: 100%" name="iframe" src="" id="iframe"></iframe>
 </div>
 </body>
 </html>

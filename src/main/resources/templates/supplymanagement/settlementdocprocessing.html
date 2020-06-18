@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../angularjs/toaster.min.css">
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
-
+    <script src="js/WdatePicker.js"></script>
     <style>
         #s td{
             background-color:orange;
@@ -34,12 +34,15 @@
             })
             //查询
             function selectByEntity(pageNum) {
+                purchasedAmount=0;
+                purchasedMoney=0;
+                c=0;
                 $("#tbody").empty();
                 var statementNumber = $("#statementNumber").val();
                 var statementName = $("#statementName").val();
                 var hospitalName = $("#hospitalName").val();
-                var createReceiptsTime = $("#createReceiptsTime").val();
-                var submissionTime = $("#submissionTime").val();
+                var startTime = $("#startTime").val();
+                var endTime = $("#endTime").val();
                 var statementStateId = $("#statementStateId").val();
                 var purchaseOrderNumber = $("#purchaseOrderNumber").val();
                 var nameOfPurchaseOrder = $("#nameOfPurchaseOrder").val();
@@ -59,8 +62,8 @@
                         "statementNumber":statementNumber,
                         "statementName":statementName,
                         "hospitalName":hospitalName,
-                        // "createReceiptsTime":createReceiptsTime,
-                        // "submissionTime":submissionTime,
+                        "startTime":startTime,
+                        "endTime":endTime,
                         "statementStateId":statementStateId,
                         "purchaseOrderNumber":purchaseOrderNumber,
                         "nameOfPurchaseOrder":nameOfPurchaseOrder,
@@ -83,9 +86,10 @@
                         var v = "";
                         for (var i = 0; i < result.list.length; i++) {
                             var data = result.list;
-                            var settlementstate=data[i].settlementStatus.settlementState=1?"未确认结算":"已确认结算";
-                            var date=data[i].hospitalTransactionStatement.createReceiptsTime;
-                            var date2=data[i].hospitalTransactionStatement.submissionTime;
+                            // alert(data[i].settlementStatus.id)
+                            var settlementstate=data[i].settlementStatus.id==1?"未确认结算":"已确认结算";
+                            var date=data[i].purchaseOrder.startTime;
+                            var date2=data[i].purchaseOrder.endTime;
                             var s2=new Date(date2);
                             var s=new Date(date);
                             year=s.getFullYear();
@@ -210,7 +214,7 @@
                     $("#statementStateId").prepend('<option value="0" >请选择</option>')
                     for(var i=0;i<result.data.length;i++){
                         var list=result.data;
-                        $("#statementStateId").prepend('<option value="' + list[i].settlementState + '">' + list[i].settlementExplain + '</option>')
+                        $("#statementStateId").prepend('<option value="' + list[i].id + '">' + list[i].settlementExplain + '</option>')
                     }
                 }
             })
@@ -320,7 +324,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算时间：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTime"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTime">
+                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
             </td>
         </tr>
         <tr>
@@ -333,7 +337,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left">
+                <input class="form-control" style="width: 120px;float: left" id="startTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="float: left" >至</span><input class="form-control" style="width: 120px;float: left" id="endTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
             </td>
         </tr>
         <tr>
@@ -514,17 +518,17 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a href="#" aria-label="Previous">
+                        <a href="#" aria-label="Previous" onclick="selectByEntity(qian)">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    <li><a href="#" onclick="selectByEntity(1)">1</a></li>
+                    <li><a href="#" onclick="selectByEntity(2)">2</a></li>
+                    <li><a href="#" onclick="selectByEntity(3)">3</a></li>
+                    <li><a href="#" onclick="selectByEntity(4)">4</a></li>
+                    <li><a href="#" onclick="selectByEntity(5)">5</a></li>
                     <li>
-                        <a href="#" aria-label="Next">
+                        <a href="#" aria-label="Next" onclick="selectByEntity(hou)">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
