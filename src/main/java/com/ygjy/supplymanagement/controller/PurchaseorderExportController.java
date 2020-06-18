@@ -71,8 +71,8 @@ public class PurchaseorderExportController {
                 content[i][0] = stu.getPurchaseOrder().getPurchaseOrderNumber()+"";
                 content[i][1] = stu.getPurchaseOrder().getNameOfPurchaseOrder()+"";
                 content[i][2] = stu.getHospital().getHospitalName()+"";
-                content[i][3] = stu.getPurchaseOrder().getCreateReceiptsTimes()+"";
-                content[i][4] = stu.getPurchaseOrder().getSubmissionTimes()+"";
+                content[i][3] = stu.getPurchaseOrder().getStartTime()+"";
+                content[i][4] = stu.getPurchaseOrder().getEndTime()+"";
                 content[i][5] = stu.getSerialNumber()+"";
                 content[i][6] = stu.getCommonName()+"";
                 content[i][7] = stu.getDurgsFrom().getDrugFrom()+"";

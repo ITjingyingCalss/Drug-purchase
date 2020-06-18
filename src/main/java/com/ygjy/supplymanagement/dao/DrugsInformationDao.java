@@ -119,8 +119,8 @@ public interface DrugsInformationDao {
                                        @Param("createReceiptsTime")Date createReceiptsTime,
                                        @Param("submissionTime")Date submissionTime,
                                        @Param("hospitalName")String hospitalName,
-                                       @Param("createReceiptsTimes")Date createReceiptsTimes,
-                                       @Param("submissionTimes")Date submissionTimes,
+                                       @Param("startTime")Date startTime,
+                                       @Param("endTime")Date endTime,
                                        @Param("purchaseOrderNumber")String purchaseOrderNumber,
                                        @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
                                        @Param("commonName")String commonName,
@@ -133,7 +133,6 @@ public interface DrugsInformationDao {
                                        @Param("enterpriseNameId")Integer enterpriseNameId,
                                        @Param("tradeName") String tradeName,
                                        @Param("qualityLevelId") Integer qualityLevelId);
-
     /**
      * 退货单状态查询
      * @return
@@ -145,8 +144,8 @@ public interface DrugsInformationDao {
     List<DrugInformation> selectPurchaseOrder(@Param("statementNumber")String statementNumber,
                                               @Param("statementName")String statementName,
                                               @Param("hospitalName")String hospitalName,
-                                              @Param("createReceiptsTime")Date createReceiptsTime,
-                                              @Param("submissionTime")Date submissionTime,
+                                              @Param("startTime")Date startTime,
+                                              @Param("endTime")Date endTime,
                                               @Param("statementStateId")Integer statementStateId,
                                               @Param("purchaseOrderNumber")String purchaseOrderNumber,
                                               @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
@@ -196,8 +195,8 @@ public interface DrugsInformationDao {
                                                         @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
                                                         @Param("purchaseOrdersStatesId")Integer purchaseOrdersStatesId,
                                                         @Param("hospitalName")String hospitalName,
-                                                        @Param("createReceiptsTimes")Date createReceiptsTimes,
-                                                        @Param("submissionTimes")Date submissionTimes,
+                                                        @Param("startTime")Date startTime,
+                                                        @Param("endTime")Date endTime,
                                                         @Param("commonName")String commonName,
                                                         @Param("serialNumber")String serialNumber,
                                                         @Param("dosageFormId")Integer dosageFormId,
@@ -257,4 +256,41 @@ int updateReturnGoods(@Param("array") List<Integer> array);
      * @return
      */
     int insertHospitalName(Hospital hospital);
+
+    /**
+     * 按采购单查询
+     * @param purchaseOrderNumber
+     * @param nameOfPurchaseOrder
+     * @param purchaseOrdersStatesId
+     * @param hospitalName
+     * @param createTime
+     * @param subTime
+     * @param commonName
+     * @param serialNumber
+     * @param dosageFormId
+     * @param specification
+     * @param unit
+     * @param conversionFraction
+     * @param drugCategoryId
+     * @param enterpriseNameId
+     * @param tradeName
+     * @param suppliersid
+     * @return
+     */
+    List<DrugInformation> selectPurchaseToOrder(@Param("purchaseOrderNumber")String purchaseOrderNumber,
+                                                @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
+                                                @Param("purchaseOrdersStatesId")Integer purchaseOrdersStatesId,
+                                                @Param("hospitalName")String hospitalName,
+                                                @Param("createTime")Date createTime,
+                                                @Param("subTime")Date subTime,
+                                                @Param("commonName")String commonName,
+                                                @Param("serialNumber")String serialNumber,
+                                                @Param("dosageFormId")Integer dosageFormId,
+                                                @Param("specification")String specification,
+                                                @Param("unit")String unit,
+                                                @Param("conversionFraction")String conversionFraction,
+                                                @Param("drugCategoryId")Integer drugCategoryId,
+                                                @Param("enterpriseNameId")Integer enterpriseNameId,
+                                                @Param("tradeName") String tradeName,
+                                                @Param("suppliersid") Integer suppliersid);
 }

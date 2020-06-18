@@ -154,15 +154,17 @@
             <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
             <result column="contacts" jdbcType="VARCHAR" property="contacts" />
             <result column="phone" jdbcType="VARCHAR" property="phone" />
-            <result column="create_receipts_times" jdbcType="TIMESTAMP" property="createReceiptsTimes" />
+            <result column="create_receipts_time" jdbcType="TIMESTAMP" property="createReceiptsTime" />
             <result column="last_modification_time" jdbcType="TIMESTAMP" property="lastModificationTime" />
-            <result column="submission_times" jdbcType="TIMESTAMP" property="submissionTimes" />
+            <result column="submission_time" jdbcType="TIMESTAMP" property="submissionTime" />
             <result column="remark" jdbcType="VARCHAR" property="remark" />
             <result column="purchase_state" jdbcType="INTEGER" property="purchaseState" />
             <result column="audit_person" jdbcType="VARCHAR" property="auditPerson" />
             <result column="audit_opinion" jdbcType="VARCHAR" property="auditOpinion" />
             <result column="audit_time" jdbcType="TIMESTAMP" property="auditTime" />
             <result column="del_state" jdbcType="INTEGER" property="delState" />
+            <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+            <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
         </association>
         <association property="purchaseOrderDrugDetails" javaType="com.ygjy.supplymanagement.pojo.PurchaseOrderDrugDetails">
             <id column="tid" jdbcType="INTEGER" property="id" />
@@ -553,7 +555,7 @@
         o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
         ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
         ,a.`final_settlement _amount`,a.`final_settlement _money`,a.`returns_the_amount`,a.`returns_the_money`,a.`reason_for_return`,
-        m.`return_state_id`,o.`create_receipts_times`,o.`submission_times`,a.`return_order_id`,l.`level`,l.`qua_id`,e.`enterprise_name`,e.`id` AS eid,d.`drug_from`
+        m.`return_state_id`,o.`create_receipts_time`,o.`submission_time`,a.`return_order_id`,l.`level`,l.`qua_id`,e.`enterprise_name`,e.`id` AS eid,d.`drug_from`
         ,m.`return_state_id`,
         <include refid="Base_Column_List" />
         FROM drug_information i
@@ -585,11 +587,8 @@
         <if test="hospitalName != null and hospitalName != ''">
             and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%')
         </if>
-        <if test="createReceiptsTimes != null and createReceiptsTimes != ''">
-            and o.create_receipts_times BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
-        </if>
-        <if test="submissionTimes != null and submissionTimes != ''">
-            and o.submission_times BETWEEN #{createReceiptsTimes}  AND #{submissionTimes}
+        <if test="startTime != null and endTime!=null">
+            and o.create_receipts_time BETWEEN #{startTime} AND #{endTime}
         </if>
         <if test="purchaseOrderNumber != null and purchaseOrderNumber != ''">
             and o.purchase_order_number like CONCAT('%',#{purchaseOrderNumber,jdbcType=VARCHAR},'%')
@@ -635,9 +634,10 @@
     <!--结算单查询-->
     <select id="selectPurchaseOrder" resultMap="BaseResultMap">
         SELECT	 i.`id` AS iid,m.`statement_number`,m.`statement_name`,h.`hospital_name`,m.`create_receipts_time`,m.`submission_time`,
-        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
+        o.`purchase_order_number`,o.`name_of_purchase_order`,o.`start_time`,o.`end_time`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
         ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
         ,a.`final_settlement _amount`,a.`final_settlement _money`,d.`durg_from_id`,d.`drug_from`,l.`qua_id`,l.`level`,e.`enterprise_name`,a.`final_settlement _id`,
+        z.`settlement _state`,
         <include refid="Base_Column_List" />
         FROM drug_information i
         INNER JOIN durgs_from d ON d.`durg_from_id`=i.`dosage_form_id`
@@ -649,7 +649,8 @@
         INNER JOIN hospital_transaction_statement m ON m.`id`=a.`final_settlement _id`
         INNER JOIN hospital h ON h.`id`=m.`hospital_id`
         INNER JOIN purchase_order o ON o.`hospital_id`=h.`id`
-        WHERE i.`del_state`=0 AND m.`statement_state_id`=2 AND a.`final_settlement _id`=1
+        INNER JOIN settlement_status z ON z.id=a.`settlement _state_id`
+        WHERE i.`del_state`=0 AND m.`statement_state_id`=2 AND z.id=1
         <if test="statementNumber != null and statementNumber != ''">
             and m.statement_number like CONCAT('%',#{statementNumber,jdbcType=VARCHAR},'%')
         </if>
@@ -659,11 +660,14 @@
         <if test="hospitalName != null and hospitalName != ''">
             and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=INTEGER},'%')
         </if>
-        <if test="createReceiptsTime != null and createReceiptsTime != ''">
-            and m.create_receipts_time BETWEEN #{createReceiptsTime}  AND #{submissionTime}
-        </if>
-        <if test="submissionTime != null and submissionTime != ''">
-            and m..submission_time BETWEEN #{createReceiptsTime}  AND #{submissionTime}
+        <!--<if test="startTime != null">-->
+            <!--and date(o.start_time) <![CDATA[>=]]>date(#{startTime,jdbcType=TIMESTAMP})-->
+        <!--</if>-->
+        <!--<if test="endTime != null ">-->
+            <!--and date(o.end_time) <![CDATA[<=]]> date(#{endTime,jdbcType=TIMESTAMP})-->
+        <!--</if>-->
+        <if test="startTime != null and endTime!=null">
+            and o.create_receipts_time BETWEEN #{startTime} AND #{endTime}
         </if>
         <if test="statementStateId != null and statementStateId != ''">
             and m.statement_state_id like CONCAT('%',#{statementStateId,jdbcType=INTEGER},'%')
@@ -715,7 +719,7 @@
         o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
         ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
         ,a.`final_settlement _amount`,a.`final_settlement _money`,a.`returns_the_amount`,a.`returns_the_money`,a.`reason_for_return`,
-        m.`return_state_id`,o.`create_receipts_times`,o.`submission_times`,a.`return_order_id`,l.`level`,l.`qua_id`,e.`enterprise_name`,e.`id` AS eid,d.`drug_from`
+        m.`return_state_id`,o.`create_receipts_time`,o.`submission_time`,o.`start_time`,o.`end_time`,a.`return_order_id`,l.`level`,l.`qua_id`,e.`enterprise_name`,e.`id` AS eid,d.`drug_from`
         ,m.`return_state_id`,
         <include refid="Base_Column_List" />
         FROM drug_information i
@@ -736,7 +740,7 @@
     <!--导出结算单-->
     <select id="selectSettlementExport" resultMap="BaseResultMap">
         SELECT	 i.`id` AS iid,m.`statement_number`,m.`statement_name`,h.`hospital_name`,m.`create_receipts_time`,m.`submission_time`,
-        o.`purchase_order_number`,o.`name_of_purchase_order`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
+        o.`purchase_order_number`,o.`name_of_purchase_order`,o.`start_time`,o.`end_time`,a.`purchased_amount`,a.`purchased_money`,a.`bidding_price` AS price
         ,a.`transaction_price`,a.`receipt_amount`,a.`receipt_money`,a.`Invoice_number`,a.`drug_batch_number`,a.`drug_Validity`
         ,a.`final_settlement _amount`,a.`final_settlement _money`,d.`durg_from_id`,d.`drug_from`,l.`qua_id`,l.`level`,e.`enterprise_name`,a.`final_settlement _id`,
         <include refid="Base_Column_List" />
@@ -776,7 +780,7 @@
     </update>
     <!--采购单处理-->
     <select id="selectPurchaseOrderProcessing" resultMap="BaseResultMap">
-        SELECT i.id AS iid,o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`create_receipts_times`,o.`submission_times`,
+        SELECT i.id AS iid,o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`start_time`,o.`end_time`,
         e.`enterprise_name`,p.`bidding_price`,p.`transaction_price`,p.`purchased_amount`,p.`purchased_money`,p.`purchase_orders_states_id`,p.`purchase_orders_states_id`,f.`drug_from`,
         <include refid="Base_Column_List" />
         FROM hospital_transaction_details s
@@ -799,11 +803,8 @@
         <if test="hospitalName != null and hospitalName != ''">
             and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%')
         </if>
-        <if test="createReceiptsTimes != null">
-            and date(o.create_receipts_times) <![CDATA[>=]]>date(#{createReceiptsTimes,jdbcType=TIMESTAMP})
-        </if>
-        <if test="submissionTimes != null ">
-            and date(o.submission_times) <![CDATA[<=]]> date(#{submissionTimes,jdbcType=TIMESTAMP})
+        <if test="startTime != null and endTime!=null">
+            and o.create_receipts_time BETWEEN #{startTime} AND #{endTime}
         </if>
         <!--<if test="createReceiptsTimes !=null and createReceiptsTimes !=''">-->
             <!--AND o.create_receipts_times >= TO_DATE(#{createReceiptsTimes},'yyyy-mm-dd')-->
@@ -841,7 +842,7 @@
     </select>
     <!--采购单导出-->
     <select id="selectPurchaseOrderProcessingExport" resultMap="BaseResultMap">
-        SELECT o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`create_receipts_times`,o.`submission_times`,
+        SELECT o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`start_time`,o.`end_time`,
         e.`enterprise_name`,s.`bidding_price`,s.`transaction_price`,s.`purchased_amount`,s.`purchased_money`,p.`purchase_orders_states_id`,f.`drug_from`,
         <include refid="Base_Column_List" />
         FROM hospital_transaction_details s
@@ -1292,8 +1293,10 @@
     </insert>
     <!--按采购单查询-->
     <select id="selectPurchaseToOrder" resultMap="BaseResultMap">
-           SELECT i.id AS iid,o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`create_receipts_times`,o.`submission_times`,
-        e.`enterprise_name`,p.`bidding_price`,p.`transaction_price`,p.`purchased_amount`,p.`purchased_money`,p.`purchase_orders_states_id`,p.`purchase_orders_states_id`,f.`drug_from`,n.`suppliers_id`,n.`supplier_name`,
+        SELECT i.id AS iid,o.`purchase_order_number`,o.`name_of_purchase_order`,h.`hospital_name`,o.`start_time`,o.`end_time`,o.`create_receipts_time`,o.`submission_time`,o.`audit_time`,
+        e.`enterprise_name`,p.`bidding_price`,p.`transaction_price`,p.`purchased_amount`,p.`purchased_money`,p.`purchase_orders_states_id`,p.`purchase_orders_states_id`,f.`drug_from`,n.`suppliers_id`,
+        n.`supplier_name`,s.`purchased_amount`,s.`purchased_money`,s.`receipt_amount`,s.`receipt_money`,s.`returns_the_amount`,
+        s.`returns_the_money`,s.`final_settlement _amount`,s.`final_settlement _money`,
         <include refid="Base_Column_List" />
         FROM hospital_transaction_details s
         INNER JOIN drug_information i ON i.id=s.`drug_information_id`
@@ -1315,11 +1318,8 @@
         <if test="hospitalName != null and hospitalName != ''">
             and h.hospital_name like CONCAT('%',#{hospitalName,jdbcType=VARCHAR},'%')
         </if>
-        <if test="createReceiptsTimes != null">
-            and date(o.create_receipts_times) <![CDATA[>=]]>date(#{createReceiptsTimes,jdbcType=TIMESTAMP})
-        </if>
-        <if test="submissionTimes != null ">
-            and date(o.submission_times) <![CDATA[<=]]> date(#{submissionTimes,jdbcType=TIMESTAMP})
+        <if test="createTime != null and subTime!=null">
+            and o.create_receipts_time BETWEEN #{createTime} AND #{subTime}
         </if>
         <if test="serialNumber != null and serialNumber != ''">
             and serial_number like CONCAT('%',#{serialNumber,jdbcType=VARCHAR},'%')

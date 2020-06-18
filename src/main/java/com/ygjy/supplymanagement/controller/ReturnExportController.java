@@ -63,8 +63,8 @@ public class ReturnExportController {
                 content[i][0] = stu.getHospitalTransactionReturn().getReturnOrderNumber()+"";
                 content[i][1] = stu.getHospitalTransactionReturn().getReturnOrderName()+"";
                 content[i][2] = stu.getHospital().getHospitalName()+"";
-                content[i][3] = stu.getHospitalTransactionReturn().getCreateReceiptsTime()+"";
-                content[i][4] = stu.getHospitalTransactionReturn().getSubmissionTime()+"";
+                content[i][3] =stu.getPurchaseOrder().getStartTime()+"";
+                content[i][4] = stu.getPurchaseOrder().getEndTime()+"";
                 content[i][5] = stu.getPurchaseOrder().getPurchaseOrderNumber()+"";
                 content[i][6] = stu.getPurchaseOrder().getNameOfPurchaseOrder()+"";
                 content[i][7] = stu.getSerialNumber()+"";

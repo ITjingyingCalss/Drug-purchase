@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../angularjs/toaster.min.css">
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
-
+    <script src="js/WdatePicker.js"></script>
 
     <script type="text/javascript">
         var qian;
@@ -32,8 +32,8 @@
             var nameOfPurchaseOrder=$("#nameOfPurchaseOrder").val();
             var purchaseOrdersStatesId=$("#purchaseOrdersStatesId").val();
             var hospitalName=$("#hospitalName").val();
-            var createReceiptsTimes=$("#createReceiptsTimes").val();
-            var submissionTimes=$("#submissionTimes").val();
+            var startTime=$("#startTime").val();
+            var endTime=$("#endTime").val();
             var serialNumber=$("#serialNumber").val();
             var commonName=$("#commonName").val();
             var dosageFormId=$("#dosageFormId").val();
@@ -50,8 +50,8 @@
                     "nameOfPurchaseOrder":nameOfPurchaseOrder,
                     "purchaseOrdersStatesId":purchaseOrdersStatesId,
                     "hospitalName":hospitalName,
-                    "createReceiptsTimes":createReceiptsTimes,
-                    "submissionTimes":submissionTimes,
+                    "startTime":startTime,
+                    "endTime":endTime,
                     "serialNumber":serialNumber,
                     "commonName":commonName,
                     "dosageFormId":dosageFormId,
@@ -86,8 +86,8 @@
                         if(purchaseOrdersStatesId==5){
                             purchaseOrdersStatesId="到期无法供货";
                         }
-                        var date=data[i].purchaseOrder.createReceiptsTimes;
-                        var date2=data[i].purchaseOrder.submissionTimes;
+                        var date=data[i].purchaseOrder.startTime;
+                        var date2=data[i].purchaseOrder.endTime;
                         var s2=new Date(date2);
                         var s=new Date(date);
                         year=s.getFullYear();
@@ -350,7 +350,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购时间：</span>
             </td>
             <td>
-                <input class="form-control" style="width: 120px;float: left" id="createReceiptsTimes" ><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="submissionTimes">
+                <input class="form-control" style="width: 120px;float: left" id="startTime"  onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="float: left">至</span><input class="form-control" style="width: 120px;float: left" id="endTime" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
             </td>
             <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
             </td>
