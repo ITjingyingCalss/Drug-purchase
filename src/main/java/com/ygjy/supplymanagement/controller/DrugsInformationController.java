@@ -9,12 +9,13 @@ import com.ygjy.supplymanagement.pojo.EnterpriseDrugCatalog;
 import com.ygjy.supplymanagement.pojo.HospitalTransactionDetails;
 import com.ygjy.supplymanagement.service.DrugsInformationService;
 import com.ygjy.supplymanagement.utils.Dto;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -279,7 +280,7 @@ public class DrugsInformationController {
         return result;
     }
     @RequestMapping(value = "/selectPurchaseOrderProcessing" ,produces = "application/json;charset=utf-8")
-    public String selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Integer submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,
+    public String selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Date submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName,
                                       @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
         PageHelper.startPage(pageNum,5);
         if(dosageFormId!=null&&dosageFormId<=0){
@@ -294,9 +295,20 @@ public class DrugsInformationController {
         if(purchaseOrdersStatesId!=null&&purchaseOrdersStatesId<0){
             purchaseOrdersStatesId=null;
         }
+        if(createReceiptsTimes!=null){
+            createReceiptsTimes=null;
+        }
         List<DrugInformation> drugInformations = drugsInformationService.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,createReceiptsTimes,submissionTimes,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
         PageInfo<DrugInformation> pageInfo = new PageInfo<>(drugInformations);
         return JSON.toJSONString(pageInfo);
+    }
+    //只需要加上下面这段即可，注意不能忘记注解
+    @InitBinder
+    public void initBinder(WebDataBinder binder, WebRequest request) {
+
+        //转换日期
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// CustomDateEditor为自定义日期编辑器
     }
     /**
      * 选择发货

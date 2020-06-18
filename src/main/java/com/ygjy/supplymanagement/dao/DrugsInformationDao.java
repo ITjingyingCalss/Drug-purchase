@@ -197,7 +197,7 @@ public interface DrugsInformationDao {
                                                         @Param("purchaseOrdersStatesId")Integer purchaseOrdersStatesId,
                                                         @Param("hospitalName")String hospitalName,
                                                         @Param("createReceiptsTimes")Date createReceiptsTimes,
-                                                        @Param("submissionTimes")Integer submissionTimes,
+                                                        @Param("submissionTimes")Date submissionTimes,
                                                         @Param("commonName")String commonName,
                                                         @Param("serialNumber")String serialNumber,
                                                         @Param("dosageFormId")Integer dosageFormId,

@@ -142,7 +142,7 @@ public class DrugsInformationImpl implements DrugsInformationService {
         return drugsInformationDao.updateByPrimaryKeySettment(array);
     }
     @Override
-    public List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber, String nameOfPurchaseOrder, Integer purchaseOrdersStatesId, String hospitalName, Date createReceiptsTimes, Integer submissionTimes, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName) {
+    public List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber, String nameOfPurchaseOrder, Integer purchaseOrdersStatesId, String hospitalName, Date createReceiptsTimes, Date submissionTimes, String commonName, String serialNumber, Integer dosageFormId, String specification, String unit, String conversionFraction, Integer drugCategoryId, Integer enterpriseNameId, String tradeName) {
         return drugsInformationDao.selectPurchaseOrderProcessing(purchaseOrderNumber,nameOfPurchaseOrder,purchaseOrdersStatesId,hospitalName,createReceiptsTimes,submissionTimes,commonName,serialNumber,dosageFormId,specification,unit,conversionFraction,drugCategoryId,enterpriseNameId,tradeName);
     }
 

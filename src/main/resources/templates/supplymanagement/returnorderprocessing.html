@@ -88,7 +88,18 @@
                     var v = "";
                     for(var i=0;i<result.list.length;i++){
                         var data=result.list;
-
+                        var date=data[i].purchaseOrder.createReceiptsTimes;
+                        var date2=data[i].purchaseOrder.submissionTimes;
+                        var s2=new Date(date2);
+                        var s=new Date(date);
+                        year=s.getFullYear();
+                        month=s.getMonth()+1;
+                        day=s.getDate();
+                        time=year+'-'+getzf(month)+'-'+getzf(day);
+                        year1=s2.getFullYear();
+                        month1=s2.getMonth()+1;
+                        day1=s2.getDate();
+                        time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
                         var returnOfState=data[i].returnStatus.returnOfState==1?"已确认退货":"未确认退货";
                         v+='<tr>';
                         v+='<td>'+(i+1)+'</td>';
@@ -96,8 +107,8 @@
                         v+='<td>'+data[i].hospitalTransactionReturn.returnOrderNumber+'</td>'
                         v+='<td>'+data[i].hospitalTransactionReturn.returnOrderName+'</td>'
                         v+='<td>'+data[i].hospital.hospitalName+'</td>'
-                        v+='<td>'+data[i].purchaseOrder.createReceiptsTimes+'</td>'
-                        v+='<td>'+data[i].purchaseOrder.submissionTimes+'</td>'
+                        v+='<td>'+time+'</td>'
+                        v+='<td>'+time2+'</td>'
                         v+='<td>'+data[i].purchaseOrder.purchaseOrderNumber+'</td>'
                         v+='<td>'+data[i].purchaseOrder.nameOfPurchaseOrder+'</td>'
                         v+='<td>'+data[i].serialNumber+'</td>'
@@ -273,6 +284,12 @@
                 })
                 window.location.href="export4?importId="+importId;
             }
+        }
+        function getzf(num) {
+            if(parseInt(num)<10){
+                num='0'+num;
+            }
+            return num;
         }
     </script>
 </head>

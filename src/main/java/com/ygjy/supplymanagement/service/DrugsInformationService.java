@@ -124,7 +124,7 @@ public interface DrugsInformationService {
      * 采购单处理
      * @return
      */
-    List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Integer submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName);
+    List<DrugInformation> selectPurchaseOrderProcessing(String purchaseOrderNumber,String nameOfPurchaseOrder, Integer purchaseOrdersStatesId,String hospitalName,Date createReceiptsTimes,Date submissionTimes,String commonName,String serialNumber,Integer dosageFormId,String specification,String unit,String conversionFraction,Integer drugCategoryId,Integer enterpriseNameId,String tradeName);
 
     /**
      * 采购单导出
