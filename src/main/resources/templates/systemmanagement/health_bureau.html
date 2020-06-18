@@ -8,6 +8,8 @@
     <script src="js/jQuery/jquery-2.2.3.min.js"></script>
     <script type="text/javascript">
         var result = null;
+        var upload;
+        /*打开页面加载*/
         $(function () {
             reloadList();
         })
@@ -45,23 +47,19 @@
                 }
             });
         })
-
-
         /*  查询所有信息*/
         function reloadList(pageNum) {
             $("#tbody").empty();
             $("#page").empty();
-            var userId = $("#userId").val();
-            var userAccount = $("#userAccount").val();
-            var contactAddress = $("#contactAddress").val();
-            var userState = 0;
+            var hospitalName = $("#findHospitalName").val();
+            var hospitalLevel = $("#findHospitalLevel").val();
+            var hospitalType = $("#findHospitalType").val();
             $.ajax({
-                url:"findUserAll",
+                url:"findAllHospital",
                 data:{
-                    "userId":userId,
-                    "userAccount":userAccount,
-                    "contactAddress":contactAddress,
-                    "userState":userState,
+                    "hospitalName":hospitalName,
+                    "hospitalLevel":hospitalLevel,
+                    "hospitalType":hospitalType,
                     "pageNum":pageNum
                 },
                 type:"post",
@@ -69,19 +67,53 @@
                 success:function (data) {
                     result = data.list;
                     var v = "";
+                    var hospitalLevel = "";
+                   /* var hospitalType = "";*/
+                    var style = "";
                     for (var i = 0; i < data.list.length; i++) {
+                        if (data.list[i].hospitalLevel == 0){
+                            hospitalLevel = "三级特等";
+                            style = "layui-btn-normal";
+                        } else if (data.list[i].hospitalLevel == 1) {
+                            hospitalLevel = "三级甲等";
+                            style = "layui-btn-normal";
+                        }else if (data.list[i].hospitalLevel == 2) {
+                            hospitalLevel = "三级乙等";
+                            style = "layui-btn-normal";
+                        }else if (data.list[i].hospitalLevel == 3) {
+                            hospitalLevel = "三级丙等";
+                            style = "layui-btn-normal";
+                        }else if (data.list[i].hospitalLevel == 4) {
+                            hospitalLevel = "二级甲等";
+                            style = "";
+                        }else if (data.list[i].hospitalLevel == 5) {
+                            hospitalLevel = "二级乙等";
+                            style = "";
+                        }else if (data.list[i].hospitalLevel == 6) {
+                            hospitalLevel = "二级丙等";
+                            style = "";
+                        }else if (data.list[i].hospitalLevel == 7) {
+                            hospitalLevel = "一级甲等";
+                            style = "layui-btn-primary";
+                        }else if (data.list[i].hospitalLevel == 8) {
+                            hospitalLevel = "一级丙等";
+                            style = "layui-btn-primary";
+                        }else if (data.list[i].hospitalLevel == 9) {
+                            hospitalLevel = "一级丙等";
+                            style = "layui-btn-primary";
+                        }
+                        var makeMoney = data.list[i].makeMoney == 1?'盈利性':'非盈利性';
                         v += "<tr>";
-                        v += '<td><input type="checkbox" value="'+data.list[i].userId+'" name="chose" /></td>'
-                        v += "<td>"+data.list[i].userAccount+"</td>"
-                        v += "<td>"+data.list[i].role.roleDescription+"</td>"
-                        v += "<td>"+data.list[i].username+"</td>"
-                        v += "<td>"+data.list[i].userUnit+"</td>"
-                        v += "<td>"+data.list[i].contactAddress+"</td>"
-                        v += "<td>"+data.list[i].postalCode+"</td>"
-                        v += "<td>"+data.list[i].contacts+"</td>"
-                        v += "<td>"+data.list[i].userPhone+"</td>"
-                        v += "<td>"+data.list[i].userEmail+"</td>"
-                        /*                        v += '<td><button class="layui-btn  layui-btn-normal layui-btn-sm" onclick="lookInformation('+data[i].userId+')">查看</button></td>';*/
+                        v += '<td><input type="checkbox" value="'+data.list[i].id+'" name="chose" /></td>'
+                        v += "<td>"+data.list[i].hospitalId+"</td>"
+                        v += "<td>"+data.list[i].hospitalName+"</td>"
+                        v += "<td>"+data.list[i].postalAddress+"</td>"
+                        v += '<td><button class="layui-btn '+style+' layui-btn-sm" >'+hospitalLevel+'</button></td>';
+                        v += "<td>"+data.list[i].numberOfBeds+"</td>"
+                        v += "<td>"+makeMoney+"</td>"
+                        v += "<td>"+data.list[i].hospitalTelephone+"</td>"
+                        v += "<td>"+data.list[i].hospitalFax+"</td>"
+                        v += "<td>"+data.list[i].hospitalType+"</td>"
                         v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data.list[i].userId+')">修改</button></td>';
                         v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data.list[i].userId+')">删除</button></td>';
                         v += "</tr>";
@@ -97,24 +129,24 @@
                 }
             })
         }
-
         /*添加页面弹出层*/
         function addInformation() {
             layer.open({
                 //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                 type:1,
-                title:['添加用户','font-size:18px;'],
-                area:['50%','65%'],
+                title:['添加医院信息','font-size:18px;'],
+               /* area:[左右宽度'75%',上下该高度'80%'],*/
+                area:['70%','80%'],
                 anim:5,
                 scrollbar: false,
                 content:$("#form_add")
             })
         }
+        /*添加保存*/
         function addSave() {
             var form = $("#form_add").serialize();
-            form += "&userState = 0";
             $.ajax({
-                url:'addUserInfo',
+                url:'addHospital',
                 data:form,
                 dataTYpe:'json',
                 type:'post',
@@ -127,46 +159,68 @@
                     layer.alert("添加失败")
                 }
             })
-
         }
         /*修改页面弹出层*/
-        function editInformation(userId){
+        function editInformation(id){
             layer.open({
                 type:1,
-                title:['修改用户信息','font-size:18px;'],
-                area:['60%','65%'],
+                title:['修改医院信息','font-size:18px;'],
+                area:['70%','80%'],
                 anim:5,
                 scrollbar:false,
                 content:$("#edit_add")
             })
-            $("#updateUserId").val("");
-            $("#updateUserAccount").val("");
-            $("#updateUserName").val("");
-            $("#updatePassword").val("");
-            $("#updateUserUnit").val("");
-            $("#updateContactAddress").val("");
-            $("#updateContacts").val("");
-            $("#updateUserEmail").val("");
-            $("#updateUserPhone").val("");
+                $("#updateId").val("");
+                $("#updateHospitalId").val("");
+                $("#updateHospitalName").val("");
+                $("#updatePostalAddress").val("");
+                $("#updatePostalCode").val("");
+                $("#updateArea").val("");
+                $("#updateHospitalLevel").val("");
+                $("#updateNumberOfBeds").val("");
+                $("#updateMakeMoney").val("");
+                $("#updateHospitalTelephone").val("");
+                $("#updateHospitalFax").val("");
+                $("#updatePharmacyTelephone").val("");
+                $("#updateHospitalType").val("");
+                $("#updateDrugRevenueLastYear").val("");
+                $("#updateBusinessIncomeLastYear").val("");
             for (var i = 0; i < result.length; i++) {
-                if (result[i].userId = userId){
-                    $("#updateUserId").val(result[i].userId);
-                    $("#updateUserAccount").val(result[i].userAccount);
-                    $("#updateUserName").val(result[i].username);
-                    $("#updatePassword").val(result[i].password);
-                    $("#updateUserUnit").val(result[i].userUnit);
-                    $("#updateContactAddress").val(result[i].contactAddress);
-                    $("#updateContacts").val(result[i].contacts);
-                    $("#updateUserEmail").val(result[i].userEmail);
-                    $("#updateUserPhone").val(result[i].userPhone);
+                if (result[i].id = id){
+                    $("#updateId").val(result[i].id);
+                    $("#updateHospitalId").val(result[i].hospitalId);
+                    $("#updateHospitalName").val(result[i].hospitalName);
+                    $("#updatePostalAddress").val(result[i].postalAddress);
+                    $("#updatePostalCode").val(result[i].postalCode);
+                    $("#updateArea").val(result[i].area);
+                    var hospitalLevel = document.getElementById("updateHospitalLevel").options;
+                    for (var j = 0; j < hospitalLevel.length; j++) {
+                        if (result[i].hospitalLevel == updateHospitalLevel[j].value){
+                            hospitalLevel[j] = true;
+                        }
+                    }
+                    $("#updateNumberOfBeds").val(result[i].numberOfBeds);
+                    var makeMoney = document.getElementById("updateMakeMoney").options;
+                    for (var j = 0; j < makeMoney.length.length; j++) {
+                        if (result[i].makeMoney == makeMoney[j].value) {
+                            makeMoney[j]=true
+                        }
+                    }
+                    $("#updateHospitalTelephone").val(result[i].hospitalTelephone);
+                    $("#updateHospitalFax").val(result[i].hospitalFax);
+                    $("#updatePharmacyTelephone").val(result[i].pharmacyTelephone);
+                    $("#updateHospitalType").val(result[i].hospitalType);
+                    $("#updateDrugRevenueLastYear").val(result[i].drugRevenueLastYear);
+                    $("#updateBusinessIncomeLastYear").val(result[i].businessIncomeLastYear);
                     break;
                 }
             }
         }
+        /*更新保存*/
         function updateSave() {
             var form = $("#edit_add").serialize();
             $.ajax({
-                url:'updateUserInfo',
+                url:'updateHospital',
                 data:form,
                 dataType:'json',
                 type:'post',
@@ -176,7 +230,6 @@
                 }
             })
         }
-
         /*删除提示弹出框*/
         function removeInformation(userId) {
             layui.use('layer',function () {
@@ -209,53 +262,7 @@
 
             })
         }
-        //查询省市县
-        var app = angular.module('myApp',[]);
-        app.controller("myController",['$scope','$http',function($scope,$http){
-            /*查询所有省*/
-            $http({
-                method:'get',
-                url:'findProvince',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).success(function (provinces) {
-                $scope.provinces = provinces;
-                $("#updatesheng").val(provinces);
-            }).error(function (data) {
-
-            });
-            /*查询所有市*/
-            $scope.changeProvince = function(){
-                $http({
-                    method:'get',
-                    url:'findCityByPcode',
-                    params:{"pcode":$scope.selectProvince},
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (citys) {
-                    $scope.citys = citys;
-                    $("#shi").val(citys);
-                    $("#updateshi").val(citys);
-                }).error(function (data) {
-
-                });
-            }
-            /*查询县*/
-            $scope.changeCity = function () {
-                $http({
-                    method:'get',
-                    url:'findCountyByCcode',
-                    params:{"ccode":$scope.selectCity},
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (countys) {
-                    $scope.countys = countys;
-                    $("#xian").val(countys);
-                    $("#updatexian").val(countys);
-                }).error(function (data) {
-
-                })
-            }
-
-
-        }])
+        /*导出Excel*/
         function downExcel() {
             var v = document.getElementsByName("chose");
             var array = new Array();
@@ -266,27 +273,31 @@
             }
             window.location.href="outputUserExcel?ids="+array.toString();
         }
+        /*下载文件*/
         function down() {
             window.location.href="down";
         }
-
         /*验证表单属性*/
         function addProperty(a) {
-            var usernameCode = /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/;
-            var passwordCode = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
-            var userEmailCode = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-            var userPhoneCode = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/;;
-            var v = $($(a).parents("tr").find("td").children("label")).get(0);
-            var name = v.innerHTML;
-            var propertyName =  name.substring(0,name.length-1);
+            var hospitalNameCode = /[\u4e00-\u9fa5]/gm;
+            var hospitalFaxCode = /^(\d{3,4}-)?\d{7,8}$/;
+            var hospitalTelephoneCode = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
+            var hospitalTelephoneCode2 = /^\d{3,4}-\d{3,4}-\d{3,4}$/;
+            var updatePharmacyTelephoneCode = /^([0-9]{3,4}-)?[0-9]{7,8}$/;
+            var updatePharmacyTelephoneCode2 = /^\d{3,4}-\d{3,4}-\d{3,4}$/;
+            var v = $($(a).parents("tr").find("td").children("label.layui-input"));
+            var name = "";
+            for (var i = 0; i < v.length; i++) {
+                name = v[i].innerHTML;
+            }
             var parmars = {};
             parmars[a.name] = a.value;
             if (a.value == null || a.value == '') {
                 layer.alert(name + '不能为空');
             }else{
-                if (usernameCode.test(a.value) || passwordCode.test(a.value) || userEmailCode.test(a.value) || userPhoneCode.test(a.value)) {
+                if (hospitalNameCode.test(a.value) || hospitalFaxCode.test(a.value) || hospitalTelephoneCode.test(a.value) || hospitalTelephoneCode2.test(a.value) || updatePharmacyTelephoneCode.test(a.value) || updatePharmacyTelephoneCode.test(a.value)) {
                     $.ajax({
-                        url:'',
+                        url:'findHospitalProperty',
                         type:'post',
                         dataType:'json',
                         async:false,
@@ -323,7 +334,6 @@
             margin-right: 100px;
         }
     </style>
-
 </head>
 <body>
 <div class="healthBureau" style="padding: 15px;">
@@ -331,21 +341,21 @@
         <form class="layui-form" action="">
             <ul class="li-style">
                 <li><div class="layui-form-item">
-                    <label class="layui-form-label">ID</label>
+                    <label class="layui-form-label">医院名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="userId" id = "userId" placeholder="请输入ID" class="layui-input" style="width: 200px">
+                        <input type="text" name="hospitalName" id = "findHospitalName" placeholder="请输入医院名称" class="layui-input" style="width: 200px">
                     </div>
                 </div></li>
                 <li><div class="layui-form-item">
-                    <label class="layui-form-label">用户名称</label>
+                    <label class="layui-form-label">医院等级</label>
                     <div class="layui-input-block">
-                        <input type="text" name="userAccount" id="userAccount" placeholder="请输入用户名称" class="layui-input" style="width: 200px">
+                        <input type="text" name="hospitalLevel" id="findHospitalLevel" placeholder="请输入医院级别" class="layui-input" style="width: 200px">
                     </div>
                 </div></li>
                 <li><div class="layui-form-item">
-                    <label class="layui-form-label">联系地址</label>
+                    <label class="layui-form-label">医院类型</label>
                     <div class="layui-input-block">
-                        <input type="text" name="contactAddress" id="contactAddress"  placeholder="请输入联系地址" class="layui-input" style="width: 200px">
+                        <input type="text" name="hospitalType" id="findHospitalType"  placeholder="请输入医院类型" class="layui-input" style="width: 200px">
                     </div>
                 </div></li>
             </ul>
@@ -359,24 +369,18 @@
     </div>
     <div>
         <table class="layui-table">
-            <!--<colgroup>
-                <col width="150">
-                <col width="200">
-                <col>
-            </colgroup>-->
             <thead>
             <tr>
                 <th type="checkbox"></th>
-                <th>用户名</th>
-                <th>用户类别</th>
-                <th>用户账号</th>
-                <th>单位名称</th>
-                <th>联系地址</th>
-                <th>邮政编码</th>
-                <th>联系人</th>
+                <th>ID</th>
+                <th>医院名称</th>
+                <th>通信地址</th>
+                <th>医院等级</th>
+                <th>医院床位</th>
+                <th>性质</th>
                 <th>联系方式</th>
-                <th>邮箱</th>
-                <!-- <th>查看</th>-->
+                <th>传真</th>
+                <th>医院类型</th>
                 <th>修改</th>
                 <th>删除</th>
             </tr>
@@ -386,72 +390,75 @@
             </tbody>
         </table>
     </div>
+    <!--分页-->
     <div id="page">
     </div>
-
     <!-- 添加表单-->
     <form class="" id="form_add" style="display: none" >
         <br>
         <table lay-even lay-skin="line" lay-size="lg">
             <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户Id</label></td>
-                <td class="layui-input-block"><input class="layui-input"  type="text" name="userId"></td>
+                <td><label class="layui-form-label">医院Id</label></td>
+                <td class="layui-input-block"><input class="layui-input"  type="text" name="hospitalId"></td>
+                <td><label class="layui-form-label">医院名称</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="hospitalName"></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户名称</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="userAccount"></td>
-                <td><label class="layui-form-label">用户账号</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="username" placeholder="6至20位，以字母开头，字母，数字，减号，下划线"></td>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">通讯地址</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="postalAddress"></td>
+                <td><label class="layui-form-label">邮政编码</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="postalCode"></td>
+                <td><label class="layui-form-label">所属地区</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="area" ></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户密码</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="password" placeholder="最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符"></td>
-                <!--  <td><label class="layui-form-label">加密盐值</label></td>
-                  <td class="layui-input-block"><input class="layui-input" type="text" name="salt" ></td>-->
-                <td><label class="layui-form-label">所在单位</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="userUnit" ></td>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">医院级别</label></td>
+                <td class="layui-input-block"><select name="hospitalLevel" lay-verify="required" style="width: 200px ;height: 38px">
+                    <option value="">请选择医院级别</option>
+                    <option value="0">三级特等</option>
+                    <option value="1">三级甲等</option>
+                    <option value="2">三级乙等</option>
+                    <option value="3">三级丙等</option>
+                    <option value="4">二级甲等</option>
+                    <option value="5">二级乙等</option>
+                    <option value="6">二级丙等</option>
+                    <option value="7">一级甲等</option>
+                    <option value="8">一级乙等</option>
+                    <option value="9">一级丙等</option>
+                </select></td>
+                <td><label class="layui-form-label">床位数</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="numberOfBeds" ></td>
             </tr>
-            <tr class="layui-form-item">
-                <!-- <td><label class="layui-form-label">用户状态</label></td>
-                 <td class="layui-input-block">
-                     <select lay-verify="required" name="userState">
-                         <option value="0">请选择</option>
-                         <option value="1">正常</option>
-                         <option value="2">删除</option>
-                     </select>
-                 </td>-->
-
-            </tr>
-            <tr class="layui-form-item" ng-app = "myApp" ng-controller= "myController" data-ng-init = "list()">
-                <td><label class="layui-form-label">联系地址</label></td>
-                <!--<td class="layui-input-block">
-                    <select class="province" name="province" id="sheng" lay-verify="required" ng-change ="changeProvince()" ng-model = "selectProvince" ng-options="province.pcode as province.pname for province in provinces">
-                        <option value="">请选择</option>
-                    </select>
-                    <select class="city" name="city" id="shi" lay-verify="required" ng-change="changeCity()"  ng-model = "selectCity" ng-options = " city.ccode as city.cname for city in citys">
-                        <option value="">请选择</option>
-                    </select>
-                    <select class="county" name="county" id="xian" lay-verify="required" ng-change="changeCounty()" ng-model = "selectCounty" ng-options="county.tcode as county.tname for county in countys">
-                        <option value="">请选择</option>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">是否营利性</label></td>
+                <td>
+                    <select name="makeMoney" lay-verify="required" style="width: 200px ;height: 38px">
+                        <option value="">请选择医院性质</option>
+                        <option value="0">是</option>
+                        <option value="1">否</option>
                     </select>
                 </td>
-                <td><label class="layui-form-label">详细地址</label></td>-->
-                <td class="layui-input-block"><input class="layui-input" type="text" id="addContactAddress" name="contactAddress" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
+                <td><label class="layui-form-label">院办电话</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text"  name="hospitalTelephone"></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">邮政编码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" name="postalCode" ></td>
-                <td><label class="layui-form-label">联系人</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" name="contacts" ></td>
+            <tr class="layui-form-item"  style=" margin-top: 10px;">
+                <td><label class="layui-form-label">院办传真</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="hospitalFax" ></td>
+                <td><label class="layui-form-label">药剂科电话</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="pharmacyTelephone" ></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">联系电话</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="只能以13、15、18开头" class="layui-input" type="text" name="userPhone" ></td>
-                <td><label class="layui-form-label">邮箱</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="8-16位数字+@163.com" class="layui-input" type="text" name="userEmail" ></td>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">医院类型</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="hospitalType" ></td>
+            </tr>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">上年度收入</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="drugRevenueLastYear" ></td>
+                <td><label class="layui-form-label">下年度收入</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="businessIncomeLastYear" ></td>
             </tr>
         </table>
-        <div class="modal-footer">
+        <div class="modal-footer" style="margin-top: 50px">
             <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="addSave()">提交</button>
             <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
         </div>
@@ -461,65 +468,68 @@
         <br>
         <table lay-even lay-skin="line" lay-size="lg">
             <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户Id</label></td>
-                <td class="layui-input-block"><input class="layui-input"  type="text" id="updateUserId" name="userId"></td>
+                <td><label class="layui-form-label">医院Id</label></td>
+                <td class="layui-input-block"><input class="layui-input"  type="text" name="hospitalId" id="updateHospitalId"></td>
                 <input id="updateId" name="id" type="hidden">
+                <td><label class="layui-form-label">医院名称</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="hospitalName" id="updateHospitalName"></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户名称</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" id="updateUserAccount" name="userAccount"></td>
-                <td><label class="layui-form-label">用户账号</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" id="updateUserName" name="username" placeholder="6至20位，以字母开头，字母，数字，减号，下划线"></td>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">通讯地址</label></td>
+                <td class="layui-input-block"><input  class="layui-input" type="text" name="postalAddress" id="updatePostalAddress"></td>
+                <td><label class="layui-form-label">邮政编码</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="postalCode" id="updatePostalCode"></td>
+                <td><label class="layui-form-label">所属地区</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="area" id="updateArea"></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">用户密码</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" id="updatePassword" name="password" placeholder="最少6位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符"></td>
-                <!--  <td><label class="layui-form-label">加密盐值</label></td>
-                  <td class="layui-input-block"><input class="layui-input" type="text" name="salt" ></td>-->
-                <td><label class="layui-form-label">所在单位</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" id="updateUserUnit" name="userUnit" ></td>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">医院级别</label></td>
+                <td class="layui-input-block"><select name="hospitalLevel" id="updateHospitalLevel" lay-verify="required" style="width: 200px ;height: 38px">
+                    <option value="">请选择医院级别</option>
+                    <option value="0">三级特等</option>
+                    <option value="1">三级甲等</option>
+                    <option value="2">三级乙等</option>
+                    <option value="3">三级丙等</option>
+                    <option value="4">二级甲等</option>
+                    <option value="5">二级乙等</option>
+                    <option value="6">二级丙等</option>
+                    <option value="7">一级甲等</option>
+                    <option value="8">一级乙等</option>
+                    <option value="9">一级丙等</option>
+                </select></td>
+                <td><label class="layui-form-label">床位数</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="numberOfBeds" id="updateNumberOfBeds"></td>
             </tr>
-            <tr class="layui-form-item">
-                <!-- <td><label class="layui-form-label">用户状态</label></td>
-                 <td class="layui-input-block">
-                     <select lay-verify="required" name="userState">
-                         <option value="0">请选择</option>
-                         <option value="1">正常</option>
-                         <option value="2">删除</option>
-                     </select>
-                 </td>-->
-
-            </tr>
-            <tr class="layui-form-item" ng-app = "myApp" ng-controller= "myController" data-ng-init = "list()">
-                <td><label class="layui-form-label">联系地址</label></td>
-                <!--<td class="layui-input-block">
-                    <select class="province" name="province" id="sheng" lay-verify="required" ng-change ="changeProvince()" ng-model = "selectProvince" ng-options="province.pcode as province.pname for province in provinces">
-                        <option value="">请选择</option>
-                    </select>
-                    <select class="city" name="city" id="shi" lay-verify="required" ng-change="changeCity()"  ng-model = "selectCity" ng-options = " city.ccode as city.cname for city in citys">
-                        <option value="">请选择</option>
-                    </select>
-                    <select class="county" name="county" id="xian" lay-verify="required" ng-change="changeCounty()" ng-model = "selectCounty" ng-options="county.tcode as county.tname for county in countys">
-                        <option value="">请选择</option>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">是否营利性</label></td>
+                <td>
+                    <select name="makeMoney" id="updateMakeMoney" lay-verify="required" style="width: 200px ;height: 38px">
+                        <option value="">请选择医院性质</option>
+                        <option value="0">是</option>
+                        <option value="1">否</option>
                     </select>
                 </td>
-                <td><label class="layui-form-label">详细地址</label></td>-->
-                <td class="layui-input-block"><input class="layui-input" type="text" id="updateContactAddress" name="contactAddress" placeholder="如道路 门牌号 小区 楼栋号 单元室等"></td>
+                <td><label class="layui-form-label">院办电话</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text"  name="hospitalTelephone" id="updateHospitalTelephone"></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">邮政编码</label></td>
-                <td class="layui-input-block"><input class="layui-input" type="text" id="updatePostCode" name="postalCode" ></td>
-                <td><label class="layui-form-label">联系人</label></td>
-                <td class="layui-input-block"><input  class="layui-input" type="text" id="updateContacts" name="contacts" ></td>
+            <tr class="layui-form-item"  style=" margin-top: 10px;">
+                <td><label class="layui-form-label">院办传真</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="hospitalFax" id="updateHospitalFax"></td>
+                <td><label class="layui-form-label">药剂科电话</label></td>
+                <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="pharmacyTelephone" id="updatePharmacyTelephone"></td>
             </tr>
-            <tr class="layui-form-item">
-                <td><label class="layui-form-label">联系电话</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="只能以13、15、18开头" class="layui-input" type="text" id="updateUserPhone" name="userPhone" ></td>
-                <td><label class="layui-form-label">邮箱</label></td>
-                <td class="layui-input-block"><input onblur="addProperty(this)" placeholder="8-16位数字+@163.com" class="layui-input" type="text" id="updateUserEmail" name="userEmail" ></td>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">医院类型</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="hospitalType" id="updateHospitalType"></td>
+            </tr>
+            <tr class="layui-form-item" style=" margin-top: 10px;">
+                <td><label class="layui-form-label">上年度收入</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="drugRevenueLastYear" id="updateDrugRevenueLastYear"></td>
+                <td><label class="layui-form-label">下年度收入</label></td>
+                <td class="layui-input-block"><input class="layui-input" type="text" name="businessIncomeLastYear" id="updateBusinessIncomeLastYear"></td>
             </tr>
         </table>
-        <div class="modal-footer">
+        <div class="modal-footer" style="margin-top: 50px">
             <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="updateSave()">提交</button>
             <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
         </div>
