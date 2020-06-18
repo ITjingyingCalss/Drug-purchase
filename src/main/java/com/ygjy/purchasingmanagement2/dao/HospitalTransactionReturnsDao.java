@@ -1,12 +1,13 @@
 package com.ygjy.purchasingmanagement2.dao;
 
 
+import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,4 +48,27 @@ public interface HospitalTransactionReturnsDao {
 
     /*导出*/
     List<HospitalTransactionReturn> exportAll(HospitalTransactionReturn hospital);
+
+
+/*退货单维护*/
+
+    /*退货药品查询*/
+    List<HospitalTransactionDetails> seletedrugs(@Param("purchaseOrderNumber")String purchaseOrderNumber,
+                                                 @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
+                                                 @Param("supplierName")String supplierName,
+                                                 @Param("serialNumber")String serialNumber,
+                                                 @Param("commonName")String commonName,
+                                                 @Param("drugFrom")String drugFrom,
+                                                 @Param("specification")String specification,
+                                                 @Param("unit")String unit,
+                                                 @Param("conversionFraction")String conversionFraction,
+                                                 @Param("tradeName")String tradeName,
+                                                 @Param("level")String level,
+                                                 @Param("createReceiptsTime") Date createReceiptsTime,
+                                                 @Param("submissionTime")Date submissionTime,
+                                                 @Param("drugBatchNumber")String drugBatchNumber,
+                                                 @Param("returnOfState")String returnOfState,
+                                                 @Param("enterpriseName")String enterpriseName,
+                                                 @Param("InvoiceNumber")String InvoiceNumber);
+
 }

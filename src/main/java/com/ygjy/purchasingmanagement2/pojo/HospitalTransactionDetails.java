@@ -2,6 +2,7 @@ package com.ygjy.purchasingmanagement2.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * hospital_transaction_details
@@ -122,7 +123,27 @@ public class HospitalTransactionDetails implements Serializable {
      */
     private Integer settlementStateId;
 
-    private static final long serialVersionUID = 1L;
+    private DrugInformation drugInformation;
+
+    private PurchaseOrder purchaseOrder;
+
+    private DurgsFrom durgsFrom;
+
+    private Enterprise enterprise;
+
+    private Suppliers suppliers;
+
+    private QualityLevel qualityLevel;
+
+    private ReturnStatus returnStatus;
+
+    public ReturnStatus getReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(ReturnStatus returnStatus) {
+        this.returnStatus = returnStatus;
+    }
 
     public Integer getId() {
         return id;
@@ -316,35 +337,52 @@ public class HospitalTransactionDetails implements Serializable {
         this.settlementStateId = settlementStateId;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getPurchaseOrdersId() == null) ? 0 : getPurchaseOrdersId().hashCode());
-        result = prime * result + ((getDrugInformationId() == null) ? 0 : getDrugInformationId().hashCode());
-        result = prime * result + ((getEnterpriseId() == null) ? 0 : getEnterpriseId().hashCode());
-        result = prime * result + ((getBiddingPrice() == null) ? 0 : getBiddingPrice().hashCode());
-        result = prime * result + ((getTransactionPrice() == null) ? 0 : getTransactionPrice().hashCode());
-        result = prime * result + ((getPurchasedAmount() == null) ? 0 : getPurchasedAmount().hashCode());
-        result = prime * result + ((getPurchasedMoney() == null) ? 0 : getPurchasedMoney().hashCode());
-        result = prime * result + ((getPurchasedState() == null) ? 0 : getPurchasedState().hashCode());
-        result = prime * result + ((getReceiptAmount() == null) ? 0 : getReceiptAmount().hashCode());
-        result = prime * result + ((getReceiptMoney() == null) ? 0 : getReceiptMoney().hashCode());
-        result = prime * result + ((getInvoiceNumber() == null) ? 0 : getInvoiceNumber().hashCode());
-        result = prime * result + ((getDrugBatchNumber() == null) ? 0 : getDrugBatchNumber().hashCode());
-        result = prime * result + ((getDrugValidity() == null) ? 0 : getDrugValidity().hashCode());
-        result = prime * result + ((getReceiptTime() == null) ? 0 : getReceiptTime().hashCode());
-        result = prime * result + ((getReturnOrderId() == null) ? 0 : getReturnOrderId().hashCode());
-        result = prime * result + ((getReturnsTheAmount() == null) ? 0 : getReturnsTheAmount().hashCode());
-        result = prime * result + ((getReturnsTheMoney() == null) ? 0 : getReturnsTheMoney().hashCode());
-        result = prime * result + ((getReasonForReturn() == null) ? 0 : getReasonForReturn().hashCode());
-        result = prime * result + ((getReturnStateId() == null) ? 0 : getReturnStateId().hashCode());
-        result = prime * result + ((getFinalSettlementId() == null) ? 0 : getFinalSettlementId().hashCode());
-        result = prime * result + ((getFinalSettlementAmount() == null) ? 0 : getFinalSettlementAmount().hashCode());
-        result = prime * result + ((getFinalSettlementMoney() == null) ? 0 : getFinalSettlementMoney().hashCode());
-        result = prime * result + ((getSettlementStateId() == null) ? 0 : getSettlementStateId().hashCode());
-        return result;
+    public DrugInformation getDrugInformation() {
+        return drugInformation;
+    }
+
+    public void setDrugInformation(DrugInformation drugInformation) {
+        this.drugInformation = drugInformation;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public DurgsFrom getDurgsFrom() {
+        return durgsFrom;
+    }
+
+    public void setDurgsFrom(DurgsFrom durgsFrom) {
+        this.durgsFrom = durgsFrom;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+    }
+
+    public Suppliers getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Suppliers suppliers) {
+        this.suppliers = suppliers;
+    }
+
+    public QualityLevel getQualityLevel() {
+        return qualityLevel;
+    }
+
+    public void setQualityLevel(QualityLevel qualityLevel) {
+        this.qualityLevel = qualityLevel;
     }
 
     @Override
@@ -374,6 +412,54 @@ public class HospitalTransactionDetails implements Serializable {
                 ", finalSettlementAmount=" + finalSettlementAmount +
                 ", finalSettlementMoney=" + finalSettlementMoney +
                 ", settlementStateId=" + settlementStateId +
+                ", drugInformation=" + drugInformation +
+                ", purchaseOrder=" + purchaseOrder +
+                ", durgsFrom=" + durgsFrom +
+                ", enterprise=" + enterprise +
+                ", suppliers=" + suppliers +
+                ", qualityLevel=" + qualityLevel +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HospitalTransactionDetails that = (HospitalTransactionDetails) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(purchaseOrdersId, that.purchaseOrdersId) &&
+                Objects.equals(drugInformationId, that.drugInformationId) &&
+                Objects.equals(enterpriseId, that.enterpriseId) &&
+                Objects.equals(biddingPrice, that.biddingPrice) &&
+                Objects.equals(transactionPrice, that.transactionPrice) &&
+                Objects.equals(purchasedAmount, that.purchasedAmount) &&
+                Objects.equals(purchasedMoney, that.purchasedMoney) &&
+                Objects.equals(purchasedState, that.purchasedState) &&
+                Objects.equals(receiptAmount, that.receiptAmount) &&
+                Objects.equals(receiptMoney, that.receiptMoney) &&
+                Objects.equals(invoiceNumber, that.invoiceNumber) &&
+                Objects.equals(drugBatchNumber, that.drugBatchNumber) &&
+                Objects.equals(drugValidity, that.drugValidity) &&
+                Objects.equals(receiptTime, that.receiptTime) &&
+                Objects.equals(returnOrderId, that.returnOrderId) &&
+                Objects.equals(returnsTheAmount, that.returnsTheAmount) &&
+                Objects.equals(returnsTheMoney, that.returnsTheMoney) &&
+                Objects.equals(reasonForReturn, that.reasonForReturn) &&
+                Objects.equals(returnStateId, that.returnStateId) &&
+                Objects.equals(finalSettlementId, that.finalSettlementId) &&
+                Objects.equals(finalSettlementAmount, that.finalSettlementAmount) &&
+                Objects.equals(finalSettlementMoney, that.finalSettlementMoney) &&
+                Objects.equals(settlementStateId, that.settlementStateId) &&
+                Objects.equals(drugInformation, that.drugInformation) &&
+                Objects.equals(purchaseOrder, that.purchaseOrder) &&
+                Objects.equals(durgsFrom, that.durgsFrom) &&
+                Objects.equals(enterprise, that.enterprise) &&
+                Objects.equals(suppliers, that.suppliers) &&
+                Objects.equals(qualityLevel, that.qualityLevel);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, purchaseOrdersId, drugInformationId, enterpriseId, biddingPrice, transactionPrice, purchasedAmount, purchasedMoney, purchasedState, receiptAmount, receiptMoney, invoiceNumber, drugBatchNumber, drugValidity, receiptTime, returnOrderId, returnsTheAmount, returnsTheMoney, reasonForReturn, returnStateId, finalSettlementId, finalSettlementAmount, finalSettlementMoney, settlementStateId, drugInformation, purchaseOrder, durgsFrom, enterprise, suppliers, qualityLevel);
     }
 }

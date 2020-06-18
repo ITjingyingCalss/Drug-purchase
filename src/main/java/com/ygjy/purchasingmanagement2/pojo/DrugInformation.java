@@ -1,8 +1,5 @@
 package com.ygjy.purchasingmanagement2.pojo;
 
-import com.ygjy.supplymanagement.pojo.HospitalTransactionReturn;
-import com.ygjy.supplymanagement.pojo.HospitalTransactionStatement;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -616,6 +613,8 @@ public class DrugInformation implements Serializable {
         result = prime * result + ((getDelState() == null) ? 0 : getDelState().hashCode());
         return result;
     }
+
+
 
     @Override
     public String toString() {
