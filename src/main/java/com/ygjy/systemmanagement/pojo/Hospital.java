@@ -3,6 +3,8 @@ package com.ygjy.systemmanagement.pojo;
 public class Hospital {
     private Integer id;
 
+    private Integer hospitalId;
+
     private String hospitalName;
 
     private String postalAddress;
@@ -35,6 +37,14 @@ public class Hospital {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getHospitalId() {
+        return hospitalId;
+    }
+
+    public void setHospitalId(Integer hospitalId) {
+        this.hospitalId = hospitalId;
     }
 
     public String getHospitalName() {

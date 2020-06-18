@@ -44,6 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private JurisdictionMapper jurisdictionMapper;
+
+    @Autowired
+    private HospitalMapper hospitalMapper;
+
+    @Autowired
+    private ProxyMonitorMapper proxyMonitorMapper;
 /**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询**查询/
 
      /**
@@ -107,6 +113,63 @@ public class UserServiceImpl implements UserService {
     @Override
     public Suppliers findSuppliersProperty(String supplierPhone, String supplierEmail) {
         return null;
+    }
+
+    /**
+     * 查询所有医院信息
+     * @param hospitalName
+     * @param hospitalLevel
+     * @param hospitalType
+     * @return
+     */
+    @Override
+    public List<Hospital> findAllHospital(String hospitalName, String hospitalLevel, String hospitalType) {
+        return hospitalMapper.selectAllHospital(hospitalName,hospitalLevel,hospitalType);
+    }
+
+    /**
+     * 批量导出医院信息
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Hospital> queryHospitalList(String[] id) {
+        return hospitalMapper.queryHospitalList(id);
+    }
+
+    /**
+     * 验证医院表单属性合理性
+     * @param hospitalName
+     * @param hospitalTelephone
+     * @param hospitalFax
+     * @param pharmacyTelephone
+     * @return
+     */
+    @Override
+    public Hospital findHospitalProperty(String hospitalName, String hospitalTelephone, String hospitalFax, String pharmacyTelephone) {
+        return hospitalMapper.selectHospitalProperty(hospitalName,hospitalTelephone,hospitalFax,hospitalTelephone);
+    }
+
+    /**
+     * 查询所有监督信息
+     * @param proxyMonitorId
+     * @param proxyMonitorName
+     * @param proxyMonitorAddress
+     * @return
+     */
+    @Override
+    public List<ProxyMonitor> findProxyMonitorAll(Integer proxyMonitorId, String proxyMonitorName, String proxyMonitorAddress) {
+        return proxyMonitorMapper.selectProxyMonitorAll(proxyMonitorId,proxyMonitorName,proxyMonitorAddress);
+    }
+
+    /***
+     * 批量操作监督机构信息
+     * @param id
+     * @return
+     */
+    @Override
+    public List<ProxyMonitor> queryProxyMonitorList(String[] id) {
+        return proxyMonitorMapper.queryProxyMonitorList(id);
     }
 /**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新*/
     /**
@@ -184,6 +247,21 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    /**
+     * 修改医院信息
+     * @param hospital
+     * @return
+     */
+    @Override
+    public boolean updateHospital(Hospital hospital) {
+        int i = hospitalMapper.updateByPrimaryKey(hospital);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
 /**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加*/
     /**
      * 添加用户信息
@@ -249,6 +327,21 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    /**
+     * 添加医院信息
+     * @param hospital
+     * @return
+     */
+    @Override
+    public boolean addHospital(Hospital hospital) {
+        int i =hospitalMapper.insert(hospital);
+        if (i > 0 ){
+            return true;
+        }else {
+            return false;
+        }
+    }
 /**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除*/
     /**
      * 根据用户Id实现真删除
@@ -285,6 +378,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 通过id删除权限
+     * @param id
+     * @return
+     */
     @Override
     public boolean removeJurisdiction(Integer id) {
         int i = jurisdictionMapper.deleteByPrimaryKey(id);

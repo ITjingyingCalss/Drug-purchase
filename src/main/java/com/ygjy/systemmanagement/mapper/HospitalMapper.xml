@@ -1,190 +1,241 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ygjy.systemmanagement.dao.HospitalMapper">
-  <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.Hospital">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
-    <result column="postal_address" jdbcType="VARCHAR" property="postalAddress" />
-    <result column="postal_Code" jdbcType="VARCHAR" property="postalCode" />
-    <result column="area" jdbcType="VARCHAR" property="area" />
-    <result column="hospital_level" jdbcType="VARCHAR" property="hospitalLevel" />
-    <result column="number_of_beds" jdbcType="INTEGER" property="numberOfBeds" />
-    <result column="make_money" jdbcType="REAL" property="makeMoney" />
-    <result column="hospital_telephone" jdbcType="VARCHAR" property="hospitalTelephone" />
-    <result column="hospital_fax" jdbcType="VARCHAR" property="hospitalFax" />
-    <result column="pharmacy_telephone" jdbcType="VARCHAR" property="pharmacyTelephone" />
-    <result column="hospital_type" jdbcType="VARCHAR" property="hospitalType" />
-    <result column="drug_revenue_last_year" jdbcType="VARCHAR" property="drugRevenueLastYear" />
-    <result column="business_income_last_year" jdbcType="VARCHAR" property="businessIncomeLastYear" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, hospital_name, postal_address, postal_Code, area, hospital_level, number_of_beds, 
-    make_money, hospital_telephone, hospital_fax, pharmacy_telephone, hospital_type, 
-    drug_revenue_last_year, business_income_last_year
+    <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.Hospital">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+        <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+        <result column="postal_address" jdbcType="VARCHAR" property="postalAddress" />
+        <result column="postal_Code" jdbcType="VARCHAR" property="postalCode" />
+        <result column="area" jdbcType="VARCHAR" property="area" />
+        <result column="hospital_level" jdbcType="VARCHAR" property="hospitalLevel" />
+        <result column="number_of_beds" jdbcType="INTEGER" property="numberOfBeds" />
+        <result column="make_money" jdbcType="REAL" property="makeMoney" />
+        <result column="hospital_telephone" jdbcType="VARCHAR" property="hospitalTelephone" />
+        <result column="hospital_fax" jdbcType="VARCHAR" property="hospitalFax" />
+        <result column="pharmacy_telephone" jdbcType="VARCHAR" property="pharmacyTelephone" />
+        <result column="hospital_type" jdbcType="VARCHAR" property="hospitalType" />
+        <result column="drug_revenue_last_year" jdbcType="VARCHAR" property="drugRevenueLastYear" />
+        <result column="business_income_last_year" jdbcType="VARCHAR" property="businessIncomeLastYear" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, hospital_id, hospital_name, postal_address, postal_Code, area, hospital_level,
+    number_of_beds, make_money, hospital_telephone, hospital_fax, pharmacy_telephone,
+    hospital_type, drug_revenue_last_year, business_income_last_year
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from hospital
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--模糊查询所有医院信息-->
+    <select id="selectAllHospital" resultMap="BaseResultMap">
+        select * from  hospital
+        <where>
+            <if test="hospitalName != null and hospitalName != ''">
+                and hospital_name like CONCAT("%",#{hospitalName},"%")
+            </if>
+            <if test="hospitalLevel != null and hospitalLevel != ''">
+                and hospital_level like CONCAT("%",#{hospitalLevel},"%")
+            </if>
+            <if test="hospitalType != null and hospitalType != ''">
+                and hospital_type like CONCAT("%",#{hospitalType},"%")
+            </if>
+        </where>
+    </select>
+    <!--批量导出医院信息-->
+    <select id="queryHospitalList" resultMap="BaseResultMap">
+        select * from hospital where id in
+        <foreach collection="array" open="(" close=")" separator="," item="item">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </select>
+    <!--验证医院属性合理性-->
+    <select id="selectHospitalProperty" resultMap="BaseResultMap">
+        select * from hospital
+        <where>
+            <if test="hospitalName != null and hospitalName != ''">
+                and hospital_name = #{hospitalName}
+            </if>
+            <if test="hospitalTelephone != null and hospitalTelephone != ''">
+                and hospital_telephone = #{hospitalTelephone}
+            </if>
+            <if test="hospitalFax != null and hospitalFax != ''">
+                and hospital_fax = #{hospitalFax}
+            </if>
+            <if test="pharmacyTelephone != null and pharmacyTelephone != ''">
+                and pharmacy_telephone = #{pharmacyTelephone}
+            </if>
+        </where>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 'true' as QUERYID,
+        <include refid="Base_Column_List" />
+        from hospital
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from hospital
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
-    insert into hospital (id, hospital_name, postal_address, 
-      postal_Code, area, hospital_level, 
-      number_of_beds, make_money, hospital_telephone, 
-      hospital_fax, pharmacy_telephone, hospital_type, 
-      drug_revenue_last_year, business_income_last_year
+    <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
+    insert into hospital (id, hospital_id, hospital_name,
+      postal_address, postal_Code, area,
+      hospital_level, number_of_beds, make_money,
+      hospital_telephone, hospital_fax, pharmacy_telephone,
+      hospital_type, drug_revenue_last_year, business_income_last_year
       )
-    values (#{id,jdbcType=INTEGER}, #{hospitalName,jdbcType=VARCHAR}, #{postalAddress,jdbcType=VARCHAR}, 
-      #{postalCode,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{hospitalLevel,jdbcType=VARCHAR}, 
-      #{numberOfBeds,jdbcType=INTEGER}, #{makeMoney,jdbcType=REAL}, #{hospitalTelephone,jdbcType=VARCHAR}, 
-      #{hospitalFax,jdbcType=VARCHAR}, #{pharmacyTelephone,jdbcType=VARCHAR}, #{hospitalType,jdbcType=VARCHAR}, 
-      #{drugRevenueLastYear,jdbcType=VARCHAR}, #{businessIncomeLastYear,jdbcType=VARCHAR}
+    values (#{id,jdbcType=INTEGER}, #{hospitalId,jdbcType=INTEGER}, #{hospitalName,jdbcType=VARCHAR},
+      #{postalAddress,jdbcType=VARCHAR}, #{postalCode,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR},
+      #{hospitalLevel,jdbcType=VARCHAR}, #{numberOfBeds,jdbcType=INTEGER}, #{makeMoney,jdbcType=REAL},
+      #{hospitalTelephone,jdbcType=VARCHAR}, #{hospitalFax,jdbcType=VARCHAR}, #{pharmacyTelephone,jdbcType=VARCHAR},
+      #{hospitalType,jdbcType=VARCHAR}, #{drugRevenueLastYear,jdbcType=VARCHAR}, #{businessIncomeLastYear,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
-    insert into hospital
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="hospitalName != null">
-        hospital_name,
-      </if>
-      <if test="postalAddress != null">
-        postal_address,
-      </if>
-      <if test="postalCode != null">
-        postal_Code,
-      </if>
-      <if test="area != null">
-        area,
-      </if>
-      <if test="hospitalLevel != null">
-        hospital_level,
-      </if>
-      <if test="numberOfBeds != null">
-        number_of_beds,
-      </if>
-      <if test="makeMoney != null">
-        make_money,
-      </if>
-      <if test="hospitalTelephone != null">
-        hospital_telephone,
-      </if>
-      <if test="hospitalFax != null">
-        hospital_fax,
-      </if>
-      <if test="pharmacyTelephone != null">
-        pharmacy_telephone,
-      </if>
-      <if test="hospitalType != null">
-        hospital_type,
-      </if>
-      <if test="drugRevenueLastYear != null">
-        drug_revenue_last_year,
-      </if>
-      <if test="businessIncomeLastYear != null">
-        business_income_last_year,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="hospitalName != null">
-        #{hospitalName,jdbcType=VARCHAR},
-      </if>
-      <if test="postalAddress != null">
-        #{postalAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="postalCode != null">
-        #{postalCode,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null">
-        #{area,jdbcType=VARCHAR},
-      </if>
-      <if test="hospitalLevel != null">
-        #{hospitalLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="numberOfBeds != null">
-        #{numberOfBeds,jdbcType=INTEGER},
-      </if>
-      <if test="makeMoney != null">
-        #{makeMoney,jdbcType=REAL},
-      </if>
-      <if test="hospitalTelephone != null">
-        #{hospitalTelephone,jdbcType=VARCHAR},
-      </if>
-      <if test="hospitalFax != null">
-        #{hospitalFax,jdbcType=VARCHAR},
-      </if>
-      <if test="pharmacyTelephone != null">
-        #{pharmacyTelephone,jdbcType=VARCHAR},
-      </if>
-      <if test="hospitalType != null">
-        #{hospitalType,jdbcType=VARCHAR},
-      </if>
-      <if test="drugRevenueLastYear != null">
-        #{drugRevenueLastYear,jdbcType=VARCHAR},
-      </if>
-      <if test="businessIncomeLastYear != null">
-        #{businessIncomeLastYear,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
+    <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
+        insert into hospital
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="hospitalId != null">
+                hospital_id,
+            </if>
+            <if test="hospitalName != null">
+                hospital_name,
+            </if>
+            <if test="postalAddress != null">
+                postal_address,
+            </if>
+            <if test="postalCode != null">
+                postal_Code,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="hospitalLevel != null">
+                hospital_level,
+            </if>
+            <if test="numberOfBeds != null">
+                number_of_beds,
+            </if>
+            <if test="makeMoney != null">
+                make_money,
+            </if>
+            <if test="hospitalTelephone != null">
+                hospital_telephone,
+            </if>
+            <if test="hospitalFax != null">
+                hospital_fax,
+            </if>
+            <if test="pharmacyTelephone != null">
+                pharmacy_telephone,
+            </if>
+            <if test="hospitalType != null">
+                hospital_type,
+            </if>
+            <if test="drugRevenueLastYear != null">
+                drug_revenue_last_year,
+            </if>
+            <if test="businessIncomeLastYear != null">
+                business_income_last_year,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="hospitalId != null">
+                #{hospitalId,jdbcType=INTEGER},
+            </if>
+            <if test="hospitalName != null">
+                #{hospitalName,jdbcType=VARCHAR},
+            </if>
+            <if test="postalAddress != null">
+                #{postalAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="postalCode != null">
+                #{postalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="hospitalLevel != null">
+                #{hospitalLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="numberOfBeds != null">
+                #{numberOfBeds,jdbcType=INTEGER},
+            </if>
+            <if test="makeMoney != null">
+                #{makeMoney,jdbcType=REAL},
+            </if>
+            <if test="hospitalTelephone != null">
+                #{hospitalTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="hospitalFax != null">
+                #{hospitalFax,jdbcType=VARCHAR},
+            </if>
+            <if test="pharmacyTelephone != null">
+                #{pharmacyTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="hospitalType != null">
+                #{hospitalType,jdbcType=VARCHAR},
+            </if>
+            <if test="drugRevenueLastYear != null">
+                #{drugRevenueLastYear,jdbcType=VARCHAR},
+            </if>
+            <if test="businessIncomeLastYear != null">
+                #{businessIncomeLastYear,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
+        update hospital
+        <set>
+            <if test="hospitalId != null">
+                hospital_id = #{hospitalId,jdbcType=INTEGER},
+            </if>
+            <if test="hospitalName != null">
+                hospital_name = #{hospitalName,jdbcType=VARCHAR},
+            </if>
+            <if test="postalAddress != null">
+                postal_address = #{postalAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="postalCode != null">
+                postal_Code = #{postalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                area = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="hospitalLevel != null">
+                hospital_level = #{hospitalLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="numberOfBeds != null">
+                number_of_beds = #{numberOfBeds,jdbcType=INTEGER},
+            </if>
+            <if test="makeMoney != null">
+                make_money = #{makeMoney,jdbcType=REAL},
+            </if>
+            <if test="hospitalTelephone != null">
+                hospital_telephone = #{hospitalTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="hospitalFax != null">
+                hospital_fax = #{hospitalFax,jdbcType=VARCHAR},
+            </if>
+            <if test="pharmacyTelephone != null">
+                pharmacy_telephone = #{pharmacyTelephone,jdbcType=VARCHAR},
+            </if>
+            <if test="hospitalType != null">
+                hospital_type = #{hospitalType,jdbcType=VARCHAR},
+            </if>
+            <if test="drugRevenueLastYear != null">
+                drug_revenue_last_year = #{drugRevenueLastYear,jdbcType=VARCHAR},
+            </if>
+            <if test="businessIncomeLastYear != null">
+                business_income_last_year = #{businessIncomeLastYear,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
     update hospital
-    <set>
-      <if test="hospitalName != null">
-        hospital_name = #{hospitalName,jdbcType=VARCHAR},
-      </if>
-      <if test="postalAddress != null">
-        postal_address = #{postalAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="postalCode != null">
-        postal_Code = #{postalCode,jdbcType=VARCHAR},
-      </if>
-      <if test="area != null">
-        area = #{area,jdbcType=VARCHAR},
-      </if>
-      <if test="hospitalLevel != null">
-        hospital_level = #{hospitalLevel,jdbcType=VARCHAR},
-      </if>
-      <if test="numberOfBeds != null">
-        number_of_beds = #{numberOfBeds,jdbcType=INTEGER},
-      </if>
-      <if test="makeMoney != null">
-        make_money = #{makeMoney,jdbcType=REAL},
-      </if>
-      <if test="hospitalTelephone != null">
-        hospital_telephone = #{hospitalTelephone,jdbcType=VARCHAR},
-      </if>
-      <if test="hospitalFax != null">
-        hospital_fax = #{hospitalFax,jdbcType=VARCHAR},
-      </if>
-      <if test="pharmacyTelephone != null">
-        pharmacy_telephone = #{pharmacyTelephone,jdbcType=VARCHAR},
-      </if>
-      <if test="hospitalType != null">
-        hospital_type = #{hospitalType,jdbcType=VARCHAR},
-      </if>
-      <if test="drugRevenueLastYear != null">
-        drug_revenue_last_year = #{drugRevenueLastYear,jdbcType=VARCHAR},
-      </if>
-      <if test="businessIncomeLastYear != null">
-        business_income_last_year = #{businessIncomeLastYear,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.Hospital">
-    update hospital
-    set hospital_name = #{hospitalName,jdbcType=VARCHAR},
+    set hospital_id = #{hospitalId,jdbcType=INTEGER},
+      hospital_name = #{hospitalName,jdbcType=VARCHAR},
       postal_address = #{postalAddress,jdbcType=VARCHAR},
       postal_Code = #{postalCode,jdbcType=VARCHAR},
       area = #{area,jdbcType=VARCHAR},

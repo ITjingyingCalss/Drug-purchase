@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.systemmanagement.dao.ProxyMonitorMapper">
+  <resultMap id="BaseResultMap" type="com.ygjy.systemmanagement.pojo.ProxyMonitor">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="proxy_monitor_id" jdbcType="INTEGER" property="proxyMonitorId" />
+    <result column="proxy_monitor_name" jdbcType="VARCHAR" property="proxyMonitorName" />
+    <result column="proxy_monitor_address" jdbcType="VARCHAR" property="proxyMonitorAddress" />
+    <result column="proxy_monitor_phone" jdbcType="VARCHAR" property="proxyMonitorPhone" />
+    <result column="proxy_monitor_status" jdbcType="INTEGER" property="proxyMonitorStatus" />
+    <result column="proxy_monitor_create_time" jdbcType="TIMESTAMP" property="proxyMonitorCreateTime" />
+    <result column="proxy_monitor_update_time" jdbcType="TIMESTAMP" property="proxyMonitorUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, proxy_monitor_id, proxy_monitor_name, proxy_monitor_address, proxy_monitor_phone, 
+    proxy_monitor_status, proxy_monitor_create_time, proxy_monitor_update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from proxy_monitor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <!--模糊查询所有监督机构信息-->
+    <select id="selectProxyMonitorAll" resultMap="BaseResultMap">
+        select * from proxy_monitor
+        <where>
+            <if test="proxyMonitorId != null and proxyMonitorId != ''">
+                and proxy_monitor_id = #{proxyMonitorId}
+            </if>
+            <if test="proxyMonitorName != null and proxyMonitorName != ''">
+                and proxy_monitor_name like CONCAT("%",#{proxyMonitorName},"%")
+            </if>
+            <if test="proxyMonitorAddress != null and proxyMonitorAddress != ''">
+                and proxy_monitor_address like CONCAT("%",#{proxyMonitorAddress},"%")
+            </if>
+        </where>
+    </select>
+    <select id="queryProxyMonitorList" resultMap="BaseResultMap">
+        select * from proxy_monitor where id in
+         <foreach collection="array" item="item" open="(" separator="," close=")" >
+             #{item,jdbcType=INTEGER}
+         </foreach>
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from proxy_monitor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ygjy.systemmanagement.pojo.ProxyMonitor">
+    insert into proxy_monitor (id, proxy_monitor_id, proxy_monitor_name, 
+      proxy_monitor_address, proxy_monitor_phone, 
+      proxy_monitor_status, proxy_monitor_create_time, 
+      proxy_monitor_update_time)
+    values (#{id,jdbcType=INTEGER}, #{proxyMonitorId,jdbcType=INTEGER}, #{proxyMonitorName,jdbcType=VARCHAR}, 
+      #{proxyMonitorAddress,jdbcType=VARCHAR}, #{proxyMonitorPhone,jdbcType=VARCHAR}, 
+      #{proxyMonitorStatus,jdbcType=INTEGER}, #{proxyMonitorCreateTime,jdbcType=TIMESTAMP}, 
+      #{proxyMonitorUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ygjy.systemmanagement.pojo.ProxyMonitor">
+    insert into proxy_monitor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="proxyMonitorId != null">
+        proxy_monitor_id,
+      </if>
+      <if test="proxyMonitorName != null">
+        proxy_monitor_name,
+      </if>
+      <if test="proxyMonitorAddress != null">
+        proxy_monitor_address,
+      </if>
+      <if test="proxyMonitorPhone != null">
+        proxy_monitor_phone,
+      </if>
+      <if test="proxyMonitorStatus != null">
+        proxy_monitor_status,
+      </if>
+      <if test="proxyMonitorCreateTime != null">
+        proxy_monitor_create_time,
+      </if>
+      <if test="proxyMonitorUpdateTime != null">
+        proxy_monitor_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="proxyMonitorId != null">
+        #{proxyMonitorId,jdbcType=INTEGER},
+      </if>
+      <if test="proxyMonitorName != null">
+        #{proxyMonitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyMonitorAddress != null">
+        #{proxyMonitorAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyMonitorPhone != null">
+        #{proxyMonitorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyMonitorStatus != null">
+        #{proxyMonitorStatus,jdbcType=INTEGER},
+      </if>
+      <if test="proxyMonitorCreateTime != null">
+        #{proxyMonitorCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proxyMonitorUpdateTime != null">
+        #{proxyMonitorUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ygjy.systemmanagement.pojo.ProxyMonitor">
+    update proxy_monitor
+    <set>
+      <if test="proxyMonitorId != null">
+        proxy_monitor_id = #{proxyMonitorId,jdbcType=INTEGER},
+      </if>
+      <if test="proxyMonitorName != null">
+        proxy_monitor_name = #{proxyMonitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyMonitorAddress != null">
+        proxy_monitor_address = #{proxyMonitorAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyMonitorPhone != null">
+        proxy_monitor_phone = #{proxyMonitorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyMonitorStatus != null">
+        proxy_monitor_status = #{proxyMonitorStatus,jdbcType=INTEGER},
+      </if>
+      <if test="proxyMonitorCreateTime != null">
+        proxy_monitor_create_time = #{proxyMonitorCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proxyMonitorUpdateTime != null">
+        proxy_monitor_update_time = #{proxyMonitorUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ygjy.systemmanagement.pojo.ProxyMonitor">
+    update proxy_monitor
+    set proxy_monitor_id = #{proxyMonitorId,jdbcType=INTEGER},
+      proxy_monitor_name = #{proxyMonitorName,jdbcType=VARCHAR},
+      proxy_monitor_address = #{proxyMonitorAddress,jdbcType=VARCHAR},
+      proxy_monitor_phone = #{proxyMonitorPhone,jdbcType=VARCHAR},
+      proxy_monitor_status = #{proxyMonitorStatus,jdbcType=INTEGER},
+      proxy_monitor_create_time = #{proxyMonitorCreateTime,jdbcType=TIMESTAMP},
+      proxy_monitor_update_time = #{proxyMonitorUpdateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

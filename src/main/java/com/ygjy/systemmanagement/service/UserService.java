@@ -90,6 +90,48 @@ public interface UserService {
      */
     Suppliers findSuppliersProperty(String supplierPhone,String supplierEmail);
 
+    /**
+     * 查询所有医院信息
+     * @param hospitalName
+     * @param hospitalLevel
+     * @param hospitalType
+     * @return
+     */
+    List<Hospital> findAllHospital(String hospitalName,String hospitalLevel,String hospitalType);
+
+    /**
+     * 批量导出医院信息
+     * @param id
+     * @return
+     */
+    List<Hospital> queryHospitalList(String[] id);
+
+    /**
+     * 验证医院表单属性
+     * @param hospitalName
+     * @param hospitalTelephone
+     * @param hospitalFax
+     * @param pharmacyTelephone
+     * @return
+     */
+    Hospital findHospitalProperty(String hospitalName, String hospitalTelephone,String hospitalFax,String pharmacyTelephone);
+
+    /**
+     * 查询所有监督机构信息
+     * @param proxyMonitorId
+     * @param proxyMonitorName
+     * @param proxyMonitorAddress
+     * @return
+     */
+    List<ProxyMonitor> findProxyMonitorAll(Integer proxyMonitorId,String proxyMonitorName,String proxyMonitorAddress);
+
+    /**
+     * 批量操作监督机构信息
+     * @param id
+     * @return
+     */
+    List<ProxyMonitor> queryProxyMonitorList(String[] id);
+
 /**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新**更新*/
     /**
      * 更新用户信息,假删除
@@ -126,6 +168,13 @@ public interface UserService {
      */
     boolean updateJurisdiction(Jurisdiction jurisdiction);
 
+    /**
+     * 修改医院信息
+     * @param hospital
+     * @return
+     */
+    boolean updateHospital(Hospital hospital);
+
 /**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加**添加*/
     /**
      * 添加用户信息
@@ -154,6 +203,13 @@ public interface UserService {
      * @return
      */
     boolean addJurisdiction(Jurisdiction jurisdiction);
+
+    /**
+     * 添加医院信息
+     * @param hospital
+     * @return
+     */
+    boolean addHospital(Hospital hospital);
 
 /**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除**删除*/
     /**
