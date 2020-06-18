@@ -1,5 +1,12 @@
 package com.ygjy.purchasingmanagement1.pojo;
 
+import com.ygjy.supplymanagement.pojo.*;
+import com.ygjy.purchasingmanagement1.pojo.DrugInformation2;
+import com.ygjy.supplymanagement.pojo.Hospital;
+import com.ygjy.supplymanagement.pojo.Suppliers;
+import com.ygjy.supplymanagement.pojo.Enterprise;
+import com.ygjy.supplymanagement.pojo.PurchaseOrder;
+
 import java.io.Serializable;
 
 /**
@@ -19,12 +26,156 @@ public class HospitalPurchasingDrugs implements Serializable {
      */
     private Integer drugInformationId;
 
+    public DrugTransactionStatus getDrugTransactionStatus() {
+        return drugTransactionStatus;
+    }
+
+    public void setDrugTransactionStatus(DrugTransactionStatus drugTransactionStatus) {
+        this.drugTransactionStatus = drugTransactionStatus;
+    }
+
+    public DurgsFrom getDurgsFrom() {
+        return durgsFrom;
+    }
+
+    public void setDurgsFrom(DurgsFrom durgsFrom) {
+        this.durgsFrom = durgsFrom;
+    }
+
+    public DrugCategory getDrugCategory() {
+        return drugCategory;
+    }
+
+    public void setDrugCategory(DrugCategory drugCategory) {
+        this.drugCategory = drugCategory;
+    }
+
+    public QualityLevel getQualityLevel() {
+        return qualityLevel;
+    }
+
+    public void setQualityLevel(QualityLevel qualityLevel) {
+        this.qualityLevel = qualityLevel;
+    }
+
+    public Enterprise getEnterprise() {
+        return enterprise;
+    }
+
+    public void setEnterprise(Enterprise enterprise) {
+        this.enterprise = enterprise;
+    }
+
+    public EnterpriseDrugCatalog getEnterpriseDrugCatalog() {
+        return enterpriseDrugCatalog;
+    }
+
+    public void setEnterpriseDrugCatalog(EnterpriseDrugCatalog enterpriseDrugCatalog) {
+        this.enterpriseDrugCatalog = enterpriseDrugCatalog;
+    }
+
+    public HospitalTransactionDetails getHospitalTransactionDetails() {
+        return hospitalTransactionDetails;
+    }
+
+    public void setHospitalTransactionDetails(HospitalTransactionDetails hospitalTransactionDetails) {
+        this.hospitalTransactionDetails = hospitalTransactionDetails;
+    }
+
+    public HospitalTransactionReturn getHospitalTransactionReturn() {
+        return hospitalTransactionReturn;
+    }
+
+    public void setHospitalTransactionReturn(HospitalTransactionReturn hospitalTransactionReturn) {
+        this.hospitalTransactionReturn = hospitalTransactionReturn;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public PurchaseOrderDrugDetails getPurchaseOrderDrugDetails() {
+        return purchaseOrderDrugDetails;
+    }
+
+    public void setPurchaseOrderDrugDetails(PurchaseOrderDrugDetails purchaseOrderDrugDetails) {
+        this.purchaseOrderDrugDetails = purchaseOrderDrugDetails;
+    }
+
+    public ReturnStatus getReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(ReturnStatus returnStatus) {
+        this.returnStatus = returnStatus;
+    }
+
+    public HospitalTransactionStatement getHospitalTransactionStatement() {
+        return hospitalTransactionStatement;
+    }
+
+    public void setHospitalTransactionStatement(HospitalTransactionStatement hospitalTransactionStatement) {
+        this.hospitalTransactionStatement = hospitalTransactionStatement;
+    }
+
+    public SettlementStatus getSettlementStatus() {
+        return settlementStatus;
+    }
+
+    public void setSettlementStatus(SettlementStatus settlementStatus) {
+        this.settlementStatus = settlementStatus;
+    }
+
     /**
      * 药品供货企业id
      */
     private Integer enterpriseId;
 
     private static final long serialVersionUID = 1L;
+    private DrugTransactionStatus drugTransactionStatus;
+    private DurgsFrom durgsFrom;
+    private DrugCategory drugCategory;
+    private QualityLevel qualityLevel;
+    private Enterprise enterprise;
+    private EnterpriseDrugCatalog enterpriseDrugCatalog;
+    private HospitalTransactionDetails hospitalTransactionDetails;
+    private HospitalTransactionReturn hospitalTransactionReturn;
+    private Hospital hospital;
+    private PurchaseOrder purchaseOrder;
+    private PurchaseOrderDrugDetails purchaseOrderDrugDetails;
+    private ReturnStatus returnStatus;
+    private HospitalTransactionStatement hospitalTransactionStatement;
+    private SettlementStatus settlementStatus;
+    private Suppliers suppliers;
+    private DrugInformation2 drugInformation2;
+
+    public DrugInformation2 getDrugInformation2() {
+        return drugInformation2;
+    }
+
+    public void setDrugInformation2(DrugInformation2 drugInformation2) {
+        this.drugInformation2 = drugInformation2;
+    }
+
+    public Suppliers getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Suppliers suppliers) {
+        this.suppliers = suppliers;
+    }
 
     public Integer getId() {
         return id;

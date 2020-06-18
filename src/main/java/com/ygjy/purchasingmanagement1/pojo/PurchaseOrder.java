@@ -1,7 +1,9 @@
 package com.ygjy.purchasingmanagement1.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ygjy.supplymanagement.pojo.PurchaseStatus;
 import org.springframework.format.annotation.DateTimeFormat;
+import com.ygjy.supplymanagement.pojo.Hospital;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -78,15 +80,48 @@ public class PurchaseOrder implements Serializable {
      * 审核意见
      */
     private String auditOpinion;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date startTime;
 
-    private String hospitalName;
 
-    public String getHospitalName() {
-        return hospitalName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date endTime;
+
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setHospitalName(String hospitalName) {
-        this.hospitalName = hospitalName;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    private Hospital hospital;
+    private PurchaseStatus purchaseStatus;
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public PurchaseStatus getPurchaseStatus() {
+        return purchaseStatus;
+    }
+
+    public void setPurchaseStatus(PurchaseStatus purchaseStatus) {
+        this.purchaseStatus = purchaseStatus;
     }
 
     public PurchaseOrder() {
@@ -106,7 +141,6 @@ public class PurchaseOrder implements Serializable {
         this.purchaseState = purchaseState;
         this.auditPerson = auditPerson;
         this.auditOpinion = auditOpinion;
-        this.hospitalName = hospitalName;
         this.auditTime = auditTime;
         this.delState = delState;
     }

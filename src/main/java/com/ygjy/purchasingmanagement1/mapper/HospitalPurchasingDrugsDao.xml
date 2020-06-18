@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ygjy.purchasingmanagement1.dao.HospitalPurchasingDrugsDao">
+    <resultMap id="BaseResultMap" type="com.ygjy.purchasingmanagement1.pojo.HospitalPurchasingDrugs">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+        <result column="drug_information_id" jdbcType="INTEGER" property="drugInformationId" />
+        <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
+        <association property="durgsFrom" javaType="com.ygjy.supplymanagement.pojo.DurgsFrom">
+            <id column="durg_from_id" jdbcType="INTEGER" property="durgFromId" />
+            <result column="drug_from" jdbcType="VARCHAR" property="drugFrom" />
+            <result column="note" jdbcType="VARCHAR" property="note" />
+        </association>
+        <association property="drugTransactionStatus" javaType="com.ygjy.supplymanagement.pojo.DrugTransactionStatus">
+            <id column="sid" jdbcType="INTEGER" property="id" />
+            <result column="drug_transaction_status" jdbcType="VARCHAR" property="drugTransactionStatus" />
+            <result column="drug_transaction_explain" jdbcType="VARCHAR" property="drugTransactionExplain" />
+        </association>
+        <association property="drugCategory" javaType="com.ygjy.supplymanagement.pojo.DrugCategory">
+            <id column="drugCateGoryId" property="drug_category_Id" jdbcType="INTEGER" />
+            <result column="drug_category_name" property="drugCategoryName" jdbcType="VARCHAR" />
+        </association>
+        <association property="enterprise" javaType="com.ygjy.supplymanagement.pojo.Enterprise">
+            <id column="eid" jdbcType="INTEGER" property="id" />
+            <result column="enterprise_name" jdbcType="VARCHAR" property="enterpriseName" />
+            <result column="suppliers_id" jdbcType="INTEGER" property="suppliersId" />
+        </association>
+        <association property="suppliers" javaType="com.ygjy.supplymanagement.pojo.Suppliers">
+            <id column="suppliers_id" jdbcType="INTEGER" property="suppliersid" />
+            <result column="supplier_name" jdbcType="INTEGER" property="suppliername" />
+        </association>
+        <association property="hospitalTransactionDetails" javaType="com.ygjy.supplymanagement.pojo.HospitalTransactionDetails">
+            <id column="hid" jdbcType="INTEGER" property="id" />
+        </association>
+        <association property="hospital" javaType="com.ygjy.supplymanagement.pojo.Hospital">
+            <result column="hospital_name" jdbcType="VARCHAR" property="hospitalName" />
+        </association>
+        <association property="drugInformation2" javaType="com.ygjy.purchasingmanagement1.pojo.DrugInformation2">
+            <id column="id" jdbcType="INTEGER" property="id" />
+            <result column="serial_number" jdbcType="INTEGER" property="serialNumber" />
+            <result column="common_name" jdbcType="VARCHAR" property="commonName" />
+            <result column="dosage_form_id" jdbcType="INTEGER" property="dosageFormId" />
+            <result column="specification" jdbcType="VARCHAR" property="specification" />
+            <result column="conversion_fraction" jdbcType="VARCHAR" property="conversionFraction" />
+            <result column="enterprise_name_id" jdbcType="VARCHAR" property="enterpriseNameId" />
+            <result column="trade_name" jdbcType="VARCHAR" property="tradeName" />
+            <result column="bidding_price" jdbcType="REAL" property="biddingPrice" />
+            <result column="unit" jdbcType="VARCHAR" property="unit" />
+            <result column="common_name_pinyin" jdbcType="VARCHAR" property="commonNamePinyin" />
+            <result column="product_picture" jdbcType="VARCHAR" property="productPicture" />
+            <result column="approval_number" jdbcType="VARCHAR" property="approvalNumber" />
+            <result column="validity_of_approval_number" jdbcType="VARCHAR" property="validityOfApprovalNumber" />
+            <result column="imported_drug" jdbcType="INTEGER" property="importedDrug" />
+            <result column="packaging_material" jdbcType="VARCHAR" property="packagingMaterial" />
+            <result column="packing_unit" jdbcType="VARCHAR" property="packingUnit" />
+            <result column="latest_retail_price" jdbcType="REAL" property="latestRetailPrice" />
+            <result column="source_of_retail_price" jdbcType="VARCHAR" property="sourceOfRetailPrice" />
+            <result column="quality_level_id" jdbcType="INTEGER" property="qualityLevelId" />
+            <result column="quality_level_description" jdbcType="VARCHAR" property="qualityLevelDescription" />
+            <result column="drug_inspection_report" jdbcType="INTEGER" property="drugInspectionReport" />
+            <result column="drug_inspection_report_number" jdbcType="VARCHAR" property="drugInspectionReportNumber" />
+            <result column="validity_of_drug_inspection_report" jdbcType="DATE" property="validityOfDrugInspectionReport" />
+            <result column="description_of_products" jdbcType="VARCHAR" property="descriptionOfProducts" />
+            <result column="drug_category_id" jdbcType="VARCHAR" property="drugCategoryId" />
+            <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
+            <result column="del_state" jdbcType="INTEGER" property="delState" />
+            <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
+        </association>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, hospital_id, drug_information_id, enterprise_id
+  </sql>
+    <!-- 查询所有 -->
+    <select id="selectAllHospitalPurchasingDrugs" resultMap="BaseResultMap">
+        select
+        d.id did,h.id hid, serial_number,common_name,f.drug_from,specification,unit,conversion_fraction,e.enterprise_name,trade_name,bidding_price,c.drug_category_name,level ,drug_transaction_explain,availability_status,l.hospital_name,s.supplier_name
+        from hospital_purchasing_drugs h
+		 LEFT JOIN drug_information d ON  d.id = h.drug_information_id
+		 LEFT JOIN enterprise e ON e.id = h.enterprise_id
+		 LEFT JOIN hospital l ON  h.hospital_id = l.id
+		 LEFT JOIN durgs_from f ON f.durg_from_id = d.dosage_form_id
+		 LEFT JOIN enterprise p ON p.id = d.enterprise_name_id
+		 LEFT JOIN quality_level q ON q.qua_id = d.quality_level_id
+		 LEFT JOIN drug_category c ON c.drug_category_Id = d.drug_category_id
+		 LEFT JOIN drug_transaction_status t ON t.id = d.drug_transaction_status_id
+		 LEFT JOIN suppliers s ON e.suppliers_id = s.suppliers_id
+    </select>
+    <!--模糊查询-->
+    <select id="selectLike" resultMap="BaseResultMap">
+            select
+            d.id did,h.id hid, serial_number,common_name,f.drug_from,specification,unit,conversion_fraction,e.enterprise_name,trade_name,bidding_price,c.drug_category_name,level ,drug_transaction_explain,availability_status,l.hospital_name,s.supplier_name
+            from hospital_purchasing_drugs h
+            LEFT JOIN drug_information d ON  d.id = h.drug_information_id
+            LEFT JOIN enterprise e ON e.id = h.enterprise_id
+            LEFT JOIN hospital l ON  h.hospital_id = l.id
+            LEFT JOIN durgs_from f ON f.durg_from_id = d.dosage_form_id
+            LEFT JOIN enterprise p ON p.id = d.enterprise_name_id
+            LEFT JOIN quality_level q ON q.qua_id = d.quality_level_id
+            LEFT JOIN drug_category c ON c.drug_category_Id = d.drug_category_id
+            LEFT JOIN drug_transaction_status t ON t.id = d.drug_transaction_status_id
+            LEFT JOIN suppliers s ON e.suppliers_id = s.suppliers_id
+            <if test="serialNumber!=null and serialNumber!=0">
+                and serial_number like CONCAT ('%',#{serialNumber},'%')
+            </if>
+            <if test="commonName!=null and commonName!=''">
+                and common_name like CONCAT ('%',#{commonName},'%')
+            </if>
+            <if test="dosageFormId!=null and dosageFormId!= 0">
+                and dosage_form_id like CONCAT ('%',#{dosageFormId},'%')
+            </if>
+            <if test="specification!=null and specification!=''">
+                and specification like CONCAT ('%',#{specification},'%')
+            </if>
+            <if test="unit!=null and unit!=''">
+                and unit like CONCAT ('%',#{unit},'%')
+            </if>
+            <if test="conversionFraction!=null and conversionFraction!=''">
+                and conversion_fraction like CONCAT ('%',#{conversionFraction},'%')
+            </if>
+            <if test="enterpriseNameId!=null and enterpriseNameId!=0 ">
+                and enterprise_name_id like CONCAT ('%',#{enterpriseNameId},'%')
+            </if>
+            <if test="tradeName!=null and tradeName!=''">
+                and trade_name like CONCAT ('%',#{tradeName},'%')
+            </if>
+            <if test="biddingPrice!=null and biddingPrice!= 0 ">
+                and bidding_price like CONCAT ('%',#{biddingPrice},'%')
+            </if>
+            <if test="drugCategoryId!=null and drugCategoryId!='0'">
+                and drug_category_id like CONCAT ('%',#{drugCategoryId},'%')
+            </if>
+            <if test="availabilityStatus!=null and availabilityStatus!= 0 ">
+                and availability_status like CONCAT ('%',#{availabilityStatus},'%')
+            </if>
+            <if test="drugTransactionStatusId!=null and drugTransactionStatusId!= 0 ">
+                and drug_transaction_status_id like CONCAT ('%',#{drugTransactionStatusId},'%')
+            </if>
+
+    </select>
+    <!--药品品目号查询-->
+    <select id="selectBySerialNumber" parameterType="java.lang.Integer" resultType="com.ygjy.purchasingmanagement1.pojo.DrugInformation2">
+        select  serial_number,d.dosage_form_id,d.drug_category_id,approval_number,drug_transaction_status_id,quality_level_id,enterprise_name_id,durg_from_id,validity_of_approval_number,imported_drug,packaging_material,packing_unit,latest_retail_price,source_of_retail_price,quality_level_description,drug_inspection_report,drug_inspection_report_number,validity_of_drug_inspection_report,description_of_products,common_name,m.drug_from,specification,unit,conversion_fraction,e.enterprise_name,trade_name,bidding_price,y.drug_category_name,level ,drug_transaction_explain,s.supplier_name,availability_status
+        from drug_information d,suppliers s,durgs_from m,enterprise e,drug_category y,quality_level q,drug_transaction_status t
+        where d.dosage_form_id = m.durg_from_id
+        and d.enterprise_name_id = e.id
+        and d.drug_category_id = y.drug_category_Id
+        and s.suppliers_id = e.suppliers_id
+        and  d.quality_level_id = q.qua_id
+        and d.drug_transaction_status_id = t.drug_transaction_status
+        and serial_number = #{serialNumber,jdbcType=INTEGER}
+    </select>
+    <!--删除-->
+    <update id="deletePurchaseOrder" parameterType="java.lang.Integer">
+        update purchase_order set del_state = 1 where id=#{id}
+    </update>
+</mapper>

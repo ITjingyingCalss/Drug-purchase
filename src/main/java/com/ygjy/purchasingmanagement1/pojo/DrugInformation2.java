@@ -2,6 +2,7 @@ package com.ygjy.purchasingmanagement1.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ygjy.supplymanagement.pojo.PurchaseOrder;
+import com.ygjy.supplymanagement.pojo.Enterprise;
 import com.ygjy.supplymanagement.pojo.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -168,7 +169,7 @@ public class DrugInformation2 implements Serializable {
     }
 
     /**
-     * 供货状态(0正常1不正常)
+     * 供货状态(1正常2不正常)
      */
     private Integer availabilityStatus;
 
