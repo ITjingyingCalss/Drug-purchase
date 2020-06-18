@@ -41,23 +41,21 @@ public class PurchaseOrder implements Serializable {
     /**
      * 建单时间(年月日时分秒)
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date createReceiptsTimes;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createReceiptsTime;
 
     /**
      * 最近修改时间(年月日时分秒)
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date lastModificationTime;
 
     /**
      * 提交时间(年月日时分秒)
      */
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date submissionTimes;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date submissionTime;
 
     /**
      * 备注
@@ -140,19 +138,19 @@ public class PurchaseOrder implements Serializable {
     }
 
     public Date getCreateReceiptsTimes() {
-        return createReceiptsTimes;
+        return createReceiptsTime;
     }
 
     public void setCreateReceiptsTimes(Date createReceiptsTimes) {
-        this.createReceiptsTimes = createReceiptsTimes;
+        this.createReceiptsTime = createReceiptsTimes;
     }
 
     public Date getSubmissionTimes() {
-        return submissionTimes;
+        return submissionTime;
     }
 
     public void setSubmissionTimes(Date submissionTimes) {
-        this.submissionTimes = submissionTimes;
+        this.submissionTime = submissionTimes;
     }
 
     public static long getSerialVersionUID() {
@@ -277,9 +275,9 @@ public class PurchaseOrder implements Serializable {
                 ", hospitalId=" + hospitalId +
                 ", contacts='" + contacts + '\'' +
                 ", phone='" + phone + '\'' +
-                ", createReceiptsTimes=" + createReceiptsTimes +
+                ", createReceiptsTimes=" + createReceiptsTime +
                 ", lastModificationTime=" + lastModificationTime +
-                ", submissionTimes=" + submissionTimes +
+                ", submissionTimes=" + submissionTime +
                 ", remark='" + remark + '\'' +
                 ", purchaseState=" + purchaseState +
                 ", auditPerson='" + auditPerson + '\'' +

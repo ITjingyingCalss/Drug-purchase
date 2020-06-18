@@ -2,10 +2,12 @@ package com.ygjy.purchasingmanagement2.service;
 
 
 import com.ygjy.pojo.DrugItems;
+import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import org.apache.ibatis.annotations.Param;
 
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,5 +50,27 @@ public interface HospitalTransactionReturnService {
 */
    /*导出*/
    List<HospitalTransactionReturn> exportAll(HospitalTransactionReturn hospital);
+
+/*退货单维护*/
+
+   /*退货药品查询*/
+   List<HospitalTransactionDetails> seletedrugs(String purchaseOrderNumber,
+                                                String nameOfPurchaseOrder,
+                                                String supplierName,
+                                                String serialNumber,
+                                                String commonName,
+                                                String drugFrom,
+                                                String specification,
+                                                String unit,
+                                                String conversionFraction,
+                                                String tradeName,
+                                                String level,
+                                                Date createReceiptsTime,
+                                                Date submissionTime,
+                                                String drugBatchNumber,
+                                                String returnOfState,
+                                                String enterpriseName,
+                                                String InvoiceNumber);
+
 
 }

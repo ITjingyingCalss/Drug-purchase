@@ -1,11 +1,13 @@
 package com.ygjy.purchasingmanagement2.service.Impl;
 
+import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import com.ygjy.purchasingmanagement2.dao.HospitalTransactionReturnsDao;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +22,7 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 
     @Autowired
     HospitalTransactionReturnsDao hospitalTransactionReturnsDao;
+
 
     /*添加退货单*/
     @Override
@@ -83,6 +86,20 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
     @Override
     public List<HospitalTransactionReturn> exportAll(HospitalTransactionReturn hospital) {
         return hospitalTransactionReturnsDao.exportAll(hospital);
+    }
+
+
+
+/*退货单维护*/
+    /*退货药品查询*/
+    @Override
+    public List<HospitalTransactionDetails> seletedrugs(String purchaseOrderNumber, String nameOfPurchaseOrder, String supplierName,String serialNumber, String commonName, String drugFrom, String specification, String unit, String conversionFraction, String tradeName, String level, Date createReceiptsTime, Date submissionTime, String drugBatchNumber, String returnOfState, String enterpriseName, String InvoiceNumber) {
+        return hospitalTransactionReturnsDao.seletedrugs(purchaseOrderNumber,
+                nameOfPurchaseOrder, supplierName,
+                serialNumber, commonName,drugFrom, specification,
+                unit, conversionFraction,tradeName, level,
+                createReceiptsTime, submissionTime,drugBatchNumber,
+                returnOfState, enterpriseName, InvoiceNumber);
     }
 
 }

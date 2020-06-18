@@ -1,8 +1,10 @@
 package com.ygjy.purchasingmanagement2.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
 import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionReturnService;
 import com.ygjy.purchasingmanagement2.vo.HospitalTransactionReturnVo;
@@ -10,6 +12,7 @@ import com.ygjy.purchasingmanagement2.vo.HospitalTransactionReturnVo;
 import com.ygjy.supplymanagement.pojo.DrugInformation;
 import com.ygjy.util.ExportExcel;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -164,6 +167,41 @@ public class HospitalTransactionReturnController {
         OutputStream out = response.getOutputStream();
         ExportExcel exportExcel = new ExportExcel();
         exportExcel.exportExcel("测试文档",headers,list_hospitalVo,out,null);
+    }
+
+
+/*退货单维护*/
+    /*退货药品查询*/
+    @RequestMapping(value = "seletedrugs" ,produces = "application/json;charset=utf-8")
+    public String seletedrugs(String purchaseOrderNumber,
+                              String nameOfPurchaseOrder,
+                              String supplierName,
+                              String serialNumber,
+                              String commonName,
+                              String drugFrom,
+                              String specification,
+                              String unit,
+                              String conversionFraction,
+                              String tradeName,
+                              String level,
+                              @DateTimeFormat(pattern = "yyyy-MM-dd") Date createReceiptsTime,
+                              @DateTimeFormat(pattern = "yyyy-MM-dd") Date submissionTime,
+                              String drugBatchNumber,
+                              String returnOfState,
+                              String enterpriseName,
+                              String InvoiceNumber,
+                              @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
+        PageHelper.startPage(pageNum,5);
+
+        List<HospitalTransactionDetails> listss = hospitalTransactionReturnService.seletedrugs(
+                purchaseOrderNumber,
+                nameOfPurchaseOrder, supplierName,
+                serialNumber, commonName,drugFrom, specification,
+                unit, conversionFraction,tradeName, level,
+                createReceiptsTime, submissionTime,drugBatchNumber,
+                returnOfState, enterpriseName, InvoiceNumber);
+        PageInfo<HospitalTransactionDetails> pageInfo = new PageInfo<>(listss);
+        return JSON.toJSONString(pageInfo);
     }
 
 }

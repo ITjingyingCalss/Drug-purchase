@@ -7,7 +7,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/AdminLTE.css">
+    <link rel="stylesheet" href="adminLTE/css/AdminLTE.css">
     <link rel="stylesheet" href="js/adminLTE/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="js/angularjs/toaster.min.css">
@@ -48,8 +48,7 @@
 
             var purchaseOrderNumber=$("#purchase_order_number").val();
             var nameOfPurchaseOrder=$("#name_of_purchase_order").val();
-            var supplierMame=$("#supplier_name").val();
-            var drugCategoryId=$("#drug_category_id").val();
+            var supplierName=$("#supplier_name").val();
             var serialNumber=$("#serial_number").val();
             var commonName=$("#common_name").val();
             var drugFrom=$("#drug_from").val();
@@ -59,6 +58,7 @@
             var enterpriseName=$("#enterprise_name").val();
             var tradeName=$("#trade_name").val();
             var level=$("#level").val();
+            if (level==0)level=null;
             var createReceiptsTime=$("#create_receipts_time").val();/*建单时间  /  入库时间*/
             var submissionTime=$("#submission_time").val();/*提交时间    /   出库时间*/
             var drugBatchNumber=$("#drug_batch_number").val()
@@ -69,8 +69,7 @@
                 data:{
                     "purchaseOrderNumber":purchaseOrderNumber,
                     "nameOfPurchaseOrder":nameOfPurchaseOrder,
-                    "supplierMame":supplierMame,
-                    "drugCategoryId":drugCategoryId,
+                    "supplierName":supplierName,
                     "serialNumber":serialNumber,
                     "commonName":commonName,
                     "drugFrom":drugFrom,
@@ -80,8 +79,8 @@
                     "enterpriseName":enterpriseName,
                     "tradeName":tradeName,
                     "level":level,
-                    //"createReceiptsTime":createReceiptsTime,
-                    //"submissionTime":submissionTime,
+                    "createReceiptsTime":createReceiptsTime,
+                    "submissionTime":submissionTime,
                     "drugBatchNumber":drugBatchNumber,
                     "returnOfState":returnOfState,
                     "InvoiceNumber":InvoiceNumber,
@@ -94,17 +93,40 @@
                     page = listss;
                     var ss = "";
                     for (var i = 0; i < listss.list.length; i++) {
-                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + list1.list[i].id + "></td><td>"
-                            + list1.list[i].returnOrderNumber + "</td><td>"
-                            + list1.list[i].returnOrderName + "</td><td>"
-                            + list1.list[i].hospitalId + "</td><td>"
-                            + list1.list[i].contacts + "</td><td>"
-                            + list1.list[i].phone + "</td><td>"
-                            + list1.list[i].creatReceiptsPerson + "</td><td>"
-                            + list1.list[i].createReceiptsTime + "</td><td>"
-                            + list1.list[i].submissionTime + "</td><td>"
-                            + list1.list[i].remark + "</td><td>"
-                            + (list1.list[i].returnStateId == 1 ? "未提交" : "提交") + "</td><td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee(" + list1.list[i].id + ")\" data-target=\"#editModal2\">修改</button></td></tr>"
+                        /*时间处理*/
+                        var date=listss.list[i].purchaseOrder.createReceiptsTime;
+                        var date2=listss.list[i].purchaseOrder.submissionTime;
+                        var s2=new Date(date2);
+                        var s=new Date(date);
+                        year=s.getFullYear();
+                        month=s.getMonth()+1;
+                        day=s.getDate();
+                        time=year+'-'+getzf(month)+'-'+getzf(day);
+                        year1=s2.getFullYear();
+                        month1=s2.getMonth()+1;
+                        day1=s2.getDate();
+                        time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
+                        console.log(listss.list[i])
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + listss.list[i].id + "></td><td>"
+                            + listss.list[i].purchaseOrder.purchaseOrderNumber + "</td><td>"
+                            + listss.list[i].purchaseOrder.nameOfPurchaseOrder + "</td><td>"
+                            + listss.list[i].suppliers.supplierName+ "</td><td>"
+                            + listss.list[i].drugInformation.serialNumber + "</td><td>"
+                            + listss.list[i].drugInformation.commonName + "</td><td>"
+                            + listss.list[i].durgsFrom.drugFrom + "</td><td>"
+                            + listss.list[i].drugInformation.specification + "</td><td>"
+                            + listss.list[i].drugInformation.unit + "</td><td>"
+                            + listss.list[i].drugInformation.conversionFraction + "</td><td>"
+                            + listss.list[i].enterprise.enterpriseName+ "</td><td>"
+                            + listss.list[i].drugInformation.tradeName + "</td><td>"
+                            /*+ listss.list[i].qualityLevel.level + "</td><td>"*/
+                            + time+ "</td><td>"
+                            + time2+ "</td><td>"
+                            + listss.list[i].drugBatchNumber + "</td><td>"
+                            + listss.list[i].returnStatus.returnOfState+ "</td><td>"
+                            + listss.list[i].InvoiceNumber + "</td>"
+                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee(" + listss.list[i].id + ")\" data-target=\"#editModal2\">修改</button></td>"
+                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"dele(" + listss.list[i].id + ")\">删除</button></td></tr>"
 
                         $("#tbody").append(ss);
                         qian = listss.pageNum == 1 ? 1 : listss.pageNum - 1;
@@ -113,7 +135,12 @@
                 }
             })
         }
-
+        function getzf(num) {
+            if(parseInt(num)<10){
+                num='0'+num;
+            }
+            return num;
+        }
 
     </script>
 
@@ -242,7 +269,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
             </td>
             <td>
-                <select id="supplier_name" name="supplierMame" style="width: 50%;height: 20%">
+                <select id="supplier_name" name="supplierName" style="width: 50%;height: 20%">
                     <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
@@ -253,6 +280,8 @@
             <td style="white-space:nowrap">
                 <select class="num" id="drug_category_id" name="drugCategoryId" onblur="checkDrugCategory()" style="width:50%;height: 10%">
                     <option value="0">请选择</option>
+                    <option value="1">处方药</option>
+                    <option value="0">非处方药</option>
                 </select>
             </td>
         </tr>
@@ -407,6 +436,7 @@
                 <th class="sorting">商品名</th>
                 <th class="sorting">质量层次</th>
                 <th class="sorting">入库时间</th>
+                <th class="sorting">出库时间</th>
                 <th class="sorting">药品批号</th>
                 <th class="sorting">退货状态</th>
                 <th class="sorting">发票号或入库单号</th>
@@ -499,7 +529,7 @@
                             <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
                         </td>
                         <td>
-                            <select id="supplier_name2" name="supplierMame" style="width: 50%;height: 20%">
+                            <select id="supplier_name2" name="supplierName" style="width: 50%;height: 20%">
                                 <option value="0">请选择</option>
                             </select>
                             <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
