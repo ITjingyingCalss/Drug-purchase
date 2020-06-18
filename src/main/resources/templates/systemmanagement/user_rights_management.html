@@ -5,65 +5,41 @@
     <title>Title</title>
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="layui/layui.js"></script>
-    <script>
-        layui.use('table', function(){
-            var table = layui.table;
 
-            //方法级渲染
-            table.render({
-                elem: '#LAY_table_user'
-                ,url: 'http://localhost:8080/findUserAll'
-                ,cols: [
-                    [
-                    {checkbox: true, fixed: true}
-                    ,{field:'id', title: 'ID', width:80, sort: true, fixed: true}
-                    ,{field:'username', title: '用户名', width:80}
-                    ,{field:'sex', title: '性别', width:80, sort: true}
-                    ,{field:'city', title: '城市', width:80}
-                    ,{field:'sign', title: '签名'}
-                    ,{field:'experience', title: '积分', sort: true, width:80}
-                    ,{field:'score', title: '评分', sort: true, width:80}
-                    ,{field:'classify', title: '职业', width:80}
-                    ,{field:'wealth', title: '财富', sort: true, width:135}
-                ]
-                ]
-                ,id: 'testReload'
-                ,page: true
-                ,height: 310
-            });
-
-            var $ = layui.$, active = {
-                reload: function(){
-                    var demoReload = $('#demoReload');
-
-                    //执行重载
-                    table.reload('testReload', {
-                        page: {
-                            curr: 1 //重新从第 1 页开始
-                        }
-                        ,where: {
-                            key: {
-                                id: demoReload.val()
-                            }
-                        }
-                    }, 'data');
-                }
-            };
-
-            $('.demoTable .layui-btn').on('click', function(){
-                var type = $(this).data('type');
-                active[type] ? active[type].call(this) : '';
-            });
-        });
-    </script>
 
 </head>
 <body>
-<!--<div>
-    <h1>
-        这里是用户权限管理
-    </h1>
-</div>-->
-<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+    <div>
+        <h1>权限分配</h1>
+        <form class="" id="form_add" style="display: none" >
+            <br>
+            <table lay-even lay-skin="line" lay-size="lg">
+                <tr class="layui-form-item">
+                    <td><label class="layui-form-label">角色名称</label></td>
+                    <td class="layui-input-block"><input class="layui-input"  type="text" name="suppliersId" placeholder="管理员"></td>
+                </tr>
+                <tr class="layui-form-item">
+                    <td><label class="layui-form-label">供货商名称</label></td>
+                    <td class="layui-input-block"><input class="layui-input" type="text" name="supplierName" ></td>
+                    <td><label class="layui-form-label">联系方式</label></td>
+                    <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="supplierPhone" ></td>
+                </tr>
+                <tr class="layui-form-item">
+                    <td><label class="layui-form-label">联系地址</label></td>
+                    <td class="layui-input-block"><input class="layui-input" type="text" name="supplierAddress" ></td>
+                    <td><label class="layui-form-label">供货商邮箱</label></td>
+                    <td class="layui-input-block"><input onblur="addProperty(this)" class="layui-input" type="text" name="supplierEmail" ></td>
+                </tr>
+                <tr class="layui-form-item">
+                    <td><label class="layui-form-label">供货商邮编</label></td>
+                    <td class="layui-input-block"><input  class="layui-input" type="text" name="supplierPostcode" ></td>
+                </tr>
+            </table>
+            <div class="modal-footer">
+                <button class="layui-btn layui-btn-normal" style="float: left;margin-left:100px" onclick="addSave()">提交</button>
+                <button class="layui-btn layui-btn-normal" style="float: right;margin-right:100px">取消</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

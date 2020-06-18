@@ -7,13 +7,18 @@
     <script src="js/jQuery/jquery-2.2.3.min.js"></script>
     <script type="text/javascript">
         var result = null;
+        var util;
+        /* 打开页面加载数据*/
+        $(function () {
+            reloadList();
+        });
         layui.use(['laypage', 'layer','form','upload','laydate','util'], function() {
             var laydate = layui.laydate;
             var laypage = layui.laypage;
             layer = layui.layer;
             var $ = layui.jquery;
             upload = layui.upload;
-            var util = layui.util;
+            util = layui.util;
             //自定义样式
             laypage.render({
                 elem: 'demo2'
@@ -34,57 +39,53 @@
                 elem: '#test30'
                 ,theme: '#393D49'
             });
-           /* 打开页面加载数据*/
-            $(function () {
-                reloadList();
-            });
-            /*  查询所有信息*/
-            function reloadList() {
-                $("#tbody").empty();
-                $("#page").empty();
-                var suppliersId = $("#findSuppliersId").val();
-                var supplierName = $("#findSupplierName").val();
-                var supplierAddress = $("#findSupplierAddress").val();
-                $.ajax({
-                    url:"findAllRole",
-                    data:{
-                        "suppliersId":suppliersId,
-                        "supplierName":supplierName,
-                        "supplierAddress":supplierAddress
-                    },
-                    type:"post",
-                    dataType:"json",
-                    success:function (data) {
-                        result = data;
-                        var v = "";
-                        var roleStatus = "";
-                        var style = "";
-                        for (var i = 0; i < data.length; i++) {
-                            if (data[i].roleStatus == 0) {
-                                roleStatus = "有效";
-                                style = "";
-                            }else if (data[i].roleStatus == 1){
-                                roleStatus = "失效";
-                                style = "layui-btn-disabled";
-                            }
-                            v += "<tr>";
-                            v += '<td><input type="checkbox" value="'+data[i].id+'" name="chose" /></td>'
-                            v += "<td>"+data[i].roleId+"</td>"
-                            v += "<td>"+data[i].roleName+"</td>"
-                            v += "<td>"+data[i].roleDescription+"</td>"
-                            v += '<td><button class="layui-btn '+style+' layui-btn-sm" >'+roleStatus+'</button></td>';
-                            v += "<td>"+util.toDateString(data[i].roleCreateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
-                            v += "<td>"+util.toDateString(data[i].roleUpdateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
-                            v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data[i].id+')">修改</button></td>';
-                            v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data[i].id+')">删除</button></td>';
-                            v += "</tr>";
-                        }
-                        $("#tbody").append(v);
-                    }
-                })
-            }
-
         })
+
+        /*  查询所有信息*/
+        function reloadList() {
+            $("#tbody").empty();
+            $("#page").empty();
+            var suppliersId = $("#findSuppliersId").val();
+            var supplierName = $("#findSupplierName").val();
+            var supplierAddress = $("#findSupplierAddress").val();
+            $.ajax({
+                url:"findAllRole",
+                data:{
+                    "suppliersId":suppliersId,
+                    "supplierName":supplierName,
+                    "supplierAddress":supplierAddress
+                },
+                type:"post",
+                dataType:"json",
+                success:function (data) {
+                    result = data;
+                    var v = "";
+                    var roleStatus = "";
+                    var style = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].roleStatus == 0) {
+                            roleStatus = "有效";
+                            style = "";
+                        }else if (data[i].roleStatus == 1){
+                            roleStatus = "失效";
+                            style = "layui-btn-disabled";
+                        }
+                        v += "<tr>";
+                        v += '<td><input type="checkbox" value="'+data[i].id+'" name="chose" /></td>'
+                        v += "<td>"+data[i].roleId+"</td>"
+                        v += "<td>"+data[i].roleName+"</td>"
+                        v += "<td>"+data[i].roleDescription+"</td>"
+                        v += '<td><button class="layui-btn '+style+' layui-btn-sm" >'+roleStatus+'</button></td>';
+                        v += "<td>"+util.toDateString(data[i].roleCreateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
+                        v += "<td>"+util.toDateString(data[i].roleUpdateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
+                        v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data[i].id+')">修改</button></td>';
+                        v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data[i].id+')">删除</button></td>';
+                        v += "</tr>";
+                    }
+                    $("#tbody").append(v);
+                }
+            })
+        }
         layui.use(['upload'], function() {
             var laypage = layui.laypage
                 ,upload = layui.upload;

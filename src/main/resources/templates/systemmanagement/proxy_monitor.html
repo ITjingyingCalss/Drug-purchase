@@ -8,20 +8,25 @@
     <script src="js/jQuery/jquery-2.2.3.min.js"></script>
     <script type="text/javascript">
         var result = null;
+        var util;
+        /*打开页面加载*/
         $(function () {
             reloadList();
         })
-        layui.use(['laypage', 'layer','form','upload'], function() {
+        layui.use(['laypage', 'layer','form','upload','util','laydate'], function() {
             var laypage = layui.laypage;
+            var laydate = layui.laydate;
             layer = layui.layer;
-            var $ = layui.jquery
-                ,upload = layui.upload;
+            var $ = layui.jquery;
+            upload = layui.upload;
+            util = layui.util;
             //自定义样式
             laypage.render({
                 elem: 'demo2'
                 , count: 100
                 , theme: '#1E9FFF'
             });
+            /*上传文件*/
             upload.render({
                 elem: '#uploadFile'
                 ,url: 'http://localhost:8080/uploadFile' //自己的上传接口
@@ -32,36 +37,19 @@
                 }
             });
         })
-        layui.use(['upload'], function() {
-            var laypage = layui.laypage
-                ,upload = layui.upload;
-            upload.render({
-                elem: '#uploadFile'
-                ,url: 'http://localhost:8080/uploadFile' //自己的上传接口
-                ,accept: 'file' //普通文件
-                ,done: function(res){
-                    layer.msg('上传成功');
-                    console.log(res);
-                }
-            });
-        })
-
-
-        /*  查询所有信息*/
+        /*查询所有信息*/
         function reloadList(pageNum) {
             $("#tbody").empty();
             $("#page").empty();
-            var userId = $("#userId").val();
-            var userAccount = $("#userAccount").val();
-            var contactAddress = $("#contactAddress").val();
-            var userState = 0;
+            var proxyMonitorId = $("#findProxyMonitorId").val();
+            var proxyMonitorName = $("#findProxyMonitorName").val();
+            var proxyMonitorAddress = $("#findProxyMonitorAddress").val();
             $.ajax({
-                url:"findUserAll",
+                url:"findAllProxyMonitor",
                 data:{
-                    "userId":userId,
-                    "userAccount":userAccount,
-                    "contactAddress":contactAddress,
-                    "userState":userState,
+                    "proxyMonitorId":proxyMonitorId,
+                    "proxyMonitorName":proxyMonitorName,
+                    "proxyMonitorAddress":proxyMonitorAddress,
                     "pageNum":pageNum
                 },
                 type:"post",
@@ -69,19 +57,25 @@
                 success:function (data) {
                     result = data.list;
                     var v = "";
+                    var proxyMonitorStatus = "";
+                    var style = "";
                     for (var i = 0; i < data.list.length; i++) {
+                        if (data.list[i].proxyMonitorStatus == 0){
+                            proxyMonitorStatus = "有效";
+                            style = "";
+                        } else if(data.list[i].proxyMonitorStatus = 1){
+                            proxyMonitorStatus = "失效";
+                            style = "layui-btn-disabled";
+                        }
                         v += "<tr>";
-                        v += '<td><input type="checkbox" value="'+data.list[i].userId+'" name="chose" /></td>'
-                        v += "<td>"+data.list[i].userAccount+"</td>"
-                        v += "<td>"+data.list[i].role.roleDescription+"</td>"
-                        v += "<td>"+data.list[i].username+"</td>"
-                        v += "<td>"+data.list[i].userUnit+"</td>"
-                        v += "<td>"+data.list[i].contactAddress+"</td>"
-                        v += "<td>"+data.list[i].postalCode+"</td>"
-                        v += "<td>"+data.list[i].contacts+"</td>"
-                        v += "<td>"+data.list[i].userPhone+"</td>"
-                        v += "<td>"+data.list[i].userEmail+"</td>"
-                        /*                        v += '<td><button class="layui-btn  layui-btn-normal layui-btn-sm" onclick="lookInformation('+data[i].userId+')">查看</button></td>';*/
+                        v += '<td><input type="checkbox" value="'+data.list[i].id+'" name="chose" /></td>'
+                        v += "<td>"+data.list[i].proxyMonitorId+"</td>"
+                        v += "<td>"+data.list[i].proxyMonitorName+"</td>"
+                        v += "<td>"+data.list[i].proxyMonitorAddress+"</td>"
+                        v += "<td>"+data.list[i].proxyMonitorPhone+"</td>"
+                        v += '<td><button class="layui-btn '+style+' layui-btn-sm" >'+proxyMonitorStatus+'</button></td>';
+                        v += "<td>"+util.toDateString(data.list[i].proxyMonitorCreateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
+                        v += "<td>"+util.toDateString(data.list[i].proxyMonitorUpdateTime,"yyyy-MM-dd HH:mm:ss")+"</td>"
                         v += '<td><button class="layui-btn  layui-btn-warm layui-btn-sm" onclick="editInformation('+data.list[i].userId+')">修改</button></td>';
                         v += '<td><button class="layui-btn  layui-btn-danger layui-btn-sm " lay-event="del" onclick="removeInformation('+data.list[i].userId+')">删除</button></td>';
                         v += "</tr>";
@@ -97,7 +91,6 @@
                 }
             })
         }
-
         /*添加页面弹出层*/
         function addInformation() {
             layer.open({
@@ -209,53 +202,6 @@
 
             })
         }
-        //查询省市县
-        var app = angular.module('myApp',[]);
-        app.controller("myController",['$scope','$http',function($scope,$http){
-            /*查询所有省*/
-            $http({
-                method:'get',
-                url:'findProvince',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).success(function (provinces) {
-                $scope.provinces = provinces;
-                $("#updatesheng").val(provinces);
-            }).error(function (data) {
-
-            });
-            /*查询所有市*/
-            $scope.changeProvince = function(){
-                $http({
-                    method:'get',
-                    url:'findCityByPcode',
-                    params:{"pcode":$scope.selectProvince},
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (citys) {
-                    $scope.citys = citys;
-                    $("#shi").val(citys);
-                    $("#updateshi").val(citys);
-                }).error(function (data) {
-
-                });
-            }
-            /*查询县*/
-            $scope.changeCity = function () {
-                $http({
-                    method:'get',
-                    url:'findCountyByCcode',
-                    params:{"ccode":$scope.selectCity},
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).success(function (countys) {
-                    $scope.countys = countys;
-                    $("#xian").val(countys);
-                    $("#updatexian").val(countys);
-                }).error(function (data) {
-
-                })
-            }
-
-
-        }])
         function downExcel() {
             var v = document.getElementsByName("chose");
             var array = new Array();
@@ -333,19 +279,19 @@
                 <li><div class="layui-form-item">
                     <label class="layui-form-label">ID</label>
                     <div class="layui-input-block">
-                        <input type="text" name="userId" id = "userId" placeholder="请输入ID" class="layui-input" style="width: 200px">
+                        <input type="text" name="proxyMonitorId" id = "findProxyMonitorId" placeholder="请输入ID" class="layui-input" style="width: 200px">
                     </div>
                 </div></li>
                 <li><div class="layui-form-item">
                     <label class="layui-form-label">用户名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="userAccount" id="userAccount" placeholder="请输入用户名称" class="layui-input" style="width: 200px">
+                        <input type="text" name="proxyMonitorName" id="findProxyMonitorName" placeholder="请输入名称" class="layui-input" style="width: 200px">
                     </div>
                 </div></li>
                 <li><div class="layui-form-item">
                     <label class="layui-form-label">联系地址</label>
                     <div class="layui-input-block">
-                        <input type="text" name="contactAddress" id="contactAddress"  placeholder="请输入联系地址" class="layui-input" style="width: 200px">
+                        <input type="text" name="proxyMonitorAddress" id="findProxyMonitorAddress"  placeholder="请输入联系地址" class="layui-input" style="width: 200px">
                     </div>
                 </div></li>
             </ul>
@@ -367,16 +313,13 @@
             <thead>
             <tr>
                 <th type="checkbox"></th>
-                <th>用户名</th>
-                <th>用户类别</th>
-                <th>用户账号</th>
-                <th>单位名称</th>
+                <th>ID</th>
+                <th>机构名称</th>
                 <th>联系地址</th>
-                <th>邮政编码</th>
-                <th>联系人</th>
                 <th>联系方式</th>
-                <th>邮箱</th>
-                <!-- <th>查看</th>-->
+                <th>机构状态</th>
+                <th>创建时间</th>
+                <th>更新时间</th>
                 <th>修改</th>
                 <th>删除</th>
             </tr>

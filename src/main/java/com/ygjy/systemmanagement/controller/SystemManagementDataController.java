@@ -54,7 +54,7 @@ public class SystemManagementDataController {
         return JSON.toJSONString(pageInfo);
     }
 
-    //验证字段合理性
+    //验证用户信息表单字段合理性
     @RequestMapping(value="findAllProperty",produces= {"application/json;charset=utf-8"})
     public String findAllProperty(String userPhone,String username,String password,String userEmail) {
         User user = userService.selectUserProperty(username, password, userPhone, userEmail);
@@ -73,15 +73,6 @@ public class SystemManagementDataController {
     public String findProvince() {
         return JSON.toJSONString(userService.findAll());
 
-    }
-
-    @RequestMapping(value = "findAllSuppliers",produces= {"application/json;charset=utf-8"})
-    public String findAllSuppliers(@RequestParam("suppliersId") Integer suppliersId,@RequestParam("supplierName") String supplierName,
-                                   @RequestParam("supplierAddress") String supplierAddress,@RequestParam(value="pageNum",required = false,defaultValue="1") Integer pageNum){
-        PageHelper.startPage(pageNum, 7);
-        List<Suppliers> allSuppliers = userService.findAllSuppliers(suppliersId, supplierName, supplierAddress);
-        PageInfo<Suppliers> pageInfo = new PageInfo<>(allSuppliers);
-        return JSON.toJSONString(pageInfo);
     }
 
     /**
@@ -136,11 +127,6 @@ public class SystemManagementDataController {
         return JSON.toJSONString(userService.addUserInfo(user));
     }
 
-    @RequestMapping(value = "addSuppliers")
-    public String addSuppliers(Suppliers suppliers){
-        return JSON.toJSONString(userService.addSuppliers(suppliers));
-    }
-
     /**
      * 修改用户信息
      * @param user
@@ -150,11 +136,6 @@ public class SystemManagementDataController {
     public String updateUserInfo(User user){
         user.setUserUpdateTime(new Date());
         return JSON.toJSONString(userService.updateUserInfo(user));
-    }
-
-    @RequestMapping(value = "updateSuppliers")
-    public String updateSuppliers(Suppliers suppliers){
-        return JSON.toJSONString(userService.updateSuppliers(suppliers));
     }
 
     /**
