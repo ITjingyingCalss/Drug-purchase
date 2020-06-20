@@ -2,11 +2,12 @@ package com.ygjy.purchasingmanagement2.service.Impl;
 
 
 import com.ygjy.purchasingmanagement2.dao.HospitalTransactionStatementDao;
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionStatement;
+import com.ygjy.purchasingmanagement2.pojo.*;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionStatementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,4 +70,64 @@ public class HospitalTransactionStatementServiceImpl implements HospitalTransact
 
         return hospitalTransactionStatementDao.selList(statementNumber,statementName, hospitalId, statementStateId);
     }
+
+
+    /*结算单维护*/
+    /*退货药品查询*/
+    @Override
+    public List<HospitalTransactionDetails> seletedrugs2(String purchaseOrderNumber, String nameOfPurchaseOrder, String supplierName, String drugCategoryName, String serialNumber, String commonName, String drugFrom, String specification, String unit, String conversionFraction, String tradeName, String level, Date createReceiptsTime, Date submissionTime, String drugBatchNumber, String returnOfState, String enterpriseName, String InvoiceNumber) {
+        return hospitalTransactionStatementDao.seletedrugs2(purchaseOrderNumber,
+                nameOfPurchaseOrder, supplierName,drugCategoryName,
+                serialNumber, commonName,drugFrom, specification,
+                unit, conversionFraction,tradeName, level,
+                createReceiptsTime, submissionTime,drugBatchNumber,
+                returnOfState, enterpriseName, InvoiceNumber);
+    }
+
+    /**
+     * 剂型表
+     * @return
+     */
+    @Override
+    public List<DurgsFrom> seleDatafrom2() {
+        return hospitalTransactionStatementDao.seleDatafrom2();
+    }
+
+    /**
+     * 药品类别表
+     */
+    @Override
+    public List<DrugCategory> seleDrugCategory2() {
+        return hospitalTransactionStatementDao.seleDrugCategory2();
+    }
+
+    /**
+     * 质量层次表
+     */
+    @Override
+    public List<QualityLevel> selequalityLevel2() {
+        return hospitalTransactionStatementDao.selequalityLevel2();
+    }
+
+    /*
+     * 供货商表
+     **/
+    @Override
+    public List<Suppliers> selesuppliers2() {
+        return hospitalTransactionStatementDao.selesuppliers2();
+    }
+
+    /*退货单维护页面批量删除*/
+    @Override
+    public Boolean deleteByKeyss2(String[] ids) {
+
+        int result=hospitalTransactionStatementDao.deleteByKeyss2(ids);
+        if (result>0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

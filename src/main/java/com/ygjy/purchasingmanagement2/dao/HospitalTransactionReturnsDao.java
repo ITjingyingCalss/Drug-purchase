@@ -1,8 +1,7 @@
 package com.ygjy.purchasingmanagement2.dao;
 
 
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
+import com.ygjy.purchasingmanagement2.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -56,6 +55,7 @@ public interface HospitalTransactionReturnsDao {
     List<HospitalTransactionDetails> seletedrugs(@Param("purchaseOrderNumber")String purchaseOrderNumber,
                                                  @Param("nameOfPurchaseOrder")String nameOfPurchaseOrder,
                                                  @Param("supplierName")String supplierName,
+                                                 @Param("drugCategoryName")String drugCategoryName,
                                                  @Param("serialNumber")String serialNumber,
                                                  @Param("commonName")String commonName,
                                                  @Param("drugFrom")String drugFrom,
@@ -70,5 +70,30 @@ public interface HospitalTransactionReturnsDao {
                                                  @Param("returnOfState")String returnOfState,
                                                  @Param("enterpriseName")String enterpriseName,
                                                  @Param("InvoiceNumber")String InvoiceNumber);
+
+
+    /**
+     * 剂型表
+     * @return
+     */
+    List<DurgsFrom> seleDatafrom();
+
+    /**
+     * 药品类别表
+     */
+    List<DrugCategory> seleDrugCategory();
+
+    /**
+     * 质量层次表
+     */
+    List<QualityLevel> selequalityLevel();
+
+    /*
+    * 供货商表
+    **/
+    List<Suppliers> selesuppliers();
+
+    /*批量删除*/
+    int deleteByKeyss(String[] ids);
 
 }

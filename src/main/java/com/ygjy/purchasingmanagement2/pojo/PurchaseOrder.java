@@ -41,20 +41,22 @@ public class PurchaseOrder implements Serializable {
     /**
      * 建单时间(年月日时分秒)
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createReceiptsTime;
 
     /**
      * 最近修改时间(年月日时分秒)
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date lastModificationTime;
 
     /**
      * 提交时间(年月日时分秒)
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date submissionTime;
 
     /**
@@ -80,12 +82,28 @@ public class PurchaseOrder implements Serializable {
     /**
      * 审核时间(年月日时分秒) 
      */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date auditTime;
 
     /**
      * 删除（1：删除，0：不删除）
      */
     private Integer delState;
+
+    /**
+     * 开始时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startTime;
+
+    /**
+     * 结束时间
+     */
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -137,24 +155,12 @@ public class PurchaseOrder implements Serializable {
         this.phone = phone;
     }
 
-    public Date getCreateReceiptsTimes() {
+    public Date getCreateReceiptsTime() {
         return createReceiptsTime;
     }
 
-    public void setCreateReceiptsTimes(Date createReceiptsTimes) {
-        this.createReceiptsTime = createReceiptsTimes;
-    }
-
-    public Date getSubmissionTimes() {
-        return submissionTime;
-    }
-
-    public void setSubmissionTimes(Date submissionTimes) {
-        this.submissionTime = submissionTimes;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public void setCreateReceiptsTime(Date createReceiptsTime) {
+        this.createReceiptsTime = createReceiptsTime;
     }
 
     public Date getLastModificationTime() {
@@ -165,7 +171,13 @@ public class PurchaseOrder implements Serializable {
         this.lastModificationTime = lastModificationTime;
     }
 
+    public Date getSubmissionTime() {
+        return submissionTime;
+    }
 
+    public void setSubmissionTime(Date submissionTime) {
+        this.submissionTime = submissionTime;
+    }
 
     public String getRemark() {
         return remark;
@@ -215,6 +227,22 @@ public class PurchaseOrder implements Serializable {
         this.delState = delState;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -233,15 +261,17 @@ public class PurchaseOrder implements Serializable {
             && (this.getHospitalId() == null ? other.getHospitalId() == null : this.getHospitalId().equals(other.getHospitalId()))
             && (this.getContacts() == null ? other.getContacts() == null : this.getContacts().equals(other.getContacts()))
             && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
-            && (this.getCreateReceiptsTimes() == null ? other.getCreateReceiptsTimes() == null : this.getCreateReceiptsTimes().equals(other.getCreateReceiptsTimes()))
+            && (this.getCreateReceiptsTime() == null ? other.getCreateReceiptsTime() == null : this.getCreateReceiptsTime().equals(other.getCreateReceiptsTime()))
             && (this.getLastModificationTime() == null ? other.getLastModificationTime() == null : this.getLastModificationTime().equals(other.getLastModificationTime()))
-            && (this.getSubmissionTimes() == null ? other.getSubmissionTimes() == null : this.getSubmissionTimes().equals(other.getSubmissionTimes()))
+            && (this.getSubmissionTime() == null ? other.getSubmissionTime() == null : this.getSubmissionTime().equals(other.getSubmissionTime()))
             && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()))
             && (this.getPurchaseState() == null ? other.getPurchaseState() == null : this.getPurchaseState().equals(other.getPurchaseState()))
             && (this.getAuditPerson() == null ? other.getAuditPerson() == null : this.getAuditPerson().equals(other.getAuditPerson()))
             && (this.getAuditOpinion() == null ? other.getAuditOpinion() == null : this.getAuditOpinion().equals(other.getAuditOpinion()))
             && (this.getAuditTime() == null ? other.getAuditTime() == null : this.getAuditTime().equals(other.getAuditTime()))
-            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()));
+            && (this.getDelState() == null ? other.getDelState() == null : this.getDelState().equals(other.getDelState()))
+            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
+            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
     }
 
     @Override
@@ -254,36 +284,45 @@ public class PurchaseOrder implements Serializable {
         result = prime * result + ((getHospitalId() == null) ? 0 : getHospitalId().hashCode());
         result = prime * result + ((getContacts() == null) ? 0 : getContacts().hashCode());
         result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
-        result = prime * result + ((getCreateReceiptsTimes() == null) ? 0 : getCreateReceiptsTimes().hashCode());
+        result = prime * result + ((getCreateReceiptsTime() == null) ? 0 : getCreateReceiptsTime().hashCode());
         result = prime * result + ((getLastModificationTime() == null) ? 0 : getLastModificationTime().hashCode());
-        result = prime * result + ((getSubmissionTimes() == null) ? 0 : getSubmissionTimes().hashCode());
+        result = prime * result + ((getSubmissionTime() == null) ? 0 : getSubmissionTime().hashCode());
         result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         result = prime * result + ((getPurchaseState() == null) ? 0 : getPurchaseState().hashCode());
         result = prime * result + ((getAuditPerson() == null) ? 0 : getAuditPerson().hashCode());
         result = prime * result + ((getAuditOpinion() == null) ? 0 : getAuditOpinion().hashCode());
         result = prime * result + ((getAuditTime() == null) ? 0 : getAuditTime().hashCode());
         result = prime * result + ((getDelState() == null) ? 0 : getDelState().hashCode());
+        result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
+        result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "PurchaseOrder{" +
-                "id=" + id +
-                ", purchaseOrderNumber='" + purchaseOrderNumber + '\'' +
-                ", nameOfPurchaseOrder='" + nameOfPurchaseOrder + '\'' +
-                ", hospitalId=" + hospitalId +
-                ", contacts='" + contacts + '\'' +
-                ", phone='" + phone + '\'' +
-                ", createReceiptsTimes=" + createReceiptsTime +
-                ", lastModificationTime=" + lastModificationTime +
-                ", submissionTimes=" + submissionTime +
-                ", remark='" + remark + '\'' +
-                ", purchaseState=" + purchaseState +
-                ", auditPerson='" + auditPerson + '\'' +
-                ", auditOpinion='" + auditOpinion + '\'' +
-                ", auditTime=" + auditTime +
-                ", delState=" + delState +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", purchaseOrderNumber=").append(purchaseOrderNumber);
+        sb.append(", nameOfPurchaseOrder=").append(nameOfPurchaseOrder);
+        sb.append(", hospitalId=").append(hospitalId);
+        sb.append(", contacts=").append(contacts);
+        sb.append(", phone=").append(phone);
+        sb.append(", createReceiptsTime=").append(createReceiptsTime);
+        sb.append(", lastModificationTime=").append(lastModificationTime);
+        sb.append(", submissionTime=").append(submissionTime);
+        sb.append(", remark=").append(remark);
+        sb.append(", purchaseState=").append(purchaseState);
+        sb.append(", auditPerson=").append(auditPerson);
+        sb.append(", auditOpinion=").append(auditOpinion);
+        sb.append(", auditTime=").append(auditTime);
+        sb.append(", delState=").append(delState);
+        sb.append(", startTime=").append(startTime);
+        sb.append(", endTime=").append(endTime);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
     }
 }
