@@ -144,21 +144,23 @@
             });
 
             if(true){
-                $.ajax({
-                    type:"GET",
-                    url:"removeByKeys",
-                    dataType:"json",
-                    data:{"list":list}, // 传输一个list集合包含所选框的id,,,,也可以传一个st到后台data:{"list":st},
-                    success:function (result) {
-                        var b = result;
-                        if (result > 0){
-                            alert("删除成功!");
-                            window.location.reload();
-                        }else{
-                            alert("删除失败!");
+                if (confirm("确定要删除吗?")){
+                    $.ajax({
+                        type:"GET",
+                        url:"removeByKeys",
+                        dataType:"json",
+                        data:{"list":list}, // 传输一个list集合包含所选框的id,,,,也可以传一个st到后台data:{"list":st},
+                        success:function (result) {
+                            var b = result;
+                            if (result > 0){
+                                alert("删除成功!");
+                                window.location.reload();
+                            }else{
+                                alert("删除失败!");
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
 

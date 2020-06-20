@@ -16,7 +16,7 @@
   </resultMap>
 <!--医院交易明细表-->
   <resultMap id="BaseResultMap1" type="com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="iid" jdbcType="INTEGER" property="id" />
     <result column="purchase_orders_id" jdbcType="INTEGER" property="purchaseOrdersId" />
     <result column="drug_information_id" jdbcType="INTEGER" property="drugInformationId" />
     <result column="enterprise_id" jdbcType="INTEGER" property="enterpriseId" />
@@ -92,7 +92,6 @@
       <result column="drug_transaction_status_id" jdbcType="INTEGER" property="drugTransactionStatusId" />
       <result column="del_state" jdbcType="INTEGER" property="delState" />
       <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
-      <result column="availability_status" jdbcType="INTEGER" property="availabilityStatus" />
     </association>
     <!--剂型表-->
     <association property="durgsFrom" javaType="com.ygjy.purchasingmanagement2.pojo.DurgsFrom">
@@ -132,7 +131,6 @@
       <result column="company_profile" jdbcType="VARCHAR" property="companyProfile" />
       <result column="remark" jdbcType="VARCHAR" property="remark" />
       <result column="del_state" jdbcType="INTEGER" property="delState" />
-      <result column="suppliers_id" jdbcType="INTEGER" property="suppliersId" />
     </association>
 
     <!--供货商表-->
@@ -152,6 +150,43 @@
       <result column="return_of_state" jdbcType="INTEGER" property="returnOfState" />
       <result column="return_of_explain" jdbcType="VARCHAR" property="returnOfExplain" />
     </association>
+    <!--药品类别-->
+    <association property="drugCategory" javaType="com.ygjy.purchasingmanagement2.pojo.DrugCategory">
+      <id column="drug_category_Id" jdbcType="INTEGER" property="drugCateGoryId" />
+      <result column="drug_category_name" jdbcType="VARCHAR" property="drugCategoryName" />
+    </association>
+
+  </resultMap>
+
+  <!--供货商表-->
+  <resultMap id="BaseResultMap7" type="com.ygjy.purchasingmanagement2.pojo.Suppliers">
+    <id column="suppliers_id" jdbcType="INTEGER" property="suppliersId" />
+    <result column="supplier_name" jdbcType="VARCHAR" property="supplierName" />
+  </resultMap>
+
+
+  <!--剂型表-->
+  <resultMap id="BaseResultMap3" type="com.ygjy.purchasingmanagement2.pojo.DurgsFrom">
+    <id column="durg_from_id" jdbcType="INTEGER" property="durgFromId" />
+    <result column="drug_from" jdbcType="VARCHAR" property="drugFrom" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+  </resultMap>
+<!--药品类别表-->
+  <resultMap id="BaseResultMap4" type="com.ygjy.purchasingmanagement2.pojo.DrugCategory">
+    <id column="drug_category_Id" jdbcType="INTEGER" property="drugCateGoryId" />
+    <result column="drug_category_name" jdbcType="VARCHAR" property="drugCategoryName" />
+  </resultMap>
+
+  <!--药品交易状态-->
+  <resultMap id="BaseResultMap5" type="com.ygjy.purchasingmanagement2.pojo.DrugTransactionStatus">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="drug_transaction_status" jdbcType="VARCHAR" property="drugTransactionStatus" />
+    <result column="drug_transaction_explain" jdbcType="VARCHAR" property="drugTransactionExplain" />
+  </resultMap>
+<!--质量层次-->
+  <resultMap id="BaseResultMap6" type="com.ygjy.purchasingmanagement2.pojo.QualityLevel">
+    <id column="qua_id" jdbcType="INTEGER" property="quaId" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
   </resultMap>
 
   <sql id="Base_Column_List">
@@ -235,24 +270,17 @@
 
   <select id="seletedrugs" resultMap="BaseResultMap1">
 
-    SELECT
+    SELECT h.id as iid,
     p.purchase_order_number,
     p.name_of_purchase_order,
     p.create_receipts_time,
-    p.submission_time,
-    i.serial_number,
-    i.common_name,
+    p.submission_time,i.serial_number,i.common_name,
     i.specification,
-    i.unit,
-    i.conversion_fraction,
-    i.trade_name,
-    h.drug_batch_number,
-    h.Invoice_number,
-    f.drug_from,
-    e.enterprise_name,
-    s.supplier_name,
-    q.level,
-    r.return_of_explain
+    i.unit,i.conversion_fraction,
+    i.trade_name,h.drug_batch_number,
+    h.Invoice_number,f.drug_from,
+    e.enterprise_name,s.supplier_name,q.level,
+    r.return_of_state,c.drug_category_name
     FROM
     hospital_transaction_details h
     LEFT JOIN purchase_order p ON h.purchase_orders_id = p.id
@@ -262,6 +290,7 @@
     LEFT JOIN suppliers s ON e.suppliers_id = s.suppliers_id
     LEFT JOIN return_status r ON h.return_state_id = r.id
     LEFT JOIN quality_level q ON i.quality_level_id = q.qua_id
+    LEFT JOIN drug_category c ON i.drug_category_id = c.drug_category_Id
 
     <if test="purchaseOrderNumber != null and purchaseOrderNumber != ''">
       and p.`purchase_order_number like CONCAT('%',#{purchaseOrderNumber},'%')
@@ -275,6 +304,11 @@
     <if test="submissionTime != null ">
       and date(p.submission_time) <![CDATA[<=]]> date(#{submissionTime})
     </if>
+
+    /*入库时间的写法，没改*/
+    <!--<if test="createTime != null and subTime!=null">
+      and o.create_receipts_time BETWEEN #{createTime} AND #{subTime}
+    </if>-->
 
     <if test="serialNumber != null and serialNumber != ''">
       and i.`serial_number` like CONCAT('%',#{serialNumber},'%')
@@ -313,8 +347,38 @@
       and q.`level` like CONCAT('%',#{level},'%')
     </if>
     <if test="returnOfState != null and returnOfState != ''">
-      and r.`return_of_explain` like CONCAT('%',#{returnOfState},'%')
+      and r.`return_of_state` like CONCAT('%',#{returnOfState},'%')
+    </if>
+    <if test="drugCategoryName != null and drugCategoryName != ''">
+      and c.`drug_category_name` like CONCAT('%',#{drugCategoryName},'%')
     </if>
   </select>
+
+  <!--剂型表查询-->
+  <select id="seleDatafrom" resultMap="BaseResultMap3">
+        SELECT * FROM durgs_from
+    </select>
+  <!--药品类别表查询-->
+  <select id="seleDrugCategory" resultMap="BaseResultMap4">
+         SELECT * FROM drug_category
+    </select>
+  <!--质量层次-->
+  <select id="selequalityLevel" resultMap="BaseResultMap6">
+         SELECT * FROM quality_level
+    </select>
+  <!--供货商-->
+  <select id="selesuppliers" resultMap="BaseResultMap7">
+        SELECT * FROM suppliers
+    </select>
+
+
+  <!--批量删除-->
+  <delete id="deleteByKeyss" parameterType="java.lang.Integer">
+    delete from hospital_transaction_details where id in
+    <foreach collection="array" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
+
+  </delete>
 
 </mapper>

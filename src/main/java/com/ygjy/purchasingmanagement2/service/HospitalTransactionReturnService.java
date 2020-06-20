@@ -2,8 +2,7 @@ package com.ygjy.purchasingmanagement2.service;
 
 
 import com.ygjy.pojo.DrugItems;
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
+import com.ygjy.purchasingmanagement2.pojo.*;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -57,6 +56,7 @@ public interface HospitalTransactionReturnService {
    List<HospitalTransactionDetails> seletedrugs(String purchaseOrderNumber,
                                                 String nameOfPurchaseOrder,
                                                 String supplierName,
+                                                String drugCategoryName,
                                                 String serialNumber,
                                                 String commonName,
                                                 String drugFrom,
@@ -72,5 +72,27 @@ public interface HospitalTransactionReturnService {
                                                 String enterpriseName,
                                                 String InvoiceNumber);
 
+   /**
+    * 剂型表
+    * @return
+    */
+   List<DurgsFrom> seleDatafrom();
+
+   /**
+    * 药品类别表
+    */
+   List<DrugCategory> seleDrugCategory();
+   /**
+    * 质量层次表
+    */
+   List<QualityLevel> selequalityLevel();
+
+   /*
+    * 供货商表
+    **/
+   List<Suppliers> selesuppliers();
+
+   /*退货单维护页面批量删除*/
+   Boolean deleteByKeyss(String[] ids);
 
 }

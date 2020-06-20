@@ -123,6 +123,11 @@ public class HospitalTransactionDetails implements Serializable {
      */
     private Integer settlementStateId;
 
+    /**
+     * 供货商id
+     */
+    private Integer suppliersId;
+
     private DrugInformation drugInformation;
 
     private PurchaseOrder purchaseOrder;
@@ -137,13 +142,7 @@ public class HospitalTransactionDetails implements Serializable {
 
     private ReturnStatus returnStatus;
 
-    public ReturnStatus getReturnStatus() {
-        return returnStatus;
-    }
-
-    public void setReturnStatus(ReturnStatus returnStatus) {
-        this.returnStatus = returnStatus;
-    }
+    private DrugCategory drugCategory;
 
     public Integer getId() {
         return id;
@@ -337,6 +336,14 @@ public class HospitalTransactionDetails implements Serializable {
         this.settlementStateId = settlementStateId;
     }
 
+    public Integer getSuppliersId() {
+        return suppliersId;
+    }
+
+    public void setSuppliersId(Integer suppliersId) {
+        this.suppliersId = suppliersId;
+    }
+
     public DrugInformation getDrugInformation() {
         return drugInformation;
     }
@@ -385,40 +392,20 @@ public class HospitalTransactionDetails implements Serializable {
         this.qualityLevel = qualityLevel;
     }
 
-    @Override
-    public String toString() {
-        return "HospitalTransactionDetails{" +
-                "id=" + id +
-                ", purchaseOrdersId=" + purchaseOrdersId +
-                ", drugInformationId=" + drugInformationId +
-                ", enterpriseId=" + enterpriseId +
-                ", biddingPrice=" + biddingPrice +
-                ", transactionPrice=" + transactionPrice +
-                ", purchasedAmount=" + purchasedAmount +
-                ", purchasedMoney=" + purchasedMoney +
-                ", purchasedState=" + purchasedState +
-                ", receiptAmount=" + receiptAmount +
-                ", receiptMoney=" + receiptMoney +
-                ", invoiceNumber='" + invoiceNumber + '\'' +
-                ", drugBatchNumber='" + drugBatchNumber + '\'' +
-                ", drugValidity='" + drugValidity + '\'' +
-                ", receiptTime=" + receiptTime +
-                ", returnOrderId=" + returnOrderId +
-                ", returnsTheAmount=" + returnsTheAmount +
-                ", returnsTheMoney=" + returnsTheMoney +
-                ", reasonForReturn='" + reasonForReturn + '\'' +
-                ", returnStateId=" + returnStateId +
-                ", finalSettlementId=" + finalSettlementId +
-                ", finalSettlementAmount=" + finalSettlementAmount +
-                ", finalSettlementMoney=" + finalSettlementMoney +
-                ", settlementStateId=" + settlementStateId +
-                ", drugInformation=" + drugInformation +
-                ", purchaseOrder=" + purchaseOrder +
-                ", durgsFrom=" + durgsFrom +
-                ", enterprise=" + enterprise +
-                ", suppliers=" + suppliers +
-                ", qualityLevel=" + qualityLevel +
-                '}';
+    public ReturnStatus getReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(ReturnStatus returnStatus) {
+        this.returnStatus = returnStatus;
+    }
+
+    public DrugCategory getDrugCategory() {
+        return drugCategory;
+    }
+
+    public void setDrugCategory(DrugCategory drugCategory) {
+        this.drugCategory = drugCategory;
     }
 
     @Override
@@ -450,16 +437,58 @@ public class HospitalTransactionDetails implements Serializable {
                 Objects.equals(finalSettlementAmount, that.finalSettlementAmount) &&
                 Objects.equals(finalSettlementMoney, that.finalSettlementMoney) &&
                 Objects.equals(settlementStateId, that.settlementStateId) &&
+                Objects.equals(suppliersId, that.suppliersId) &&
                 Objects.equals(drugInformation, that.drugInformation) &&
                 Objects.equals(purchaseOrder, that.purchaseOrder) &&
                 Objects.equals(durgsFrom, that.durgsFrom) &&
                 Objects.equals(enterprise, that.enterprise) &&
                 Objects.equals(suppliers, that.suppliers) &&
-                Objects.equals(qualityLevel, that.qualityLevel);
+                Objects.equals(qualityLevel, that.qualityLevel) &&
+                Objects.equals(returnStatus, that.returnStatus) &&
+                Objects.equals(drugCategory, that.drugCategory);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, purchaseOrdersId, drugInformationId, enterpriseId, biddingPrice, transactionPrice, purchasedAmount, purchasedMoney, purchasedState, receiptAmount, receiptMoney, invoiceNumber, drugBatchNumber, drugValidity, receiptTime, returnOrderId, returnsTheAmount, returnsTheMoney, reasonForReturn, returnStateId, finalSettlementId, finalSettlementAmount, finalSettlementMoney, settlementStateId, drugInformation, purchaseOrder, durgsFrom, enterprise, suppliers, qualityLevel);
+        return Objects.hash(id, purchaseOrdersId, drugInformationId, enterpriseId, biddingPrice, transactionPrice, purchasedAmount, purchasedMoney, purchasedState, receiptAmount, receiptMoney, invoiceNumber, drugBatchNumber, drugValidity, receiptTime, returnOrderId, returnsTheAmount, returnsTheMoney, reasonForReturn, returnStateId, finalSettlementId, finalSettlementAmount, finalSettlementMoney, settlementStateId, suppliersId, drugInformation, purchaseOrder, durgsFrom, enterprise, suppliers, qualityLevel, returnStatus, drugCategory);
+    }
+
+    @Override
+    public String toString() {
+        return "HospitalTransactionDetails{" +
+                "id=" + id +
+                ", purchaseOrdersId=" + purchaseOrdersId +
+                ", drugInformationId=" + drugInformationId +
+                ", enterpriseId=" + enterpriseId +
+                ", biddingPrice=" + biddingPrice +
+                ", transactionPrice=" + transactionPrice +
+                ", purchasedAmount=" + purchasedAmount +
+                ", purchasedMoney=" + purchasedMoney +
+                ", purchasedState=" + purchasedState +
+                ", receiptAmount=" + receiptAmount +
+                ", receiptMoney=" + receiptMoney +
+                ", invoiceNumber='" + invoiceNumber + '\'' +
+                ", drugBatchNumber='" + drugBatchNumber + '\'' +
+                ", drugValidity='" + drugValidity + '\'' +
+                ", receiptTime=" + receiptTime +
+                ", returnOrderId=" + returnOrderId +
+                ", returnsTheAmount=" + returnsTheAmount +
+                ", returnsTheMoney=" + returnsTheMoney +
+                ", reasonForReturn='" + reasonForReturn + '\'' +
+                ", returnStateId=" + returnStateId +
+                ", finalSettlementId=" + finalSettlementId +
+                ", finalSettlementAmount=" + finalSettlementAmount +
+                ", finalSettlementMoney=" + finalSettlementMoney +
+                ", settlementStateId=" + settlementStateId +
+                ", suppliersId=" + suppliersId +
+                ", drugInformation=" + drugInformation +
+                ", purchaseOrder=" + purchaseOrder +
+                ", durgsFrom=" + durgsFrom +
+                ", enterprise=" + enterprise +
+                ", suppliers=" + suppliers +
+                ", qualityLevel=" + qualityLevel +
+                ", returnStatus=" + returnStatus +
+                ", drugCategory=" + drugCategory +
+                '}';
     }
 }

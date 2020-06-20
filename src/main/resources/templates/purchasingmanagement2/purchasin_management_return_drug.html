@@ -48,10 +48,11 @@
 
             var purchaseOrderNumber=$("#purchase_order_number").val();
             var nameOfPurchaseOrder=$("#name_of_purchase_order").val();
-            var supplierName=$("#supplier_name").val();
+            var supplierName=$("#supplier_id").val();
+            var drugCategoryName=$("#drug_category_Id").val();
             var serialNumber=$("#serial_number").val();
             var commonName=$("#common_name").val();
-            var drugFrom=$("#drug_from").val();
+            var drugFrom=$("#drug_from_id").val();
             var specification=$("#specification").val();
             var unit=$("#unit").val();
             var conversionFraction=$("#conversion_fraction").val();
@@ -71,6 +72,7 @@
                     "nameOfPurchaseOrder":nameOfPurchaseOrder,
                     "supplierName":supplierName,
                     "serialNumber":serialNumber,
+                    "drugCategoryName":drugCategoryName,
                     "commonName":commonName,
                     "drugFrom":drugFrom,
                     "specification":specification,
@@ -93,9 +95,10 @@
                     page = listss;
                     var ss = "";
                     for (var i = 0; i < listss.list.length; i++) {
+                        var data=listss.list;
                         /*时间处理*/
-                        var date=listss.list[i].purchaseOrder.createReceiptsTime;
-                        var date2=listss.list[i].purchaseOrder.submissionTime;
+                        var date=data[i].purchaseOrder.createReceiptsTime;
+                        var date2=data[i].purchaseOrder.submissionTime;
                         var s2=new Date(date2);
                         var s=new Date(date);
                         year=s.getFullYear();
@@ -106,35 +109,194 @@
                         month1=s2.getMonth()+1;
                         day1=s2.getDate();
                         time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
-                        console.log(listss.list[i])
-                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + listss.list[i].id + "></td><td>"
-                            + listss.list[i].purchaseOrder.purchaseOrderNumber + "</td><td>"
-                            + listss.list[i].purchaseOrder.nameOfPurchaseOrder + "</td><td>"
-                            + listss.list[i].suppliers.supplierName+ "</td><td>"
-                            + listss.list[i].drugInformation.serialNumber + "</td><td>"
-                            + listss.list[i].drugInformation.commonName + "</td><td>"
-                            + listss.list[i].durgsFrom.drugFrom + "</td><td>"
-                            + listss.list[i].drugInformation.specification + "</td><td>"
-                            + listss.list[i].drugInformation.unit + "</td><td>"
-                            + listss.list[i].drugInformation.conversionFraction + "</td><td>"
-                            + listss.list[i].enterprise.enterpriseName+ "</td><td>"
-                            + listss.list[i].drugInformation.tradeName + "</td><td>"
-                            /*+ listss.list[i].qualityLevel.level + "</td><td>"*/
+                        console.log(data[i])
+                        ss = "<tr><td><input type=\"checkbox\" style='width: 40px;' class=\"checkboxxia\" onclick=\"xiaOnclick()\" value=" + data[i].id + "></td><td>"
+                            + data[i].purchaseOrder.purchaseOrderNumber + "</td><td>"
+                            + data[i].purchaseOrder.nameOfPurchaseOrder + "</td><td>"
+                            + data[i].suppliers.supplierName+ "</td><td>"
+                            /*+ (data[i].drugCategory.drugCategoryName==1?"处方药":"非处方药")+ "</td><td>"*/
+                            + data[i].drugInformation.serialNumber + "</td><td>"
+                            + data[i].drugInformation.commonName + "</td><td>"
+                            + data[i].durgsFrom.drugFrom + "</td><td>"
+                            + data[i].drugInformation.specification + "</td><td>"
+                            + data[i].drugInformation.unit + "</td><td>"
+                            + data[i].drugInformation.conversionFraction + "</td><td>"
+                            + data[i].enterprise.enterpriseName+ "</td><td>"
+                            + data[i].drugInformation.tradeName + "</td><td>"
+                            + data[i].qualityLevel.level + "</td><td>"
                             + time+ "</td><td>"
                             + time2+ "</td><td>"
-                            + listss.list[i].drugBatchNumber + "</td><td>"
-                            + listss.list[i].returnStatus.returnOfState+ "</td><td>"
-                            + listss.list[i].InvoiceNumber + "</td>"
-                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSee(" + listss.list[i].id + ")\" data-target=\"#editModal2\">修改</button></td>"
-                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"dele(" + listss.list[i].id + ")\">删除</button></td></tr>"
+                            + data[i].drugBatchNumber + "</td><td>"
+                            + (data[i].returnStatus.returnOfState==1?"未确认退货":"以确认退货")+ "</td><td>"
+                            + data[i].invoiceNumber + "</td>"
+                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSurg(" + data[i].id + ")\" data-target=\"#editModal1\">修改</button></td></tr>"
 
                         $("#tbody").append(ss);
+                        console.log(ss)
                         qian = listss.pageNum == 1 ? 1 : listss.pageNum - 1;
                         hou = listss.pageNum == listss.pages ? listss.pages : listss.pageNum + 1;
                     }
                 }
             })
         }
+        // 剂型
+        $.ajax({
+            url:"seleDurgsFrom",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                console.log(result);
+                $("#drug_from_id").empty();
+                $("#drug_from_id").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.length;i++){
+                    var list=result;
+                    $("#drug_from_id").prepend('<option value="' + list[i].drug_from_id + '">' + list[i].drugFrom + '</option>')
+                    $("#drug_from_id2").prepend('<option value="' + list[i].drug_from_id2 + '">' + list[i].drugFrom + '</option>')
+                }
+            }
+        })
+
+        // 药品类别
+        $.ajax({
+            url:"seleDrugCategory",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                console.log(result);
+                $("#drug_category_Id").empty();
+                $("#drug_category_Id").prepend('<option value="0">请选择</option>');
+                for(var i=0;i<result.length;i++){
+                    var list=result;
+                    $("#drug_category_Id").prepend('<option value="' + list[i].drug_category_Id + '">' + list[i].drugCategoryName + '</option>');
+                    $("#drug_category_Id2").prepend('<option value="' + list[i].drug_category_Id2 + '">' + list[i].drugCategoryName + '</option>');
+                }
+            }
+        })
+
+        //质量层次
+        $.ajax({
+            url:"selequalityLevel",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                $("#level").empty();
+                $("#level").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.length;i++){
+                    var list=result;
+                    $("#level").prepend('<option value="' + list[i].level + '">' + list[i].level + '</option>')
+                    $("#level2").prepend('<option value="' + list[i].level2 + '">' + list[i].level + '</option>')
+                }
+            }
+        })
+        //供货商
+        $.ajax({
+            url:"selesuppliers",
+            data:{},
+            type:"post",
+            dataType:"json",
+            success:function (result) {
+                console.log(result);
+                $("#supplier_id").empty();
+                $("#supplier_id").prepend('<option value="0">请选择</option>')
+                for(var i=0;i<result.length;i++){
+                    var list=result;
+                    $("#supplier_id").prepend('<option value="' + list[i].supplier_id + '">' + list[i].supplierName + '</option>')
+                    $("#supplier_id2").prepend('<option value="' + list[i].supplier_id2 + '">' + list[i].supplierName + '</option>')
+                }
+            }
+        })
+
+
+
+        /*批量删除*/
+        function xiaOnclick() {
+                    var clickpool = true;
+                    $.each($(".checkboxxia"),function(index,item){
+                        if($(item).prop("checked")==false)clickpool=false;
+                    })
+                    $("#checkboxMain").prop("checked",clickpool)
+                }
+
+                function mainOnclick() {
+                    $.each($(".checkboxxia"),function(index,item){
+                        $(item).prop("checked",$("#checkboxMain").prop("checked"));
+                    })
+                }
+
+                function deleteALL() {
+                    var bool = false;
+                    var list = new Array();
+                    /*var st="";*/
+                    $.each($("input[class='checkboxxia']:checkbox:checked"),function(index,item){
+                        list.push($(item).val());
+
+                        /*st+=$(item).val()+",";*/
+
+                        /*console.log($(item).val());*/
+                        bool = true;
+                    });
+
+                    if(true){
+                        if (confirm("确定要删除吗?")) {
+                            $.ajax({
+                                type: "GET",
+                                url: "removeByKeyss",
+                                dataType: "json",
+                                data: {"list": list}, // 传输一个list集合包含所选框的id,,,,也可以传一个st到后台data:{"list":st},
+                                success: function (result) {
+                                    var b = result;
+                                    if (result > 0) {
+                                        alert("删除成功!");
+                                        window.location.reload();
+                                    } else {
+                                        alert("删除失败!");
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+
+        function updateSurg(id) {
+            $.ajax({
+                url:"updatesurg",
+                data:{
+                    "id":id
+                },
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    console.log(result);
+                    var data=result.data;
+                    $("#serialNumber").val(data.serialNumber);
+                    $("#commonName").val(data.commonName);
+                    $("#dosageFormId").val(data.durgsFrom.drugFrom);
+                    $("#specifications").val(data.specification);
+                    $("#units").val(data.unit);
+                    $("#conversionFraction").val(data.conversionFraction);
+                    $("#enterpriseNames").val(data.enterprise.enterpriseName);
+                    $("#tradeNames").val(data.tradeName);
+                    $("#biddingPrice").val(data.biddingPrice);
+                    $("#qualityLevelIds").val(data.qualityLevel.level);
+                    $("#drugCategoryId").val(data.drugCategory.drugCategoryName);
+                    $("#drugTransactionStatusIds").val(data.drugTransactionStatus.drugTransactionExplain);
+                    $("#common_name_pinyin").val(data.commonNamePinyin);
+                    $("#source_of_retail_price").val(data.sourceOfRetailPrice);
+                }
+            })
+        }
+
+
+
+
+
+
+
+
+
         function getzf(num) {
             if(parseInt(num)<10){
                 num='0'+num;
@@ -269,7 +431,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
             </td>
             <td>
-                <select id="supplier_name" name="supplierName" style="width: 50%;height: 20%">
+                <select id="supplier_id" name="supplierName" style="width: 50%;height: 20%">
                     <option value="0">请选择</option>
                 </select>
                 <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
@@ -278,10 +440,10 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
             </td>
             <td style="white-space:nowrap">
-                <select class="num" id="drug_category_id" name="drugCategoryId" onblur="checkDrugCategory()" style="width:50%;height: 10%">
+                <select id="drug_category_Id" name="drugCategoryName" style="width:50%;height: 10%">
                     <option value="0">请选择</option>
-                    <option value="1">处方药</option>
-                    <option value="0">非处方药</option>
+                    <!--<option value="1">处方药</option>
+                    <option value="2">非处方药</option>-->
                 </select>
             </td>
         </tr>
@@ -304,7 +466,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
             </td>
             <td style="white-space:nowrap">
-                <select  id="drug_from" name="drugFrom" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                <select  id="drug_from_id" name="drugFrom" style="width:50%;height: 10%">
                     <option value="0">请选择</option>
                 </select>
             </td>
@@ -348,7 +510,7 @@
                 <span style="white-space: nowrap;display: inline-block;color: #0E74B4">质量层次：</span>
             </td>
             <td style="white-space:nowrap">
-                <select class="num" id="level" name="level" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                <select id="level" name="level" style="width:50%;height: 10%">
                     <option value="0">请选择</option>
                 </select>
             </td>
@@ -371,6 +533,7 @@
             </td>
             <td>
                 <select id="return_of_state" name="returnOfState" style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
                     <option value="1">未确认退货</option>
                     <option value="2">已确认退货</option>
                 </select>
@@ -404,14 +567,21 @@
             <div class="pull-left">
                 <div class="form-group form-inline">
                     <div class="btn-group">
+                        <!--<td>
                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" onclick="findDrugFromAndDrugCategory()"
                                 data-target="#editModal1">添加
                         </button>
-                        <!--<button type="button" class="btn btn-success btn-sm" onclick="BatchDelete()">
+                        </td>-->
+                        <td>
+                        <button type="button" class="btn btn-success btn-sm" onclick="deleteALL()">
                             删除
-                        </button>-->
-                        <button type="button" class="btn btn-success btn-sm" >保存退货量
                         </button>
+                        </td>
+                        <td>
+                        <button type="button" class="btn btn-success btn-sm" >
+                            保存退货量
+                        </button>
+                        </td>
                     </div>
                 </div>
             </div>
@@ -425,7 +595,7 @@
                 <th class="sorting_asc">采购单编号</th>
                 <th class="sorting_asc">采购单名称</th>
                 <th class="sorting">供货商</th>
-                <th class="sorting">药品类别</th>
+                <!--<th class="sorting">药品类别</th>-->
                 <th class="sorting">药品流水号</th>
                 <th class="sorting">通用名</th>
                 <th class="sorting">剂型</th>
@@ -441,7 +611,7 @@
                 <th class="sorting">退货状态</th>
                 <th class="sorting">发票号或入库单号</th>
                 <th class="sorting">修改</th>
-                <th class="sorting">删除</th>
+                <!--<th class="sorting">删除</th>-->
             </tr>
             </thead>
             <tbody class="context" id="tbody">
@@ -499,12 +669,17 @@
     </div>
     <!-- 数据表格 /-->
 </div>
+
+
+
+
+<!--修改的模态框-->
 <div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:80%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">退货单页面</h3>
+                <h3 id="myModalLabe">修改退货药品页面</h3>
             </div>
             <div class="modal-body">
                 <table class="table" >
@@ -529,7 +704,7 @@
                             <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
                         </td>
                         <td>
-                            <select id="supplier_name2" name="supplierName" style="width: 50%;height: 20%">
+                            <select id="supplier_id2" name="supplierName" style="width: 50%;height: 20%">
                                 <option value="0">请选择</option>
                             </select>
                             <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
@@ -538,7 +713,7 @@
                             <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
                         </td>
                         <td style="white-space:nowrap">
-                            <select class="num" id="drug_category_id2" name="drugCategoryId" onblur="checkDrugCategory()" style="width:50%;height: 10%">
+                            <select id="drug_category_Id2" name="drugCategoryName" style="width:50%;height: 10%">
                                 <option value="0">请选择</option>
                             </select>
                         </td>
@@ -562,7 +737,7 @@
                             <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
                         </td>
                         <td style="white-space:nowrap">
-                            <select  id="drug_from2" name="drugFrom" onblur="checkDosageForm()" style="width:50%;height: 10%">
+                            <select  id="drug_from_id2" name="drugFrom" style="width:50%;height: 10%">
                                 <option value="0">请选择</option>
                             </select>
                         </td>
@@ -629,6 +804,7 @@
                         </td>
                         <td>
                             <select id="return_of_state2" name="returnOfState" style="width: 50%;height: 20%">
+                                <option value="0">请选择</option>
                                 <option value="1">未确认退货</option>
                                 <option value="2">已确认退货</option>
                             </select>
@@ -652,6 +828,9 @@
         </div>
     </div>
 </div>
+
+
+
 <!-- 编辑窗口 -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
