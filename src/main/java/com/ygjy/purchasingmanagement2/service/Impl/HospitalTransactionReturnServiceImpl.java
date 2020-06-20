@@ -1,7 +1,6 @@
 package com.ygjy.purchasingmanagement2.service.Impl;
 
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
+import com.ygjy.purchasingmanagement2.pojo.*;
 import com.ygjy.purchasingmanagement2.dao.HospitalTransactionReturnsDao;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +63,8 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
         return hospitalTransactionReturnsDao.update(htr);
     }
 
+    /*删除*/
+    @Override
     public boolean removeByKeys(String[] ids) {
 
         int result=hospitalTransactionReturnsDao.deleteByKeys(ids);
@@ -93,13 +94,59 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 /*退货单维护*/
     /*退货药品查询*/
     @Override
-    public List<HospitalTransactionDetails> seletedrugs(String purchaseOrderNumber, String nameOfPurchaseOrder, String supplierName,String serialNumber, String commonName, String drugFrom, String specification, String unit, String conversionFraction, String tradeName, String level, Date createReceiptsTime, Date submissionTime, String drugBatchNumber, String returnOfState, String enterpriseName, String InvoiceNumber) {
+    public List<HospitalTransactionDetails> seletedrugs(String purchaseOrderNumber, String nameOfPurchaseOrder, String supplierName,String drugCategoryName,String serialNumber, String commonName, String drugFrom, String specification, String unit, String conversionFraction, String tradeName, String level, Date createReceiptsTime, Date submissionTime, String drugBatchNumber, String returnOfState, String enterpriseName, String InvoiceNumber) {
         return hospitalTransactionReturnsDao.seletedrugs(purchaseOrderNumber,
-                nameOfPurchaseOrder, supplierName,
+                nameOfPurchaseOrder, supplierName,drugCategoryName,
                 serialNumber, commonName,drugFrom, specification,
                 unit, conversionFraction,tradeName, level,
                 createReceiptsTime, submissionTime,drugBatchNumber,
                 returnOfState, enterpriseName, InvoiceNumber);
+    }
+
+    /**
+     * 剂型表
+     * @return
+     */
+    @Override
+    public List<DurgsFrom> seleDatafrom() {
+        return hospitalTransactionReturnsDao.seleDatafrom();
+    }
+
+    /**
+     * 药品类别表
+     */
+    @Override
+    public List<DrugCategory> seleDrugCategory() {
+        return hospitalTransactionReturnsDao.seleDrugCategory();
+    }
+
+    /**
+     * 质量层次表
+     */
+    @Override
+    public List<QualityLevel> selequalityLevel() {
+        return hospitalTransactionReturnsDao.selequalityLevel();
+    }
+
+    /*
+     * 供货商表
+     **/
+    @Override
+    public List<Suppliers> selesuppliers() {
+        return hospitalTransactionReturnsDao.selesuppliers();
+    }
+
+    /*退货单维护页面批量删除*/
+    @Override
+    public Boolean deleteByKeyss(String[] ids) {
+
+        int result=hospitalTransactionReturnsDao.deleteByKeyss(ids);
+        if (result>0) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

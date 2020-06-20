@@ -4,8 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionDetails;
-import com.ygjy.purchasingmanagement2.pojo.HospitalTransactionReturn;
+import com.ygjy.purchasingmanagement2.pojo.*;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionReturnService;
 import com.ygjy.purchasingmanagement2.vo.HospitalTransactionReturnVo;
 
@@ -176,6 +175,7 @@ public class HospitalTransactionReturnController {
     public String seletedrugs(String purchaseOrderNumber,
                               String nameOfPurchaseOrder,
                               String supplierName,
+                              String drugCategoryName,
                               String serialNumber,
                               String commonName,
                               String drugFrom,
@@ -195,13 +195,57 @@ public class HospitalTransactionReturnController {
 
         List<HospitalTransactionDetails> listss = hospitalTransactionReturnService.seletedrugs(
                 purchaseOrderNumber,
-                nameOfPurchaseOrder, supplierName,
+                nameOfPurchaseOrder, supplierName,drugCategoryName,
                 serialNumber, commonName,drugFrom, specification,
                 unit, conversionFraction,tradeName, level,
                 createReceiptsTime, submissionTime,drugBatchNumber,
                 returnOfState, enterpriseName, InvoiceNumber);
         PageInfo<HospitalTransactionDetails> pageInfo = new PageInfo<>(listss);
         return JSON.toJSONString(pageInfo);
+    }
+
+    /**
+     * 剂型表查询
+     */
+    @RequestMapping(value = "seleDurgsFrom" ,produces = "application/json;charset=utf-8")
+    public List<DurgsFrom> seleDatafrom(){
+        List<DurgsFrom> result = hospitalTransactionReturnService.seleDatafrom();
+        return result;
+    }
+    /**
+     * 药品类别表查询
+     */
+    @RequestMapping(value = "seleDrugCategory" ,produces = "application/json;charset=utf-8")
+    public List<DrugCategory> seleDrugCategory(){
+        List<DrugCategory> result = hospitalTransactionReturnService.seleDrugCategory();
+        return result;
+    }
+    /**
+     * 质量层次查询
+     */
+    @RequestMapping(value = "selequalityLevel" ,produces = "application/json;charset=utf-8")
+    public List<QualityLevel> selequalityLevel(){
+        List<QualityLevel> result = hospitalTransactionReturnService.selequalityLevel();
+        return result;
+    }
+
+    /**
+     * 供货商
+     */
+    @RequestMapping(value = "selesuppliers" ,produces = "application/json;charset=utf-8")
+    public List<Suppliers> selesuppliers(){
+        List<Suppliers> result = hospitalTransactionReturnService.selesuppliers();
+        return result;
+    }
+
+    /*批量删除*/
+    @ResponseBody
+    @RequestMapping(value="removeByKeyss",produces={"application/json;charset=utf-8"})
+    public String deleteByKeyss(@RequestParam(value = "list[]") String[] list){
+
+        boolean result=hospitalTransactionReturnService.deleteByKeyss(list);
+
+        return JSON.toJSONString(result);
     }
 
 }
