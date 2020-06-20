@@ -47,12 +47,10 @@ public class DrugInformationMaintenanceServiceImpl implements DrugInformationMai
     }
 //分页查询
     @Override
-    public PageInfo findAllDrugInformation(Integer pageNum, DrugInformation drugInformation,Float startPrice,Float endPrice) {
-        int count = drugInformationMapper.findDrugInformationCount();
+    public List<DrugInformation> findAllDrugInformation(DrugInformation drugInformation,Float startPrice,Float endPrice) {
        // System.err.println(count);
-        PageHelper.startPage(pageNum, 5);
         List<DrugInformation> drugInformationList = drugInformationMapper.findAllDrugInformation(drugInformation,startPrice,endPrice);
-        return new PageInfo(drugInformationList);
+        return drugInformationList;
     }
 
     @Override

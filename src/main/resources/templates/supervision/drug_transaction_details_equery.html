@@ -74,7 +74,7 @@
                     <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
                 </td>
                 <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                    <input id="createTime" style="width: 23%" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="color: #0E74B4">至</span><input id="subTime" style="width: 23%;" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
+                    <input id="createTime" name="procurementStartTime" style="width: 23%" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="color: #0E74B4">至</span><input id="subTime" name="procurementEndTime" style="width: 23%;" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
                 </td>
             </tr>
             <tr>
@@ -157,8 +157,8 @@
             </tr>
         </table>
         <div style="text-align: center;padding-top: 10px">
-            <button type="button" class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-            <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+            <button type="button" class="btn btn-success btn-sm" onclick="fenye()">查询</button>
+            <button type="button" class="btn btn-success btn-sm" onclick="download()">导出</button>
         </div>
     </div>
 </form>

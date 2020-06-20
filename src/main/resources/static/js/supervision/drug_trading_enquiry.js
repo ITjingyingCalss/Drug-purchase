@@ -10,7 +10,6 @@ $(function () {
     findAllPurchaseOrder();
     fenye(1);
 })
-//分页查询
 function fenye(pageNum) {
     if (pageNum==null){
         var formData = $("#fuzzyFormId").serialize()+"&pageNum="+1;
@@ -25,24 +24,9 @@ function fenye(pageNum) {
         data:formData,
         success:function (data) {
             var result = data.list;
-            for (var i=0;i<data.list.length;i++){
+            for (var i=0;i<result.length;i++){
                 a+='<tr>';
                 a+='<td>'+result[i].id+'</td>';
-                for (var j=0;j<po.purchaseOrderList.length;j++){
-                    if (result[i].purchaseOrdersId==po.purchaseOrderList[j].id){
-                        for (var k=0;k<aa.length;k++){
-                            if (po.purchaseOrderList[j].id==aa[k].id){
-                                a+='<td>'+aa[k].hospitalName+'</td>';
-                                break;
-                            }
-                        }
-                        a+='<td>'+po.purchaseOrderList[j].purchaseOrderNumber+'</td>';
-                        a+='<td>'+po.purchaseOrderList[j].nameOfPurchaseOrder+'</td>';
-                        a+='<td>'+po.purchaseOrderList[j].startTime+'</td>';
-                        a+='<td>'+po.purchaseOrderList[j].endTime+'</td>';
-                        break;
-                    }
-                }
                 for (var l=0;l<po.drugInformationList.length;l++){
                     if (result[i].drugInformationId==po.drugInformationList[l].id){
                         a+='<td>'+po.drugInformationList[l].serialNumber+'</td>';
@@ -71,8 +55,6 @@ function fenye(pageNum) {
                         }
                     }
                 }
-                a+='<td>'+result[i].biddingPrice+'</td>';
-                a+='<td>'+result[i].transactionPrice+'</td>';
                 a+='<td>'+result[i].purchasedAmount+'</td>';
                 a+='<td>'+result[i].purchasedMoney+'</td>';
                 for (var q=0;q< po.purchaseStatusList.length;q++){
@@ -82,6 +64,8 @@ function fenye(pageNum) {
                 }
                 a+='<td>'+result[i].receiptAmount+'</td>';
                 a+='<td>'+result[i].receiptMoney+'</td>';
+                a+='<td>'+result[i].returnsTheAmount+'</td>';
+                a+='<td>'+result[i].returnsTheMoney+'</td>';
                 a+='</tr>'
             }
             $(".context").empty();
@@ -93,7 +77,8 @@ function fenye(pageNum) {
             }
             p+='<li><a onclick="fenye('+data.lastPage+')" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>'
             $(".pagination").append(p);
-//console.log(data);
+
+            console.log(data)
         }
     })
 }
@@ -108,9 +93,11 @@ function findAllPurchaseOrder() {
         }
     })
 }
+//导出
 function download() {
     var formData = $("#fuzzyFormId").serialize()
     if (confirm("确定导出文件吗？")){
-        location.href="DrugTransactionDetailsEqueryController/exportHospitalTransactionDetailsExcle?"+formData;
+        location.href="DrugTradingEnquiryController/downloadDrugTradeQuery?"+formData;
     }
+
 }

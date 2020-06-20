@@ -7,10 +7,13 @@ import com.ygjy.dao.HospitalTransactionDetailsDAO;
 import com.ygjy.dao.PurchaseOrderDAO;
 import com.ygjy.dao.PurchaseStatusDAO;
 import com.ygjy.pojo.*;
+import com.ygjy.supervision.dao.DrugInformationMapper;
+import com.ygjy.supervision.dao.PurchaseOrderApprovalMapper;
 import com.ygjy.supervision.service.DrugTransactionDetailsEqueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,12 +24,25 @@ public class DrugTransactionDetailsEqueryServiceImpl implements DrugTransactionD
     @Autowired private PurchaseOrderDAO purchaseOrderDAO;
     @Autowired private DrugInformationDAO drugInformationDAO;
     @Autowired private PurchaseStatusDAO purchaseStatusDAO;
+    @Autowired private DrugInformationMapper drugInformationMapper;
+    @Autowired private PurchaseOrderApprovalMapper purchaseOrderApprovalMapper;
     @Override
-    public PageInfo findAllDetailsEquery(Integer pageNum) {
-        PageHelper.startPage(pageNum,5);
+    public List<HospitalTransactionDetails> findAllDetailsEquery(DrugInformation drugInformation,PurchaseOrder purchaseOrder,String procurementStartTime,String procurementEndTime) {
+        List<HospitalTransactionDetails> list = new ArrayList<HospitalTransactionDetails>();
         HospitalTransactionDetailsExample hospitalTransactionDetailsExample = new HospitalTransactionDetailsExample();
-        List<HospitalTransactionDetails> hospitalTransactionDetails = hospitalTransactionDetailsDAO.selectByExample(hospitalTransactionDetailsExample);
-        return new PageInfo(hospitalTransactionDetails);
+        List<HospitalTransactionDetails> hospitalTransactionDetailsList = hospitalTransactionDetailsDAO.selectByExample(hospitalTransactionDetailsExample);
+        List<DrugInformation> drugInformationList = drugInformationMapper.findAllDrugInformation(drugInformation, null, null);
+        List<PurchaseOrder> purchaseOrderList = purchaseOrderApprovalMapper.findAllPurchaseOrder(purchaseOrder, procurementStartTime, procurementEndTime);
+        for (HospitalTransactionDetails hospitalTransactionDetails : hospitalTransactionDetailsList ) {
+            for (PurchaseOrder purchaseOrder1: purchaseOrderList) {
+                for (DrugInformation drugInformation1: drugInformationList) {
+                    if (hospitalTransactionDetails.getPurchaseOrdersId()==purchaseOrder1.getId()&&hospitalTransactionDetails.getDrugInformationId()==drugInformation1.getId()){
+                        list.add(hospitalTransactionDetails);
+                    }
+                }
+            }
+        }
+        return list;
     }
 
     @Override

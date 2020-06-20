@@ -1,5 +1,6 @@
 package com.ygjy.supervision.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ygjy.pojo.*;
 import com.ygjy.supervision.service.DrugInformationMaintenanceService;
@@ -42,7 +43,9 @@ public class DrugInformationMaintenanceController {
      */
     @RequestMapping("/findAllDrugInformation")
     public PageInfo findAllDrugInformation(Integer pageNum, DrugInformation drugInformation,Float startPrice,Float endPrice){
-        return drugInformationMaintenanceServiceImpl.findAllDrugInformation(pageNum,drugInformation,startPrice,endPrice);
+        PageHelper.startPage(pageNum,5);
+        List<DrugInformation> drugInformationList = drugInformationMaintenanceServiceImpl.findAllDrugInformation(drugInformation, startPrice, endPrice);
+        return new PageInfo(drugInformationList);
     }
     /*
     * 查出所有企业
@@ -125,16 +128,19 @@ public class DrugInformationMaintenanceController {
             for (QualityLevel qualityLevel:qualityLevelList){
                 if (drugInformation1.getQualityLevelId()==qualityLevel.getQuaId()){
                     drugInformationVO.setQualityLevelId(qualityLevel.getLevel());
+                    break;
                 }
             }
             for (DrugTransactionStatus drugTransactionStatus:drugTransactionStatusList){
                 if (drugInformation1.getDrugTransactionStatusId()==drugTransactionStatus.getId()){
                     drugInformationVO.setDrugTransactionStatusId(drugTransactionStatus.getDrugTransactionExplain());
+                    break;
                 }
             }
             for (Enterprise enterprise:enterpriseList){
                 if (drugInformation1.getEnterpriseNameId()==enterprise.getId()){
                     drugInformationVO.setEnterpriseNameId(enterprise.getEnterpriseName());
+                    break;
                 }
             }
             drugInformationVOS.add(drugInformationVO);

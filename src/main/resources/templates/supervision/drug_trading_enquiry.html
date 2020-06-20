@@ -15,8 +15,10 @@
 
     <script src="../js/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../js/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-    <script src="js/supervision/Drug_item_maintenance.js"></script>
+    <script src="js/WdatePicker.js"></script>
+<!--引入自己的js-->
+    <script src="js/supervision/select_box.js"></script>
+    <script src="js/supervision/drug_trading_enquiry.js"></script>
 
 
     <script type="text/javascript">
@@ -29,139 +31,145 @@
 <body class="hold-transition skin-red sidebar-mini">
 <!-- .box-body -->
 <toaster-container toaster-options="{'time-out': 1000,'position-class':'toast-top-center'}"></toaster-container>
-<div class="panel panel-info">
-    <!-- Default panel contents -->
-    <div class="panel-heading">按交易药品查询</div>
-    <!-- Table -->
-    <table class="table">
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
-            </td>
-            <td >
-                <input class="form-control">
-            </td>
-            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
-            </td>
-            <td >
-                <input class="form-control">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购状态：</span>
-            </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-                <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购医院：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
-            </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
-            </td>
-            <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                <input style="width: 23%"><span style="color: #0E74B4">至</span><input style="width: 23%;">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
-            </td>
-            <td >
-                <input class="form-control" id="searchEntity_unitName">
-            </td>
-            <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">通用名：</span>
-            </td>
-            <td >
-                <input class="form-control">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
-            </td>
-            <td>
-                <select id="durgfrom" style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">单位：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">转换系数：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
-            </td>
-            <td>
-                <input class="form-control">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">质量层次：</span>
-            </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-            </td>
-            <td style="text-align: right">
-                <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
-            </td>
-            <td>
-                <select style="width: 50%;height: 20%">
-                    <option value="0">请选择</option>
-                </select>
-                <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
-            </td>
-        </tr>
-    </table>
-    <div style="text-align: center;padding-top: 10px">
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button class="btn btn-success btn-sm" onclick="selectByEntity()">导出</button>
+<form action="" id="fuzzyFormId" method="post">
+    <div class="panel panel-info">
+        <!-- Default panel contents -->
+        <div class="panel-heading">按采购单查询</div>
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
+                </td>
+                <td >
+                    <input name="purchaseOrderNumber" id="purchaseOrderNumber" class="form-control">
+                </td>
+                <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
+                </td>
+                <td >
+                    <input name="nameOfPurchaseOrder" id="nameOfPurchaseOrder" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单状态：</span>
+                </td>
+                <td>
+                    <select name="purchaseState" id="purchaseOrdersStatesId" style="width: 50%;height: 20%">
+                        <option value="0">请选择</option>
+                    </select>
+                    <!-- <input class="form-control" id="searchEntity_nameOfRegistrant" >-->
+                </td>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购医院：</span>
+                </td>
+                <td>
+                    <select name="hospitalId" id="hospitalId" style="width: 50%;height: 20%">
+                        <option value="0">请选择</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">供货商：</span>
+                </td>
+                <td>
+                    <select name="" id="suppliers_id" style="width: 50%;height: 20%">
+                        <option value="0">请选择</option>
+                    </select>
+                </td>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">统计时间：</span>
+                </td>
+                <td style="word-break: keep-all;white-space: nowrap;width: 32%">
+                    <input id="createTime" name="procurementStartTime" style="width: 23%" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly"><span style="color: #0E74B4">至</span><input id="subTime" name="procurementEndTime" style="width: 23%;" onclick=WdatePicker({dateFmt:'yyyy-MM-dd'}) readonly="readonly">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品流水号：</span>
+                </td>
+                <td >
+                    <input name="serialNumber" class="form-control" id="serialNumber">
+                </td>
+                <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">通用名：</span>
+                </td>
+                <td >
+                    <input name="commonName" id="commonName" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">剂型：</span>
+                </td>
+                <td>
+                    <select name="dosageFormId" id="drugsFromId" style="width: 50%;height: 20%">
+                        <option value="0">请选择</option>
+                    </select>
+                </td>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">规格：</span>
+                </td>
+                <td>
+                    <input name="specification" id="specification" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">单位：</span>
+                </td>
+                <td>
+                    <input name="unit" id="unit" class="form-control">
+                </td>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">转换系数：</span>
+                </td>
+                <td>
+                    <input name="conversionFraction" id="conversionFraction" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">生产企业：</span>
+                </td>
+                <td>
+                    <select name="enterpriseNameId" id="enterpriseNameId" style="width: 50%;height: 20%">
+                        <option value="0">请选择</option>
+                    </select>
+                </td>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">商品名：</span>
+                </td>
+                <td>
+                    <input name="tradeName" id="tradeName" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">质量层次：</span>
+                </td>
+                <td>
+                    <select name="qualityLevelId" id="qualityLevelId" style="width: 50%;height: 20%">
+                        <option value="0">请选择</option>
+                    </select>
+                </td>
+                <td style="text-align: right">
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">药品类别：</span>
+                </td>
+                <td>
+                    <select name="drugCategoryId" id="drugCategory_id" style="width: 50%;height: 20%">
+                        <option value="0">请选择</option>
+                    </select>
+                    <!-- <input class="form-control" id="" style="width: 50%;height: 20%">-->
+                </td>
+            </tr>
+        </table>
+        <div style="text-align: center;padding-top: 10px">
+            <button type="button" class="btn btn-success btn-sm" onclick="fenye()">查询</button>
+            <button type="button" class="btn btn-success btn-sm" onclick="download()">导出</button>
+        </div>
     </div>
-</div>
+</form>
 <div class="box-body">
     <!-- 数据表格 -->
     <!--数据列表-->

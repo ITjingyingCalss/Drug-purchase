@@ -1,5 +1,6 @@
 package com.ygjy.supervision.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ygjy.pojo.PurchaseOrder;
 import com.ygjy.purchasingmanagement1.service.PurchaseOrderService;
@@ -21,7 +22,9 @@ public class PurchaseOrderApprovalController {
 
     @RequestMapping("findAllPurchaseOrder")
     public PageInfo findAllPurchaseOrder(PurchaseOrder purchaseOrder,String procurementStartTime,String procurementEndTime,Integer pageNum){
-        return purchaseOrderApprovalServiceImpl.findAllPurchaseOrder(purchaseOrder,procurementStartTime,procurementEndTime,pageNum);
+        PageHelper.startPage(pageNum,5);
+        List<PurchaseOrder> purchaseOrderList = purchaseOrderApprovalServiceImpl.findAllPurchaseOrder(purchaseOrder, procurementStartTime, procurementEndTime);
+        return new PageInfo(purchaseOrderList);
     }
     @RequestMapping("findHospitalAndPurchaseOrderStatus")
     public Map findHospitalAndPurchaseOrderStatus(){

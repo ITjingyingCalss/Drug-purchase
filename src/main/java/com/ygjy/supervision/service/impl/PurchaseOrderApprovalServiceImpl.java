@@ -1,7 +1,5 @@
 package com.ygjy.supervision.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.ygjy.dao.HospitalDAO;
 import com.ygjy.dao.PurchaseOrderDAO;
 import com.ygjy.dao.PurchaseOrdersStatesDAO;
@@ -22,10 +20,9 @@ public class PurchaseOrderApprovalServiceImpl implements PurchaseOrderApprovalSe
     @Autowired private PurchaseOrdersStatesDAO purchaseOrdersStatesDAO;
     @Autowired private PurchaseOrderDAO purchaseOrderDAO;
     @Override
-    public PageInfo findAllPurchaseOrder(PurchaseOrder purchaseOrder,String procurementStartTime,String procurementEndTime,Integer pageNum){
-        PageHelper.startPage(pageNum,5);
+    public List<PurchaseOrder> findAllPurchaseOrder(PurchaseOrder purchaseOrder, String procurementStartTime, String procurementEndTime){
         List<PurchaseOrder> list = purchaseOrderApprovalMapper.findAllPurchaseOrder(purchaseOrder,procurementStartTime,procurementEndTime);
-        return new PageInfo(list);
+        return list;
     }
 
     @Override

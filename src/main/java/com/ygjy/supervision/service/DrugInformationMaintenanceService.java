@@ -13,7 +13,7 @@ import java.util.Map;
 public interface DrugInformationMaintenanceService {
     Map findQualityLevelAndDrugTradingStatus();
 
-    PageInfo findAllDrugInformation(Integer pageNum, DrugInformation drugInformation,Float startPrice,Float endPrice);
+    List<DrugInformation> findAllDrugInformation(DrugInformation drugInformation,Float startPrice,Float endPrice);
 
     List<Enterprise> findAllEnterprise();
 
