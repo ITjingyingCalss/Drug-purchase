@@ -39,7 +39,7 @@
         var qian;
         var hou;
         $(function () {
-            selectByEntity();
+            selectByEntity(1);
         })
         //查询
         function selectByEntity(pageNum){
@@ -127,9 +127,9 @@
                             + time+ "</td><td>"
                             + time2+ "</td><td>"
                             + data[i].drugBatchNumber + "</td><td>"
-                            + (data[i].returnStatus.returnOfState==1?"未确认退货":"以确认退货")+ "</td><td>"
+                            + (data[i].returnStatus.returnOfState==1?"未确认结算":"以确认结算")+ "</td><td>"
                             + data[i].invoiceNumber + "</td>"
-                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSurg(" + data[i].id + ")\" data-target=\"#editModal1\">修改</button></td></tr>"
+                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"selectBy(" + data[i].id + ")\" data-target=\"#editModal1\">查看</button></td></tr>"
 
                         $("#tbody").append(ss);
                         console.log(ss)
@@ -260,31 +260,125 @@
             }
         }
 
-        function updateSurg(id) {
+
+        /*查看*/
+        function selectBy(id) {
             $.ajax({
-                url:"updatesurg",
+                url:"seleteBy",
                 data:{
                     "id":id
                 },
                 type:"post",
                 dataType:"json",
+
+                success:function (result) {
+
+                    var data=result;
+
+                    console.log(result);
+                    var date=data.purchaseOrder.createReceiptsTime;
+                    var date2=data.purchaseOrder.submissionTime;
+                    var s2=new Date(date2);
+                    var s=new Date(date);
+                    year=s.getFullYear();
+                    month=s.getMonth()+1;
+                    day=s.getDate();
+                    time=year+'-'+getzf(month)+'-'+getzf(day);
+                    year1=s2.getFullYear();
+                    month1=s2.getMonth()+1;
+                    day1=s2.getDate();
+                    time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
+                    console.log(result);
+
+                    $("#purchase_order_number2").val(data.purchaseOrder.purchaseOrderNumber);
+                    $("#name_of_purchase_order2").val(data.purchaseOrder.nameOfPurchaseOrder);
+                    $("#supplier_id2").val(data.suppliers.supplierName);
+                    $("#serial_number2").val(data.drugInformation.serialNumber);
+                    $("#common_name2").val(data.drugInformation.commonName);
+                    $("#drug_from_id2").val(data.durgsFrom.drugFrom);
+                    $("#specification2").val(data.drugInformation.specification);
+                    $("#unit2").val(data.drugInformation.unit);
+                    $("#conversion_fraction2").val(data.drugInformation.conversionFraction);
+                    $("#level").val(data.qualityLevel.level);
+                    $("#drug_category_Id2").val(data.drugCategory.drugCategoryName);
+                    $("#enterprise_name2").val(data.enterprise.enterpriseName);
+                    $("#trade_name2").val(data.drugInformation.tradeName );
+                    $("#create_receipts_time2").val(time);
+                    $("#submission_time2").val(time2);
+                    $("#drug_batch_number2").val(data.drugBatchNumber);
+                    $("#return_of_state").val(data.returnStatus.returnOfState == 1?"未确认结算":"以确认结算");
+                    $("#Invoice_number2").val(data.invoiceNumber);
+
+                }
+            })
+
+            // 剂型
+            $.ajax({
+                url:"seleDurgsFrom",
+                data:{},
+                type:"post",
+                dataType:"json",
                 success:function (result) {
                     console.log(result);
-                    var data=result.data;
-                    $("#serialNumber").val(data.serialNumber);
-                    $("#commonName").val(data.commonName);
-                    $("#dosageFormId").val(data.durgsFrom.drugFrom);
-                    $("#specifications").val(data.specification);
-                    $("#units").val(data.unit);
-                    $("#conversionFraction").val(data.conversionFraction);
-                    $("#enterpriseNames").val(data.enterprise.enterpriseName);
-                    $("#tradeNames").val(data.tradeName);
-                    $("#biddingPrice").val(data.biddingPrice);
-                    $("#qualityLevelIds").val(data.qualityLevel.level);
-                    $("#drugCategoryId").val(data.drugCategory.drugCategoryName);
-                    $("#drugTransactionStatusIds").val(data.drugTransactionStatus.drugTransactionExplain);
-                    $("#common_name_pinyin").val(data.commonNamePinyin);
-                    $("#source_of_retail_price").val(data.sourceOfRetailPrice);
+                    $("#drug_from_id").empty();
+                    $("#drug_from_id").prepend('<option value="0">请选择</option>')
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#drug_from_id").prepend('<option value="' + list[i].drug_from_id + '">' + list[i].drugFrom + '</option>')
+                        $("#drug_from_id2").prepend('<option value="' + list[i].drug_from_id2 + '">' + list[i].drugFrom + '</option>')
+                    }
+                }
+            })
+
+            // 药品类别
+            $.ajax({
+                url:"seleDrugCategory",
+                data:{},
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    console.log(result);
+                    $("#drug_category_Id").empty();
+                    $("#drug_category_Id").prepend('<option value="0">请选择</option>');
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#drug_category_Id").prepend('<option value="' + list[i].drug_category_Id + '">' + list[i].drugCategoryName + '</option>');
+                        $("#drug_category_Id2").prepend('<option value="' + list[i].drug_category_Id2 + '">' + list[i].drugCategoryName + '</option>');
+                    }
+                }
+            })
+
+            //质量层次
+            $.ajax({
+                url:"selequalityLevel",
+                data:{},
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    $("#level").empty();
+                    $("#level").prepend('<option value="0">请选择</option>')
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#level").prepend('<option value="' + list[i].level + '">' + list[i].level + '</option>')
+                        $("#level2").prepend('<option value="' + list[i].level2 + '">' + list[i].level + '</option>')
+                    }
+                }
+            })
+            //供货商
+            $.ajax({
+                url:"selesuppliers",
+                data:{},
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    console.log(result);
+                    $("#supplier_id").empty();
+                    $("#supplier_id").prepend('<option value="0">请选择</option>')
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#supplier_id").prepend('<option value="' + list[i].supplier_id + '">' + list[i].supplierName + '</option>')
+                        $("#supplier_id2").prepend('<option value="' + list[i].supplier_id2 + '">' + list[i].supplierName + '</option>')
+                    }
                 }
             })
         }
@@ -400,14 +494,14 @@
         <table class="table" >
             <tr>
                 <td style="text-align: right">
-                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单编号：</span>
                 </td>
                 <td >
                     <input class="form-control" id="purchase_order_number" name="purchaseOrderNumber">
                 </td>
 
 
-                <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
+                <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单名称：</span>
                 </td>
                 <td >
                     <input class="form-control" id="name_of_purchase_order" name="nameOfPurchaseOrder">
@@ -517,13 +611,13 @@
                     <input id="drug_batch_number" name="drugBatchNumber" class="form-control">
                 </td>
                 <td style="text-align: right">
-                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货状态：</span>
+                    <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算状态：</span>
                 </td>
                 <td>
                     <select id="return_of_state" name="returnOfState" style="width: 50%;height: 20%">
                         <option value="0">请选择</option>
-                        <option value="1">未确认退货</option>
-                        <option value="2">已确认退货</option>
+                        <option value="1">未确认结算</option>
+                        <option value="2">已确认结算</option>
                     </select>
                     <!-- <input class="form-control" id="" >-->
                 </td>
@@ -542,8 +636,8 @@
 
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="importOne()"  >导出
-        </button>
+        <!--<button type="button" class="btn btn-success btn-sm" onclick="importOne()"  >导出
+        </button>-->
     </div>
 </div>
 <div class="box-body">
@@ -580,8 +674,8 @@
             <thead>
             <tr>
                 <th><input type="checkbox" id="checkboxMain" onclick="mainOnclick()" value=''></th>
-                <th class="sorting_asc">采购单编号</th>
-                <th class="sorting_asc">采购单名称</th>
+                <th class="sorting_asc">结算单编号</th>
+                <th class="sorting_asc">结算单名称</th>
                 <th class="sorting">供货商</th>
                 <!--<th class="sorting">药品类别</th>-->
                 <th class="sorting">药品流水号</th>
@@ -596,7 +690,7 @@
                 <th class="sorting">入库时间</th>
                 <th class="sorting">出库时间</th>
                 <th class="sorting">药品批号</th>
-                <th class="sorting">退货状态</th>
+                <th class="sorting">结算状态</th>
                 <th class="sorting">发票号或入库单号</th>
                 <th class="sorting">修改</th>
                 <!--<th class="sorting">删除</th>-->
@@ -667,20 +761,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">修改退货药品页面</h3>
+                <h3 id="myModalLabe">查看退货药品页面</h3>
             </div>
             <div class="modal-body">
                 <table class="table" >
                     <tr>
                         <td style="text-align: right">
-                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单编号：</span>
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单编号：</span>
                         </td>
                         <td >
                             <input class="form-control" id="purchase_order_number2" name="purchaseOrderNumber">
                         </td>
 
 
-                        <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">采购单名称：</span>
+                        <td style="text-align: right"><span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算单名称：</span>
                         </td>
                         <td >
                             <input class="form-control" id="name_of_purchase_order2" name="nameOfPurchaseOrder">
@@ -777,7 +871,7 @@
                             <span style="white-space: nowrap;display: inline-block;color: #0E74B4">入库时间：</span>
                         </td><!--purchase_order采购表  建单时间   提交时间-->
                         <td style="word-break: keep-all;white-space: nowrap;width: 32%">
-                            <input  id="create_receipts_time2" name="submissionTimes" style="width: 40%"><span style="color: #0E74B4">至</span><input id="submission_time2" name="serialNumber" style="width: 40%;">
+                            <input  id="create_receipts_time2" name="createReceiptsTime" style="width: 40%"><span style="color: #0E74B4">至</span><input id="submission_time2" name="submissionTime" style="width: 40%;">
                         </td>
                     </tr>
                     <tr>
@@ -788,13 +882,13 @@
                             <input id="drug_batch_number2" name="drugBatchNumber" class="form-control">
                         </td>
                         <td style="text-align: right">
-                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">退货状态：</span>
+                            <span style="white-space: nowrap;display: inline-block;color: #0E74B4">结算状态：</span>
                         </td>
                         <td>
                             <select id="return_of_state2" name="returnOfState" style="width: 50%;height: 20%">
                                 <option value="0">请选择</option>
-                                <option value="1">未确认退货</option>
-                                <option value="2">已确认退货</option>
+                                <option value="1">未确认结算</option>
+                                <option value="2">已确认结算</option>
                             </select>
                             <!-- <input class="form-control" id="" >-->
                         </td>
@@ -810,7 +904,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="saveDrugForm()" data-dismiss="modal">保存退货药品</button>
+                <!--<button class="btn btn-success" onclick="saveDrugForm()" data-dismiss="modal">保存退货药品</button>-->
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>
