@@ -36,7 +36,7 @@
             var submissionTime = $("#submission_time").val();
             var remark = $("#remark").val();
             var returnStateId = $("#return_state_id").val();
-            console.log(returnOrderNumber);
+            // console.log(returnOrderNumber);
 
             $.ajax({
                 url:"hospss",
@@ -325,6 +325,7 @@
             </td>
             <td>
                 <select id="return_state_id3" name="returnStateId" style="width: 50%;height: 20%">
+                    <option value="0">请选择</option>
                     <option value="1">未提交</option>
                     <option value="2">提交</option>
                 </select>

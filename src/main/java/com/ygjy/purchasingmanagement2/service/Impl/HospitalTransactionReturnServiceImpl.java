@@ -149,4 +149,10 @@ public class HospitalTransactionReturnServiceImpl implements HospitalTransaction
 
     }
 
+    /*查看*/
+    @Override
+    public HospitalTransactionDetails htd2(Integer id) {
+        return hospitalTransactionReturnsDao.htd2(id);
+    }
+
 }

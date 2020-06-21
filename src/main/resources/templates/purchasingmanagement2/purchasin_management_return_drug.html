@@ -49,10 +49,13 @@
             var purchaseOrderNumber=$("#purchase_order_number").val();
             var nameOfPurchaseOrder=$("#name_of_purchase_order").val();
             var supplierName=$("#supplier_id").val();
+            if (supplierName==0)supplierName=null;
             var drugCategoryName=$("#drug_category_Id").val();
+            if (drugCategoryName==0)drugCategoryName=null;
             var serialNumber=$("#serial_number").val();
             var commonName=$("#common_name").val();
             var drugFrom=$("#drug_from_id").val();
+            if (drugFrom==0)drugFrom=null;
             var specification=$("#specification").val();
             var unit=$("#unit").val();
             var conversionFraction=$("#conversion_fraction").val();
@@ -64,6 +67,7 @@
             var submissionTime=$("#submission_time").val();/*提交时间    /   出库时间*/
             var drugBatchNumber=$("#drug_batch_number").val()
             var returnOfState=$("#return_of_state").val();//退货状态表
+            if (returnOfState==0)returnOfState=null;
             var InvoiceNumber=$("#Invoice_number").val();//发票
             $.ajax({
                 url:"seletedrugs",
@@ -129,7 +133,7 @@
                             + data[i].drugBatchNumber + "</td><td>"
                             + (data[i].returnStatus.returnOfState==1?"未确认退货":"以确认退货")+ "</td><td>"
                             + data[i].invoiceNumber + "</td>"
-                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"updateSurg(" + data[i].id + ")\" data-target=\"#editModal1\">修改</button></td></tr>"
+                            + "<td><button type=\"button\" class=\"btn btn-success btn-sm\" data-toggle=\"modal\" onclick=\"selectBy(" + data[i].id + ")\" data-target=\"#editModal1\">查看</button></td></tr>"
 
                         $("#tbody").append(ss);
                         console.log(ss)
@@ -260,41 +264,129 @@
                     }
                 }
 
-        function updateSurg(id) {
+
+
+        /*查看*/
+        function selectBy(id) {
             $.ajax({
-                url:"updatesurg",
+                url:"seleteBy2",
                 data:{
                     "id":id
                 },
                 type:"post",
                 dataType:"json",
+
+                success:function (result) {
+
+                    var data=result;
+
+                    console.log(result);
+                    var date=data.purchaseOrder.createReceiptsTime;
+                    var date2=data.purchaseOrder.submissionTime;
+                    var s2=new Date(date2);
+                    var s=new Date(date);
+                    year=s.getFullYear();
+                    month=s.getMonth()+1;
+                    day=s.getDate();
+                    time=year+'-'+getzf(month)+'-'+getzf(day);
+                    year1=s2.getFullYear();
+                    month1=s2.getMonth()+1;
+                    day1=s2.getDate();
+                    time2=year1+'-'+getzf(month1)+'-'+getzf(day1);
+                    console.log(result);
+
+                    $("#purchase_order_number2").val(data.purchaseOrder.purchaseOrderNumber);
+                    $("#name_of_purchase_order2").val(data.purchaseOrder.nameOfPurchaseOrder);
+                    $("#supplier_id2").val(data.suppliers.supplierName);
+                    $("#serial_number2").val(data.drugInformation.serialNumber);
+                    $("#common_name2").val(data.drugInformation.commonName);
+                    $("#drug_from_id2").val(data.durgsFrom.drugFrom);
+                    $("#specification2").val(data.drugInformation.specification);
+                    $("#unit2").val(data.drugInformation.unit);
+                    $("#conversion_fraction2").val(data.drugInformation.conversionFraction);
+                    $("#level").val(data.qualityLevel.level);
+                    $("#drug_category_Id2").val(data.drugCategory.drugCategoryName);
+                    $("#enterprise_name2").val(data.enterprise.enterpriseName);
+                    $("#trade_name2").val(data.drugInformation.tradeName );
+                    $("#create_receipts_time2").val(time);
+                    $("#submission_time2").val(time2);
+                    $("#drug_batch_number2").val(data.drugBatchNumber);
+                    $("#return_of_state").val(data.returnStatus.returnOfState == 1?"未确认结算":"以确认结算");
+                    $("#Invoice_number2").val(data.invoiceNumber);
+
+                }
+            })
+
+            // 剂型
+            $.ajax({
+                url:"seleDurgsFrom",
+                data:{},
+                type:"post",
+                dataType:"json",
                 success:function (result) {
                     console.log(result);
-                    var data=result.data;
-                    $("#serialNumber").val(data.serialNumber);
-                    $("#commonName").val(data.commonName);
-                    $("#dosageFormId").val(data.durgsFrom.drugFrom);
-                    $("#specifications").val(data.specification);
-                    $("#units").val(data.unit);
-                    $("#conversionFraction").val(data.conversionFraction);
-                    $("#enterpriseNames").val(data.enterprise.enterpriseName);
-                    $("#tradeNames").val(data.tradeName);
-                    $("#biddingPrice").val(data.biddingPrice);
-                    $("#qualityLevelIds").val(data.qualityLevel.level);
-                    $("#drugCategoryId").val(data.drugCategory.drugCategoryName);
-                    $("#drugTransactionStatusIds").val(data.drugTransactionStatus.drugTransactionExplain);
-                    $("#common_name_pinyin").val(data.commonNamePinyin);
-                    $("#source_of_retail_price").val(data.sourceOfRetailPrice);
+                    $("#drug_from_id").empty();
+                    $("#drug_from_id").prepend('<option value="0">请选择</option>')
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#drug_from_id").prepend('<option value="' + list[i].drug_from_id + '">' + list[i].drugFrom + '</option>')
+                        $("#drug_from_id2").prepend('<option value="' + list[i].drug_from_id2 + '">' + list[i].drugFrom + '</option>')
+                    }
+                }
+            })
+
+            // 药品类别
+            $.ajax({
+                url:"seleDrugCategory",
+                data:{},
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    console.log(result);
+                    $("#drug_category_Id").empty();
+                    $("#drug_category_Id").prepend('<option value="0">请选择</option>');
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#drug_category_Id").prepend('<option value="' + list[i].drug_category_Id + '">' + list[i].drugCategoryName + '</option>');
+                        $("#drug_category_Id2").prepend('<option value="' + list[i].drug_category_Id2 + '">' + list[i].drugCategoryName + '</option>');
+                    }
+                }
+            })
+
+            //质量层次
+            $.ajax({
+                url:"selequalityLevel",
+                data:{},
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    $("#level").empty();
+                    $("#level").prepend('<option value="0">请选择</option>')
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#level").prepend('<option value="' + list[i].level + '">' + list[i].level + '</option>')
+                        $("#level2").prepend('<option value="' + list[i].level2 + '">' + list[i].level + '</option>')
+                    }
+                }
+            })
+            //供货商
+            $.ajax({
+                url:"selesuppliers",
+                data:{},
+                type:"post",
+                dataType:"json",
+                success:function (result) {
+                    console.log(result);
+                    $("#supplier_id").empty();
+                    $("#supplier_id").prepend('<option value="0">请选择</option>')
+                    for(var i=0;i<result.length;i++){
+                        var list=result;
+                        $("#supplier_id").prepend('<option value="' + list[i].supplier_id + '">' + list[i].supplierName + '</option>')
+                        $("#supplier_id2").prepend('<option value="' + list[i].supplier_id2 + '">' + list[i].supplierName + '</option>')
+                    }
                 }
             })
         }
-
-
-
-
-
-
-
 
 
         function getzf(num) {
@@ -554,8 +646,8 @@
 
     <div style="text-align: center;padding-top: 10px">
         <button class="btn btn-success btn-sm" onclick="selectByEntity()">查询</button>
-        <button type="button" class="btn btn-success btn-sm" onclick="importOne()"  >导出
-        </button>
+        <!--<button type="button" class="btn btn-success btn-sm" onclick="importOne()"  >导出
+        </button>-->
     </div>
 </div>
 <div class="box-body">
@@ -673,13 +765,13 @@
 
 
 
-<!--修改的模态框-->
+<!--查看的模态框-->
 <div class="modal fade" id="editModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:80%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button id="bt" type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h3 id="myModalLabe">修改退货药品页面</h3>
+                <h3 id="myModalLabe">查看退货药品页面</h3>
             </div>
             <div class="modal-body">
                 <table class="table" >
@@ -822,7 +914,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" onclick="saveDrugForm()" data-dismiss="modal">保存退货药品</button>
+                <!--<button class="btn btn-success" onclick="saveDrugForm()" data-dismiss="modal">保存退货药品</button>-->
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>

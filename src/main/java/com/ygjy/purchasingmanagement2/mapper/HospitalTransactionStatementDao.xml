@@ -240,7 +240,11 @@
     <!--条件查询-->
   <select id="selList" resultMap="BaseResultMap">
 
-        select * from hospital_transaction_statement where 1 = 1
+       select id, statement_number, statement_name,
+              hospital_id, contacts, phone,
+              creat_receipts_person, create_receipts_time,
+              submission_time, remark, statement_state_id
+       from hospital_transaction_statement where 1 = 1
 
         <if test="statementNumber != null and statementNumber != ''">
             and statement_number like CONCAT ('%',#{statementNumber},'%')
@@ -259,6 +263,14 @@
         </if>
 
   </select>
+
+
+    <!--导出-->
+    <select id="exportAlls" resultMap="BaseResultMap">
+
+        select * from hospital_transaction_statement
+
+    </select>
 
     <select id="seletedrugs2" resultMap="BaseResultMap1">
 
@@ -297,8 +309,8 @@
             and date(p.submission_time) <![CDATA[<=]]> date(#{submissionTime})
         </if>
 
-        /*入库时间的写法，没改*/
-<!--        <if test="createTime != null and subTime!=null">-->
+<!--        入库时间的写法，没改
+            <if test="createTime != null and subTime!=null">-->
 <!--          and o.create_receipts_time BETWEEN #{createTime} AND #{subTime}-->
 <!--        </if>-->
 
@@ -344,6 +356,7 @@
         <if test="drugCategoryName != null and drugCategoryName != ''">
             and c.`drug_category_name` like CONCAT('%',#{drugCategoryName},'%')
         </if>
+
     </select>
 
 <!--    剂型表查询-->
@@ -373,5 +386,32 @@
 
     </delete>
 
+    <select id="htd" resultMap="BaseResultMap1">
+
+        SELECT h.id as iid,
+        p.purchase_order_number,
+        p.name_of_purchase_order,
+        p.create_receipts_time,
+        p.submission_time,i.serial_number,i.common_name,
+        i.specification,
+        i.unit,i.conversion_fraction,
+        i.trade_name,h.drug_batch_number,
+        h.Invoice_number,f.drug_from,
+        e.enterprise_name,s.supplier_name,q.level,
+        r.return_of_state,c.drug_category_name
+        FROM
+        hospital_transaction_details h
+        LEFT JOIN purchase_order p ON h.purchase_orders_id = p.id
+        LEFT JOIN drug_information i ON h.drug_information_id = i.id
+        LEFT JOIN durgs_from f ON i.dosage_form_id = f.durg_from_id
+        LEFT JOIN enterprise e ON i.enterprise_name_id = e.id
+        LEFT JOIN suppliers s ON e.suppliers_id = s.suppliers_id
+        LEFT JOIN return_status r ON h.return_state_id = r.id
+        LEFT JOIN quality_level q ON i.quality_level_id = q.qua_id
+        LEFT JOIN drug_category c ON i.drug_category_id = c.drug_category_Id
+
+        where h.id = #{id}
+
+    </select>
 
 </mapper>

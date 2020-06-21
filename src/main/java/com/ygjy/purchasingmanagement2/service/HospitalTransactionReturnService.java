@@ -95,4 +95,8 @@ public interface HospitalTransactionReturnService {
    /*退货单维护页面批量删除*/
    Boolean deleteByKeyss(String[] ids);
 
+   /*查看*/
+   HospitalTransactionDetails htd2(Integer id);
+
+
 }

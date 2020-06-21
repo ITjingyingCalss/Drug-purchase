@@ -96,4 +96,7 @@ public interface HospitalTransactionReturnsDao {
     /*批量删除*/
     int deleteByKeyss(String[] ids);
 
+    /*查看*/
+    HospitalTransactionDetails htd2(Integer id);
+
 }

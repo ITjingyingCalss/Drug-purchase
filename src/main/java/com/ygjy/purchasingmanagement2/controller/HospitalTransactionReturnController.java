@@ -248,4 +248,15 @@ public class HospitalTransactionReturnController {
         return JSON.toJSONString(result);
     }
 
+
+    /*查看*/
+    @ResponseBody
+    @RequestMapping(value="seleteBy2",produces={"application/json;charset=utf-8"})
+    public HospitalTransactionDetails htd2(Integer id){
+
+        HospitalTransactionDetails result=hospitalTransactionReturnService.htd2(id);
+
+        return result;
+    }
+
 }

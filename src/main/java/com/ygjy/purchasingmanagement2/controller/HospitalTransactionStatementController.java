@@ -5,13 +5,20 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ygjy.purchasingmanagement2.pojo.*;
 import com.ygjy.purchasingmanagement2.service.HospitalTransactionStatementService;
+import com.ygjy.purchasingmanagement2.vo.HospitalTransactionStatementVo;
+import com.ygjy.util.ExportExcel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +29,7 @@ import java.util.List;
  * @Date: 2020/6/9 0009 下午 2:25
  * Desc: 添加结算单
  */
-@Controller
+@RestController
 public class HospitalTransactionStatementController {
 
     @Autowired
@@ -43,14 +50,14 @@ public class HospitalTransactionStatementController {
     }
 
     /*查询所有到页面*/
-    @ResponseBody
+/*    @ResponseBody
     @RequestMapping("lists1")
     public List<HospitalTransactionStatement> list(HospitalTransactionStatement htrLis){
 
         List<HospitalTransactionStatement> list1 = hospitalTransactionStatementService.list(htrLis);
 
         return list1;
-    }
+    }*/
 
     /*修改回显*/
     @ResponseBody
@@ -97,22 +104,79 @@ public class HospitalTransactionStatementController {
     }*/
 
 
-    /*条件查询*/
+    /*查询所有到页面*/
     @ResponseBody
-    @RequestMapping("sele1")
-    public List<HospitalTransactionStatement> selList (String statementNumber,String statementName,Integer hospitalId,Integer statementStateId){
-
-        List<HospitalTransactionStatement> select = hospitalTransactionStatementService.selList(statementNumber,statementName,hospitalId,statementStateId);
-
-        return select;
+    @RequestMapping(value = "selList" , produces = "application/json;charset=utf-8")
+    public String selList (String statementNumber,String statementName,
+                                                       Integer statementStateId,
+                                                       String contacts,
+                                                       String phone,
+                                                       String creatReceiptsPerson,
+                                                       String createReceiptsTime,
+                                                       String submissionTime,
+                                                       String remark,
+                                                       Integer hospitalId,
+                                                       @RequestParam(value = "pageNum" ,defaultValue = "1",required = false) Integer pageNum){
+        List<HospitalTransactionStatement> select = hospitalTransactionStatementService.selList(statementNumber,
+                                                                                                statementName,
+                                                                                                statementStateId,
+                                                                                                contacts,
+                                                                                                phone,
+                                                                                                creatReceiptsPerson,
+                                                                                                createReceiptsTime,
+                                                                                                submissionTime,
+                                                                                                remark,
+                                                                                                hospitalId);
+        PageHelper.startPage(pageNum,5);
+        PageInfo<HospitalTransactionStatement> pageInfo = new PageInfo<>(select);
+        return JSON.toJSONString(pageInfo);
 
     }
 
 
 
-/*退货单维护*/
+    /*
+     * 导出文档
+     * @return String*/
+    @RequestMapping("exportAlls")
+    @ResponseBody
+    public void exportAll(HttpServletResponse response, HospitalTransactionStatement hospital) throws IOException {
+        List<HospitalTransactionStatement> list = hospitalTransactionStatementService.exportAlls(hospital);
+        List<HospitalTransactionStatementVo> list_hospitalVo = new ArrayList<>();
+        /*Map map = this.findDrugFromAndDrugCategory();
+        List<DurgsFrom> list_durgsFrom = (List<DurgsFrom>) map.get("list_durgsFrom");
+        List<DrugCategory> list_drugCategory = (List<DrugCategory>) map.get("list_drugCategory");*/
+        for (HospitalTransactionStatement hospitals:list) {
+            HospitalTransactionStatementVo hospitalVo = new HospitalTransactionStatementVo();
+
+            hospitalVo.setStatementNumber(hospitals.getStatementNumber());
+            hospitalVo.setStatementName(hospitals.getStatementName());
+            hospitalVo.setHospitalId(hospitals.getHospitalId());
+            hospitalVo.setContacts(hospitals.getContacts());
+            hospitalVo.setPhone(hospitals.getPhone());
+            hospitalVo.setCreatReceiptsPerson(hospitals.getCreatReceiptsPerson());
+            hospitalVo.setCreateReceiptsTime(hospitals.getCreateReceiptsTime());
+            hospitalVo.setSubmissionTime(hospitals.getSubmissionTime());
+            hospitalVo.setRemark(hospitals.getRemark());
+            hospitalVo.setStatementStateId((hospitals.getStatementStateId().equals("1")?"未结算":"结算"));
+
+            list_hospitalVo.add(hospitalVo);
+        }
+        String fileName = "结算单文档"+System.currentTimeMillis()+".xls";
+        fileName= URLEncoder.encode(fileName,"utf-8");
+        String[] headers = {"结算单编号","结算单名称","医院编号","联系人","联系电话","建单人","建单时间","提交时间","备注","结算状态"};
+        response.setContentType("application/octet-stream;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+        OutputStream out = response.getOutputStream();
+        ExportExcel exportExcel = new ExportExcel();
+        exportExcel.exportExcel("测试文档",headers,list_hospitalVo,out,null);
+    }
+
+
+    /*退货单维护*/
     /*退货药品查询*/
    @RequestMapping(value = "seleteSettlement" ,produces = "application/json;charset=utf-8")
+   @ResponseBody
     public String seletedrugs2(String purchaseOrderNumber,
                               String nameOfPurchaseOrder,
                               String supplierName,
@@ -187,6 +251,16 @@ public class HospitalTransactionStatementController {
         boolean result=hospitalTransactionStatementService.deleteByKeyss2(list);
 
         return JSON.toJSONString(result);
+    }
+
+    /*查看*/
+    @ResponseBody
+    @RequestMapping(value="seleteBy",produces={"application/json;charset=utf-8"})
+    public HospitalTransactionDetails htd(Integer id){
+
+        HospitalTransactionDetails result=hospitalTransactionStatementService.htd(id);
+
+        return result;
     }
 
 

@@ -20,7 +20,7 @@ public interface HospitalTransactionStatementService {
    int insert(HospitalTransactionStatement hosp);
 
    /*查询所有到页面*/
-   List<HospitalTransactionStatement> list(HospitalTransactionStatement htrList);
+//   List<HospitalTransactionStatement> list(HospitalTransactionStatement htrList);
 
    /*修改回显*/
    HospitalTransactionStatement htrSee(Integer id);
@@ -31,9 +31,21 @@ public interface HospitalTransactionStatementService {
    /*批量删除*/
    boolean removeByKeys(String[] ids);
 
-   /*条件查询*/
-   List<HospitalTransactionStatement> selList(@Param("statementNumber") String statementNumber, @Param("statementName") String statementName,
-                                              @Param("hospitalId") Integer hospitalId, @Param("statementStateId") Integer statementStateId);
+
+   /*查询所有到页面*/
+   List<HospitalTransactionStatement> selList(String statementNumber,
+                                        String statementName,
+                                        Integer statementStateId,
+                                        String contacts,
+                                        String phone,
+                                        String creatReceiptsPerson,
+                                        String createReceiptsTime,
+                                        String submissionTime,
+                                        String remark,
+                                        Integer hospitalId);
+
+   /*导出*/
+   List<HospitalTransactionStatement> exportAlls(HospitalTransactionStatement hospital);
 
 
    /*结算单维护*/
@@ -80,5 +92,8 @@ public interface HospitalTransactionStatementService {
 
    /*退货单维护页面批量删除*/
    Boolean deleteByKeyss2(String[] ids);
+
+   /*查看*/
+   HospitalTransactionDetails htd(Integer id);
 
 }
