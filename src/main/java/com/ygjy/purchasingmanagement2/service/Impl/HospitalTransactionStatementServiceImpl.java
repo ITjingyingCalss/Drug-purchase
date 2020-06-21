@@ -31,11 +31,11 @@ public class HospitalTransactionStatementServiceImpl implements HospitalTransact
     }
 
     /*查询全部到页面*/
-    @Override
+    /*@Override
     public List<HospitalTransactionStatement> list(HospitalTransactionStatement htrList) {
 
         return hospitalTransactionStatementDao.list(htrList);
-    }
+    }*/
 
     /*修改回显*/
     @Override
@@ -65,10 +65,26 @@ public class HospitalTransactionStatementServiceImpl implements HospitalTransact
 
     }
 
+    /*查询所有*/
     @Override
-    public List<HospitalTransactionStatement> selList(String statementNumber, String statementName, Integer hospitalId, Integer statementStateId) {
+    public List<HospitalTransactionStatement> selList(String statementNumber,
+                                                      String statementName,
+                                                      Integer statementStateId,
+                                                      String contacts,
+                                                      String phone,
+                                                      String creatReceiptsPerson,
+                                                      String createReceiptsTime,
+                                                      String submissionTime,
+                                                      String remark,
+                                                      Integer hospitalId) {
+        return hospitalTransactionStatementDao.selList(statementNumber,statementName, contacts, phone, creatReceiptsPerson, createReceiptsTime, submissionTime,remark,hospitalId, statementStateId);
+    }
 
-        return hospitalTransactionStatementDao.selList(statementNumber,statementName, hospitalId, statementStateId);
+
+    @Override
+    public List<HospitalTransactionStatement> exportAlls(HospitalTransactionStatement hospital) {
+
+        return hospitalTransactionStatementDao.exportAlls(hospital);
     }
 
 
@@ -128,6 +144,11 @@ public class HospitalTransactionStatementServiceImpl implements HospitalTransact
             return false;
         }
 
+    }
+    /*查看*/
+    @Override
+    public HospitalTransactionDetails htd(Integer id) {
+        return hospitalTransactionStatementDao.htd(id);
     }
 
 }

@@ -20,8 +20,8 @@ public interface HospitalTransactionStatementDao {
     /*添加结算单*/
     int insert(HospitalTransactionStatement hosp);
 
-    /*查询所有到页面*/
-    List<HospitalTransactionStatement> list(HospitalTransactionStatement htrList);
+/*    *//*查询所有到页面*//*
+    List<HospitalTransactionStatement> list(HospitalTransactionStatement htrList);*/
 
     /*修改回显*/
     HospitalTransactionStatement htrSee(Integer id);
@@ -33,8 +33,16 @@ public interface HospitalTransactionStatementDao {
     int deleteByKeys(String[] ids);
 
     /*条件查询*/
-    List<HospitalTransactionStatement> selList(@Param("statementNumber") String statementNumber, @Param("statementName") String statementName,
-                                               @Param("hospitalId") Integer hospitalId, @Param("statementStateId") Integer statementStateId);
+    List<HospitalTransactionStatement> selList(@Param("statementNumber") String statementNumber,
+                                               @Param("statementName") String statementName,
+                                               @Param("contacts") String contacts,
+                                               @Param("phone") String phone,
+                                               @Param("creatReceiptsPerson") String creatReceiptsPerson,
+                                               @Param("createReceiptsTime") String createReceiptsTime,
+                                               @Param("submissionTime") String submissionTime,
+                                               @Param("remark") String remark,
+                                               @Param("hospitalId") Integer hospitalId,
+                                               @Param("statementStateId") Integer statementStateId);
 
     /*退货单维护*/
 
@@ -81,4 +89,10 @@ public interface HospitalTransactionStatementDao {
 
     /*批量删除*/
     int deleteByKeyss2(String[] ids);
+
+/*查看*/
+    HospitalTransactionDetails htd(Integer id);
+
+    /*导出*/
+    List<HospitalTransactionStatement> exportAlls(HospitalTransactionStatement hospital);
 }
